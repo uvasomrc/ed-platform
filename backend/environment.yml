@@ -4,6 +4,7 @@ channels:
 dependencies:
 - click=6.7=py36_0
 - flask=0.12.2=py36_0
+- flask-cors=3.0.2=py36_0
 - itsdangerous=0.24=py36_0
 - jinja2=2.9.6=py36_0
 - markupsafe=0.23=py36_2

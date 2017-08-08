@@ -26,7 +26,7 @@ You can do so with:
 $ source activate ed-platform
 ```
 
-### Adding New Packages
+#### Adding New Packages
 NOTE:  All packages you need for this project are already installed using
 the command above.  In the event you need to install a new **Conda** package,
 be sure to tell it to install in the current environment, like so:
@@ -39,11 +39,26 @@ $ pip install [package-name]
 ```
 
 NOTE: When you install new packages, be sure to update the environment.yml
-file, or regenerate one with
+file manually with the correct library and version, or regenerate one with
 ```BASH
 $ conda env export > environment.yml
 ```
 That way the next person can just update and they are good to go.
+
+#### Updating your packages
+When you do a pull request, it's good practice to try and
+import any new libraries others may have added to the project.
+You can do this with:
+```BASH
+$ conda env update
+```
+
+#### Dealing with CORS
+Cross-origin requests may be an issue when getting the front end
+and back end talking to each other.  For this reason I recommned using
+Chrome and [this plugin](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi) that will allow you to disable and enable
+CORS as needed.
+
 
 ### PyCharm
 If you are using pycharm, be sure to set your interpreter to point to
