@@ -5,18 +5,21 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { TrackComponent } from './track/track.component';
+import {TrackService} from "./track.service";
+import { TrackListComponent } from './track-list/track-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TrackComponent
+    TrackComponent,
+    TrackListComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule
   ],
-  providers: [],
+  providers: [TrackService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
