@@ -1,5 +1,13 @@
 # EdPlatform
 
+The is the frontend of the Ed-Platform project.  Which allows students to locate and signup for live workshops on the University of Virginia Campus.
+
+### Dealing with CORS
+Cross-origin requests may be an issue when getting the front end
+and back end talking to each other.  For this reason I recommned using
+Chrome and [this plugin](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi) that will allow you to disable and enable
+CORS as needed.
+
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.28.3.
 
 ## Development server
@@ -29,3 +37,4 @@ Run `ng github-pages:deploy` to deploy to GitHub Pages.
 ## Further help
 
 To get more help on the `angular-cli` use `ng help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
