@@ -1,6 +1,4 @@
 from app import db
-from sqlalchemy.dialects.postgresql import JSON
-
 
 class Track(db.Model):
     __tablename__ = 'track'

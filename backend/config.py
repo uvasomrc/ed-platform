@@ -7,7 +7,7 @@ class Config(object):
     TESTING = False
     CSRF_ENABLED = True
     SECRET_KEY = 'ed_platform_key_of_deep_secret_knackwursts!'
-    SQLALCHEMY_DATABASE_URI = "postgresql://localhost/ed_platform"
+    SQLALCHEMY_DATABASE_URI = "postgresql://ed_user:ed_pass@localhost/ed_platform"
 
 class ProductionConfig(Config):
     DEBUG = False

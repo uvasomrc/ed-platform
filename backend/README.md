@@ -103,23 +103,33 @@ in the environment.yml file mentioned above.
 We are using Postgres, version 9.5.7 or later.
 
 ### Creating a Database
+*NOTE:* The configuration is currently set up to use "ed_pass" as a
+password.  You will be promoted to enter a password when you connect.
 ```BASH
 $ sudo su postgres
-$ psql
-postgres=# create database ed_platform
-postgres=# \q
+$ createuser -D -A -P ed_user
+$ createdb ed_platform -O ed_user ed_platform
 $ exit
 ```
+If you are using Ubuntu you will likely need to
+[enable PSQL](https://help.ubuntu.com/community/PostgreSQL#Managing_users_and_rights)
+to manage it's own users.
+
 
 ### Database Definition
+Each time you modify your data models you will need to create new
+migrations. The following command will compare the database to the code
+and create new migrations as needed.  You can edit this newly generated
+file - it will show up under migrations/versions
 ```BASH
-python manage.py db init
+python manage.py db migrate
 ```
 
 ### Updating the Database
 You will need to update your database each time you return to do a
 pull to make sure all the migrations are run.  Use this:
 ```BASH
-python manage.py db update
+python manage.py db upgrade
 ```
+
 
