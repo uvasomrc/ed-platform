@@ -2,7 +2,27 @@
 This is (in part) a Python3 Flask application that depends on the
 Anaconda platform for managing dependencies.
 
-# Dependencies
+
+# Development
+
+There is a bash script in .env that will automatically activate the
+ed-platform environment, and set some evironment variables.  This
+script will run automatically when you cd into the directory if you
+have installed [autoenv](https://github.com/kennethreitz/autoenv)
+These instructions will work for Mac and Linux systems:
+```BASH
+$ deactivate
+$ pip install autoenv==1.0.0
+$ echo "source `which activate.sh`" >> ~/.bashrc
+$ source ~/.bashrc
+```
+Then cd out and back into the backend directory, and your environment
+should be properly configured to run in Development.
+
+*NOTE*: There is a [plug in for Pycharm](https://plugins.jetbrains.com/plugin/7861-env-file)
+ that will allow you to use this same environment file in your run configuration.
+
+## Dependencies
 * [Anaconda](https://www.continuum.io/downloads) Download for your
   operating system, and be sure to select Python3.  Excellent
     documentation on using Anaconda in a virtual envionrment in this
@@ -13,7 +33,7 @@ Anaconda platform for managing dependencies.
 
 * [Postgres] (https://www.postgresql.org/) Version 9.7 or later.
 
-# Python Setup
+## Python Setup
 ```BASH
 $ git clone git@github.com:uvasomrc/ed-platform.git
 $ cd ed-platform/backend
@@ -79,7 +99,7 @@ it was located in /env/ed-platform/bin/python
 Once properly configured, PyCharm will be fully aware of all the libraries
 in the environment.yml file mentioned above.
 
-# Database Configuration
+## Database Configuration
 We are using Postgres, version 9.5.7 or later.
 
 ### Creating a Database
@@ -87,7 +107,19 @@ We are using Postgres, version 9.5.7 or later.
 $ sudo su postgres
 $ psql
 postgres=# create database ed_platform
+postgres=# \q
+$ exit
 ```
 
+### Database Definition
+```BASH
+python manage.py db init
+```
 
+### Updating the Database
+You will need to update your database each time you return to do a
+pull to make sure all the migrations are run.  Use this:
+```BASH
+python manage.py db update
+```
 

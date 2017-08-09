@@ -1,9 +1,14 @@
 from flask import Flask, jsonify, request
-from flask_cors import CORS
+#from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
+import os
 
 app = Flask(__name__)
-# ALLOW ALL CROSS ORIGIN REQUESTS
-# CORS(app)
+
+app = Flask(__name__)
+app.config.from_object(os.environ['APP_SETTINGS'])
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 
 
 @app.route('/')

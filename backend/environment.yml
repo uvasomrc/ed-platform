@@ -6,6 +6,7 @@ dependencies:
 - pip=9.0.1=py36_1
 - python=3.6.2=0
 - sqlalchemy=1.1.11=py36_0
+- psycopg2=2.7.1=py36_0
 - pip:
-  - flask-migrate
-
+  - flask-migrate==2.1.0
+  - flask-script==2.0.5
