@@ -122,14 +122,21 @@ migrations. The following command will compare the database to the code
 and create new migrations as needed.  You can edit this newly generated
 file - it will show up under migrations/versions
 ```BASH
-python manage.py db migrate
+$ python manage.py db migrate
 ```
 
 ### Updating the Database
 You will need to update your database each time you return to do a
 pull to make sure all the migrations are run.  Use this:
 ```BASH
-python manage.py db upgrade
+$ python manage.py db upgrade
 ```
 
+
+## Testing
+
+You run tests by executing
+```BASH
+$ python test.py
+```
 

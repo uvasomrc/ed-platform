@@ -1,5 +1,6 @@
 from app import db
 
+
 class Track(db.Model):
     __tablename__ = 'track'
 
@@ -15,3 +16,6 @@ class Track(db.Model):
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
+
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}

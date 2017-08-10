@@ -1,7 +1,8 @@
-import os
-from app import app, db
+from app import app,db
 import unittest
-import tempfile
+import models
+from flask import jsonify, json
+
 
 class TestCase(unittest.TestCase):
 
@@ -22,6 +23,26 @@ class TestCase(unittest.TestCase):
         rv = self.app.get('/')
         print(rv.data)
         assert b'This is very basic starting point for the Ed-Platform project!' in rv.data
+
+    def test_add_track(self):
+        new_track = models.Track(image_file='track_one.jpg',
+                                 title='This is the title',
+                                 description='This is the description')
+        data = json.dumps(new_track.as_dict())
+
+        rv = self.app.post('/track', data=data, follow_redirects=True,
+                           content_type="application/json")
+
+        rd = json.loads(rv.get_data(as_text=True))
+        assert rd['title'] == "This is the title"
+        assert rd['description'] == "This is the description"
+        assert rd['image_file'] == "track_one.jpg"
+        assert rd["id"] is not None
+
+        rv2 = self.app.get('/track/' + str(rd["id"]))
+        assert b'track_one.jpg' in rv2.data
+        assert b'This is the title' in rv2.data
+        assert b'This is the description' in rv2.data
 
 
 if __name__ == '__main__':
