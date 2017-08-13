@@ -1,4 +1,4 @@
-from app import db
+from ed_platform import db
 
 
 class Track(db.Model):
@@ -19,3 +19,11 @@ class Track(db.Model):
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+    @staticmethod
+    def from_dict(dict):
+        return Track(
+            image_file=dict['image_file'],
+            title=dict['title'],
+            description=dict['description'])
+

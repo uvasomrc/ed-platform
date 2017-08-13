@@ -6,7 +6,7 @@ Anaconda platform for managing dependencies.
 # Development
 
 There is a bash script in .env that will automatically activate the
-ed-platform environment, and set some evironment variables.  This
+ed-platform environment, and set some environment variables.  This
 script will run automatically when you cd into the directory if you
 have installed [autoenv](https://github.com/kennethreitz/autoenv)
 These instructions will work for Mac and Linux systems:
@@ -132,6 +132,20 @@ pull to make sure all the migrations are run.  Use this:
 $ python manage.py db upgrade
 ```
 
+
+## Running the Api:
+```BASH
+$ python run.py
+```
+
+## Loading Data:
+I recommend you clear any data you have the database prior to running
+the load_data command.  This will place workable/demoable data into the
+api making it easier to see how this system is working.
+```BASH
+$ python manage.py clear_data
+$ python manage.py load_data
+```
 
 ## Testing
 

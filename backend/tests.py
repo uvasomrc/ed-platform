@@ -1,7 +1,8 @@
-from app import app,db
 import unittest
-import models
-from flask import jsonify, json
+
+from flask import json
+
+from ed_platform import app,db,models
 
 
 class TestCase(unittest.TestCase):
