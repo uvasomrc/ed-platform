@@ -3,11 +3,13 @@ import os
 from flask import Flask
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+from config import *
 
-app = Flask(__name__)
+app = Flask(__name__, instance_relative_config=True)
 
 # Load configuration
-app.config.from_object(os.environ['APP_SETTINGS'])
+app.config.from_object('config')
+app.config.from_pyfile('config.py')
 
 # Enable CORS
 if(app.config["CORS_ENABLED"]) :
