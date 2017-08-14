@@ -1,3 +1,11 @@
-<div class="card card-block">
-  <h4 class="card-title">{{track.name}}</h4>
-</div>
+<md-card>
+  <md-card-header>
+    <md-card-title>{{track.title}}</md-card-title>
+  </md-card-header>
+  <img md-card-image src="http://localhost:5000/track/image/{{track.id}}">
+  <md-card-content>{{track.description}}</md-card-content>
+
+  <md-card-actions>
+    <button md-button>See Workshops</button>
+  </md-card-actions>
+</md-card>

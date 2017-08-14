@@ -1,11 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {TrackService} from "../track.service";
-import {Track} from "../track";
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Track} from '../track';
+
 
 @Component({
   selector: 'app-track',
   templateUrl: './track.component.html',
-  styleUrls: ['./track.component.css']
+  styleUrls: ['./track.component.css'],
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class TrackComponent implements OnInit {
 

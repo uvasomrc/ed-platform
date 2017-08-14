@@ -1,4 +1,15 @@
-<h1>
-  {{title}}
-  <app-track-list></app-track-list>
-</h1>
+<md-toolbar color="primary">
+  <span>Ed-Platform</span>
+  <span class="example-spacer"></span>
+  <button md-button [mdMenuTriggerFor]="appMenu">
+    <md-icon>menu</md-icon> Menu
+  </button>
+</md-toolbar>
+
+<md-menu #appMenu="mdMenu">
+  <button md-menu-item> Settings </button>
+  <button md-menu-item> Help </button>
+</md-menu>
+
+<h1>Available Tracks</h1>
+<app-track-list></app-track-list>
