@@ -154,3 +154,15 @@ You run tests by executing
 $ python test.py
 ```
 
+# Production
+* Installed WSGI
+* installed Anaconda on the server by downloading the following:
+https://repo.continuum.io/archive/Anaconda3-4.4.0-Linux-x86_64.sh
+* executed in the install script as Ubuntu (no sudo)
+* appended the Anaconda environment variables to ubuntu's bashrc.
+* cloned https://github.com/uvasomrc/ed-platform.git in ubuntu's home directory.
+* Modified 000-default.conf in /etc/apache to use wsgi and point to /var/www/ed-platform/backend
+* cd /var/www/ed-platform/backend
+* conda env create -f environment.yml
+
+
