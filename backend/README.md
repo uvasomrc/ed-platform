@@ -99,6 +99,13 @@ it was located in /env/ed-platform/bin/python
 Once properly configured, PyCharm will be fully aware of all the libraries
 in the environment.yml file mentioned above.
 
+For testing and development, add an editional environment variables that
+point to the correct configuration files, respectively:
+* APP_CONFIG_FILE=/path/to/your/git/backend/config/development.py
+* APP_CONFIG_FILE=/path/to/your/git/backend/config/testing.py
+
+
+
 ## Database Configuration
 We are using Postgres, version 9.5.7 or later.
 

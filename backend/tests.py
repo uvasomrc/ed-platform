@@ -8,7 +8,7 @@ from ed_platform import app,db,models
 class TestCase(unittest.TestCase):
 
     def setUp(self):
-        app.config.from_object('config.TestingConfig')
+        app.config.from_envvar('APP_CONFIG_FILE')
         self.app = app.test_client()
         db.drop_all()
         db.create_all()
