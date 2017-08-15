@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class TrackService {
 
-  apiRoot = 'http://localhost:5000';
+  apiRoot = 'http://localhost:5000/api';
   results: Track[];
   loading: boolean;
 

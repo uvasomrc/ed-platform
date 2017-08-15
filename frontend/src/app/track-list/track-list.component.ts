@@ -10,10 +10,10 @@ import {Observable} from "rxjs/Observable";
 })
 export class TrackListComponent implements OnInit {
 
-  private trackService:TrackService;
-  private tracks: Observable<Track[]>;
+  trackService: TrackService;
+  tracks: Observable<Track[]>;
 
-  constructor(trackService:TrackService) {
+  constructor(trackService: TrackService) {
     this.trackService = trackService;
   }
 

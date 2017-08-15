@@ -1,10 +1,10 @@
 export class Track {
-  private title: string;
-  private description: string;
-  private image_file: string;
-  private id: number;
+  title: string;
+  description: string;
+  image_file: string;
+  id: number;
 
-  constructor(id:number, title:string, description:string, image:string) {
+  constructor(id: number, title: string, description: string, image: string) {
     this.id = id;
     this.title = title;
     this.description = description;
