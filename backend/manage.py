@@ -5,7 +5,9 @@ from flask_migrate import Migrate, MigrateCommand
 from ed_platform import app, db
 from ed_manage import data
 
-app.config.from_object(os.environ['APP_SETTINGS'])
+app.config.from_envvar('APP_CONFIG_FILE')
+# Load the configuration from the instance folder
+app.config.from_pyfile('config.py')
 
 migrate = Migrate(app, db)
 manager = Manager(app)
