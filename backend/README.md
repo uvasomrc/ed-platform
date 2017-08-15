@@ -162,14 +162,25 @@ $ python test.py
 ```
 
 # Production
-* Installed WSGI
-* installed Anaconda on the server by downloading the following:
-https://repo.continuum.io/archive/Anaconda3-4.4.0-Linux-x86_64.sh
-* executed in the install script as Ubuntu (no sudo)
-* appended the Anaconda environment variables to ubuntu's bashrc.
+* This project's environment.yml file is set up to use python 3.5.2,
+  which is what mod-wsgi and python 3 are set to use in Ubuntu 16.4.
+  This is kind of critical, if things change, we'll need to update
+  libraries, or compile our own python and mod_wsgi on the server.
+* Be sure to install Python 3, and apache mod_wsgi for python 3.
+   * sudo apt-get install libapache2-mod-wsgi-py3
+* Installed Anaconda on the server by downloading the following:
+   * https://repo.continuum.io/archive/Anaconda3-4.4.0-Linux-x86_64.sh
+   * executed in the install script as Ubuntu (no sudo)
+   * appended the Anaconda environment variables to ubuntu's bashrc. (autmoatic, just say yes)
 * cloned https://github.com/uvasomrc/ed-platform.git in ubuntu's home directory.
 * Modified 000-default.conf in /etc/apache to use wsgi and point to /var/www/ed-platform/backend
-* cd /var/www/ed-platform/backend
-* conda env create -f environment.yml
-
+   * I followed basic directions for setting up mod_wsgi.
+   * But for theWSGIDaemon Process I told it the python home of Anaconda
+      * WSGIDaemonProcess ed-platform user=ubuntu group=ubuntu threads=5 home=/var/www/ed-platform/backend python-path=/home/ubuntu/anaconda3/envs/ed-platform/lib/python3.6/site-packages
+* Modified the mod_wsgi.conf file in /etc/apache/mods-available, added this line:
+      * WSGIPythonHome /home/ubuntu/anaconda3/envs/edp
+* Installed the Conda evironment.
+   * cd /var/www/ed-platform/backend
+   * conda env create -f environment.yml
+* Restarted Apache
 
