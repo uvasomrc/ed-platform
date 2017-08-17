@@ -182,5 +182,27 @@ $ python test.py
 * Installed the Conda evironment.
    * cd /var/www/ed-platform/backend
    * conda env create -f environment.yml
+      * (This downloads all the dependencies for the project into /home/ubuntu/anaconda ....
 * Restarted Apache
 
+## Database Setup
+### Create Database and User On Postgtes
+```psql
+psql -h [RDS_HOST].us-east-1.rds.amazonaws.com -U [root_user] postgres
+Password for user [root_user]:  [root_pass]
+postgres=> create role [USER] with password '[PASSWORD]' login;
+CREATE ROLE
+postgres=> create database [DATABASE];
+CREATE DATABASE
+postgres=> grant all on database [DATABASE] to [USER];
+GRANT
+```
+
+### Update the instance/config.py to include the connection details
+SQLALCHEMY_DATABASE_URI = "postgresql://[USER]:[password]@[RDS_HOST].us-east-1.rds.amazonaws.com/[DATABASE]"
+
+### Create Tables and populate the database
+```bash
+$> APP_CONFIG_FILE="../config/default.py" python manage.py db upgrade
+$> APP_CONFIG_FILE="../config/default.py" python manage.py load_data
+```

@@ -1,6 +1,8 @@
 from flask import jsonify, request, send_file
 from ed_platform import app, db, models
 
+track_schema = models.TrackSchema()
+
 
 @app.route('/track', methods=['POST'])
 def create_track():
@@ -8,19 +10,19 @@ def create_track():
     new_track = models.Track.from_dict(request_data)
     db.session.add(new_track)
     db.session.commit()
-    return jsonify(new_track.as_dict())
+    return track_schema.jsonify(new_track)
 
 
 @app.route('/track', methods=['GET'])
 def get_tracks():
-    tracks = list(map(lambda t: t.as_dict(), models.Track.query.all()))
+    tracks = list(map(lambda t: track_schema.dump(t).data, models.Track.query.all()))
     return jsonify({"tracks": tracks})
 
 
-@app.route('/track/<int:track_id>')
+@app.route('/track/<int:track_id>')  
 def get_track(track_id):
     track = models.Track.query.filter_by(id=track_id).first()
-    return jsonify(track.as_dict())
+    return track_schema.jsonify(track)
 
 
 @app.route('/track/image/<int:track_id>')

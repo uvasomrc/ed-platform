@@ -2,6 +2,7 @@ import os
 
 from flask import Flask
 from flask_cors import CORS
+from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 from config import *
 
@@ -25,6 +26,9 @@ if(app.config["CORS_ENABLED"]) :
 # Database Configuration
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+# Set up Marshmallow for HATEOAS goodness (must happen after db)
+ma = Marshmallow(app)
 
 from ed_platform import models
 from ed_platform import views

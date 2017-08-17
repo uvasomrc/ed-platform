@@ -1,4 +1,4 @@
-from ed_platform import db
+from ed_platform import db, ma
 
 
 class Track(db.Model):
@@ -10,12 +10,13 @@ class Track(db.Model):
     description = db.Column(db.TEXT())
 
     def __init__(self, image_file, title, description):
-        self.image_file = image_file
+        self.image_url = image_file
         self.title = title
         self.description = description
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
+
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
@@ -27,3 +28,11 @@ class Track(db.Model):
             title=dict['title'],
             description=dict['description'])
 
+class TrackSchema(ma.ModelSchema):
+    class Meta:
+        model = Track
+    _links = ma.Hyperlinks({
+        'self': ma.URLFor('get_track', track_id='<id>'),
+        'collection': ma.URLFor('get_tracks'),
+        'image': ma.URLFor('get_track_image', track_id='<id>'),
+    })
