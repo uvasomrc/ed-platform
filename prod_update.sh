@@ -14,12 +14,12 @@ source /home/ubuntu/anaconda3/bin/activate edp
 export APP_CONFIG_FILE="../config/default.py"
 export HOME_DIR=`pwd`
 echo "Running from ${HOME_DIR}"
-cd ./backend && python manage.py clear_data
-cd ./backend && python manage.py db upgrade
-cd ./backend && python manage.py load_datao
+cd `${HOME_DIR}/backend` && python manage.py clear_data
+cd `${HOME_DIR}/backend` && python manage.py db upgrade
+cd `${HOME_DIR}/backend` && python manage.py load_datao
 
 # Rebuild the front end.
-cd ./frontend && ng build -dist
+cd `${HOME_DIR}/frontend` && ng build -prod
 
 # Reload apache
 sudo service apache2 reload
