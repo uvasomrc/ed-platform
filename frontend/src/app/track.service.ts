@@ -18,7 +18,7 @@ export class TrackService {
   }
 
   getTracks(): Observable<Track[]> {
-    const url = `${this.apiRoot}/track`;
+    const url = `${this.apiRoot}/api/otrack`;
     return this.http.get(url)
       .map(res => {
         return res.json().tracks.map(item => {
