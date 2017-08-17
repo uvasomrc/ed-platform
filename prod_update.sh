@@ -6,7 +6,7 @@
 # --------------------------------------------------------------------------
 
 # Move the configuration file into place.
-cp /home/ubuntu/edp_config.py /var/www/edp/instance/config.py
+cp /home/ubuntu/edp_config.py /var/www/edp/backend/instance/config.py
 
 # Update the database
 source activate edp
