@@ -10,11 +10,11 @@ mkdir -p ./backend/instance
 cp /home/ubuntu/edp_config.py ./backend/instance/config.py
 
 # Update the database
-source activate edp
+source /home/ubuntu/anaconda3/bin/activate epd
 export APP_CONFIG_FILE="../config/default.py"
 cd backend && python manage.py clear_data
 cd backend && python manage.py db upgrade
-cd backend && python manage.py load_data
+cd backend && python manage.py load_datao
 
 # Rebuild the front end.
 cd frontend && ng build -dist
