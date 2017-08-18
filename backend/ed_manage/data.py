@@ -20,10 +20,10 @@ class LoadData(Command):
         print("loading data from " + file)
         with open(file) as data_file:
             data = json.load(data_file)
-            for t in data["tracks"] :
-                track = models.Track.from_dict(t)
-                self.db.session.add(track)
-        self.db.session.commit()
+            tracks = models.TrackSchema().load(data['tracks'], many=True).data
+            self.db.session.add_all(tracks)
+            self.db.session.commit()
+            print('Added %i Tracks' % len(tracks))
 
 class ClearData(Command):
     "Deletes all data from the database"

@@ -3,11 +3,14 @@ from ed_platform import app, db, models
 
 track_schema = models.TrackSchema()
 
+@app.route('/api', methods=['GET'])
+def root():
+    return "ED Platform API"
 
 @app.route('/api/track', methods=['POST'])
 def create_track():
     request_data = request.get_json()
-    new_track = models.Track.from_dict(request_data)
+    new_track = models.TrackSchema().load(request_data).data
     db.session.add(new_track)
     db.session.commit()
     return track_schema.jsonify(new_track)

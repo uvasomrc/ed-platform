@@ -1,3 +1,5 @@
+from marshmallow import post_load
+
 from ed_platform import db, ma
 
 
@@ -10,23 +12,12 @@ class Track(db.Model):
     description = db.Column(db.TEXT())
 
     def __init__(self, image_file, title, description):
-        self.image_url = image_file
+        self.image_file = image_file
         self.title = title
         self.description = description
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
-
-
-    def as_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
-
-    @staticmethod
-    def from_dict(dict):
-        return Track(
-            image_file=dict['image_file'],
-            title=dict['title'],
-            description=dict['description'])
 
 class TrackSchema(ma.ModelSchema):
     class Meta:
