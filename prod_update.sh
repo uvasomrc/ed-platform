@@ -1,3 +1,4 @@
+File Edit Options Buffers Tools Sh-Script Help
 #!/bin/bash
 
 # Run the basic operations to update a production setup after a code change.
@@ -14,12 +15,14 @@ source /home/ubuntu/anaconda3/bin/activate edp
 export APP_CONFIG_FILE="../config/default.py"
 export HOME_DIR=`pwd`
 echo "Running from ${HOME_DIR}"
-cd `${HOME_DIR}/backend` && python manage.py clear_data
-cd `${HOME_DIR}/backend` && python manage.py db upgrade
-cd `${HOME_DIR}/backend` && python manage.py load_datao
-
+eval 'python ${HOME_DIR}/backend/manage.py clear_data'
+eval 'cd ${HOME_DIR}/backend && python ${HOME_DIR}/backend/manage.py db upgrade'
+eval 'cd ${HOME_DIR}/backend && python ${HOME_DIR}/backend/manage.py load_data'
 # Rebuild the front end.
-cd `${HOME_DIR}/frontend` && ng build -prod
+eval 'cd ${HOME_DIR}/frontend && npm install'
+eval 'cd ${HOME_DIR}/frontend && ng build -prod'
 
 # Reload apache
+echo "Reloading Apache"
 sudo service apache2 reload
+
