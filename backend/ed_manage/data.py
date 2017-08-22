@@ -5,7 +5,7 @@ from ed_platform import models
 
 
 class LoadData(Command):
-    "loads a json file into the database."
+    "loads a json file into the database. A poor man's seed program, since I couldn't find one.  Handles relationships."
 
     def __init__(self, db, file):
         self.db = db
@@ -16,14 +16,28 @@ class LoadData(Command):
     )
 
     def run(self, file=None):
+        name_map = {} # maps names to their unique id after added to the db.
+
         if(file == None): file = self.file
         print("loading data from " + file)
         with open(file) as data_file:
-            data = json.load(data_file)
-            tracks = models.TrackSchema().load(data['tracks'], many=True).data
-            self.db.session.add_all(tracks)
-            self.db.session.commit()
-            print('Added %i Tracks' % len(tracks))
+            tables = json.load(data_file)
+            for key in tables.keys():
+                schema_class_ = getattr(models, key + "Schema")
+                schema = schema_class_ ()
+                for i in tables[key]:
+                    # replace the name with a unique id when encountered.
+                    print(str(i["data"]))
+                    for k,v in i["data"].items():
+                        if v in name_map:
+                            i["data"][k] = name_map[v]
+                    item = schema.load(i["data"]).data
+                    self.db.session.add(item)
+                    self.db.session.commit()
+                    name_map[i["name"]] = item.id
+                    print ("The map is " + str(name_map))
+                print('Added %i to %s' % (len(tables[key]), key))
+
 
 class ClearData(Command):
     "Deletes all data from the database"
