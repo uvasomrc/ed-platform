@@ -16,7 +16,8 @@ app.config.from_pyfile('config.py')
 
 # Load the file specified by the APP_CONFIG_FILE environment variable
 # Variables defined here will override those in the default configuration
-app.config.from_envvar('APP_CONFIG_FILE')
+if "APP_CONFIG_FILE" in os.environ:
+    app.config.from_envvar('APP_CONFIG_FILE')
 
 
 # Enable CORS

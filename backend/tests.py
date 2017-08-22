@@ -3,12 +3,13 @@ import unittest
 from flask import json
 
 from ed_platform import app,db,models
-
+import os
 
 class TestCase(unittest.TestCase):
 
     def setUp(self):
-        app.config.from_envvar('APP_CONFIG_FILE')
+        app.config.from_pyfile('../config/testing.py')
+
         self.app = app.test_client()
         db.create_all()
         self.ctx = app.test_request_context()
