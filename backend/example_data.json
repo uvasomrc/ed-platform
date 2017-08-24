@@ -1,19 +1,90 @@
 {
- "tracks":[
-  {
-    "image_file":"images/python_track.png",
-    "title":"Learning Python The Hard Way",
-    "description":"A Data Scientist combines statistical and machine learning techniques with Python programming to analyze and interpret complex data."
-  },
-  {
-    "image_file":"images/machine_learning_track.jpg",
-    "title":"Leaning Machine Learning",
-    "description":"Machine learning represents a key evolution in the fields of computer science, data analysis, software engineering, and artificial intelligence. This program will teach you how to become a machine learning engineer, and apply predictive models to massive data sets in fields like finance, healthcare, education, and more."
-  },
-  {
-    "image_file":"images/data_science.jpg",
-    "title":"Data Science",
-    "description":"Here's a course that will give you an in-depth understanding of Business Analytics and Big Data using R, SAS, Hadoop, Python, and Spark. The course helps you understand data mining, exploration, visualization, and hypothesis testing. With 12+ industry-based projects to be executed on CloudLabs and other platforms, this is the perfect course for Data Analysts and Big Data professionals."
-  }
- ]
+ "Track":[
+   {
+     "name": "python_track",
+     "data": {
+       "image_file": "images/python_track.png",
+       "title": "Learning Python The Hard Way",
+       "description": "A Data Scientist combines statistical and machine learning techniques with Python programming to analyze and interpret complex data."
+     }
+   },
+   {
+     "name": "ml_track",
+     "data": {
+       "image_file": "images/machine_learning_track.jpg",
+       "title": "Leaning Machine Learning",
+       "description": "Machine learning represents a key evolution in the fields of computer science, data analysis, software engineering, and artificial intelligence. This program will teach you how to become a machine learning engineer, and apply predictive models to massive data sets in fields like finance, healthcare, education, and more."
+     }
+   },
+   {
+     "name": "ds_track",
+     "data": {
+       "image_file":"images/data_science.jpg",
+       "title":"Data Science",
+       "description":"Here's a course that will give you an in-depth understanding of Business Analytics and Big Data using R, SAS, Hadoop, Python, and Spark. The course helps you understand data mining, exploration, visualization, and hypothesis testing. With 12+ industry-based projects to be executed on CloudLabs and other platforms, this is the perfect course for Data Analysts and Big Data professionals."
+     }
+   }
+ ],
+  "Workshop": [
+    {
+     "name": "python_intro_workshop",
+     "data": {
+       "image_file": "images/python_intro_workshop.png",
+       "title": "Introduction to Python",
+       "description": "Basic data structures and creating your first Python script.  Perfect for beginning programmers."
+     }
+    },
+    {
+     "name": "r_intro_workshop",
+     "data": {
+       "image_file": "images/r_intro_workshop.png",
+       "title": "Introduction to the R programming language",
+       "description": "This machine learning course is perfect for those who have a solid basis in R and statistics, but are complete beginners with machine learning. After a broad overview of the discipline's most common techniques and applications, you'll gain more insight into the assessment and training of different machine learning models. The rest of the course is dedicated to a first reconnaissance with three of the most basic machine learning tasks: classification, regression and clustering."
+     }
+    },
+    {
+     "name": "ml_intro_workshop",
+     "data": {
+       "image_file": "images/ml_intro_workshop.png",
+       "title": "Introduction to Machine Learning",
+       "description": "In this introduction to R, you will master the basics of this beautiful open source language, including factors, lists and data frames. With the knowledge gained in this course, you will be ready to undertake your first very own data analysis. With over 2 million users worldwide R is rapidly becoming the leading programming language in statistics and data science. Every year, the number of R users grows by 40% and an increasing number of organizations are using it in their day-to-day activities. Leverage the power of R by completing this free R online course today!"
+     }
+    }
+  ],
+  "TrackWorkshop": [
+    {
+      "name": "tw_py1",
+      "data": {
+        "track": "python_track",
+        "workshop": "python_intro_workshop",
+        "order": 0
+      }
+    },
+    {
+      "name": "tw_ds1",
+      "data": {
+        "track": "ds_track",
+        "workshop": "python_intro_workshop",
+        "order": 0
+      }
+    },
+    {
+      "name": "tw_ml1",
+      "data": {
+        "track": "ml_track",
+        "workshop": "r_intro_workshop",
+        "order": 0
+      }
+    },
+    {
+      "name": "tw_ml2",
+      "data": {
+        "track": "ml_track",
+        "workshop": "ml_intro_workshop",
+        "order": 1
+      }
+    }
+
+  ]
+
 }

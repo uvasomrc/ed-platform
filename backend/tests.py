@@ -1,9 +1,8 @@
 import unittest
-
 from flask import json
+from ed_platform import app,db,data_loader
+from flask_script import Manager
 
-from ed_platform import app,db,models
-import os
 
 class TestCase(unittest.TestCase):
 
@@ -14,6 +13,9 @@ class TestCase(unittest.TestCase):
         db.create_all()
         self.ctx = app.test_request_context()
         self.ctx.push()
+        loader = data_loader.DataLoader(db)
+        loader.load("example_data.json")
+
         # Disable sending emails during unit testing
         # mail.init_app(app)
         # self.assertEqual(app.debug, False)
@@ -47,6 +49,8 @@ class TestCase(unittest.TestCase):
         assert b'This is the title' in rv2.data
         assert b'This is the description' in rv2.data
 
+    def test_track_has_workshops(self):
+        pass
 
 if __name__ == '__main__':
     unittest.main()
