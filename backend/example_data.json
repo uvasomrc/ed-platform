@@ -1,54 +1,92 @@
 {
- "Track":[
-   {
-     "name": "python_track",
-     "data": {
-       "image_file": "images/python_track.png",
-       "title": "Learning Python The Hard Way",
-       "description": "A Data Scientist combines statistical and machine learning techniques with Python programming to analyze and interpret complex data."
-     }
-   },
-   {
-     "name": "ml_track",
-     "data": {
-       "image_file": "images/machine_learning_track.jpg",
-       "title": "Leaning Machine Learning",
-       "description": "Machine learning represents a key evolution in the fields of computer science, data analysis, software engineering, and artificial intelligence. This program will teach you how to become a machine learning engineer, and apply predictive models to massive data sets in fields like finance, healthcare, education, and more."
-     }
-   },
-   {
-     "name": "ds_track",
-     "data": {
-       "image_file":"images/data_science.jpg",
-       "title":"Data Science",
-       "description":"Here's a course that will give you an in-depth understanding of Business Analytics and Big Data using R, SAS, Hadoop, Python, and Spark. The course helps you understand data mining, exploration, visualization, and hypothesis testing. With 12+ industry-based projects to be executed on CloudLabs and other platforms, this is the perfect course for Data Analysts and Big Data professionals."
-     }
-   }
- ],
+  "Track": [
+    {
+      "name": "python_track",
+      "data": {
+        "image_file": "images/python_track.png",
+        "title": "Learning Python The Hard Way",
+        "description": "A Data Scientist combines statistical and machine learning techniques with Python programming to analyze and interpret complex data."
+      }
+    },
+    {
+      "name": "ml_track",
+      "data": {
+        "image_file": "images/machine_learning_track.jpg",
+        "title": "Leaning Machine Learning",
+        "description": "Machine learning represents a key evolution in the fields of computer science, data analysis, software engineering, and artificial intelligence. This program will teach you how to become a machine learning engineer, and apply predictive models to massive data sets in fields like finance, healthcare, education, and more."
+      }
+    },
+    {
+      "name": "ds_track",
+      "data": {
+        "image_file": "images/data_science.jpg",
+        "title": "Data Science",
+        "description": "Here's a course that will give you an in-depth understanding of Business Analytics and Big Data using R, SAS, Hadoop, Python, and Spark. The course helps you understand data mining, exploration, visualization, and hypothesis testing. With 12+ industry-based projects to be executed on CloudLabs and other platforms, this is the perfect course for Data Analysts and Big Data professionals."
+      }
+    }
+  ],
   "Workshop": [
     {
-     "name": "python_intro_workshop",
-     "data": {
-       "image_file": "images/python_intro_workshop.png",
-       "title": "Introduction to Python",
-       "description": "Basic data structures and creating your first Python script.  Perfect for beginning programmers."
-     }
+      "name": "python_intro_workshop",
+      "data": {
+        "image_file": "images/python_intro_workshop.png",
+        "title": "Introduction to Python",
+        "description": "Basic data structures and creating your first Python script.  Perfect for beginning programmers."
+      }
     },
     {
-     "name": "r_intro_workshop",
-     "data": {
-       "image_file": "images/r_intro_workshop.png",
-       "title": "Introduction to the R programming language",
-       "description": "This machine learning course is perfect for those who have a solid basis in R and statistics, but are complete beginners with machine learning. After a broad overview of the discipline's most common techniques and applications, you'll gain more insight into the assessment and training of different machine learning models. The rest of the course is dedicated to a first reconnaissance with three of the most basic machine learning tasks: classification, regression and clustering."
-     }
+      "name": "r_intro_workshop",
+      "data": {
+        "image_file": "images/r_intro_workshop.png",
+        "title": "Introduction to the R programming language",
+        "description": "This machine learning course is perfect for those who have a solid basis in R and statistics, but are complete beginners with machine learning. After a broad overview of the discipline's most common techniques and applications, you'll gain more insight into the assessment and training of different machine learning models. The rest of the course is dedicated to a first reconnaissance with three of the most basic machine learning tasks: classification, regression and clustering."
+      }
     },
     {
-     "name": "ml_intro_workshop",
-     "data": {
-       "image_file": "images/ml_intro_workshop.png",
-       "title": "Introduction to Machine Learning",
-       "description": "In this introduction to R, you will master the basics of this beautiful open source language, including factors, lists and data frames. With the knowledge gained in this course, you will be ready to undertake your first very own data analysis. With over 2 million users worldwide R is rapidly becoming the leading programming language in statistics and data science. Every year, the number of R users grows by 40% and an increasing number of organizations are using it in their day-to-day activities. Leverage the power of R by completing this free R online course today!"
-     }
+      "name": "ml_intro_workshop",
+      "data": {
+        "image_file": "images/ml_intro_workshop.png",
+        "title": "Introduction to Machine Learning",
+        "description": "In this introduction to R, you will master the basics of this beautiful open source language, including factors, lists and data frames. With the knowledge gained in this course, you will be ready to undertake your first very own data analysis. With over 2 million users worldwide R is rapidly becoming the leading programming language in statistics and data science. Every year, the number of R users grows by 40% and an increasing number of organizations are using it in their day-to-day activities. Leverage the power of R by completing this free R online course today!"
+      }
+    }
+  ],
+  "Session": [
+    {
+      "name": "python_intro_workshop_1",
+      "data": {
+        "workshop": "python_intro_workshop",
+        "date_time":"2017-09-11T18:30:00.000Z",
+        "duration_minutes":"60",
+        "instructor_notes": "Class details are available at http://sartography.com."
+      }
+    },
+    {
+      "name": "python_intro_workshop_2",
+      "data": {
+        "workshop": "python_intro_workshop",
+        "date_time":"2017-11-11T18:30:00.000Z",
+        "duration_minutes":"60",
+        "instructor_notes": "Class details are available at http://sartography.com."
+      }
+    },
+    {
+      "name": "r_intro_workshop_1",
+      "data": {
+        "workshop": "r_intro_workshop",
+        "date_time":"2017-10-12T10:30:00.000Z",
+        "duration_minutes":"90",
+        "instructor_notes": "Materials will be provided during class.  Please bring a Flash drive with at least 6gb of free space."
+      }
+    },
+    {
+      "name": "ml_intro_workshop_1",
+      "data": {
+        "workshop": "ml_intro_workshop",
+        "date_time":"2017-07-12T10:30:00.000Z",
+        "duration_minutes":"120",
+        "instructor_notes": "Please see uploaded resources."
+      }
     }
   ],
   "TrackWorkshop": [
@@ -84,7 +122,218 @@
         "order": 1
       }
     }
-
+  ],
+  "Participant": [
+    {
+      "name": "dhf8r",
+      "data": {
+        "display_name": "Dan Funk",
+        "email_address": "daniel.h.funk@gmail.com",
+        "phone_number": "+15404570024",
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "I am software engineer who works on a number of research projects at UVA.  I am a full stack developer with experience in Javascript (Angular4), Python, Java, Scala and other languages.  I'm a certified Casandra Architect with extensive experience in full text search engines like ElasticSearch and Solr."
+      }
+    },
+    {
+      "name": "bk7k",
+      "data": {
+        "display_name": "Byoung-Do Kim, PhD",
+        "title": "Director of Research Computing",
+        "email_address": "bk7k@virginia.edu",
+        "phone_number": "",
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "BD leads the SOM research computing program and also supports university-wide collaborations such as CADRE. He received his PhD in Aeronautics and Astronautics Engineering from Purdue University, and has been working in high-performance computing and big data field for more than 10 years at many institutions including National Center for Supercomputing Applications (NCSA) and Harvard Medical School. He always looks for opportunities where SOM-RC team can maximize the potential of computational biomed research by providing expertise in big data analysis and advanced computing."
+      }
+    },
+    {
+      "name": "nem2p",
+      "data": {
+        "display_name": "Neal Magee, PhD",
+        "title": "Cloud Solution Architect",
+        "email_address": "nem2p@virginia.edu",
+        "phone_number": "",
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "Neal designs scaling, service-driven, distributed systems in the public cloud. His recent work has been built primarily in Amazon Web Services, a platform in which he is a certified solution architect. Drawing on a background in development and operations, his work now focuses on “programmable infrastructure” that changes dynamically with the needs of an application. He has extensive experience with Python, the Amazon / Google / Microsoft public clouds, and architecting dynamic systems that scale and heal automatically. Neal is also interested in large IoT and data sensor projects that gather large amounts of data."
+      }
+    },
+    {
+      "name": "vpnagraj",
+      "data": {
+        "display_name": "VP Nagraj (Pete)",
+        "title": "Research Computing Associate",
+        "email_address": "vpnagraj@virginia.edu",
+        "phone_number": "",
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "Pete teaches, consults and contributes to scientific programming and data analysis projects. With expertise in R and Python, he’s been active in package development and a variety of open-source collaborations."
+      }
+    }
+  ],
+  "ParticipantSession": [
+    {
+      "name":"dhf8r_python_intro_workshop_1",
+      "data": {
+        "participant": "dhf8r",
+        "session": "python_intro_workshop_1",
+        "created": "2017-08-25T10:30:00.000Z",
+        "attended": false,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"dhf8r_python_intro_workshop_2",
+      "data": {
+        "participant": "dhf8r",
+        "session": "python_intro_workshop_2",
+        "created": "2017-07-12T12:30:00.000Z",
+        "attended": false,
+        "is_instructor": false
+      }
+    },
+    {
+      "name":"dhf8r_r_intro_workshop_1",
+      "data": {
+        "participant": "dhf8r",
+        "session": "r_intro_workshop_1",
+        "created": "2017-07-20T01:30:00.000Z",
+        "attended": false,
+        "is_instructor": false
+      }
+    },
+    {
+      "name":"dhf8r_ml_intro_workshop_1",
+      "data": {
+        "participant": "dhf8r",
+        "session": "ml_intro_workshop_1",
+        "created": "2017-09-12T16:05:00.000Z",
+        "attended": true,
+        "is_instructor": false,
+        "review_score": 4,
+        "review_comment": "Worked in the field for years, but didn't realize how much has changed in the past year.  Perfect refresher course, I've got a list of five new books to read now."
+      }
+    },
+    {
+      "name":"bk7k_python_intro_workshop_1",
+      "data": {
+        "participant": "bk7k",
+        "session": "python_intro_workshop_1",
+        "created": "2017-08-12T09:35:00.000Z",
+        "attended": false,
+        "is_instructor": false
+      }
+    },
+    {
+      "name":"bk7k_python_intro_workshop_2",
+      "data": {
+        "participant": "bk7k",
+        "session": "python_intro_workshop_2",
+        "created": "2017-06-04T15:55:00.000Z",
+        "attended": false,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"bk7k_r_intro_workshop_1",
+      "data": {
+        "participant": "bk7k",
+        "session": "r_intro_workshop_1",
+        "created": "2017-07-05T08:22:00.000Z",
+        "attended": false,
+        "is_instructor": false
+      }
+    },
+    {
+      "name":"bk7k_ml_intro_workshop_1",
+      "data": {
+        "participant": "bk7k",
+        "session": "ml_intro_workshop_1",
+        "created": "2017-08-01T11:02:00.000Z",
+        "attended": true,
+        "is_instructor": false,
+        "review_score": 5,
+        "review_comment": "Excellent overview of latest trends, and learned a little Python in the process!"
+      }
+    },
+    {
+      "name":"nem2p_python_intro_workshop_1",
+      "data": {
+        "participant": "nem2p",
+        "session": "python_intro_workshop_1",
+        "created": "2017-07-22T20:02:00.000Z",
+        "attended": false,
+        "is_instructor": false
+      }
+    },
+    {
+      "name":"nem2p_python_intro_workshop_2",
+      "data": {
+        "participant": "nem2p",
+        "session": "python_intro_workshop_2",
+        "created": "2017-08-10T12:02:00.000Z",
+        "attended": false,
+        "is_instructor": false
+      }
+    },
+    {
+      "name":"nem2p_r_intro_workshop_1",
+      "data": {
+        "participant": "nem2p",
+        "session": "r_intro_workshop_1",
+        "created": "2017-07-28T22:35:00.000Z",
+        "attended": false,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"nem2p_ml_intro_workshop_1",
+      "data": {
+        "participant": "nem2p",
+        "session": "ml_intro_workshop_1",
+        "created": "2017-08-12T11:01:00.000Z",
+        "attended": true,
+        "is_instructor": false,
+        "review_score": 4,
+        "review_comment": "Pete is an excellent instructor, I learned a great deal about latest techniques of machine learning."
+      }
+    },
+        {
+      "name":"vpnagraj_python_intro_workshop_1",
+      "data": {
+        "participant": "vpnagraj",
+        "session": "python_intro_workshop_1",
+        "created": "2017-07-05T11:11:12.000Z",
+        "attended": false,
+        "is_instructor": false
+      }
+    },
+    {
+      "name":"vpnagraj_python_intro_workshop_2",
+      "data": {
+        "participant": "vpnagraj",
+        "session": "python_intro_workshop_2",
+        "created": "2017-08-17T11:22:00.000Z",
+        "attended": false,
+        "is_instructor": false
+      }
+    },
+    {
+      "name":"vpnagraj_r_intro_workshop_1",
+      "data": {
+        "participant": "vpnagraj",
+        "session": "r_intro_workshop_1",
+        "created": "2017-07-19T18:16:00.000Z",
+        "attended": false,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"vpnagraj_ml_intro_workshop_1",
+      "data": {
+        "participant": "vpnagraj",
+        "session": "ml_intro_workshop_1",
+        "created": "2017-07-11T07:11:00.000Z",
+        "attended": true,
+        "is_instructor": true
+      }
+    }
   ]
-
 }

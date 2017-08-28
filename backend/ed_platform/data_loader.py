@@ -6,7 +6,7 @@ from ed_platform import models
 class DataLoader():
     "loads a json file into the database. A poor man's seed program, since I couldn't find one.  Handles relationships."
     file = "example_data.json"
-    load_order = ["Track", "Workshop", "TrackWorkshop"]
+    load_order = ["Track", "Workshop", "TrackWorkshop","Session","Participant","ParticipantSession"]
 
     def __init__(self, db, file = None):
         self.db = db
@@ -33,7 +33,11 @@ class DataLoader():
                                 else:
                                     new_list.append(x)
                             i["data"][k] = new_list
-                    item = schema.load(i["data"]).data
+                    result = schema.load(i["data"])
+                    if len(result.errors) > 0:
+                        print("Failed to load " + key + ".  With errors:" + str(result.errors))
+                        exit(1)
+                    item = result.data
                     self.db.session.add(item)
                     self.db.session.commit()
                     if hasattr(item, "id"):
