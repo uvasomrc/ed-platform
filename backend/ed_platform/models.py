@@ -123,6 +123,23 @@ class WorkshopAPISchema(ma.Schema):
         'collection': ma.URLFor('get_workshops'),
         'image': ma.URLFor('get_workshop_image', id='<id>'),
         'tracks': ma.URLFor('get_workshop_tracks', id='<id>'),
-        #todo: Add links to tracks and sessions.
+        'sessions': ma.URLFor('get_workshop_sessions', id='<id>'),
     })
 #    track_workshops = ma.List(ma.HyperlinkRelated('get_track', id='<track_id>'))
+
+    id = db.Column(db.Integer, primary_key=True)
+    date_time = db.Column(db.DateTime)
+    duration_minutes = db.Column(db.Integer)
+    instructor_notes = db.Column(db.TEXT())
+    workshop_id = db.Column('workshop_id', db.Integer, db.ForeignKey('workshop.id'))
+    participant_sessions = db.relationship('ParticipantSession', backref='session')
+
+class SessionAPISchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'date_time', 'duration_minutes', 'instructor_notes',
+                  'workshop_id', '_links')
+    _links = ma.Hyperlinks({
+        'self': ma.URLFor('get_session', id='<id>'),
+        'collection': ma.URLFor('get_sessions'),
+        'workshop': ma.URLFor('get_workshop', id='<workshop_id>'),
+    })

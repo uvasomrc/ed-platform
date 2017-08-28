@@ -35,6 +35,7 @@ class TestCase(unittest.TestCase):
                 'description': 'This is the description'}
         rv = self.app.post('/api/track', data=json.dumps(data), follow_redirects=True,
                            content_type="application/json")
+        self.assertSuccess(rv)
         rd = json.loads(rv.get_data(as_text=True))
         return rd
 
@@ -45,10 +46,27 @@ class TestCase(unittest.TestCase):
                 }
         rv = self.app.post('/api/workshop', data=json.dumps(data), follow_redirects=True,
                            content_type="application/json")
+        self.assertSuccess(rv)
         return json.loads(rv.get_data(as_text=True))
 
+    def add_test_session(self, workshop_id):
+        data = {
+            "workshop": workshop_id,
+            "date_time": "2017-11-11T18:30:00.000Z",
+            "duration_minutes": "60",
+            "instructor_notes": "This is a note from the instructor"
+        }
+        rv = self.app.post('/api/session', data=json.dumps(data), follow_redirects=True,
+                           content_type="application/json")
+        self.assertSuccess(rv)
+        return json.loads(rv.get_data(as_text=True))
+
+    def assertSuccess(self, rv):
+        self.assertTrue(rv.status_code >= 200 and rv.status_code < 300,
+                        "BAD Response:" + rv.status + ".")
+
     def get_workshop(self, id):
-        rv = self.app.get('/api/workshop/%id' %id,
+        rv = self.app.get('/api/workshop/%i' %id,
                            follow_redirects=True,
                            content_type="application/json")
         return json.loads(rv.get_data(as_text=True))
@@ -81,7 +99,7 @@ class TestCase(unittest.TestCase):
         workshop = self.add_test_workshop()
         self.assertEqual("This is a test workshop", workshop["title"])
 
-    def test_add_workshop_to_track(self):
+    def test_set_workshops_for_track(self):
         track    = self.add_test_track()
         workshop = self.add_test_workshop()
         data = json.dumps({"workshops":[workshop]})
@@ -94,6 +112,52 @@ class TestCase(unittest.TestCase):
 
         workshops = json.loads(response.get_data(as_text=True))
         self.assertTrue(len(workshops["workshops"]), 1)
+
+    def test_add_session(self):
+        workshop = self.add_test_workshop()
+        session = self.add_test_session(workshop["id"])
+        self.assertEqual("This is a note from the instructor", session["instructor_notes"])
+        self.assertEqual(workshop["id"], session["workshop_id"])
+
+    def test_get_sessions(self):
+        url = '/api/session'
+        print("The url is " + url)
+        rv = self.app.get(url, follow_redirects=True)
+        self.assertSuccess(rv)
+
+    def test_get_session(self):
+        workshop = self.add_test_workshop()
+        session = self.add_test_session(workshop["id"])
+        url = '/api/session/%i' %session["id"]
+        print("The url is " + url)
+        rv = self.app.get(url, follow_redirects=True)
+        self.assertSuccess(rv)
+        session = json.loads(rv.get_data(as_text=True))
+        self.assertEqual("This is a note from the instructor", session["instructor_notes"])
+        self.assertEqual(workshop["id"], session["workshop_id"])
+        self.assertTrue("_links" in session, "Session Has Links.")
+
+    def test_get_workshop_sessions(self):
+        workshop = self.add_test_workshop()
+        session1 = self.add_test_session(workshop["id"])
+        session2 = self.add_test_session(workshop["id"])
+        self.assertIsNotNone(workshop["_links"]["sessions"])
+        rv = self.app.get(workshop["_links"]["sessions"], follow_redirects=True)
+        self.assertSuccess(rv)
+        session_list = json.loads(rv.get_data(as_text=True))
+        self.assertEqual(2, len(session_list["sessions"]))
+
+    def test_remove_session(self):
+        workshop = self.add_test_workshop()
+        session = self.add_test_session(workshop["id"])
+        rv = self.app.delete(session["_links"]["self"], follow_redirects=True)
+        self.assertSuccess(rv)
+        rv = self.app.get(session["_links"]["self"], follow_redirects=True)
+        self.assertEqual(404, rv.status_code)
+
+
+
+
 
 if __name__ == '__main__':
     unittest.main()
