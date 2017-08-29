@@ -83,8 +83,8 @@ class ParticipantSession(db.Model):
     created = db.Column(db.DateTime, default=datetime.datetime.now)
     review_score = db.Column(db.Integer)
     review_comment = db.Column(db.TEXT())
-    attended = db.Column(db.Boolean)
-    is_instructor = db.Column(db.Boolean)
+    attended = db.Column(db.Boolean, default=False)
+    is_instructor = db.Column(db.Boolean, default=False)
 
 
 # For marshalling objects to the database
@@ -113,6 +113,10 @@ class ParticipantDBSchema(ma.ModelSchema):
 class ParticipantSessionDBSchema(ma.ModelSchema):
     class Meta:
         model = ParticipantSession
+    _links = ma.Hyperlinks({
+        'self': ma.URLFor('get_registration',
+                          participant_id='<participant.id>', session_id='<session.id>')
+    },  dump_only = True)
 
 
 
@@ -123,6 +127,7 @@ class TrackAPISchema(ma.Schema):
     class Meta:
         # Fields to expose
         fields = ('id','title', 'description', '_links')
+        ordered = True
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_track', track_id='<id>'),
         'collection': ma.URLFor('get_tracks'),
@@ -137,6 +142,7 @@ class TrackAPISchema(ma.Schema):
 class WorkshopAPISchema(ma.Schema):
     class Meta:
         fields = ('id', 'title', 'description', '_links')
+        ordered = True
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_workshop', id='<id>'),
         'collection': ma.URLFor('get_workshops'),
@@ -157,6 +163,7 @@ class SessionAPISchema(ma.Schema):
     class Meta:
         fields = ('id', 'date_time', 'duration_minutes', 'instructor_notes',
                   'workshop_id', '_links')
+        ordered = True
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_session', id='<id>'),
         'collection': ma.URLFor('get_sessions'),
@@ -167,9 +174,9 @@ class ParticipantAPISchema(ma.Schema):
     class Meta:
         fields = ('id', 'display_name', 'email_address', 'phone_number',
                   'bio', 'created', '_links')
+        ordered = True
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_participant', id='<id>'),
         'collection': ma.URLFor('get_participants'),
         'sessions': ma.URLFor('get_participant_sessions', id='<id>')
     })
-

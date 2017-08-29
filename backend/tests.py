@@ -229,35 +229,47 @@ class TestCase(unittest.TestCase):
         participant = self.add_test_participant()
         workshop = self.add_test_workshop()
         session = self.add_test_session(workshop)
-        rv = self.app.patch("/api/participant/%i/session/%i" % (participant["id"], session["id"]))
+        rv = self.app.post("/api/participant/%i/session/%i" % (participant["id"], session["id"]))
         self.assertSuccess(rv)
         rv = self.app.get(participant["_links"]["sessions"], follow_redirects=True)
         self.assertSuccess(rv)
         sessions = json.loads(rv.get_data(as_text=True))
         self.assertEqual(1, len(sessions["sessions"]))
         session2 = self.add_test_session(workshop)
-        rv = self.app.patch("/api/participant/%i/session/%i" % (participant["id"], session2["id"]))
-        rv = self.app.patch("/api/participant/%i/session/%i" % (participant["id"], session2["id"]))
-        rv = self.app.patch("/api/participant/%i/session/%i" % (participant["id"], session2["id"]))
+        rv = self.app.post("/api/participant/%i/session/%i" % (participant["id"], session2["id"]))
+        rv = self.app.post("/api/participant/%i/session/%i" % (participant["id"], session2["id"]))
+        rv = self.app.post("/api/participant/%i/session/%i" % (participant["id"], session2["id"]))
         rv = self.app.get(participant["_links"]["sessions"], follow_redirects=True)
         sessions = json.loads(rv.get_data(as_text=True))
         self.assertEqual(2, len(sessions["sessions"]), "adding a second session three times, we still only have two sessions")
-
 
     def test_unregister(self):
         participant = self.add_test_participant()
         workshop = self.add_test_workshop()
         session = self.add_test_session(workshop)
-        self.app.patch("/api/participant/%i/session/%i" % (participant["id"], session["id"]))
+        self.app.post("/api/participant/%i/session/%i" % (participant["id"], session["id"]))
         self.app.delete("/api/participant/%i/session/%i" % (participant["id"], session["id"]))
         rv = self.app.get(participant["_links"]["sessions"], follow_redirects=True)
         sessions = json.loads(rv.get_data(as_text=True))
         self.assertEqual(0, len(sessions["sessions"]))
 
-
-    def test_duplicate_register(self):
-        self.assertTrue(False)
-
+    def test_review(self):
+        participant = self.add_test_participant()
+        workshop = self.add_test_workshop()
+        session = self.add_test_session(workshop)
+        rv = self.app.post("/api/participant/%i/session/%i" % (participant["id"], session["id"]))
+        self.assertSuccess(rv)
+        rv = self.app.get("/api/participant/%i/session/%i" % (participant["id"], session["id"]))
+        self.assertSuccess(rv)
+        reg = json.loads(rv.get_data(as_text=True))
+        reg["review_score"] = 5
+        reg["review_comment"] = "An excellent class"
+        rv = self.app.put('/api/participant/%i/session/%i' % (participant["id"], session["id"]),
+                            data=json.dumps(reg), follow_redirects=True,
+                            content_type="application/json")
+        reg2 = json.loads(rv.get_data(as_text=True))
+        self.assertEqual(5, reg2["review_score"])
+        self.assertEqual("An excellent class", reg2["review_comment"])
 
 
 if __name__ == '__main__':

@@ -10,6 +10,7 @@ track_db_schema = models.TrackDBSchema()
 workshop_db_schema = models.WorkshopDBSchema()
 session_db_schema = models.SessionDBSchema()
 participant_db_schema = models.ParticipantDBSchema()
+participant_session_db_schema = models.ParticipantSessionDBSchema()
 
 @app.route('/api', methods=['GET'])
 def root():
@@ -222,7 +223,23 @@ def get_participant_sessions(id):
     sessions = list(map(lambda ps: session_schema.dump(ps.session).data, participant.participant_sessions))
     return jsonify({"sessions":sessions})
 
-@app.route('/api/participant/<int:participant_id>/session/<int:session_id>', methods=['PATCH'])
+
+@app.route('/api/participant/<int:participant_id>/session/<int:session_id>', methods=['GET'])
+def get_registration(participant_id, session_id):
+    participant = models.Participant.query.filter_by(id=participant_id).first()
+    if(participant is None):
+        return jsonify(error=404, text=str("no such participant.")), 404
+    session = models.Session.query.filter_by(id=session_id).first()
+    if(session is None):
+        return jsonify(error=404, text=str("no such session.")), 404
+    participant_session = participant.getParticipantSession(session)
+    if(participant_session is None):
+        return jsonify(error=404, text=str("Participant is not registered for this session.")), 404
+
+    return(jsonify(participant_session_db_schema.dump(participant_session).data))
+
+
+@app.route('/api/participant/<int:participant_id>/session/<int:session_id>', methods=['POST'])
 def register(participant_id, session_id):
     participant = models.Participant.query.filter_by(id=participant_id).first()
     if(participant is None):
@@ -234,7 +251,20 @@ def register(participant_id, session_id):
 
     db.session.merge(participant)
     db.session.commit()
-    return ""
+    return (jsonify(participant_session_db_schema.dump(participant.getParticipantSession(session)).data))
+
+@app.route('/api/participant/<int:participant_id>/session/<int:session_id>', methods=['PUT'])
+def review(participant_id, session_id):
+
+    reg = models.ParticipantSession.query.filter_by(participant_id=participant_id,
+                                                    session_id=session_id).first()
+    updates = request.get_json()
+    reg.review_score = updates["review_score"]
+    reg.review_comment = updates["review_comment"]
+
+    db.session.commit()
+    return (jsonify(participant_session_db_schema.dump(reg).data))
+
 
 @app.route('/api/participant/<int:participant_id>/session/<int:session_id>', methods=['DELETE'])
 def unregister(participant_id, session_id):
@@ -249,5 +279,4 @@ def unregister(participant_id, session_id):
         db.session.delete(participant_session)
         db.session.commit()
     return ""
-
 
