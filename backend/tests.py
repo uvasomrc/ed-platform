@@ -61,6 +61,20 @@ class TestCase(unittest.TestCase):
         self.assertSuccess(rv)
         return json.loads(rv.get_data(as_text=True))
 
+    def add_test_participant(self):
+        data = {
+            "display_name": "Peter Dinklage",
+            "email_address": "tyrion@got.com",
+            "phone_number": "+15554570024",
+            "created": "2017-08-28T16:09:00.000Z",
+            "bio": "Award-winning actor Peter Dinklage has earned critical acclaim for his work in the 2003 film 'The Station Agent' and on the hit television series 'Game of Thrones.'"
+        }
+        rv = self.app.post('/api/participant', data=json.dumps(data), follow_redirects=True,
+                           content_type="application/json")
+        self.assertSuccess(rv)
+        return json.loads(rv.get_data(as_text=True))
+
+
     def assertSuccess(self, rv):
         self.assertTrue(rv.status_code >= 200 and rv.status_code < 300,
                         "BAD Response:" + rv.status + ".")
@@ -113,11 +127,36 @@ class TestCase(unittest.TestCase):
         workshops = json.loads(response.get_data(as_text=True))
         self.assertTrue(len(workshops["workshops"]), 1)
 
+    def test_remove_track(self):
+        track    = self.add_test_track()
+        workshop = self.add_test_workshop()
+        data = json.dumps({"workshops":[workshop]})
+        url = '/api/track/%i/workshops' % track['id']
+
+        response = self.app.patch(url,
+                            follow_redirects=True,
+                            data = data,
+                            content_type="application/json")
+
+        workshops = json.loads(response.get_data(as_text=True))
+        self.assertTrue(len(workshops["workshops"]), 1)
+
+        rv = self.app.delete(track["_links"]["self"], follow_redirects=True)
+        self.assertSuccess(rv)
+
+        rv = self.app.get(workshop["_links"]["tracks"], follow_redirects=True)
+        self.assertSuccess(rv)
+        tracks = json.loads(rv.get_data(as_text=True))
+        self.assertEqual(0, len(tracks["tracks"]))
+
     def test_add_session(self):
         workshop = self.add_test_workshop()
         session = self.add_test_session(workshop["id"])
         self.assertEqual("This is a note from the instructor", session["instructor_notes"])
         self.assertEqual(workshop["id"], session["workshop_id"])
+
+    def test_add_session_with_instructor(self):
+        self.assertTrue(False, "Untested")
 
     def test_get_sessions(self):
         url = '/api/session'
@@ -155,7 +194,69 @@ class TestCase(unittest.TestCase):
         rv = self.app.get(session["_links"]["self"], follow_redirects=True)
         self.assertEqual(404, rv.status_code)
 
+    def test_remove_workshop_with_active_sessions(self):
+        workshop = self.add_test_workshop()
+        session = self.add_test_session(workshop["id"])
+        rv = self.app.delete(workshop["_links"]["self"], follow_redirects=True)
+        self.assertEqual(409, rv.status_code)
+        rv = self.app.delete(session["_links"]["self"], follow_redirects=True)
+        self.assertSuccess(rv)
+        rv = self.app.delete(workshop["_links"]["self"], follow_redirects=True)
+        self.assertSuccess(rv)
 
+    def test_add_participant(self):
+        participant = self.add_test_participant()
+
+    def test_get_participant(self):
+        participant = self.add_test_participant()
+        rv = self.app.get(participant["_links"]["self"], follow_redirects=True)
+        self.assertSuccess(rv)
+
+    def test_delete_participant(self):
+        participant = self.add_test_participant()
+        rv = self.app.delete(participant["_links"]["self"], follow_redirects=True)
+        self.assertSuccess(rv)
+        rv = self.app.get(participant["_links"]["self"], follow_redirects=True)
+        self.assertEqual(404, rv.status_code)
+
+    def test_get_all_participants(self):
+        rv = self.app.get('/api/participant', follow_redirects=True)
+        self.assertSuccess(rv)
+        ps = json.loads(rv.get_data(as_text=True))
+        self.assertTrue(len(ps["participants"]) > 0)
+
+    def test_register(self):
+        participant = self.add_test_participant()
+        workshop = self.add_test_workshop()
+        session = self.add_test_session(workshop)
+        rv = self.app.patch("/api/participant/%i/session/%i" % (participant["id"], session["id"]))
+        self.assertSuccess(rv)
+        rv = self.app.get(participant["_links"]["sessions"], follow_redirects=True)
+        self.assertSuccess(rv)
+        sessions = json.loads(rv.get_data(as_text=True))
+        self.assertEqual(1, len(sessions["sessions"]))
+        session2 = self.add_test_session(workshop)
+        rv = self.app.patch("/api/participant/%i/session/%i" % (participant["id"], session2["id"]))
+        rv = self.app.patch("/api/participant/%i/session/%i" % (participant["id"], session2["id"]))
+        rv = self.app.patch("/api/participant/%i/session/%i" % (participant["id"], session2["id"]))
+        rv = self.app.get(participant["_links"]["sessions"], follow_redirects=True)
+        sessions = json.loads(rv.get_data(as_text=True))
+        self.assertEqual(2, len(sessions["sessions"]), "adding a second session three times, we still only have two sessions")
+
+
+    def test_unregister(self):
+        participant = self.add_test_participant()
+        workshop = self.add_test_workshop()
+        session = self.add_test_session(workshop)
+        self.app.patch("/api/participant/%i/session/%i" % (participant["id"], session["id"]))
+        self.app.delete("/api/participant/%i/session/%i" % (participant["id"], session["id"]))
+        rv = self.app.get(participant["_links"]["sessions"], follow_redirects=True)
+        sessions = json.loads(rv.get_data(as_text=True))
+        self.assertEqual(0, len(sessions["sessions"]))
+
+
+    def test_duplicate_register(self):
+        self.assertTrue(False)
 
 
 

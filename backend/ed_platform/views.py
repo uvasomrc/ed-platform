@@ -4,10 +4,12 @@ from ed_platform import app, db, models
 track_schema = models.TrackAPISchema()
 workshop_schema = models.WorkshopAPISchema()
 session_schema = models.SessionAPISchema()
+participant_schema = models.ParticipantAPISchema()
 
 track_db_schema = models.TrackDBSchema()
 workshop_db_schema = models.WorkshopDBSchema()
 session_db_schema = models.SessionDBSchema()
+participant_db_schema = models.ParticipantDBSchema()
 
 @app.route('/api', methods=['GET'])
 def root():
@@ -15,6 +17,19 @@ def root():
 
 # Tracks
 # *****************************
+
+#: Default attribute map
+SSO_ATTRIBUTE_MAP = {
+    'ADFS_AUTHLEVEL': (False, 'authlevel'),
+    'ADFS_GROUP': (True, 'group'),
+    'ADFS_LOGIN': (True, 'nickname'),
+    'ADFS_ROLE': (False, 'role'),
+    'ADFS_EMAIL': (True, 'email'),
+    'ADFS_IDENTITYCLASS': (False, 'external'),
+    'HTTP_SHIB_AUTHENTICATION_METHOD': (False, 'authmethod'),
+}
+
+app.config['SSO_ATTRIBUTE_MAP'] = SSO_ATTRIBUTE_MAP
 
 
 @app.route('/api/track', methods=['POST'])
@@ -38,6 +53,16 @@ def get_track(track_id):
     if(track is None):
         return jsonify(error=404, text=str("no such track.")), 404
     return track_schema.jsonify(track)
+
+@app.route('/api/track/<int:track_id>', methods=['DELETE'])
+def remove_track(track_id):
+    track = models.Track.query.filter_by(id=track_id).first()
+    if(track is None):
+        return jsonify(error=404, text=str("no such track.")), 404
+    for tw in track.track_workshops:
+        db.session.delete(tw)
+    db.session.delete(track)
+    return ""
 
 
 @app.route('/api/track/<int:track_id>/workshops')
@@ -98,6 +123,17 @@ def get_workshop(id):
     return workshop_schema.jsonify(workshop)
 
 
+@app.route('/api/workshop/<int:id>', methods=['DELETE'])
+def remove_workshop(id):
+    workshop = models.Workshop.query.filter_by(id=id).first()
+    if(workshop is None): return ""
+    if(len(workshop.sessions) > 0):
+        return jsonify(error=409, text=str("workshop has sessions. Can't delete.")), 409
+    db.session.delete(workshop)
+    db.session.commit()
+    return ""
+
+
 @app.route('/api/workshop/<int:id>/tracks')
 def get_workshop_tracks(id):
     workshop = models.Workshop.query.filter_by(id=id).first()
@@ -147,6 +183,71 @@ def remove_session(id):
     session = models.Session.query.filter_by(id=id).first()
     db.session.delete(session)
     db.session.commit()
+    return ""
+
+# Participants
+# *****************************
+
+@app.route('/api/participant', methods=['GET'])
+def get_participants():
+    participants = list(map(lambda t: participant_schema.dump(t).data,
+                         models.Participant.query.all()))
+    return jsonify({"participants": participants})
+
+@app.route('/api/participant', methods=['POST'])
+def create_participant():
+    request_data = request.get_json()
+    participant = participant_db_schema.load(request_data).data
+    db.session.add(participant)
+    db.session.commit()
+    return participant_schema.jsonify(participant)
+
+@app.route('/api/participant/<int:id>', methods=['GET'])
+def get_participant(id):
+    participant = models.Participant.query.filter_by(id=id).first()
+    if(participant is None):
+        return jsonify(error=404, text=str("no such participant.")), 404
+    return  participant_schema.jsonify(participant)
+
+@app.route('/api/participant/<int:id>', methods=['DELETE'])
+def remove_participant(id):
+    participant = models.Participant.query.filter_by(id=id).first()
+    db.session.delete(participant)
+    db.session.commit()
+    return ""
+
+@app.route('/api/participant/<int:id>/sessions', methods=['GET'])
+def get_participant_sessions(id):
+    participant = models.Participant.query.filter_by(id=id).first()
+    sessions = list(map(lambda ps: session_schema.dump(ps.session).data, participant.participant_sessions))
+    return jsonify({"sessions":sessions})
+
+@app.route('/api/participant/<int:participant_id>/session/<int:session_id>', methods=['PATCH'])
+def register(participant_id, session_id):
+    participant = models.Participant.query.filter_by(id=participant_id).first()
+    if(participant is None):
+        return jsonify(error=404, text=str("no such participant.")), 404
+    session = models.Session.query.filter_by(id=session_id).first()
+    if(session is None):
+        return jsonify(error=404, text=str("no such session.")), 404
+    participant.register(session)
+
+    db.session.merge(participant)
+    db.session.commit()
+    return ""
+
+@app.route('/api/participant/<int:participant_id>/session/<int:session_id>', methods=['DELETE'])
+def unregister(participant_id, session_id):
+    participant = models.Participant.query.filter_by(id=participant_id).first()
+    if(participant is None):
+        return jsonify(error=404, text=str("no such participant.")), 404
+    session = models.Session.query.filter_by(id=session_id).first()
+    if(session is None):
+        return jsonify(error=404, text=str("no such session.")), 404
+    participant_session = participant.getParticipantSession(session)
+    if(participant_session is not None):
+        db.session.delete(participant_session)
+        db.session.commit()
     return ""
 
 

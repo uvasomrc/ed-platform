@@ -1,3 +1,5 @@
+import datetime
+
 import flask
 from ed_platform import app, db, ma
 
@@ -44,8 +46,25 @@ class Participant(db.Model):
     phone_number = db.Column(db.String())
     bio = db.Column(db.TEXT())
     image_file = db.Column(db.String())
-    created = db.Column(db.DateTime)
+    created = db.Column(db.DateTime, default=datetime.datetime.now)
     participant_sessions = db.relationship('ParticipantSession', backref='participant')
+
+    def is_registered(self, session):
+        return len([r for r in self.participant_sessions if r.session_id == session.id]) > 0
+
+    def register(self, session):
+        if(self.is_registered(session)): return
+        self.participant_sessions.append(ParticipantSession(
+            participant_id = self.id, session_id=session.id
+        ))
+
+    def getParticipantSession(self, session):
+        if(not self.is_registered(session)): return
+        for ps in self.participant_sessions:
+            if ps.session_id == session.id:
+                return(ps)
+
+
 
 class Session(db.Model):
     """A Workshop Session or Class, but Session / Class are too common and we get conflicts as we lack a namespace, and wanted a single term. """
@@ -61,7 +80,7 @@ class ParticipantSession(db.Model):
     __tablename__ = 'participant_session'
     participant_id = db.Column('participant_id', db.Integer, db.ForeignKey('participant.id'), primary_key=True)
     session_id = db.Column('session_id', db.Integer, db.ForeignKey('session.id'), primary_key=True)
-    created  = db.Column(db.DateTime)
+    created = db.Column(db.DateTime, default=datetime.datetime.now)
     review_score = db.Column(db.Integer)
     review_comment = db.Column(db.TEXT())
     attended = db.Column(db.Boolean)
@@ -143,3 +162,14 @@ class SessionAPISchema(ma.Schema):
         'collection': ma.URLFor('get_sessions'),
         'workshop': ma.URLFor('get_workshop', id='<workshop_id>'),
     })
+
+class ParticipantAPISchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'display_name', 'email_address', 'phone_number',
+                  'bio', 'created', '_links')
+    _links = ma.Hyperlinks({
+        'self': ma.URLFor('get_participant', id='<id>'),
+        'collection': ma.URLFor('get_participants'),
+        'sessions': ma.URLFor('get_participant_sessions', id='<id>')
+    })
+
