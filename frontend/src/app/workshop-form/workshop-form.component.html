@@ -1,0 +1,34 @@
+
+<pre>{{workshop_form.value | json}}</pre>
+<pre>Dirty? {{ title.dirty }}</pre>
+<pre>Pristine? {{ title.pristine }}</pre>
+<pre>In Valid Description? {{ description.invalid }}</pre>
+<pre>Title  {{ title}}</pre>
+
+<form [formGroup]="workshop_form" novalidate (ngSubmit)="onSubmit()">
+  <div>
+  <md-form-field class="example-full-width">
+    <input mdInput formControlName="title" placeholder="Title" value="" class="form-control" >
+    <md-error>
+      Title is <strong>required</strong>
+    </md-error>
+  </md-form-field>
+  </div>
+  <div>
+  <md-form-field class="example-full-width">
+    <textarea mdInput formControlName="description" placeholder="Description" value="" class="form-control">
+    </textarea>
+    <md-error>
+      This description is too short.
+    </md-error>
+  </md-form-field>
+  </div>
+  <button type="submit" md-button>Create Workshop</button>
+  <!--
+  <div>
+    <input id="fileInput" name="file" type="file" class="ng-hide" multiple>
+  </div>
+  -->
+</form>
+
+<app-workshop [workshop]="workshop"></app-workshop>
