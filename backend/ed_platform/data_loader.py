@@ -48,4 +48,5 @@ class DataLoader():
         for key in reversed(self.load_order):
             model_class = getattr(models, key)
             model_class.query.delete()
+            self.db.session.commit()
 
