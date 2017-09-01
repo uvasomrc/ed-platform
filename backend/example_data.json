@@ -11,7 +11,7 @@
     {
       "name": "ml_track",
       "data": {
-        "image_file": "images/machine_learning_track.jpg",
+        "image_file": "images/machine_learning_track.png",
         "title": "Leaning Machine Learning",
         "description": "Machine learning represents a key evolution in the fields of computer science, data analysis, software engineering, and artificial intelligence. This program will teach you how to become a machine learning engineer, and apply predictive models to massive data sets in fields like finance, healthcare, education, and more."
       }
@@ -19,7 +19,7 @@
     {
       "name": "ds_track",
       "data": {
-        "image_file": "images/data_science.jpg",
+        "image_file": "images/ds_track.png",
         "title": "Data Science",
         "description": "Here's a course that will give you an in-depth understanding of Business Analytics and Big Data using R, SAS, Hadoop, Python, and Spark. The course helps you understand data mining, exploration, visualization, and hypothesis testing. With 12+ industry-based projects to be executed on CloudLabs and other platforms, this is the perfect course for Data Analysts and Big Data professionals."
       }
