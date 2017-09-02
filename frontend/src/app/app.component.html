@@ -23,7 +23,7 @@
 <app-track-list></app-track-list>
 
 <h2>Available Workshops</h2>
-<app-workshop-list></app-workshop-list>
+<app-workshop-list [workshops]="workshops"></app-workshop-list>
 
 <h2>Create Workshop</h2>
-<app-workshop-form></app-workshop-form>
+<app-workshop-form (add)="onAddWorkshop($event)"></app-workshop-form>

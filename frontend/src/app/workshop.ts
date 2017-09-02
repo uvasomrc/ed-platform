@@ -1,5 +1,12 @@
 export class Workshop {
 
-  constructor(public id = 0, public title = '', public description = '', public image_url = '') {}
+  id: number;
+  title = '';
+  description = '';
 
+  constructor(values: Object = {}) {
+    Object.assign(this, values);
+  }
 }
+
+

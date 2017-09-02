@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {WorkshopService} from '../workshop.service';
-import {Workshop} from "../workshop";
-import {Observable} from "rxjs/Observable";
+import {Workshop} from '../workshop';
 
 @Component({
   selector: 'app-workshop-form',
@@ -15,7 +14,9 @@ export class WorkshopFormComponent implements OnInit {
   title: FormControl;
   description: FormControl;
   workshopService: WorkshopService;
-  workshop: Observable<Workshop>;
+
+  @Output()
+  add: EventEmitter<Workshop> = new EventEmitter();
 
   constructor(workshopService: WorkshopService) {
     this.workshopService = workshopService;
@@ -43,12 +44,7 @@ export class WorkshopFormComponent implements OnInit {
       const workshop = new Workshop();
       workshop.title = this.title.value;
       workshop.description = this.description.value;
-      this.workshopService.createWorkshop(workshop)
-        .subscribe(
-          result => console.log(result),
-          error => console.log('ERROR:' + error)
-        );
-      this.workshop = this.workshopService.createWorkshop(workshop);
+      this.add.emit(workshop);
     }
   }
 }

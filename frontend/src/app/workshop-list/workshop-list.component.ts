@@ -1,24 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import {Workshop} from "../workshop";
-import {WorkshopService} from "../workshop.service";
-import {Observable} from "rxjs/Observable";
+import {Component, Input} from '@angular/core';
+import {Workshop} from '../workshop';
 
 @Component({
   selector: 'app-workshop-list',
   templateUrl: './workshop-list.component.html',
   styleUrls: ['./workshop-list.component.css']
 })
-export class WorkshopListComponent implements OnInit {
+export class WorkshopListComponent  {
 
-  workshopService: WorkshopService;
-  workshops: Observable<Workshop[]>;
+  @Input()
+  workshops: Workshop[];
 
-  constructor(workshopService: WorkshopService) {
-    this.workshopService = workshopService;
-  }
-
-  ngOnInit() {
-    this.workshops = this.workshopService.getWorkshops();
-  }
-
+  constructor() {}
 }

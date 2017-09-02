@@ -15,6 +15,7 @@ import { WorkshopComponent } from './workshop/workshop.component';
 import { WorkshopListComponent } from './workshop-list/workshop-list.component';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { WorkshopFormComponent } from './workshop-form/workshop-form.component';
+import {ApiService} from "./api.service";
 
 @NgModule({
   declarations: [
@@ -41,7 +42,7 @@ import { WorkshopFormComponent } from './workshop-form/workshop-form.component';
     MdCheckboxModule,
     MdFormFieldModule
   ],
-  providers: [TrackService, WorkshopService],
+  providers: [TrackService, WorkshopService, ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
