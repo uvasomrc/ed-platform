@@ -1,23 +1,16 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TrackService} from "../track.service";
 import {Track} from "../track";
-import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'app-track-list',
   templateUrl: './track-list.component.html',
   styleUrls: ['./track-list.component.css']
 })
-export class TrackListComponent implements OnInit {
+export class TrackListComponent  {
 
-  trackService: TrackService;
-  tracks: Observable<Track[]>;
+  @Input()
+  tracks: Track[];
 
-  constructor(trackService: TrackService) {
-    this.trackService = trackService;
-  }
+  constructor() {}
 
-  ngOnInit() {
-    this.tracks = this.trackService.getTracks();
-  }
 }

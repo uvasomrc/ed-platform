@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {WorkshopService} from './workshop.service';
 import {Workshop} from './workshop';
+import {TrackService} from './track.service';
+import {Track} from './track';
 
 @Component({
   selector: 'app-root',
@@ -10,15 +12,21 @@ import {Workshop} from './workshop';
 export class AppComponent implements OnInit {
 
   workshops: Workshop[] = [];
+  tracks: Track[] = [];
 
-  constructor(private workshopService: WorkshopService) {}
+  constructor(private workshopService: WorkshopService,
+              private trackService: TrackService) {}
 
   public ngOnInit() {
-    this.workshopService
-      .getAllWorkshops()
-      .subscribe(
+    this.workshopService.getAllWorkshops().subscribe(
         (workshops) => {
           this.workshops = workshops;
+        }
+      );
+
+    this.trackService.getTracks().subscribe(
+        (tracks) => {
+          this.tracks = tracks;
         }
       );
   }
@@ -30,7 +38,6 @@ export class AppComponent implements OnInit {
         this.workshops = this.workshops.concat(newWorkshop);
       });
   }
-
 
 
 

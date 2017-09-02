@@ -4,28 +4,15 @@ import {Track} from './track';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { environment } from '../environments/environment';
+import {ApiService} from "./api.service";
 
 @Injectable()
 export class TrackService {
 
-  apiRoot = environment.api;
-  results: Track[];
-  loading: boolean;
-
-  constructor(private http: Http) {
-    this.results = [];
-    this.loading = false;
-  }
+  constructor(private api: ApiService) {}
 
   getTracks(): Observable<Track[]> {
-    const url = `${this.apiRoot}/api/track`;
-    return this.http.get(url)
-      .map(res => {
-        return res.json().tracks.map(item => {
-          const image_url = `${this.apiRoot}${item._links.image}`
-          return new Track(item.id, item.title, item.description, image_url);
-        });
-      });
+    return this.api.getTracks();
   }
 
 }

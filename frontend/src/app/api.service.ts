@@ -6,27 +6,38 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import {Workshop} from './workshop';
+import {Track} from './track';
 
 @Injectable()
 export class ApiService {
 
   apiRoot = environment.api;
-  url = `${this.apiRoot}/api/workshop`;
+  workshop_url = `${this.apiRoot}/api/workshop`;
+  track_url = `${this.apiRoot}/api/track`;
 
   constructor(private http: Http) {}
 
+  getTracks(): Observable<Track[]> {
+    return this.http.get(this.track_url)
+      .map(res => {
+        return res.json().tracks.map(item => {
+          return(new Track(item));
+        });
+      });
+  }
+
   getAllWorkshops(): Observable<Workshop[]> {
-    return this.http.get(this.url)
+    return this.http.get(this.workshop_url)
       .map(res => {
         return res.json().workshops.map(item => {
-          return new Workshop(item);
+          return(new Workshop(item));
         });
       });
   }
 
   public addWorkshop(workshop: Workshop): Observable<Workshop> {
     return this.http
-      .post(this.url, workshop)
+      .post(this.workshop_url, workshop)
       .map(response => {
         return new Workshop(response.json());
       })
@@ -37,6 +48,9 @@ export class ApiService {
     console.error('ApiService::handleError', error);
     return Observable.throw(error);
   }
+
+
+
 
 
   /*
