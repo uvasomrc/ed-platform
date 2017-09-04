@@ -1,5 +1,6 @@
-@import '../node_modules/@angular/material/theming';
-
+//@import '../node_modules/@angular/material/theming';
+//@include mat-core();
+@import '~@angular/material/theming';
 @include mat-core();
 
 
@@ -71,4 +72,8 @@ $md-orange: (
 
 $custom-theme-primary: mat-palette($md-blue);
 $custom-theme-accent: mat-palette($md-orange, A200, A100, A400);
+$my-app-warn:    mat-palette($mat-deep-orange);
 
+$my-app-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent, $my-app-warn);
+
+@include angular-material-theme($my-app-theme);
