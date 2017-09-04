@@ -10,12 +10,24 @@ import { TrackListComponent } from './track-list/track-list.component';
 import {MdButtonModule, MdIconModule, MdMenuModule, MdToolbarModule, MdCardModule,
         MdInputModule, MdCheckboxModule, MdFormFieldModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {WorkshopService} from "./workshop.service";
+import {WorkshopService} from './workshop.service';
 import { WorkshopComponent } from './workshop/workshop.component';
 import { WorkshopListComponent } from './workshop-list/workshop-list.component';
-import { FlexLayoutModule } from "@angular/flex-layout";
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { WorkshopFormComponent } from './workshop-form/workshop-form.component';
-import {ApiService} from "./api.service";
+import {ApiService} from './api.service';
+import {RouterModule, Routes} from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { TrackDetailsComponent } from './track-details/track-details.component';
+
+const routes: Routes = [
+  {path: '', redirectTo: 'home', pathMatch: 'full'},
+  {path: 'find', redirectTo: 'search'},
+  {path: 'home', component: HomeComponent},
+  {path: 'track/:id', component: TrackDetailsComponent}
+//  {path: 'track', component: TrackComponent},
+// {path: 'workshop', component: WorkshopComponent}
+];
 
 @NgModule({
   declarations: [
@@ -24,7 +36,9 @@ import {ApiService} from "./api.service";
     TrackListComponent,
     WorkshopComponent,
     WorkshopListComponent,
-    WorkshopFormComponent
+    WorkshopFormComponent,
+    HomeComponent,
+    TrackDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +54,8 @@ import {ApiService} from "./api.service";
     FlexLayoutModule,
     MdInputModule,
     MdCheckboxModule,
-    MdFormFieldModule
+    MdFormFieldModule,
+    RouterModule.forRoot(routes, {useHash: true})
   ],
   providers: [TrackService, WorkshopService, ApiService],
   bootstrap: [AppComponent]

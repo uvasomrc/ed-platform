@@ -1,0 +1,12 @@
+
+<div *ngIf="isDataLoaded">
+<img src="{{track.links.image}}"/>
+<h1>{{track.title}}</h1>
+<p>{{track.description}}</p>
+
+<h2>Workshops in this track:</h2>
+<app-workshop-list [workshops]="workshops"></app-workshop-list>
+</div>
+
+
+

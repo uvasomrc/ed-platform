@@ -26,6 +26,23 @@ export class ApiService {
       });
   }
 
+  getTrack(track_id: number): Observable<Track> {
+    return this.http.get(this.track_url + '/' + track_id)
+      .map(res => {
+        return new Track(res.json());
+        });
+  }
+
+  getTrackWorkshops(track: Track): Observable<Workshop[]> {
+    console.log('Calling: ' + track.links.workshops);
+    return this.http.get(track.links.workshops)
+      .map(res => {
+        return res.json().workshops.map(item => {
+          return(new Workshop(item));
+        });
+      });
+  }
+
   getAllWorkshops(): Observable<Workshop[]> {
     return this.http.get(this.workshop_url)
       .map(res => {

@@ -10,7 +10,6 @@ export class Links {
   constructor(values: Object = {}) {
     for (let key in values) {
       values[key] = environment.api + values[key];
-      console.log(key + ' => ' + values[key]);
     }
     Object.assign(this, values);
   }
