@@ -1,3 +1,4 @@
+import sys
 from flask import json
 from flask_script import Command, Option
 
@@ -47,6 +48,11 @@ class DataLoader():
     def clear(self):
         for key in reversed(self.load_order):
             model_class = getattr(models, key)
-            model_class.query.delete()
+            try:
+                model_class.query.delete()
+            except:
+                print("Failed to delete " + key + ": " + sys.exc_info()[0])
+                pass # We're just clearing the data out, if it doesn't
+                     # exist yet no worries.
             self.db.session.commit()
 
