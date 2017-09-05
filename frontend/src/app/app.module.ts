@@ -7,8 +7,10 @@ import { AppComponent } from './app.component';
 import { TrackComponent } from './track/track.component';
 import {TrackService} from './track.service';
 import { TrackListComponent } from './track-list/track-list.component';
-import {MdButtonModule, MdIconModule, MdMenuModule, MdToolbarModule, MdCardModule,
-        MdInputModule, MdCheckboxModule, MdFormFieldModule} from '@angular/material';
+import {
+  MdButtonModule, MdIconModule, MdMenuModule, MdToolbarModule, MdCardModule,
+  MdInputModule, MdCheckboxModule, MdFormFieldModule, MdTabsModule
+} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {WorkshopService} from './workshop.service';
 import { WorkshopComponent } from './workshop/workshop.component';
@@ -62,6 +64,7 @@ const routes: Routes = [
     MdInputModule,
     MdCheckboxModule,
     MdFormFieldModule,
+    MdTabsModule,
     RouterModule.forRoot(routes, {useHash: true})
   ],
   providers: [TrackService, WorkshopService, ApiService],
