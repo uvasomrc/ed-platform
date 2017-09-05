@@ -1,16 +1,27 @@
 <div *ngIf="isDataLoaded">
-  <h1>{{workshop.title}}</h1>
-  <img  src="{{workshop.links.image}}">
-  <p>{{workshop.description}}</p>
-
-  <div
-    class="container"
-    fxLayout="row"
-    fxLayout.xs="column"
-    fxLayoutAlign="center"
-    fxLayoutGap="10px"
-    fxLayoutGap.xs="0">
-    <app-session *ngFor="let s of workshop.sessions" [session]="s"></app-session>
+  <div class="workshop-header">
+    <img src="{{workshop.links.image}}"/>
+    <h1>Workshop:</h1>
+    <h2 class="md-title">{{workshop.title}}</h2>
   </div>
+
+  <md-tab-group>
+    <md-tab label="Description">
+      <p>{{workshop.description}}</p>
+    </md-tab>
+    <md-tab label="Sessions">
+      <div
+        class="container"
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutAlign="center"
+        fxLayoutGap="10px"
+        fxLayoutGap.xs="0">
+        <app-session *ngFor="let s of workshop.sessions" [session]="s"></app-session>
+      </div>
+    </md-tab>
+  </md-tab-group>
+
+
 
 </div>
