@@ -13,6 +13,10 @@ export class WorkshopService {
     return this.api.getAllWorkshops();
   }
 
+  getWorkshop(id: number): Observable<Workshop> {
+    return this.api.getWorkshop(id);
+  }
+
   // Simulate POST /workshop
   addWorkshop(workshop: Workshop): Observable<Workshop> {
     return this.api.addWorkshop(workshop);

@@ -11,7 +11,7 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class TrackDetailsComponent implements OnInit {
 
-  track_id = 49;
+  track_id = 0;
   track: Track;
   workshops: Workshop[] = [];
   isDataLoaded = false;

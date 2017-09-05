@@ -52,6 +52,13 @@ export class ApiService {
       });
   }
 
+  getWorkshop(workshop_id: number): Observable<Workshop> {
+    return this.http.get(this.workshop_url + '/' + workshop_id)
+      .map(res => {
+        return new Workshop(res.json());
+      });
+  }
+
   public addWorkshop(workshop: Workshop): Observable<Workshop> {
     return this.http
       .post(this.workshop_url, workshop)

@@ -1,0 +1,16 @@
+<div *ngIf="isDataLoaded">
+  <h1>{{workshop.title}}</h1>
+  <img  src="{{workshop.links.image}}">
+  <p>{{workshop.description}}</p>
+
+  <div
+    class="container"
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayoutAlign="center"
+    fxLayoutGap="10px"
+    fxLayoutGap.xs="0">
+    <app-session *ngFor="let s of workshop.sessions" [session]="s"></app-session>
+  </div>
+
+</div>

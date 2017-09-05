@@ -6,6 +6,6 @@
   <md-card-content>{{workshop.description}}</md-card-content>
 
   <md-card-actions>
-    <button md-button>Register Now!</button>
+    <button md-button (click)="goWorkshop(workshop.id)">Register Now!</button>
   </md-card-actions>
 </md-card>

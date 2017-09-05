@@ -1,0 +1,25 @@
+<md-card>
+  <md-card-header>
+    <md-card-title>
+      <p>Date: <b>{{session.date_time | date: 'fullDate'}}</b></p>
+      <p>Time: <b>{{session.date_time | date: 'shortTime'}}</b></p>
+      <p>Duration: <b>{{session.duration_minutes}}</b> minutes.</p>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content>
+    <h2>Instructor:</h2>
+
+    <h3><img md-card-avatar src="{{instructor.links.image}}">
+      {{instructor.display_name}}
+    </h3>
+    <p>Notes: {{session.instructor_notes}}</p>
+    <!--
+Instructor: {{instructor.display_name}}
+-->
+  </md-card-content>
+  <md-card-actions>
+    <button md-button (click)="goTrack(track.id)">Register for this Session</button>
+  </md-card-actions>
+</md-card>
+
+

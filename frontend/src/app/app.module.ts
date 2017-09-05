@@ -19,12 +19,16 @@ import {ApiService} from './api.service';
 import {RouterModule, Routes} from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { TrackDetailsComponent } from './track-details/track-details.component';
+import { WorkshopDetailsComponent } from './workshop-details/workshop-details.component';
+import { SessionComponent } from './session/session.component';
+import { ParticipantBriefComponent } from './participant-brief/participant-brief.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'find', redirectTo: 'search'},
   {path: 'home', component: HomeComponent},
-  {path: 'track/:id', component: TrackDetailsComponent}
+  {path: 'track/:id', component: TrackDetailsComponent},
+  {path: 'workshop/:id', component: WorkshopDetailsComponent}
 //  {path: 'track', component: TrackComponent},
 // {path: 'workshop', component: WorkshopComponent}
 ];
@@ -38,7 +42,10 @@ const routes: Routes = [
     WorkshopListComponent,
     WorkshopFormComponent,
     HomeComponent,
-    TrackDetailsComponent
+    TrackDetailsComponent,
+    WorkshopDetailsComponent,
+    SessionComponent,
+    ParticipantBriefComponent
   ],
   imports: [
     BrowserModule,
