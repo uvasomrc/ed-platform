@@ -24,9 +24,6 @@ export class Workshop  {
   reviews(): ParticipantSession[] {
     let reviews = new Array<ParticipantSession>();
     for (let s of this.sessions) {
-      for (let ps of s.participant_sessions) {
-        console.log(JSON.stringify(ps.review_score));
-      }
       reviews = reviews.concat(s.participant_sessions.filter(ps =>
         ps.review_score !== null));
     }

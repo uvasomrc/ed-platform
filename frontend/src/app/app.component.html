@@ -1,14 +1,24 @@
 <md-toolbar color="primary">
   <span>Ed-Platform</span>
-  <span class="example-spacer"></span>
+  <span class="spacer"></span>
   <button md-button [mdMenuTriggerFor]="appMenu">
     <md-icon>menu</md-icon> Menu
   </button>
 </md-toolbar>
 
 <md-menu #appMenu="mdMenu">
-  <button md-menu-item> Settings </button>
-  <button md-menu-item> Help </button>
+  <button md-menu-item (click)="goHome()">
+    <md-icon> home </md-icon>
+    <span> Home </span>
+  </button>
+  <button md-menu-item disabled>
+    <md-icon> person </md-icon>
+    <span> Log in </span>
+  </button>
+  <button md-menu-item disabled>
+    <md-icon> notifications_off </md-icon>
+    <span> Disable alerts </span>
+  </button>
 </md-menu>
 
 <router-outlet></router-outlet>
