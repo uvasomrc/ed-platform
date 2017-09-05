@@ -1,5 +1,6 @@
 import {Links} from './links';
 import {Session} from "./session";
+import {ParticipantSession} from "./participant-session";
 
 export class Workshop  {
 
@@ -18,7 +19,18 @@ export class Workshop  {
         this.sessions.push(new Session(s));
       }
     }
+  }
 
+  reviews(): ParticipantSession[] {
+    let reviews = new Array<ParticipantSession>();
+    for (let s of this.sessions) {
+      for (let ps of s.participant_sessions) {
+        console.log(JSON.stringify(ps.review_score));
+      }
+      reviews = reviews.concat(s.participant_sessions.filter(ps =>
+        ps.review_score !== null));
+    }
+    return reviews;
   }
 
 }

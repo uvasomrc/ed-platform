@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {WorkshopService} from "../workshop.service";
-import {ActivatedRoute} from "@angular/router";
-import {Workshop} from "../workshop";
+import {WorkshopService} from '../workshop.service';
+import {ActivatedRoute} from '@angular/router';
+import {Workshop} from '../workshop';
 
 @Component({
   selector: 'app-workshop-details',
@@ -28,5 +28,7 @@ export class WorkshopDetailsComponent implements OnInit {
       }
     );
   }
+
+
 
 }

@@ -20,6 +20,17 @@
         <app-session *ngFor="let s of workshop.sessions" [session]="s"></app-session>
       </div>
     </md-tab>
+    <md-tab label="Reviews">
+      <div
+        class="container"
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutAlign="center"
+        fxLayoutGap="10px"
+        fxLayoutGap.xs="0">
+        <app-review *ngFor="let review of workshop.reviews()" [review]="review"></app-review>
+      </div>
+    </md-tab>
   </md-tab-group>
 
 

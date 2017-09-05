@@ -24,6 +24,9 @@ import { TrackDetailsComponent } from './track-details/track-details.component';
 import { WorkshopDetailsComponent } from './workshop-details/workshop-details.component';
 import { SessionComponent } from './session/session.component';
 import { ParticipantBriefComponent } from './participant-brief/participant-brief.component';
+import { ReviewComponent } from './review/review.component';
+import { ReviewStarsComponent } from './review-stars/review-stars.component';
+import { TimesPipe } from './times.pipe';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -47,7 +50,10 @@ const routes: Routes = [
     TrackDetailsComponent,
     WorkshopDetailsComponent,
     SessionComponent,
-    ParticipantBriefComponent
+    ParticipantBriefComponent,
+    ReviewComponent,
+    ReviewStarsComponent,
+    TimesPipe
   ],
   imports: [
     BrowserModule,

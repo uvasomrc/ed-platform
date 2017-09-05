@@ -1,0 +1,11 @@
+ul li{
+  display: inline;
+}
+
+.on {
+  color: #d34200;
+}
+
+.off {
+  color: #fceee0;
+}

@@ -1,0 +1,6 @@
+Score: {{score}} out of {{max_score}}
+<ul class="rating">
+  <li *ngFor="let star of getStars()">
+    <md-icon class="material-icons {{star.style}}">{{star.icon}}</md-icon>
+  </li>
+</ul>
