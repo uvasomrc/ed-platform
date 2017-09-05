@@ -210,6 +210,11 @@ def get_participant(id):
         return jsonify(error=404, text=str("no such participant.")), 404
     return  participant_schema.jsonify(participant)
 
+@app.route('/api/participant/<int:id>/image')
+def get_participant_image(id):
+    participant = models.Participant.query.filter_by(id=id).first()
+    return send_file("static/" + participant.image_file, mimetype='image/png')
+
 @app.route('/api/participant/<int:id>', methods=['DELETE'])
 def remove_participant(id):
     participant = models.Participant.query.filter_by(id=id).first()

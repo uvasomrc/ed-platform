@@ -1,6 +1,8 @@
 import datetime
 
 import flask
+from flask_marshmallow import fields
+
 from ed_platform import app, db, ma
 
 
@@ -139,10 +141,39 @@ class TrackAPISchema(ma.Schema):
 #        return list(map(lambda t: flask.url_for('get_workshop', id=t.workshop_id),
 #                                                obj.track_workshops))
 
+class ParticipantAPIMinimalSchema(ma.Schema):
+    class Meta:
+        fields = ('id','display_name', 'bio', '_links')
+        order = True
+    _links = ma.Hyperlinks({
+        'self': ma.URLFor('get_participant', id='<id>'),
+        'collection': ma.URLFor('get_participants'),
+        'image': ma.URLFor('get_participant_image', id='<id>'),
+    })
+
+class ParticipantSessionAPISchema(ma.Schema):
+    class Meta:
+        fields = ('participant', 'created', 'review_score', 'review_comment', 'attended', 'is_instructor')
+        ordered = True
+    participant = ma.Nested(ParticipantAPIMinimalSchema)
+
+class SessionAPISchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'date_time', 'duration_minutes', 'instructor_notes',
+                  'workshop_id', '_links', 'participant_sessions')
+        ordered = True
+    participant_sessions = ma.List(ma.Nested(ParticipantSessionAPISchema))
+    _links = ma.Hyperlinks({
+        'self': ma.URLFor('get_session', id='<id>'),
+        'collection': ma.URLFor('get_sessions'),
+        'workshop': ma.URLFor('get_workshop', id='<workshop_id>'),
+    })
+
 class WorkshopAPISchema(ma.Schema):
     class Meta:
-        fields = ('id', 'title', 'description', '_links')
+        fields = ('id', 'title', 'description', '_links', 'sessions')
         ordered = True
+    sessions = ma.List(ma.Nested(SessionAPISchema))
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_workshop', id='<id>'),
         'collection': ma.URLFor('get_workshops'),
@@ -159,16 +190,6 @@ class WorkshopAPISchema(ma.Schema):
     workshop_id = db.Column('workshop_id', db.Integer, db.ForeignKey('workshop.id'))
     participant_sessions = db.relationship('ParticipantSession', backref='session')
 
-class SessionAPISchema(ma.Schema):
-    class Meta:
-        fields = ('id', 'date_time', 'duration_minutes', 'instructor_notes',
-                  'workshop_id', '_links')
-        ordered = True
-    _links = ma.Hyperlinks({
-        'self': ma.URLFor('get_session', id='<id>'),
-        'collection': ma.URLFor('get_sessions'),
-        'workshop': ma.URLFor('get_workshop', id='<workshop_id>'),
-    })
 
 class ParticipantAPISchema(ma.Schema):
     class Meta:
