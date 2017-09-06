@@ -44,7 +44,7 @@ def get_user_details(fields):
     ]
     return '<dl>{0}</dl>'.format(''.join(defs))
 
-@app.route('/user')
+@app.route('/api/user')
 def index():
     if 'user' in session:
         user = models.User(session['user'].get("username"),

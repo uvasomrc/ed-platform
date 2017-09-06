@@ -12,9 +12,9 @@ cp /home/ubuntu/edp_config.py ./backend/instance/config.py
 
 # Update the database
 source /home/ubuntu/anaconda3/bin/activate edp
-eval 'conda env update'
 export HOME_DIR=`pwd`
 echo "Running from ${HOME_DIR}"
+eval 'cd ${HOME_DIR}/backend && conda env update'
 eval 'python ${HOME_DIR}/backend/manage.py clear_data'
 eval 'cd ${HOME_DIR}/backend && python ${HOME_DIR}/backend/manage.py db upgrade'
 eval 'cd ${HOME_DIR}/backend && python ${HOME_DIR}/backend/manage.py load_data'
