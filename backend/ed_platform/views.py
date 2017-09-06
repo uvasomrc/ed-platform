@@ -24,7 +24,7 @@ def root():
 @sso.login_handler
 def login(user_info):
     session['user'] = user_info
-    return redirect('/')
+    return redirect('/api/user')
 
 @app.route('/logout')
 def logout():

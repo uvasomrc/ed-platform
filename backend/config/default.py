@@ -15,5 +15,5 @@ SSO_ATTRIBUTE_MAP = {
     'HTTP_SHIB_AUTHENTICATION_METHOD': (False, 'authmethod'),
 }
 
-SSO_LOGIN_URL = '/login'
+SSO_LOGIN_URL = '/api/login'
 
