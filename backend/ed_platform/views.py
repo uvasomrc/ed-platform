@@ -47,11 +47,15 @@ def get_user_details(fields):
 @app.route('/api/user')
 def user():
     if 'user' in session:
-        user = models.User(session['user'].get("username"),
-                    session['user'].get("fullname"),
-                    session['user'].get("email"),
-                    session['user'].get("department"),
-                    session['user'].get("personid"))
+        user = models.User(session['user'].get("uid"),
+                           session['user'].get("givenName"),
+                           session['user'].get("email"),
+                           session['user'].get("surName"),
+                           session['user'].get("affiliation"),
+                           session['user'].get("displayName"),
+                           session['user'].get("eppn"),
+                           session['user'].get("title"))
+
         return jsonify({"user": user_schema.dump(user).data})
     else:
         return "You are not logged in."

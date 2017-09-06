@@ -15,12 +15,17 @@ class User():
     eppn = ""
     title = ""
 
-    def __init__(self, username, fullname, email, department, person_id):
-        self.username = username
-        self.fullname = fullname
-        self.email = email
-        self.department = department
-        self.person_id = person_id
+    def __init__(self, uid, givenName, email, surName, affiliation,
+                 displayName, eppn, title):
+        uid = uid
+        givenName = givenName
+        email = email
+        surName = surName
+        affiliation = affiliation
+        displayName = displayName
+        eppn = eppn
+        title = title
+
 
 class Track(db.Model):
     __tablename__ = 'track'
