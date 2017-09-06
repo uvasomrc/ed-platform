@@ -29,20 +29,7 @@ def login(user_info):
 @app.route('/logout')
 def logout():
     session.pop('user')
-    return redirect('/')
-
-def get_user_session_info(key):
-    return session['user'].get(
-        key,
-        'Key `{0}` not found in user session info'.format(key)
-    )
-
-def get_user_details(fields):
-    defs = [
-        '<dt>{0}</dt><dd>{1}</dd>'.format(f, get_user_session_info(f))
-        for f in fields
-    ]
-    return '<dl>{0}</dl>'.format(''.join(defs))
+    return redirect('/api/')
 
 @app.route('/api/user')
 def user():

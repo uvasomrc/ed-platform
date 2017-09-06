@@ -147,7 +147,8 @@ class ParticipantSessionDBSchema(ma.ModelSchema):
 
 class UserSchema(ma.Schema):
     class Meta:
-        fields = ('username','fullname','email','department','person_id')
+        fields = ('uid','givenName','email','surName','affiliation', 'displayName',
+                  'eppn','title')
         ordered = True
 
 class TrackAPISchema(ma.Schema):
