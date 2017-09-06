@@ -45,14 +45,14 @@ def get_user_details(fields):
     return '<dl>{0}</dl>'.format(''.join(defs))
 
 @app.route('/api/user')
-def index():
+def user():
     if 'user' in session:
         user = models.User(session['user'].get("username"),
                     session['user'].get("fullname"),
                     session['user'].get("email"),
                     session['user'].get("department"),
                     session['user'].get("personid"))
-        return jsonify({"user": user})
+        return jsonify({"user": user_schema.dump(user).data})
     else:
         return "You are not logged in."
 

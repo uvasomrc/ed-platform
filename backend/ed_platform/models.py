@@ -6,11 +6,14 @@ from flask_marshmallow import fields
 from ed_platform import app, db, ma
 
 class User():
-    username = ""
-    fullname = ""
+    uid = ""
+    givenName = ""
     email = ""
-    department = ""
-    person_id = ""
+    surName = ""
+    affiliation = ""
+    displayName = ""
+    eppn = ""
+    title = ""
 
     def __init__(self, username, fullname, email, department, person_id):
         self.username = username
