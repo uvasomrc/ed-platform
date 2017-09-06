@@ -4,7 +4,7 @@ from flask import Flask
 from flask_cors import CORS
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
-
+from flask_sso import SSO
 
 app = Flask(__name__, instance_relative_config=True)
 
@@ -30,6 +30,12 @@ db = SQLAlchemy(app)
 
 # Set up Marshmallow for HATEOAS goodness (must happen after db)
 ma = Marshmallow(app)
+
+# Set the secret key from the configuration file.
+app.secret_key = app.config['SECRET_KEY']
+
+# Set up Single sign-on.
+sso = SSO(app=app)
 
 from ed_platform import models
 from ed_platform import views

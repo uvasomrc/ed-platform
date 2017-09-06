@@ -1,6 +1,7 @@
-from flask import jsonify, request, send_file
-from ed_platform import app, db, models
+from flask import jsonify, request, send_file, session, redirect
+from ed_platform import app, db, models, sso
 
+user_schema = models.UserSchema()
 track_schema = models.TrackAPISchema()
 workshop_schema = models.WorkshopAPISchema()
 session_schema = models.SessionAPISchema()
@@ -12,26 +13,52 @@ session_db_schema = models.SessionDBSchema()
 participant_db_schema = models.ParticipantDBSchema()
 participant_session_db_schema = models.ParticipantSessionDBSchema()
 
+
 @app.route('/api', methods=['GET'])
 def root():
     return "ED Platform API"
 
-# Tracks
+# User Accounts
 # *****************************
 
-#: Default attribute map
-SSO_ATTRIBUTE_MAP = {
-    'ADFS_AUTHLEVEL': (False, 'authlevel'),
-    'ADFS_GROUP': (True, 'group'),
-    'ADFS_LOGIN': (True, 'nickname'),
-    'ADFS_ROLE': (False, 'role'),
-    'ADFS_EMAIL': (True, 'email'),
-    'ADFS_IDENTITYCLASS': (False, 'external'),
-    'HTTP_SHIB_AUTHENTICATION_METHOD': (False, 'authmethod'),
-}
+@sso.login_handler
+def login(user_info):
+    session['user'] = user_info
+    return redirect('/')
 
-app.config['SSO_ATTRIBUTE_MAP'] = SSO_ATTRIBUTE_MAP
+@app.route('/logout')
+def logout():
+    session.pop('user')
+    return redirect('/')
 
+def get_user_session_info(key):
+    return session['user'].get(
+        key,
+        'Key `{0}` not found in user session info'.format(key)
+    )
+
+def get_user_details(fields):
+    defs = [
+        '<dt>{0}</dt><dd>{1}</dd>'.format(f, get_user_session_info(f))
+        for f in fields
+    ]
+    return '<dl>{0}</dl>'.format(''.join(defs))
+
+@app.route('/user')
+def index():
+    if 'user' in session:
+        user = models.User(session['user'].get("username"),
+                    session['user'].get("fullname"),
+                    session['user'].get("email"),
+                    session['user'].get("department"),
+                    session['user'].get("personid"))
+        return jsonify({"user": user})
+    else:
+        return "You are not logged in."
+
+
+# Tracks
+# *****************************
 
 @app.route('/api/track', methods=['POST'])
 def create_track():

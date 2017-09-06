@@ -5,7 +5,19 @@ from flask_marshmallow import fields
 
 from ed_platform import app, db, ma
 
+class User():
+    username = ""
+    fullname = ""
+    email = ""
+    department = ""
+    person_id = ""
 
+    def __init__(self, username, fullname, email, department, person_id):
+        self.username = username
+        self.fullname = fullname
+        self.email = email
+        self.department = department
+        self.person_id = person_id
 
 class Track(db.Model):
     __tablename__ = 'track'
@@ -124,6 +136,11 @@ class ParticipantSessionDBSchema(ma.ModelSchema):
 
 # For marshalling objects to the Front End
 # ----------------------------------------
+
+class UserSchema(ma.Schema):
+    class Meta:
+        fields = ('username','fullname','email','department','person_id')
+        ordered = True
 
 class TrackAPISchema(ma.Schema):
     class Meta:
