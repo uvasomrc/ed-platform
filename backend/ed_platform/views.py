@@ -23,29 +23,50 @@ def root():
 
 @sso.login_handler
 def login(user_info):
-    session['user'] = user_info
-    return redirect('/api/user')
+    if (app.config["DEVELOPMENT"]) :
+        uid = app.config["SSO_DEVELOPMENT_UID"]
+    else :
+        uid = user_info['uid']
 
-@app.route('/logout')
+    participant = models.Participant.query.filter_by(uid=uid).first()
+    if(participant is None) :
+        participant = models.Participant(uid=uid,
+                                         display_name=user_info["givenName"],
+                                         email_address=user_info["email"])
+        db.session.add(participant)
+        db.session.commit()
+    # redirect users back to the front end, include the new auth token.
+    auth_token = participant.encode_auth_token().decode()
+    response_url = ("%s/%s" % (app.config["FRONTEND_AUTH_CALLBACK"], auth_token))
+    return redirect(response_url)
+
+
+
+@app.route('/api/auth')
+def status():
+    auth_header = request.headers.get('Authorization')
+    if auth_header:
+            auth_token = auth_header.split(" ")[1]
+    else:
+        auth_token = ''
+    if auth_token:
+        resp = models.Participant.decode_auth_token(auth_token)
+        participant = models.Participant.query.filter_by(uid=resp).first()
+        return jsonify(participant_schema.dump(participant).data)
+    else:
+        responseObject = {
+            'status': 'fail',
+            'message': 'Provide a valid auth token.'
+        }
+        return jsonify(responseObject)
+
+
+@app.route('/api/logout')
 def logout():
+    #fixme: Logout should invalidate the auth token.
     session.pop('user')
     return redirect('/api/')
 
-@app.route('/api/user')
-def user():
-    if 'user' in session:
-        user = models.User(session['user'].get("uid"),
-                           session['user'].get("givenName"),
-                           session['user'].get("email"),
-                           session['user'].get("surName"),
-                           session['user'].get("affiliation"),
-                           session['user'].get("displayName"),
-                           session['user'].get("eppn"),
-                           session['user'].get("title"))
-
-        return jsonify({"user": user_schema.dump(user).data})
-    else:
-        return "You are not logged in."
 
 
 # Tracks

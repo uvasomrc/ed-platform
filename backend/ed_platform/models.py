@@ -1,7 +1,5 @@
 import datetime
-
-import flask
-from flask_marshmallow import fields
+import jwt
 
 from ed_platform import app, db, ma
 
@@ -63,6 +61,7 @@ class TrackWorkshop(db.Model):
 class Participant(db.Model):
     __tablename__ = 'participant'
     id  = db.Column(db.Integer, primary_key=True)
+    uid = db.Column(db.String())
     display_name = db.Column(db.String())
     email_address = db.Column(db.String())
     phone_number = db.Column(db.String())
@@ -86,7 +85,39 @@ class Participant(db.Model):
             if ps.session_id == session.id:
                 return(ps)
 
+    def encode_auth_token(self):
+        """
+        Generates the Auth Token
+        :return: string
+        """
+        try:
+            payload = {
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=1),
+                'iat': datetime.datetime.utcnow(),
+                'sub': self.uid
+            }
+            return jwt.encode(
+                payload,
+                app.config.get('SECRET_KEY'),
+                algorithm='HS256'
+            )
+        except Exception as e:
+            return e
 
+    @staticmethod
+    def decode_auth_token(auth_token):
+        """
+        Decodes the auth token
+        :param auth_token:
+        :return: integer|string
+        """
+        try:
+            payload = jwt.decode(auth_token, app.config.get('SECRET_KEY'), algorithms='HS256')
+            return payload['sub']
+        except jwt.ExpiredSignatureError:
+            return 'Signature expired. Please log in again.'
+        except jwt.InvalidTokenError:
+            return 'Invalid token. Please log in again.'
 
 class Session(db.Model):
     """A Workshop Session or Class, but Session / Class are too common and we get conflicts as we lack a namespace, and wanted a single term. """
@@ -219,7 +250,7 @@ class WorkshopAPISchema(ma.Schema):
 
 class ParticipantAPISchema(ma.Schema):
     class Meta:
-        fields = ('id', 'display_name', 'email_address', 'phone_number',
+        fields = ('id', 'uid', 'display_name', 'email_address', 'phone_number',
                   'bio', 'created', '_links')
         ordered = True
     _links = ma.Hyperlinks({

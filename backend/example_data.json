@@ -127,6 +127,7 @@
     {
       "name": "dhf8r",
       "data": {
+        "uid": "dhf8r",
         "display_name": "Dan Funk",
         "email_address": "daniel.h.funk@gmail.com",
         "phone_number": "+15404570024",
@@ -138,6 +139,7 @@
     {
       "name": "bk7k",
       "data": {
+        "uid": "bk7k",
         "display_name": "Byoung-Do Kim, PhD",
         "title": "Director of Research Computing",
         "email_address": "bk7k@virginia.edu",
@@ -150,6 +152,7 @@
     {
       "name": "nem2p",
       "data": {
+        "uid": "nem2p",
         "display_name": "Neal Magee, PhD",
         "title": "Cloud Solution Architect",
         "email_address": "nem2p@virginia.edu",
@@ -162,6 +165,7 @@
     {
       "name": "vpnagraj",
       "data": {
+        "uid": "vpn7n",
         "display_name": "VP Nagraj (Pete)",
         "title": "Research Computing Associate",
         "email_address": "vpnagraj@virginia.edu",

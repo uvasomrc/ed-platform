@@ -1,5 +1,5 @@
 import unittest
-from flask import json
+from flask import json, request
 from ed_platform import app, db, data_loader, models
 
 
@@ -79,6 +79,10 @@ class TestCase(unittest.TestCase):
         self.assertTrue(rv.status_code >= 200 and rv.status_code < 300,
                         "BAD Response:" + rv.status + ".")
 
+    def assertFailure(self, rv):
+        self.assertFalse(rv.status_code >= 200 and rv.status_code < 300,
+                        "Incorrect Valid Response:" + rv.status + ".")
+
     def get_workshop(self, id):
         rv = self.app.get('/api/workshop/%i' %id,
                            follow_redirects=True,
@@ -154,9 +158,6 @@ class TestCase(unittest.TestCase):
         session = self.add_test_session(workshop["id"])
         self.assertEqual("This is a note from the instructor", session["instructor_notes"])
         self.assertEqual(workshop["id"], session["workshop_id"])
-
-    def test_add_session_with_instructor(self):
-        self.assertTrue(False, "Untested")
 
     def test_get_sessions(self):
         url = '/api/session'
@@ -271,6 +272,62 @@ class TestCase(unittest.TestCase):
         self.assertEqual(5, reg2["review_score"])
         self.assertEqual("An excellent class", reg2["review_comment"])
 
+    # Authentication
+    # ---------------------------------------
+    def test_auth_token(self):
+        participant = models.Participant (
+            uid="dhf8r"
+        )
+        auth_token = participant.encode_auth_token()
+        self.assertTrue(isinstance(auth_token, bytes))
+        self.assertEqual("dhf8r", participant.decode_auth_token(auth_token))
+
+    def test_decode_auth_token(self):
+        participant = models.Participant(
+            uid="dhf8r"
+        )
+        auth_token = participant.encode_auth_token()
+        self.assertTrue(isinstance(auth_token, bytes))
+
+
+    def test_auth_creates_participant(self):
+        participant = models.Participant.query.filter_by(uid='dhf8r').first()
+        self.assertIsNone(participant)
+
+        headers={'uid':'dhf8r','givenName':'Daniel','mail':'dhf8r@virginia.edu'}
+        rv = self.app.get("/api/login",  headers=headers, follow_redirects=True,
+                           content_type="application/json")
+        participant = models.Participant.query.filter_by(uid='dhf8r').first()
+        self.assertIsNotNone(participant)
+        self.assertIsNotNone(participant.display_name)
+        self.assertIsNotNone(participant.email_address)
+        self.assertIsNotNone(participant.created)
+
+    def test_current_participant_status(self):
+
+        """ Test for the curernt participant status """
+        # Create the user
+        headers = {'uid': 'dhf8r', 'givenName': 'Daniel', 'mail': 'dhf8r@virginia.edu'}
+        rv = self.app.get("/api/login", headers=headers, follow_redirects=True,
+                      content_type="application/json")
+
+        participant = models.Participant.query.filter_by(uid='dhf8r').first()
+
+        # Now get the user back.
+        response = self.app.get(
+            '/api/auth',
+            headers=dict(
+                Authorization='Bearer ' +
+                    participant.encode_auth_token().decode()
+            )
+        )
+        self.assertSuccess(response)
+        data = json.loads(response.data.decode())
+        self.assertTrue("id" in data)
+        self.assertTrue(data['email_address'] == 'dhf8r@virginia.edu')
+        self.assertTrue(data['uid'] == 'dhf8r')
+        self.assertTrue(data['display_name'] == 'Daniel')
+        self.assertEqual(response.status_code, 200)
 
 if __name__ == '__main__':
     unittest.main()
