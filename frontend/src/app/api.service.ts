@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
-import { Http, Response } from '@angular/http';
+import {Http, RequestOptions, Headers, Response} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import {Workshop} from './workshop';
 import {Track} from './track';
+import {Participant} from "./participant";
 
 @Injectable()
 export class ApiService {
@@ -14,8 +15,17 @@ export class ApiService {
   apiRoot = environment.api;
   workshop_url = `${this.apiRoot}/api/workshop`;
   track_url = `${this.apiRoot}/api/track`;
+  account_url = `${this.apiRoot}/api/auth`;
+
+  public token: string;
 
   constructor(private http: Http) {}
+
+  getOptions(): RequestOptions {
+    let headers = new Headers({'Authorization': 'Bearer ' + this.token});
+    let options = new RequestOptions({headers: headers});
+    return options;
+  }
 
   getTracks(): Observable<Track[]> {
     return this.http.get(this.track_url)
@@ -32,6 +42,14 @@ export class ApiService {
         return new Track(res.json());
         });
   }
+
+  getAccount(): Observable<Participant> {
+    return this.http.get(this.account_url, this.getOptions())
+      .map(res => {
+        return new Participant(res.json());
+      });
+  }
+
 
   getTrackWorkshops(track: Track): Observable<Workshop[]> {
     console.log('Calling: ' + track.links.workshops);

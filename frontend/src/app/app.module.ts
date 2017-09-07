@@ -27,13 +27,16 @@ import { ParticipantBriefComponent } from './participant-brief/participant-brief
 import { ReviewComponent } from './review/review.component';
 import { ReviewStarsComponent } from './review-stars/review-stars.component';
 import { TimesPipe } from './times.pipe';
+import { AccountDetailsComponent } from './account-details/account-details.component';
+import {AccountService} from "./account.service";
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'find', redirectTo: 'search'},
   {path: 'home', component: HomeComponent},
   {path: 'track/:id', component: TrackDetailsComponent},
-  {path: 'workshop/:id', component: WorkshopDetailsComponent}
+  {path: 'workshop/:id', component: WorkshopDetailsComponent},
+  {path: 'account/:token', component: AccountDetailsComponent}
 //  {path: 'track', component: TrackComponent},
 // {path: 'workshop', component: WorkshopComponent}
 ];
@@ -53,7 +56,8 @@ const routes: Routes = [
     ParticipantBriefComponent,
     ReviewComponent,
     ReviewStarsComponent,
-    TimesPipe
+    TimesPipe,
+    AccountDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +77,7 @@ const routes: Routes = [
     MdTabsModule,
     RouterModule.forRoot(routes, {useHash: true})
   ],
-  providers: [TrackService, WorkshopService, ApiService],
+  providers: [TrackService, WorkshopService, ApiService, AccountService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
