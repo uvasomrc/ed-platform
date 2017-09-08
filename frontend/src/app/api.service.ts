@@ -7,7 +7,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import {Workshop} from './workshop';
 import {Track} from './track';
-import {Participant} from "./participant";
+import {Participant} from './participant';
 
 @Injectable()
 export class ApiService {
@@ -16,10 +16,23 @@ export class ApiService {
   workshop_url = `${this.apiRoot}/api/workshop`;
   track_url = `${this.apiRoot}/api/track`;
   account_url = `${this.apiRoot}/api/auth`;
+  token: string;
 
-  public token: string;
+  constructor(private http: Http) {
+    this.token = JSON.parse(localStorage.getItem('token'));
+    console.log('The Token At Construction is:' + this.token);
+  }
 
-  constructor(private http: Http) {}
+  setToken(token) {
+    this.token = token;
+    localStorage.setItem('token', JSON.stringify(token));
+    console.log('The Token Is Set To:' + this.token);
+  }
+
+  logout() {
+    this.token = '';
+    localStorage.removeItem('token');
+  }
 
   getOptions(): RequestOptions {
     let headers = new Headers({'Authorization': 'Bearer ' + this.token});

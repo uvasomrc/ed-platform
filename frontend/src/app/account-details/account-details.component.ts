@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AccountService} from '../account.service';
 import {Participant} from '../participant';
 
@@ -14,14 +14,13 @@ export class AccountDetailsComponent implements OnInit {
   participant = new Participant();
 
   constructor(private account_service: AccountService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private router: Router) {
     this.route.params.subscribe( params =>
-      account_service.setToken(params['token']));
+      account_service.login(params['token']));
+      this.router.navigate(['home']);
   }
 
-  ngOnInit() {
-    this.account_service.getAccount().subscribe(
-      account => this.participant = account);
-  }
+  ngOnInit() {}
 
 }

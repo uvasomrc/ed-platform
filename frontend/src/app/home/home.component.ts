@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {WorkshopService} from "../workshop.service";
-import {TrackService} from "../track.service";
-import {Track} from "../track";
-import {Workshop} from "../workshop";
-import {Router} from "@angular/router";
+import {WorkshopService} from '../workshop.service';
+import {TrackService} from '../track.service';
+import {Track} from '../track';
+import {Workshop} from '../workshop';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
