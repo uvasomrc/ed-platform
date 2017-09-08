@@ -3,7 +3,7 @@ import {Participant} from './participant';
 import {ApiService} from './api.service';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
-import {HttpErrorResponse} from "@angular/common/http";
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Injectable()
 export class AccountService {

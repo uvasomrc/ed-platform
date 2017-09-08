@@ -14,7 +14,9 @@
 }
 .sponsors {
   background-color: white;
+  overflow-y: scroll;
 }
+
 .sponsor_logo {
   height: 80px;
 }
