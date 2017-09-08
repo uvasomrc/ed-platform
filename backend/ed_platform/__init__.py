@@ -1,10 +1,12 @@
 import os
 
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 from flask_sso import SSO
+
+from ed_platform.rest_exception import RestException
 
 app = Flask(__name__, instance_relative_config=True)
 
@@ -36,6 +38,13 @@ app.secret_key = app.config['SECRET_KEY']
 
 # Set up Single sign-on.
 sso = SSO(app=app)
+
+# Handle errors consistently
+@app.errorhandler(RestException)
+def handle_invalid_usage(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
 
 from ed_platform import models
 from ed_platform import views

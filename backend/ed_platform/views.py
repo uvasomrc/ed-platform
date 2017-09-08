@@ -1,5 +1,5 @@
 from flask import jsonify, request, send_file, session, redirect
-from ed_platform import app, db, models, sso
+from ed_platform import app, db, models, sso, RestException
 
 user_schema = models.UserSchema()
 track_schema = models.TrackAPISchema()
@@ -45,7 +45,7 @@ def login(user_info):
 @app.route('/api/auth')
 def status():
     auth_header = request.headers.get('Authorization')
-    if auth_header:
+    if auth_header and len(auth_header.split(" ")) > 1:
             auth_token = auth_header.split(" ")[1]
     else:
         auth_token = ''
@@ -54,11 +54,7 @@ def status():
         participant = models.Participant.query.filter_by(uid=resp).first()
         return jsonify(participant_schema.dump(participant).data)
     else:
-        responseObject = {
-            'status': 'fail',
-            'message': 'Provide a valid auth token.'
-        }
-        return jsonify(responseObject)
+        raise RestException(RestException.TOKEN_MISSING)
 
 
 @app.route('/api/logout')

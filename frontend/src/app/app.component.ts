@@ -37,4 +37,8 @@ export class AppComponent implements OnDestroy {
     window.location.href = this.login_url;
   }
 
+  goLogout() {
+    this.accountService.logout();
+  }
+
 }

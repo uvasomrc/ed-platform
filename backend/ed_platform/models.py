@@ -1,7 +1,8 @@
 import datetime
 import jwt
 
-from ed_platform import app, db, ma
+from ed_platform import app, db, ma, RestException
+
 
 class User():
     uid = ""
@@ -92,7 +93,7 @@ class Participant(db.Model):
         """
         try:
             payload = {
-                'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=1),
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=2, minutes=0, seconds=0),
                 'iat': datetime.datetime.utcnow(),
                 'sub': self.uid
             }
@@ -115,9 +116,9 @@ class Participant(db.Model):
             payload = jwt.decode(auth_token, app.config.get('SECRET_KEY'), algorithms='HS256')
             return payload['sub']
         except jwt.ExpiredSignatureError:
-            return 'Signature expired. Please log in again.'
+            raise RestException(RestException.TOKEN_EXPIRED)
         except jwt.InvalidTokenError:
-            return 'Invalid token. Please log in again.'
+            raise RestException(RestException.TOKEN_INVALID)
 
 class Session(db.Model):
     """A Workshop Session or Class, but Session / Class are too common and we get conflicts as we lack a namespace, and wanted a single term. """
