@@ -1,7 +1,7 @@
 <md-toolbar color="primary">
   <span>Ed-Platform</span>
   <span class="spacer"></span>
-  <span *ngIf="user != none" class="logged-in">
+  <span *ngIf="user" class="logged-in">
     <img src="{{user.links.image}}"> logged in as: {{user.display_name}}
   </span>
   <button md-button [mdMenuTriggerFor]="appMenu">
@@ -15,11 +15,11 @@
     <md-icon> home </md-icon>
     <span> Home </span>
   </button>
-  <button *ngIf="user == None" md-menu-item (click)="goLogin()">
+  <button *ngIf="!user" md-menu-item (click)="goLogin()">
     <md-icon> person </md-icon>
     <span> Log in </span>
   </button>
-  <button *ngIf="user != None" md-menu-item (click)="goLogout()">
+  <button *ngIf="user" md-menu-item (click)="goLogout()">
     <md-icon> person </md-icon>
     <span> Log out </span>
   </button>
