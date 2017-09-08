@@ -214,6 +214,25 @@ class ParticipantSessionAPISchema(ma.Schema):
         ordered = True
     participant = ma.Nested(ParticipantAPIMinimalSchema)
 
+class WorkshopAPIMinimalSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'title', 'description', '_links')
+        ordered = True
+    _links = ma.Hyperlinks({
+        'self': ma.URLFor('get_workshop', id='<id>'),
+        'collection': ma.URLFor('get_workshops'),
+        'image': ma.URLFor('get_workshop_image', id='<id>'),
+        'tracks': ma.URLFor('get_workshop_tracks', id='<id>'),
+        'sessions': ma.URLFor('get_workshop_sessions', id='<id>'),
+    })
+
+class ParticipantSessionAPISchema(ma.Schema):
+    class Meta:
+        fields = ('participant', 'created', 'review_score', 'review_comment', 'attended', 'is_instructor')
+        ordered = True
+    participant = ma.Nested(ParticipantAPIMinimalSchema)
+    workshop = ma.Nested(WorkshopAPIMinimalSchema)
+
 class SessionAPISchema(ma.Schema):
     class Meta:
         fields = ('id', 'date_time', 'duration_minutes', 'instructor_notes',
@@ -238,21 +257,17 @@ class WorkshopAPISchema(ma.Schema):
         'tracks': ma.URLFor('get_workshop_tracks', id='<id>'),
         'sessions': ma.URLFor('get_workshop_sessions', id='<id>'),
     })
-#    track_workshops = ma.List(ma.HyperlinkRelated('get_track', id='<track_id>'))
 
-    id = db.Column(db.Integer, primary_key=True)
-    date_time = db.Column(db.DateTime)
-    duration_minutes = db.Column(db.Integer)
-    instructor_notes = db.Column(db.TEXT())
-    workshop_id = db.Column('workshop_id', db.Integer, db.ForeignKey('workshop.id'))
-    participant_sessions = db.relationship('ParticipantSession', backref='session')
+
+
 
 
 class ParticipantAPISchema(ma.Schema):
     class Meta:
         fields = ('id', 'uid', 'display_name', 'email_address', 'phone_number',
-                  'bio', 'created', '_links')
+                  'bio', 'created', '_links', 'participant_sessions')
         ordered = True
+    participant_sessions = ma.List(ma.Nested(ParticipantSessionAPISchema))
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_participant', id='<id>'),
         'collection': ma.URLFor('get_participants'),

@@ -5,6 +5,8 @@ from ed_platform import app, db, data_loader, models
 
 class TestCase(unittest.TestCase):
 
+    test_uid = "dhf8rtest"
+
     def setUp(self):
         app.config.from_pyfile('../config/testing.py')
 
@@ -73,6 +75,23 @@ class TestCase(unittest.TestCase):
                            content_type="application/json")
         self.assertSuccess(rv)
         return json.loads(rv.get_data(as_text=True))
+
+    def get_current_participant(self):
+        """ Test for the curernt participant status """
+        # Create the user
+        headers = {'uid': self.test_uid, 'givenName': 'Daniel', 'mail': 'dhf8r@virginia.edu'}
+        rv = self.app.get("/api/login", headers=headers, follow_redirects=True,
+                      content_type="application/json")
+        participant = models.Participant.query.filter_by(uid=self.test_uid).first()
+
+        # Now get the user back.
+        response = self.app.get('/api/auth',headers=dict(
+                       Authorization='Bearer ' +
+                        participant.encode_auth_token().decode()
+            )
+        )
+        self.assertSuccess(response)
+        return response
 
 
     def assertSuccess(self, rv):
@@ -294,40 +313,35 @@ class TestCase(unittest.TestCase):
         participant = models.Participant.query.filter_by(uid='dhf8r').first()
         self.assertIsNone(participant)
 
-        headers={'uid':'dhf8r','givenName':'Daniel','mail':'dhf8r@virginia.edu'}
+        headers={'uid':self.test_uid,'givenName':'Daniel','mail':'dhf8r@virginia.edu'}
         rv = self.app.get("/api/login",  headers=headers, follow_redirects=True,
                            content_type="application/json")
-        participant = models.Participant.query.filter_by(uid='dhf8r').first()
+        participant = models.Participant.query.filter_by(uid=self.test_uid).first()
         self.assertIsNotNone(participant)
         self.assertIsNotNone(participant.display_name)
         self.assertIsNotNone(participant.email_address)
         self.assertIsNotNone(participant.created)
 
     def test_current_participant_status(self):
-
-        """ Test for the curernt participant status """
-        # Create the user
-        headers = {'uid': 'dhf8r', 'givenName': 'Daniel', 'mail': 'dhf8r@virginia.edu'}
-        rv = self.app.get("/api/login", headers=headers, follow_redirects=True,
-                      content_type="application/json")
-
-        participant = models.Participant.query.filter_by(uid='dhf8r').first()
-
-        # Now get the user back.
-        response = self.app.get(
-            '/api/auth',
-            headers=dict(
-                Authorization='Bearer ' +
-                    participant.encode_auth_token().decode()
-            )
-        )
-        self.assertSuccess(response)
-        data = json.loads(response.data.decode())
+        data = json.loads(self.get_current_participant().data.decode())
         self.assertTrue("id" in data)
         self.assertTrue(data['email_address'] == 'dhf8r@virginia.edu')
-        self.assertTrue(data['uid'] == 'dhf8r')
+        self.assertTrue(data['uid'] == self.test_uid)
         self.assertTrue(data['display_name'] == 'Daniel')
-        self.assertEqual(response.status_code, 200)
+
+    def test_current_participant_details(self):
+
+        # Register user to a session.
+        self.get_current_participant()
+        participant = models.Participant.query.filter_by(uid=self.test_uid).first()
+        session = models.Session.query.first()
+        participant.register(session)
+        db.session.merge(participant)
+        db.session.commit()
+
+        data = json.loads(self.get_current_participant().data.decode())
+        self.assertTrue('participant_sessions' in data)
+
 
 if __name__ == '__main__':
     unittest.main()
