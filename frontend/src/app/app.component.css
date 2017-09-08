@@ -1,3 +1,7 @@
 .spacer {
   flex: 1 1 auto;
 }
+
+.logged-in {
+  font-size: .8em;
+}
