@@ -283,12 +283,14 @@ def get_registration(participant_id, session_id):
 def register(participant_id, session_id):
     participant = models.Participant.query.filter_by(id=participant_id).first()
     if(participant is None):
-        return jsonify(error=404, text=str("no such participant.")), 404
+        raise RestException(RestException.NO_SUCH_PARTICIPANT, 404)
     session = models.Session.query.filter_by(id=session_id).first()
     if(session is None):
-        return jsonify(error=404, text=str("no such session.")), 404
-    participant.register(session)
+        raise RestException(RestException.NO_SUCH_SESSION, 404)
+    if(session.max_attendees <= len(session.participant_sessions)):
+        raise RestException(RestException.SESSION_FULL)
 
+    participant.register(session)
     db.session.merge(participant)
     db.session.commit()
     return (jsonify(participant_session_db_schema.dump(participant.getParticipantSession(session)).data))

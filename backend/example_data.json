@@ -58,6 +58,7 @@
         "workshop": "python_intro_workshop",
         "date_time":"2017-09-11T18:30:00.000Z",
         "duration_minutes":"60",
+        "max_attendees":20,
         "instructor_notes": "Class details are available at http://sartography.com."
       }
     },
@@ -67,6 +68,7 @@
         "workshop": "python_intro_workshop",
         "date_time":"2017-11-11T18:30:00.000Z",
         "duration_minutes":"60",
+        "max_attendees":2,
         "instructor_notes": "Class details are available at http://sartography.com."
       }
     },
@@ -76,6 +78,7 @@
         "workshop": "r_intro_workshop",
         "date_time":"2017-10-12T10:30:00.000Z",
         "duration_minutes":"90",
+        "max_attendees":10,
         "instructor_notes": "Materials will be provided during class.  Please bring a Flash drive with at least 6gb of free space."
       }
     },
@@ -85,6 +88,7 @@
         "workshop": "ml_intro_workshop",
         "date_time":"2017-07-12T10:30:00.000Z",
         "duration_minutes":"120",
+        "max_attendees":20,
         "instructor_notes": "Please see uploaded resources."
       }
     }

@@ -6,6 +6,9 @@ class RestException(Exception):
     TOKEN_INVALID = {'code': 'token_invalid', 'message': 'Please log in again.'}
     TOKEN_EXPIRED = {'code': 'token_expired', 'message': 'Your session timed out.  Please log in again.'}
     TOKEN_MISSING = {'code': 'token_missing', 'message': 'Your are not logged in.'}
+    SESSION_FULL = {'code': 'session_full', 'message': 'This session is full.'}
+    NO_SUCH_PARTICIPANT = {'code': 'no_such_participant', 'message': 'This participant does not exist.'}
+    NO_SUCH_SESSION = {'code': 'no_such_session', 'message': 'This session does not exist.'}
 
     def __init__(self, payload, status_code=None):
         Exception.__init__(self)

@@ -127,6 +127,7 @@ class Session(db.Model):
     date_time = db.Column(db.DateTime)
     duration_minutes = db.Column(db.Integer)
     instructor_notes = db.Column(db.TEXT())
+    max_attendees = db.Column(db.Integer)
     workshop_id = db.Column('workshop_id', db.Integer, db.ForeignKey('workshop.id'))
     participant_sessions = db.relationship('ParticipantSession', backref='session')
 
@@ -237,7 +238,7 @@ class ParticipantSessionAPISchema(ma.Schema):
 class SessionAPISchema(ma.Schema):
     class Meta:
         fields = ('id', 'date_time', 'duration_minutes', 'instructor_notes',
-                  'workshop_id', '_links', 'participant_sessions')
+                  'workshop_id', '_links', 'max_attendees', 'participant_sessions')
         ordered = True
     participant_sessions = ma.List(ma.Nested(ParticipantSessionAPISchema))
     _links = ma.Hyperlinks({
