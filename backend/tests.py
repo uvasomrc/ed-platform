@@ -56,7 +56,8 @@ class TestCase(unittest.TestCase):
             "workshop": workshop_id,
             "date_time": "2017-11-11T18:30:00.000Z",
             "duration_minutes": "60",
-            "instructor_notes": "This is a note from the instructor"
+            "instructor_notes": "This is a note from the instructor",
+            "max_attendees": 2
         }
         rv = self.app.post('/api/session', data=json.dumps(data), follow_redirects=True,
                            content_type="application/json")
@@ -263,6 +264,23 @@ class TestCase(unittest.TestCase):
         sessions = json.loads(rv.get_data(as_text=True))
         self.assertEqual(2, len(sessions["sessions"]), "adding a second session three times, we still only have two sessions")
 
+    def test_max_participants(self):
+        p1 = self.add_test_participant()
+        p2 = self.add_test_participant()
+        p3 = self.add_test_participant()
+        workshop = self.add_test_workshop()
+        session = self.add_test_session(workshop)
+        sessionModel = models.Session.query.filter_by(id=session['id']).first()
+        sessionModel.max_attendees = 2
+        db.session.merge(sessionModel)
+        db.session.commit()
+        rv = self.app.post("/api/participant/%i/session/%i" % (p1["id"], session["id"]))
+        self.assertSuccess(rv)
+        rv = self.app.post("/api/participant/%i/session/%i" % (p2["id"], session["id"]))
+        self.assertSuccess(rv)
+        rv = self.app.post("/api/participant/%i/session/%i" % (p3["id"], session["id"]))
+        self.assertFailure(rv)
+
     def test_unregister(self):
         participant = self.add_test_participant()
         workshop = self.add_test_workshop()
@@ -310,7 +328,7 @@ class TestCase(unittest.TestCase):
 
 
     def test_auth_creates_participant(self):
-        participant = models.Participant.query.filter_by(uid='dhf8r').first()
+        participant = models.Participant.query.filter_by(uid='dhf8rtest').first()
         self.assertIsNone(participant)
 
         headers={'uid':self.test_uid,'givenName':'Daniel','mail':'dhf8r@virginia.edu'}
@@ -341,6 +359,8 @@ class TestCase(unittest.TestCase):
 
         data = json.loads(self.get_current_participant().data.decode())
         self.assertTrue('participant_sessions' in data)
+
+
 
 
 if __name__ == '__main__':
