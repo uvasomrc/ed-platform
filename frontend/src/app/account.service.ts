@@ -21,6 +21,9 @@ export class AccountService implements OnDestroy {
       localStorage.setItem(this.USER_KEY, JSON.stringify(participant));
       this.cachedParticipant = participant;
       this.participant.next(participant);
+    },
+    err => {
+      this.participant.next(null);
     });
   }
 

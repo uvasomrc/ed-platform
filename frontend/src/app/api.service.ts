@@ -38,12 +38,14 @@ export class ApiService {
     localStorage.setItem('token', JSON.stringify(token));
     console.log('The Token Is Set To:' + this.token);
     return this.http.get(this.account_url, this.getOptions())
-      .map(res => { return new Participant(res.json()); });
+      .map(res => { return new Participant(res.json()); })
+      .catch(this.handleError);
   }
 
   getAccount(): Observable<Participant> {
     return this.http.get(this.account_url, this.getOptions())
-      .map(res => { return new Participant(res.json()); });
+      .map(res => { return new Participant(res.json()); })
+      .catch(this.handleError);
   }
 
   logout() {
