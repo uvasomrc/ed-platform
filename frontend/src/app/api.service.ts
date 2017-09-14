@@ -51,10 +51,18 @@ export class ApiService {
     localStorage.removeItem('token');
   }
 
-  unRegister(session: Session) {
+  unRegister(session: Session): Observable<Session> {
     return this.http.delete(`${this.apiRoot}${session.links.register}`, this.getOptions())
-      .map(res => { return ''});
+      .map(res => { return session; })
+      .catch(this.handleError);
   }
+
+  register(session: Session): Observable<Session> {
+    return this.http.post(`${this.apiRoot}${session.links.register}`, this.getOptions())
+      .map(res => { return session; })
+      .catch(this.handleError);
+  }
+
 
   getTracks(): Observable<Track[]> {
     return this.http.get(this.track_url)

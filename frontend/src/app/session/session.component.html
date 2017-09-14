@@ -1,13 +1,14 @@
-<md-card>
+<md-card ngClass="{{status}}">
   <md-card-header>
     <md-card-title>
+      <h1>{{session.workshop.title}}</h1>
       <p>Date: <b>{{session.date_time | date: 'fullDate'}}</b></p>
       <p>Time: <b>{{session.date_time | date: 'shortTime'}}</b></p>
       <p>Duration: <b>{{session.duration_minutes}}</b> minutes.</p>
     </md-card-title>
   </md-card-header>
   <md-card-content>
-    <h2>Instructor:</h2>
+    <h2>Instructor(s):</h2>
     <div *ngFor="let instructor of session.instructors">
       <h3>
         <img md-card-avatar src="{{instructor.links.image}}">
@@ -19,9 +20,14 @@
 Instructor: {{instructor.display_name}}
 -->
   </md-card-content>
-  <md-card-actions>
-    <button md-button>Register for this Session</button>
+  <md-card-actions *ngIf="status === 'active'">
+    <button md-button (click)="removeSession()">Un-Register</button>
   </md-card-actions>
+
+  <md-card-actions *ngIf="status === 'removed'">
+    <button md-button (click)="addSession()">Undo</button>
+  </md-card-actions>
+
 </md-card>
 
 

@@ -46,13 +46,11 @@ export class AccountDetailsComponent implements OnInit {
   }
 
   instructing(): boolean {
-    return this.teachingSessions().length > 0
+    return this.teachingSessions().length > 0;
   }
 
   onUnRegister(session) {
-    this.accountService.unRegister(session);
-    console.log(`This sessions links are ${session.links.register}`)
-    console.log("Unregister for session:" + session.id);
+    console.log("Unregistered for session:" + session.id);
   }
 
 

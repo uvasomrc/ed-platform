@@ -31,7 +31,6 @@ import { AccountDetailsComponent } from './account-details/account-details.compo
 import {AccountService} from './account.service';
 import { AccountRedirectComponent } from './account-redirect/account-redirect.component';
 import {AuthGuard} from './auth.guard';
-import { ParticipantsSessionsComponent } from './participants-sessions/participants-sessions.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -64,7 +63,6 @@ const routes: Routes = [
     TimesPipe,
     AccountDetailsComponent,
     AccountRedirectComponent,
-    ParticipantsSessionsComponent
   ],
   imports: [
     BrowserModule,

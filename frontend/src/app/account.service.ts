@@ -4,6 +4,7 @@ import {Participant} from './participant';
 import {Subscription} from 'rxjs/Subscription';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
+import {Session} from "./session";
 
 @Injectable()
 export class AccountService implements OnDestroy {
@@ -46,9 +47,12 @@ export class AccountService implements OnDestroy {
     this.refreshAccount();
   }
 
-  unRegister(session) {
-    this.api.unRegister(session).subscribe();
-    this.refreshAccount();
+  register(session): Observable<Session> {
+    return this.api.register(session);
+  }
+
+  unRegister(session): Observable<Session> {
+    return this.api.unRegister(session);
   }
 
 }

@@ -1,7 +1,7 @@
 import {Participant} from './participant';
 import {Review} from './review';
 import {Workshop} from './workshop';
-import {Links} from "./links";
+import {Links} from './links';
 
 export class Session {
   id: number;
@@ -19,12 +19,12 @@ export class Session {
     this.instructors = new Array<Participant>();
     this.links = new Links(values['_links']);
     if ('participant_sessions' in values) {
-      for (let ps of values['participant_sessions']) {
+      for (const ps of values['participant_sessions']) {
         if (ps['review_score']) { this.reviews.push(new Review(ps)); }
       }
     }
     if ('instructors' in values) {
-      for (let i of values['instructors']) {
+      for (const i of values['instructors']) {
         this.instructors.push(new Participant(i, this));
       }
     }
