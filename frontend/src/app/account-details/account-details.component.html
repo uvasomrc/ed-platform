@@ -15,7 +15,7 @@
         fxLayoutGap="10px"
         fxLayoutGap.xs="0">
 
-        <app-session *ngFor="let session of upcomingSessions()" [session]="session" ></app-session>
+        <app-session *ngFor="let session of account.upcomingSessions()" [session]="session" ></app-session>
       </div>
     </md-tab>
     <md-tab label="past Sessions">
@@ -27,10 +27,10 @@
         fxLayoutGap="10px"
         fxLayoutGap.xs="0">
 
-        <app-session *ngFor="let session of pastSessions()" [session]="session" ></app-session>
+        <app-session *ngFor="let session of account.pastSessions()" [session]="session" ></app-session>
       </div>
     </md-tab>
-    <md-tab label="Instructing" *ngIf="instructing()">
+    <md-tab label="Instructing" *ngIf="account.isTeacher()">
       <div
         class="container"
         fxLayout="row"
@@ -39,7 +39,7 @@
         fxLayoutGap="10px"
         fxLayoutGap.xs="0">
 
-        <app-session *ngFor="let session of teachingSessions()" [session]="session"></app-session>
+        <app-session *ngFor="let session of account.teachingSessions()" [session]="session"></app-session>
       </div>
     </md-tab>
     <md-tab label="Edit Account">

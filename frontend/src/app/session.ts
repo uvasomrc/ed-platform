@@ -8,6 +8,8 @@ export class Session {
   date_time: Date;
   duration_minutes: number;
   instructor_notes: string;
+  max_attendees: number;
+  total_attendees = 0;
   reviews = Array<Review>();
   instructors = Array<Participant>();
   workshop: Workshop;
@@ -19,6 +21,7 @@ export class Session {
     this.instructors = new Array<Participant>();
     this.links = new Links(values['_links']);
     if ('participant_sessions' in values) {
+      this.total_attendees ++;
       for (const ps of values['participant_sessions']) {
         if (ps['review_score']) { this.reviews.push(new Review(ps)); }
       }
@@ -31,12 +34,14 @@ export class Session {
     if ('workshop' in values && !(parent instanceof Workshop)) {
       this.workshop = new Workshop(values['workshop']);
     }
+  }
 
-    /*
-    for (let ps of values['participant_sessions']) {
-      this.participant_sessions.push(new ParticipantSession(ps));
-    }
-    */
+  isPast(): boolean {
+    return (this.date_time.valueOf() < new Date().valueOf());
+  }
+
+  isAvailable(): boolean {
+    return(!this.isPast() && this.max_attendees > this.total_attendees);
   }
 }
 

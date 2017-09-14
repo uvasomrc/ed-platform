@@ -11,6 +11,7 @@ export class AccountService implements OnDestroy {
   USER_KEY = 'currentUser';
   login_subscription: Subscription;
   participant = new Subject<Participant>();
+  cachedParticipant: Participant;
 
   constructor(private api: ApiService) {}
 
@@ -18,12 +19,17 @@ export class AccountService implements OnDestroy {
     console.log('Refresh the account details from the server.');
     this.api.getAccount().subscribe(participant => {
       localStorage.setItem(this.USER_KEY, JSON.stringify(participant));
+      this.cachedParticipant = participant;
       this.participant.next(participant);
     });
   }
 
   getAccount(): Observable<Participant> {
     return (this.participant.asObservable());
+  }
+
+  getCachedAccount(): Participant {
+    return this.cachedParticipant;
   }
 
   login(token: string): void {

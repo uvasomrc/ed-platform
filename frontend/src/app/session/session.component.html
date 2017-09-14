@@ -1,4 +1,4 @@
-<md-card ngClass="{{status}}">
+<md-card ngClass="{{status()}}">
   <md-card-header>
     <md-card-title>
       <h1>{{session.workshop.title}}</h1>
@@ -16,17 +16,24 @@
       </h3>
     </div>
     <p>Notes: {{session.instructor_notes}}</p>
-    <!--
-Instructor: {{instructor.display_name}}
--->
   </md-card-content>
-  <md-card-actions *ngIf="status === 'active'">
+
+  <md-card-actions *ngIf="teaching">
+    <button md-button>Teacher Dashboard</button>
+  </md-card-actions>
+
+  <md-card-actions *ngIf="taking">
     <button md-button (click)="removeSession()">Un-Register</button>
   </md-card-actions>
 
-  <md-card-actions *ngIf="status === 'removed'">
+  <md-card-actions *ngIf="removed">
     <button md-button (click)="addSession()">Undo</button>
   </md-card-actions>
+
+  <md-card-actions *ngIf="available">
+    <button md-button (click)="addSession()">Register Now!</button>
+  </md-card-actions>
+
 
 </md-card>
 

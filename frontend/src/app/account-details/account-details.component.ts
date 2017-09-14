@@ -27,27 +27,6 @@ export class AccountDetailsComponent implements OnInit {
     this.accountService.refreshAccount();
   }
 
-  upcomingSessions(): Array<Session> {
-    return this.account.sessions.filter( s => {
-      return s.date_time.valueOf() >= new Date().valueOf() && s.instructors.filter( i => i.id === this.account.id).length == 0;
-    } );
-  }
-
-  pastSessions(): Array<Session> {
-    return this.account.sessions.filter( s => {
-      return s.date_time.valueOf() < new Date().valueOf() && s.instructors.filter( i => i.id === this.account.id).length == 0;
-    } );
-  }
-
-  teachingSessions(): Array<Session> {
-    return this.account.sessions.filter( s => {
-      return s.instructors.filter( i => i.id === this.account.id).length > 0;
-    } );
-  }
-
-  instructing(): boolean {
-    return this.teachingSessions().length > 0;
-  }
 
   onUnRegister(session) {
     console.log("Unregistered for session:" + session.id);

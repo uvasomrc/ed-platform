@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Session} from '../session';
 import {AccountService} from '../account.service';
+import {Participant} from '../participant';
 
 @Component({
   selector: 'app-session',
@@ -12,23 +13,43 @@ export class SessionComponent implements OnInit {
   @Input()
   session: Session;
 
+  account: Participant;
+
   @Output()
   unRegister: EventEmitter<Session> = new EventEmitter();
 
   @Output()
   register: EventEmitter<Session> = new EventEmitter();
 
-  status = 'active';
+  taking = false;
+  teaching = false;
+  available = false;
+  removed = false;
 
-  constructor(private accountService: AccountService) { }
+  constructor(private accountService: AccountService) {}
 
   ngOnInit() {
+    this.account = this.accountService.getCachedAccount();
+    this.available = this.session.isAvailable();
+    if (this.account) {
+      this.taking = this.account.isUpcoming(this.session);
+      this.teaching = this.account.isTeaching(this.session);
+      if (this.teaching || this.taking) this.available = false;
+    }
+  }
+
+  status() {
+    if (this.removed) return 'removed';
+    if (this.taking) return 'taking';
+    if (this.teaching) return 'teaching';
+    if (this.available) return 'available';
   }
 
   removeSession() {
     this.accountService.unRegister(this.session).subscribe( session => {
       this.session = session;
-      this.status = 'removed';
+      this.removed = true;
+      this.taking  = false;
       this.unRegister.emit(this.session);
     });
   }
@@ -36,7 +57,8 @@ export class SessionComponent implements OnInit {
   addSession() {
     this.accountService.register(this.session).subscribe( session => {
       this.session = session;
-      this.status = 'active';
+      this.taking = true;
+      this.removed = false;
       this.register.emit(this.session);
     });
   }
