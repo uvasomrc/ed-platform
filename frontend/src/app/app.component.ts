@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
 
   goLogout() {
     this.accountService.logout();
+    this.router.navigate(['home']);
   }
 
   goAccount() {

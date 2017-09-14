@@ -47,7 +47,7 @@ export class AccountService implements OnDestroy {
   }
 
   isLoggedIn(): boolean {
-    return (this.getAccount() !== null);
+    return (this.getCachedAccount() != null);
   }
 
   logout() {
