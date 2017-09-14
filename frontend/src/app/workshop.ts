@@ -1,6 +1,6 @@
 import {Links} from './links';
-import {Session} from "./session";
-import {ParticipantSession} from "./participant-session";
+import {Session} from './session';
+import {Review} from "./review";
 
 export class Workshop  {
 
@@ -10,22 +10,21 @@ export class Workshop  {
   links = new Links();
   sessions = new Array<Session>();
 
-  constructor(values: Object = {}) {
+  constructor(values: Object = {}, parent = null) {
     Object.assign(this, values);
     this.links = new Links(values['_links']);
     this.sessions = new Array<Session>();
-    if ('sessions' in values) {
-      for (let s of values['sessions']) {
+    if ('sessions' in values && !(parent instanceof Session)) {
+      for (const s of values['sessions']) {
         this.sessions.push(new Session(s));
       }
     }
   }
 
-  reviews(): ParticipantSession[] {
-    let reviews = new Array<ParticipantSession>();
-    for (let s of this.sessions) {
-      reviews = reviews.concat(s.participant_sessions.filter(ps =>
-        ps.review_score !== null));
+  reviews(): Review[] {
+    let reviews = new Array<Review>();
+    for (const s of this.sessions) {
+      reviews = reviews.concat(s.reviews);
     }
     return reviews;
   }

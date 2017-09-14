@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate} from '@angular/router';
-import {environment} from "../environments/environment";
+import {AccountService} from './account.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private accountService: AccountService) {}
 
   canActivate() {
-    if (localStorage.getItem('currentUser')) {
-      // logged in so return true
+    if (this.accountService.isLoggedIn()) {
+      console.log('You may view stuffs.');
       return true;
     }
 
-    // not logged in so redirect to login page
-    this.router.navigate([environment.api + '/api/login']);
+    // not logged in so redirect to home page
+    this.router.navigate(['home']);
     return false;
   }
 

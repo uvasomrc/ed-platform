@@ -6,6 +6,7 @@ export class Links {
   self = '';
   workshops = '';
   tracks = '';
+  register = '';
 
   constructor(values: Object = {}) {
     for (let key in values) {

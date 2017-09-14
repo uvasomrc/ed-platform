@@ -28,7 +28,10 @@ import { ReviewComponent } from './review/review.component';
 import { ReviewStarsComponent } from './review-stars/review-stars.component';
 import { TimesPipe } from './times.pipe';
 import { AccountDetailsComponent } from './account-details/account-details.component';
-import {AccountService} from "./account.service";
+import {AccountService} from './account.service';
+import { AccountRedirectComponent } from './account-redirect/account-redirect.component';
+import {AuthGuard} from './auth.guard';
+import { ParticipantsSessionsComponent } from './participants-sessions/participants-sessions.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -36,7 +39,9 @@ const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'track/:id', component: TrackDetailsComponent},
   {path: 'workshop/:id', component: WorkshopDetailsComponent},
-  {path: 'account/:token', component: AccountDetailsComponent}
+  {path: 'account/:token', component: AccountRedirectComponent},
+  {path: 'accountDetails', component: AccountDetailsComponent,
+    canActivate: [AuthGuard]}
 //  {path: 'track', component: TrackComponent},
 // {path: 'workshop', component: WorkshopComponent}
 ];
@@ -57,7 +62,9 @@ const routes: Routes = [
     ReviewComponent,
     ReviewStarsComponent,
     TimesPipe,
-    AccountDetailsComponent
+    AccountDetailsComponent,
+    AccountRedirectComponent,
+    ParticipantsSessionsComponent
   ],
   imports: [
     BrowserModule,
@@ -77,7 +84,7 @@ const routes: Routes = [
     MdTabsModule,
     RouterModule.forRoot(routes, {useHash: true})
   ],
-  providers: [TrackService, WorkshopService, ApiService, AccountService],
+  providers: [TrackService, WorkshopService, ApiService, AccountService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,32 +1,28 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {environment} from '../environments/environment';
 import {Participant} from './participant';
 import {AccountService} from './account.service';
-import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnInit {
 
   login_url = environment.api + '/api/login';
-  user: Participant;
-  userSubscription: Subscription;
+  account: Participant;
 
   constructor(private router: Router,
               private accountService: AccountService) {
-    this.userSubscription = this.accountService.getCurrentUser().subscribe(
-      participant => {
-        this.user = participant;
-      });
-    this.accountService.refreshUser();
   }
 
-  ngOnDestroy() {
-    this.userSubscription.unsubscribe();
+  ngOnInit() {
+    this.accountService.getAccount().subscribe(acct => {
+      this.account = acct;
+    });
+    this.accountService.refreshAccount();
   }
 
   goHome() {
@@ -39,6 +35,10 @@ export class AppComponent implements OnDestroy {
 
   goLogout() {
     this.accountService.logout();
+  }
+
+  goAccount() {
+    this.router.navigate(['accountDetails']);
   }
 
 }

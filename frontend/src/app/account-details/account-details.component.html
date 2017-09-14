@@ -1,6 +1,49 @@
-<p>
-  account-details works!
-</p>
+<div *ngIf="isDataLoaded">
 
-<p>You are currently logged in as:</p>
-<h2>{{participant.display_name}}</h2>
+  <div class="header">
+    <img src="{{account.links.image}}"/>
+    <h1 class="md-title">{{account.display_name}}</h1>
+    <div class="md-subtitle">{{account.bio}}</div>
+  </div>
+  <md-tab-group>
+    <md-tab label="Upcoming Sessions">
+      <div
+        class="container"
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutAlign="center"
+        fxLayoutGap="10px"
+        fxLayoutGap.xs="0">
+
+        <app-participants-sessions *ngFor="let session of upcomingSessions()" [session]="session" (unRegister)="onUnRegister($event)"></app-participants-sessions>
+      </div>
+    </md-tab>
+    <md-tab label="past Sessions">
+      <div
+        class="container"
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutAlign="center"
+        fxLayoutGap="10px"
+        fxLayoutGap.xs="0">
+
+        <app-participants-sessions *ngFor="let session of pastSessions()" [session]="session" ></app-participants-sessions>
+      </div>
+    </md-tab>
+    <md-tab label="Instructing" *ngIf="instructing()">
+      <div
+        class="container"
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutAlign="center"
+        fxLayoutGap="10px"
+        fxLayoutGap.xs="0">
+
+        <app-participants-sessions *ngFor="let session of teachingSessions()" [session]="session"></app-participants-sessions>
+      </div>
+    </md-tab>
+    <md-tab label="Edit Account">
+      <p>{{account.bio}}</p>
+    </md-tab>
+  </md-tab-group>
+</div>

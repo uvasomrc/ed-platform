@@ -8,6 +8,7 @@ import 'rxjs/add/observable/throw';
 import {Workshop} from './workshop';
 import {Track} from './track';
 import {Participant} from './participant';
+import {Session} from "./session";
 
 @Injectable()
 export class ApiService {
@@ -19,14 +20,30 @@ export class ApiService {
   token: string;
 
   constructor(private http: Http) {
-    this.token = JSON.parse(localStorage.getItem('token'));
+    if (localStorage.getItem('token') !== null &&
+        localStorage.getItem('token') !== 'undefined') {
+      this.token = JSON.parse(localStorage.getItem('token'));
+    }
     console.log('The Token At Construction is:' + this.token);
   }
 
-  setToken(token) {
+  getOptions(): RequestOptions {
+    let headers = new Headers({'Authorization': 'Bearer ' + this.token});
+    let options = new RequestOptions({headers: headers});
+    return options;
+  }
+
+  login(token): Observable<Participant> {
     this.token = token;
     localStorage.setItem('token', JSON.stringify(token));
     console.log('The Token Is Set To:' + this.token);
+    return this.http.get(this.account_url, this.getOptions())
+      .map(res => { return new Participant(res.json()); });
+  }
+
+  getAccount(): Observable<Participant> {
+    return this.http.get(this.account_url, this.getOptions())
+      .map(res => { return new Participant(res.json()); });
   }
 
   logout() {
@@ -34,10 +51,9 @@ export class ApiService {
     localStorage.removeItem('token');
   }
 
-  getOptions(): RequestOptions {
-    let headers = new Headers({'Authorization': 'Bearer ' + this.token});
-    let options = new RequestOptions({headers: headers});
-    return options;
+  unRegister(session: Session) {
+    return this.http.delete(`${this.apiRoot}${session.links.register}`, this.getOptions())
+      .map(res => { return ''});
   }
 
   getTracks(): Observable<Track[]> {
@@ -55,14 +71,6 @@ export class ApiService {
         return new Track(res.json());
         });
   }
-
-  getAccount(): Observable<Participant> {
-    return this.http.get(this.account_url, this.getOptions())
-      .map(res => {
-        return new Participant(res.json());
-      });
-  }
-
 
   getTrackWorkshops(track: Track): Observable<Workshop[]> {
     console.log('Calling: ' + track.links.workshops);

@@ -11,12 +11,9 @@ export class SessionComponent implements OnInit {
 
   @Input()
   session: Session;
-  instructor: Participant;
 
   constructor() { }
 
   ngOnInit() {
-      this.instructor = this.session.participant_sessions.filter(
-        ps => ps.is_instructor)[0].participant;
   }
 }

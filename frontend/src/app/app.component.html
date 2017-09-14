@@ -1,26 +1,28 @@
-<md-toolbar color="primary">
+<md-toolbar color="primary" >
   <span>Ed-Platform</span>
   <span class="spacer"></span>
-  <span *ngIf="user" class="logged-in">
-    <img src="{{user.links.image}}"> {{user.display_name}}
+  <span *ngIf="account" class="logged-in">
+    <img class="user-icon" src="{{account.links.image}}"> {{account.display_name}}
   </span>
   <button md-button [mdMenuTriggerFor]="appMenu">
     <md-icon>menu</md-icon> Menu
   </button>
 </md-toolbar>
-
-
 <md-menu #appMenu="mdMenu">
   <button md-menu-item (click)="goHome()">
     <md-icon> home </md-icon>
     <span> Home </span>
   </button>
-  <button *ngIf="!user" md-menu-item (click)="goLogin()">
+  <button *ngIf="!(account)" md-menu-item (click)="goLogin()">
     <md-icon> person </md-icon>
     <span> Log in </span>
   </button>
-  <button *ngIf="user" md-menu-item (click)="goLogout()">
+  <button *ngIf="account" md-menu-item (click)="goAccount()">
     <md-icon> person </md-icon>
+    <span> My Account </span>
+  </button>
+  <button *ngIf="account" md-menu-item (click)="goLogout()">
+    <md-icon> exit_to_app </md-icon>
     <span> Log out </span>
   </button>
   <button md-menu-item disabled>

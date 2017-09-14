@@ -8,10 +8,12 @@
   </md-card-header>
   <md-card-content>
     <h2>Instructor:</h2>
-
-    <h3><img md-card-avatar src="{{instructor.links.image}}">
-      {{instructor.display_name}}
-    </h3>
+    <div *ngFor="let instructor of session.instructors">
+      <h3>
+        <img md-card-avatar src="{{instructor.links.image}}">
+        {{instructor.display_name}}
+      </h3>
+    </div>
     <p>Notes: {{session.instructor_notes}}</p>
     <!--
 Instructor: {{instructor.display_name}}

@@ -1,48 +1,54 @@
-import { Injectable } from '@angular/core';
-import {Participant} from './participant';
+import {Injectable, OnDestroy} from '@angular/core';
 import {ApiService} from './api.service';
+import {Participant} from './participant';
+import {Subscription} from 'rxjs/Subscription';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
-import {HttpErrorResponse} from '@angular/common/http';
 
 @Injectable()
-export class AccountService {
+export class AccountService implements OnDestroy {
+  USER_KEY = 'currentUser';
+  login_subscription: Subscription;
+  participant = new Subject<Participant>();
 
-  private userSubject  = new Subject<Participant>();
-  private errorSubject = new Subject<string>();
+  constructor(private api: ApiService) {}
 
-  constructor(private api: ApiService) {
+  refreshAccount() {
+    console.log('Refresh the account details from the server.');
+    this.api.getAccount().subscribe(participant => {
+      localStorage.setItem(this.USER_KEY, JSON.stringify(participant));
+      this.participant.next(participant);
+    });
   }
 
-  refreshUser() {
-    if (!this.api.token) return;
-    this.api.getAccount().subscribe(
-      // Successful responses call the first callback.
-      data => {
-        this.userSubject.next(data);
-        console.log('Got this back:' + JSON.stringify(data));
-      },
-      (err: HttpErrorResponse) => {
-        console.log('Something went wrong!' + err);
-        if (err.error instanceof Error) {
-          this.errorSubject.next(err.message);
-        } else {
-          this.errorSubject.next(err.error);
-        }
-      });
+  getAccount(): Observable<Participant> {
+    return (this.participant.asObservable());
   }
 
-  login(token: string) {
-    this.api.setToken(token);
-    this.refreshUser();
+  login(token: string): void {
+    this.login_subscription = this.api.login(token).subscribe(participant => {
+      localStorage.setItem(this.USER_KEY, JSON.stringify(participant));
+      this.refreshAccount();
+    });
+  }
+
+  ngOnDestroy() {
+    this.login_subscription.unsubscribe();
+  }
+
+  isLoggedIn(): boolean {
+    return (this.getAccount() !== null);
   }
 
   logout() {
     this.api.logout();
-    this.userSubject.next();
+    localStorage.setItem(this.USER_KEY, 'undefined');
+    this.refreshAccount();
   }
 
-  getCurrentUser(): Observable<Participant> {
-    return this.userSubject.asObservable();
+  unRegister(session) {
+    this.api.unRegister(session).subscribe();
+    this.refreshAccount();
   }
+
 }

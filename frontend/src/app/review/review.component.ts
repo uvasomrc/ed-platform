@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ParticipantSession} from "../participant-session";
+import {Review} from "../review";
 
 @Component({
   selector: 'app-review',
@@ -9,7 +9,7 @@ import {ParticipantSession} from "../participant-session";
 export class ReviewComponent implements OnInit {
 
   @Input()
-  review: ParticipantSession;
+  review: Review;
 
   constructor() { }
 
