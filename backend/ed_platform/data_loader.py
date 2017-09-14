@@ -34,7 +34,12 @@ class DataLoader():
                                 else:
                                     new_list.append(x)
                             i["data"][k] = new_list
-                    result = schema.load(i["data"])
+                    try:
+                        result = schema.load(i["data"])
+                    except Exception as e:
+                        print ("Eerror:" + str(e))
+                        print("Failed to import data:" + str(i["data"]))
+                        exit(1)
                     if len(result.errors) > 0:
                         print("Failed to load " + key + ".  With errors:" + str(result.errors))
                         exit(1)

@@ -31,7 +31,7 @@
       "data": {
         "image_file": "images/python_intro_workshop.png",
         "title": "Introduction to Python",
-        "description": "Basic data structures and creating your first Python script.  Perfect for beginning programmers."
+        "description": "This workshop covers the fundamentals of python beginning with setting it up on your system. No prior experience is required. Just bring your laptop. We will start with installation and then move to interpreted coding focusing on the built-in data types. This will be a hands on experience with exercises throughout and plenty of time to get your hands dirty."
       }
     },
     {
@@ -49,7 +49,120 @@
         "title": "Introduction to Machine Learning",
         "description": "In this introduction to R, you will master the basics of this beautiful open source language, including factors, lists and data frames. With the knowledge gained in this course, you will be ready to undertake your first very own data analysis. With over 2 million users worldwide R is rapidly becoming the leading programming language in statistics and data science. Every year, the number of R users grows by 40% and an increasing number of organizations are using it in their day-to-day activities. Leverage the power of R by completing this free R online course today!"
       }
+    },
+    {
+      "name": "unix_into_workshop",
+      "data": {
+        "image_file": "images/unix.png",
+        "title": "Introduction to Unix",
+        "description": "This workshop will introduce new users to the command line interface and Unix shell commands. This would be useful both for users interested in using Unix on a local machine (including Linux and Mac OS X), as well as users who want to make use of remote resources such as the Rivanna cluster. Users will learn how to create and navigate directories, and to create, copy, move, and search files. We will also cover setting and changing file permissions, and creating symbolic links. Redirection of output and job control, with a brief discussion of shell scripts. Users will need to bring their own laptop in order to fully participate in the workshop."
+      }
+    },
+    {
+      "name": "github_intro_workshop",
+      "data": {
+        "image_file": "images/github.png",
+        "title": "Introduction to GitHub",
+        "description": "Git is a program in the class of version control software. Proper use will help you to manage your development. Until recently the software has been a burden to operate but the development of Github.com has changed that. In this workshop we will explore the use of git through the github framework. We will work with the web interface and the desktop client. Please bring your laptops. The use of github requires a user account so please set one up prior to arrival at github.com."
+      }
+    },
+    {
+      "name": "data_in_excel",
+      "data": {
+        "image_file": "images/excel.png",
+        "title": "Data in Excel",
+        "description": "This workshop is for those new to Excel as a data tool. We will go over everything from the interface, to formulas, charts, and pivot tables."
+      }
+    },
+    {
+      "name": "intro_cloud_aws",
+      "data": {
+        "image_file": "images/aws.png",
+        "title": "Introduction to Cloud Computing with AWS",
+        "description": "This workshop covers the basic paradigms of cloud infrastructure and introduces techniques for working in it. Why use the cloud for computation and storage? What are its advantages? We will discuss core concepts such as scaling and infrastructure-as-code, while also getting hands-on experience with creating computing, storage, and data resources in Amazon Web Services. Workshop participants will work directly in the AWS console and command-line tools. Upon completing this workshop, students will be familiar with basic cloud design, as well as with how to deploy simple, resizable environments on their own."
+      }
+    },
+    {
+      "name": "latex",
+      "data": {
+        "image_file": "images/latex.png",
+        "title": "LaTeX & ShareLaTeX",
+        "description": "LaTeX is a powerful (and free) document typesetting program, widely used in a number of academic disciplines for compiling professional research papers, articles, dissertations, presentations, letters, and books. It is especially useful for the creation and integration of mathematical formulae, tables and bibliographies into documents. Running an installation of LaTeX on your own computer can make it difficult to work on a document collaboratively. The UVa Library has recently provided access for all UVa users to an on-line collaborative LaTeX editor, ShareLaTeX. Come learn how to take full advantage of this powerful tool. Participants will need to bring their own laptop for this workshop."
+      }
+    },
+    {
+      "name": "intro_dedoose",
+      "data": {
+        "image_file": "images/dedoose.png",
+        "title": "Introduction to Dedoose",
+        "description": "New to Qualitative Research? Imagine being able to blend your video, audio, and text data with your spreadsheet information in an on-line tool to get the most out of all of your information! Dedoose is an easy to learn, feature rich, and affordable web app that can help you visualize a variety of information from your work that you can share with the research community. Come and see Dedoose in action to see if you want to add qualitative analysis to your research toolbox."
+      }
+    },
+    {
+      "name": "inter_vis_py",
+      "data": {
+        "image_file": "images/visualization.png",
+        "title": "Interactive Visualization with Python/Bokeh",
+        "description": "We will explore how to take your data from bits in memory to beautiful images on the screen. We’ll use the package Bokeh, which allows you to create interactive visualizations that you can easily publish on the Internet. This will be a hands on experience with exercises throughout."
+      }
+    },
+    {
+      "name": "vis_ggplot2",
+      "data": {
+        "image_file": "images/ggplot2.png",
+        "title": "Visualization in R/ggplot2",
+        "description": "The ggplot2 package has revolutionized data visualization with R. With its consistent syntax and layered approach to making graphics, ggplot2 allows you to rapidly visualize your data in ways that previously would have required hours of tedious programming. In this workshop we introduce the logic behind ggplot2, how to use ggplot2 to explore your data, and how to customize and polish ggplot2 graphs. No prior experience with ggplot2 is assumed, though some previous experience with R would be helpful."
+      }
+    },
+    {
+      "name": "jekyll",
+      "data": {
+        "image_file": "images/jekyll.png",
+        "title": "Websites with GitHub and Jekyll",
+        "description": "Would you like to build a website but are unsure where to host it? GitHub, known best as a version control system, is also a hosting service. Join us to learn about GitHub’s hosting capabilities, as well as how to create your own static website using Jekyll and a set of web platform APIs called Web Components. You’ll leave this interactive session knowing how to use these tools to launch your own site! You’ll need a github.com account to participate. An understanding of basic HTML and markdown is helpful."
+      }
+    },
+    {
+      "name": "scikit",
+      "data": {
+        "image_file": "images/scikit.png",
+        "title": "Machine learning with Python-scikit",
+        "description": "Have an interest in this machine learning craze? Then you’ve come to the right place. This workshops highlights fundamentals of machine learning using the python package scikit-learn. We will work through the steps of a machine learning example and explain the core concepts as we go. Bring you laptop so you can follow along."
+      }
+    },
+    {
+      "name": "orchid",
+      "data": {
+        "image_file": "images/orchid.png",
+        "title": "Introduction to ORCID",
+        "description": "Distinguish yourself with an ORCID ID – ORCID IDs (or ORCIDs) are permanent unique identifiers for researchers, which allows you to unambiguously associate all of your research and scholarship with your name, regardless of discipline, location or time. In this workshop, we will sign up for our own (free) ORCID, look at the available ways to claim academic output, so that it is associated with our ORCID. We will also discuss how ORCIDs are increasingly being required by publishers when submitting papers, and how funders are also starting to use them. Please bring along a laptop (or a tablet) to fully participate in this hands-on workshop."
+      }
+    },
+    {
+      "name": "funders",
+      "data": {
+        "image_file": "images/funders.png",
+        "title": "Funding Discovery Tools",
+        "description": "Funding discovery databases help researchers identify opportunities from public and private funders. UVa now has access to two discovery tools licensed by the Vice Provost of Research, Pivot and GrantForward. These tools allow faculty, students and staff to search for funding and set up email search alerts based on a researcher’s area of interest. After the workshop, the attendees will learn how to create an account, search the databases, share funding opportunities with others, as well as save search strategies for email alerts regarding new opportunities. All students, faculty and staff at the University have access and the ability to create personal accounts. Please bring a laptop for use for this hands-on workshop."
+      }
+    },
+    {
+      "name": "visual_javascript",
+      "data": {
+        "image_file": "images/visual_js.png",
+        "title": "Interactive Visualization with JavaScript and R",
+        "description": "There are a number of JavaScript libraries available that leverage web functionality to produce compelling, dynamic data visualizations. This workshop will introduce several of these tools, including D3, HighCharts and Leaflet, and will demonstrate how to implement them in the context of the R programming language. No JavaScript experience is required. Some familiarity with R will be helpful."
+      }
+    },
+    {
+      "name": "visual_tableau",
+      "data": {
+        "image_file": "images/tableau.jpg",
+        "title": "Visualization with Tableau",
+        "description": "This is an introduction to the Tableau platform starting from beginner, to building an interactive visualization on the web"
+      }
     }
+
   ],
   "Session": [
     {
@@ -59,7 +172,8 @@
         "date_time":"2017-09-11T18:30:00.000Z",
         "duration_minutes":"60",
         "max_attendees":20,
-        "instructor_notes": "Class details are available at http://sartography.com."
+        "instructor_notes": "Class details are available at http://sartography.com.",
+        "location":"Brown 133"
       }
     },
     {
@@ -69,7 +183,8 @@
         "date_time":"2017-11-11T18:30:00.000Z",
         "duration_minutes":"60",
         "max_attendees":2,
-        "instructor_notes": "Class details are available at http://sartography.com."
+        "instructor_notes": "Class details are available at http://sartography.com.",
+        "location":"Brown 133"
       }
     },
     {
@@ -79,7 +194,8 @@
         "date_time":"2017-10-12T10:30:00.000Z",
         "duration_minutes":"90",
         "max_attendees":10,
-        "instructor_notes": "Materials will be provided during class.  Please bring a Flash drive with at least 6gb of free space."
+        "instructor_notes": "Materials will be provided during class.  Please bring a Flash drive with at least 6gb of free space.",
+        "location":"Brown 133"
       }
     },
     {
@@ -89,7 +205,184 @@
         "date_time":"2017-07-12T10:30:00.000Z",
         "duration_minutes":"120",
         "max_attendees":20,
-        "instructor_notes": "Please see uploaded resources."
+        "instructor_notes": "Please see uploaded resources.",
+        "location":"Brown 133"
+      }
+    },
+    {
+      "name": "unix_into_workshop_1",
+      "data": {
+        "workshop": "unix_into_workshop",
+        "date_time":"2017-08-30T14:00:00.000Z",
+        "duration_minutes":"120",
+        "max_attendees":20,
+        "instructor_notes": "",
+        "location":"Brown 133"
+      }
+    },
+    {
+      "name": "unix_into_workshop_2",
+      "data": {
+        "workshop": "unix_into_workshop",
+        "date_time":"2017-09-06T14:00:00.000Z",
+        "duration_minutes":"120",
+        "max_attendees":20,
+        "instructor_notes": "",
+        "location":"Brown 133"
+      }
+    },
+    {
+      "name": "unix_into_workshop_3",
+      "data": {
+        "workshop": "unix_into_workshop",
+        "date_time":"2017-09-20T14:00:00.000Z",
+        "duration_minutes":"120",
+        "max_attendees":20,
+        "instructor_notes": "",
+        "location":"Brown 133"
+      }
+    },
+    {
+      "name": "github_intro_workshop_1",
+      "data": {
+        "workshop": "github_intro_workshop",
+        "date_time":"2017-09-07T14:00:00.000Z",
+        "duration_minutes":"90",
+        "max_attendees":20,
+        "instructor_notes": "",
+        "location":"Brown 133"
+      }
+    },
+    {
+      "name": "data_in_excel_1",
+      "data": {
+        "workshop": "data_in_excel",
+        "date_time":"2017-09-12T14:00:00.000Z",
+        "duration_minutes":"90",
+        "max_attendees":20,
+        "instructor_notes": "",
+        "location":"Brown 133"
+      }
+    },
+    {
+      "name": "intro_cloud_aws_1",
+      "data": {
+        "workshop": "intro_cloud_aws",
+        "date_time":"2017-09-14T10:00:00.000Z",
+        "duration_minutes":"120",
+        "max_attendees":20,
+        "instructor_notes": "",
+        "location":"Brown 133"
+      }
+    },
+    {
+      "name": "latex_1",
+      "data": {
+        "workshop": "latex",
+        "date_time":"2017-07-12T10:00:00.000Z",
+        "duration_minutes":"90",
+        "max_attendees":20,
+        "instructor_notes": "",
+        "location":"Brown 133"
+      }
+    },
+    {
+      "name": "intro_dedoose_1",
+      "data": {
+        "workshop": "intro_dedoose",
+        "date_time":"2017-09-26T14:00:00.000Z",
+        "duration_minutes":"90",
+        "max_attendees":20,
+        "instructor_notes": "",
+        "location":"Brown 133"
+      }
+    },
+    {
+      "name": "interactive_visualization_1",
+      "data": {
+        "workshop": "inter_vis_py",
+        "date_time":"2017-09-27T14:00:00.000Z",
+        "duration_minutes":"90",
+        "max_attendees":20,
+        "instructor_notes": "",
+        "location":"Brown 133"
+      }
+    },
+    {
+      "name": "vis_ggplot2_1",
+      "data": {
+        "workshop": "vis_ggplot2",
+        "date_time":"2017-09-28T10:00:00.000Z",
+        "duration_minutes":"90",
+        "max_attendees":20,
+        "instructor_notes": "",
+        "location":"Brown 133"
+      }
+    },
+    {
+      "name": "jekyll_1",
+      "data": {
+        "workshop": "jekyll",
+        "date_time":"2017-10-05T10:00:00.000Z",
+        "duration_minutes":"90",
+        "max_attendees":20,
+        "instructor_notes": "",
+        "location":"Brown 133"
+      }
+    },
+    {
+      "name": "scikit_1",
+      "data": {
+        "workshop": "scikit",
+        "date_time":"2017-10-11T14:00:00.000Z",
+        "duration_minutes":"90",
+        "max_attendees":20,
+        "instructor_notes": "",
+        "location":"Brown 133"
+      }
+    },
+    {
+      "name": "orchid_1",
+      "data": {
+        "workshop": "orchid",
+        "date_time":"2017-07-12T10:00:00.000Z",
+        "duration_minutes":"90",
+        "max_attendees":20,
+        "instructor_notes": "",
+        "location":"Brown 133"
+      }
+    },
+    {
+      "name": "funders_1",
+      "data": {
+        "workshop": "funders",
+        "date_time":"2017-10-12T10:30:00.000Z",
+        "duration_minutes":"90",
+        "max_attendees":20,
+        "instructor_notes": "",
+        "location":"Brown 133"
+      }
+    },
+    {
+      "name": "visual_javascript_1",
+      "data": {
+        "workshop": "visual_javascript",
+        "date_time":"2017-10-17T10:00:00.000Z",
+        "duration_minutes":"90",
+        "max_attendees":20,
+        "instructor_notes": "",
+        "location":"Brown 133"
+      }
+    },
+    {
+      "name": "visual_tableau_1",
+      "data": {
+        "workshop": "visual_tableau",
+        "date_time":"2017-10-19T14:00:00.000Z",
+        "duration_minutes":"90",
+        "max_attendees":20,
+        "instructor_notes": "",
+        "location":"Brown 133"
       }
     }
   ],
@@ -103,11 +396,59 @@
       }
     },
     {
+      "name": "tw_py2",
+      "data": {
+        "track": "python_track",
+        "workshop": "github_intro_workshop",
+        "order": 1
+      }
+    },
+    {
+      "name": "tw_py3",
+      "data": {
+        "track": "python_track",
+        "workshop": "inter_vis_py",
+        "order": 2
+      }
+    },
+    {
       "name": "tw_ds1",
       "data": {
         "track": "ds_track",
-        "workshop": "python_intro_workshop",
+        "workshop": "github_intro_workshop",
         "order": 0
+      }
+    },
+    {
+      "name": "tw_ds2",
+      "data": {
+        "track": "ds_track",
+        "workshop": "unix_into_workshop",
+        "order": 1
+      }
+    },
+    {
+      "name": "tw_ds3",
+      "data": {
+        "track": "ds_track",
+        "workshop": "vis_ggplot2",
+        "order": 2
+      }
+    },
+    {
+      "name": "tw_ds4",
+      "data": {
+        "track": "ds_track",
+        "workshop": "visual_javascript",
+        "order": 3
+      }
+    },
+    {
+      "name": "tw_ds5",
+      "data": {
+        "track": "ds_track",
+        "workshop": "visual_tableau",
+        "order": 4
       }
     },
     {
@@ -125,7 +466,33 @@
         "workshop": "ml_intro_workshop",
         "order": 1
       }
+    },
+    {
+      "name": "tw_ml3",
+      "data": {
+        "track": "ml_track",
+        "workshop": "intro_cloud_aws",
+        "order": 2
+      }
+    },
+    {
+      "name": "tw_ml4",
+      "data": {
+        "track": "ml_track",
+        "workshop": "intro_dedoose",
+        "order": 3
+      }
     }
+    ,
+    {
+      "name": "tw_ml5",
+      "data": {
+        "track": "ml_track",
+        "workshop": "scikit",
+        "order": 4
+      }
+    }
+
   ],
   "Participant": [
     {
@@ -177,6 +544,71 @@
         "image_file": "images/profile_pete.png",
         "created": "2017-08-25T10:30:00.000Z",
         "bio": "Pete teaches, consults and contributes to scientific programming and data analysis projects. With expertise in R and Python, he’s been active in package development and a variety of open-source collaborations."
+      }
+    },
+    {
+      "name": "alonzi",
+      "data": {
+        "uid": "alonzi",
+        "display_name": "Pete Alonzi",
+        "title": "Senior Research Data Scientist",
+        "email_address": "alonzi@virginia.edu",
+        "phone_number": "",
+        "image_file": "images/alonzi.jpg",
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "A physicist by training, Pete Alonzi is one of the Library’s data science experts. He provides computational and data science consultation support and training, including support around advanced computing architecture at UVA. As part of the Research Data Services group, Pete works with colleagues to advance the expert use of computational methods and data analytics in support of research across the University. Pete also serves as the liaison to the Physics and Computer Science departments."
+      }
+    },
+    {
+      "name": "ricky",
+      "data": {
+        "uid": "ricky",
+        "display_name": "Ricky Patterson",
+        "title": "STEM Librarian, and Lecturer",
+        "email_address": "ricky@virginia.edu",
+        "phone_number": "",
+        "image_file": "images/ricky.jpg",
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "STEM Librarian, and Lecturer"
+      }
+    },
+    {
+      "name": "nek8n",
+      "data": {
+        "uid": "nek8n",
+        "display_name": "Nancy Kechner",
+        "title": "Research Software Specialist",
+        "email_address": "kechner@virginia.edu",
+        "phone_number": "",
+        "image_file": "images/nekyn.jpg",
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "Nancy moves to StatLab from the ITS Research Computing Support Group. Nancy earned her PhD in Physiology from Temple Medical School in 1997, and has worked in medical research for nearly 20 years. She also has 2 degrees from the Curry School of Education; her BS Ed in Kinesiology, and an M Ed in Instructional Technology."
+      }
+    },
+    {
+      "name": "jcf2d",
+      "data": {
+        "uid": "jcf2d",
+        "display_name": "Clay Ford",
+        "title": "Senior Research Data Scientist-Statistics",
+        "email_address": "jcf2d@virginia.edu",
+        "phone_number": "",
+        "image_file": "images/clay.jpg",
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "Clay joined the UVa Library as a Statistical Research Consultant in 2013. He helps students, faculty, and staff with data analysis questions. Some of the services he provides include assistance with data wrangling and data manipulation, experimental design, selection and implementation of statistical methods, and data visualization. Since coming to UVa Clay has led over a dozen workshops on statistical software and methods, developed and taught a Data Wrangling with R short course, and co-founded the UVa R Users group. He also started and regularly contributes to StatLab Articles, a collection of blog posts on data analysis and statistical practice."
+      }
+    },
+    {
+      "name": "dhc4z",
+      "data": {
+        "uid": "dhc4z",
+        "display_name": "Doug Chestnut",
+        "title": "Lead Engineer for Web & Mobile Development",
+        "email_address": "dhc4z@Virginia.EDU",
+        "phone_number": "",
+        "image_file": "images/doug.jpg",
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": ""
       }
     }
   ],
@@ -268,7 +700,7 @@
     {
       "name":"nem2p_python_intro_workshop_1",
       "data": {
-        "participant": "nem2p",
+        "participant": "alonzi",
         "session": "python_intro_workshop_1",
         "created": "2017-07-22T20:02:00.000Z",
         "attended": false,
@@ -278,7 +710,7 @@
     {
       "name":"nem2p_python_intro_workshop_2",
       "data": {
-        "participant": "nem2p",
+        "participant": "alonzi",
         "session": "python_intro_workshop_2",
         "created": "2017-08-10T12:02:00.000Z",
         "attended": false,
@@ -342,6 +774,166 @@
       "data": {
         "participant": "vpnagraj",
         "session": "ml_intro_workshop_1",
+        "created": "2017-07-11T07:11:00.000Z",
+        "attended": true,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"unix_into_workshop_1_i",
+      "data": {
+        "participant": "ricky",
+        "session": "unix_into_workshop_1",
+        "created": "2017-07-11T07:11:00.000Z",
+        "attended": true,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"unix_into_workshop_2_i",
+      "data": {
+        "participant": "ricky",
+        "session": "unix_into_workshop_2",
+        "created": "2017-07-11T07:11:00.000Z",
+        "attended": true,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"unix_into_workshop_3_i",
+      "data": {
+        "participant": "ricky",
+        "session": "unix_into_workshop_3",
+        "created": "2017-07-11T07:11:00.000Z",
+        "attended": true,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"github_intro_workshop_1_i",
+      "data": {
+        "participant": "alonzi",
+        "session": "github_intro_workshop_1",
+        "created": "2017-07-11T07:11:00.000Z",
+        "attended": true,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"data_in_excel_1_i",
+      "data": {
+        "participant": "nek8n",
+        "session": "data_in_excel_1",
+        "created": "2017-07-11T07:11:00.000Z",
+        "attended": true,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"intro_cloud_aws_i",
+      "data": {
+        "participant": "nem2p",
+        "session": "intro_cloud_aws",
+        "created": "2017-07-11T07:11:00.000Z",
+        "attended": true,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"latex_1_i",
+      "data": {
+        "participant": "ricky",
+        "session": "latex_1",
+        "created": "2017-07-11T07:11:00.000Z",
+        "attended": true,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"intro_dedoose_1_i",
+      "data": {
+        "participant": "nek8n",
+        "session": "intro_dedoose_1",
+        "created": "2017-07-11T07:11:00.000Z",
+        "attended": true,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"interactive_visualization_1_i",
+      "data": {
+        "participant": "vpnagraj",
+        "session": "interactive_visualization_1",
+        "created": "2017-07-11T07:11:00.000Z",
+        "attended": true,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"vis_ggplot2_1_i",
+      "data": {
+        "participant": "jcf2d",
+        "session": "vis_ggplot2_1",
+        "created": "2017-07-11T07:11:00.000Z",
+        "attended": true,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"jekyll_1_i",
+      "data": {
+        "participant": "dhc4z",
+        "session": "jekyll_1",
+        "created": "2017-07-11T07:11:00.000Z",
+        "attended": true,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"scikit_1_i",
+      "data": {
+        "participant": "vpnagraj",
+        "session": "scikit_1",
+        "created": "2017-07-11T07:11:00.000Z",
+        "attended": true,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"orchid_1_i",
+      "data": {
+        "participant": "ricky",
+        "session": "orchid_1",
+        "created": "2017-07-11T07:11:00.000Z",
+        "attended": true,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"funders_1_i",
+      "data": {
+        "participant": "ricky",
+        "session": "funders_1",
+        "created": "2017-07-11T07:11:00.000Z",
+        "attended": true,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"visual_javascript_1_i",
+      "data": {
+        "participant": "vpnagraj",
+        "session": "visual_javascript_1",
+        "created": "2017-07-11T07:11:00.000Z",
+        "attended": true,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"visual_tableau_1_i",
+      "data": {
+        "participant": "nek8n",
+        "session": "visual_tableau_1",
         "created": "2017-07-11T07:11:00.000Z",
         "attended": true,
         "is_instructor": true

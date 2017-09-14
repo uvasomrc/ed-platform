@@ -126,6 +126,7 @@ class Session(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date_time = db.Column(db.DateTime)
     duration_minutes = db.Column(db.Integer)
+    location = db.Column(db.TEXT())
     instructor_notes = db.Column(db.TEXT())
     max_attendees = db.Column(db.Integer)
     workshop_id = db.Column('workshop_id', db.Integer, db.ForeignKey('workshop.id'))
