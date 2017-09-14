@@ -8,14 +8,17 @@
     </md-card-title>
   </md-card-header>
   <md-card-content>
-    <h2>Instructor(s):</h2>
-    <div *ngFor="let instructor of session.instructors">
-      <h3>
-        <img md-card-avatar src="{{instructor.links.image}}">
-        {{instructor.display_name}}
-      </h3>
+    <div *ngIf="teaching">You are Teaching this class.</div>
+    <div *ngIf="!teaching">
+      <h2>Instructor(s):</h2>
+      <div *ngFor="let instructor of session.instructors">
+        <h3>
+          <img md-card-avatar src="{{instructor.links.image}}">
+          {{instructor.display_name}}
+        </h3>
+      </div>
+      <p>Notes: {{session.instructor_notes}}</p>
     </div>
-    <p>Notes: {{session.instructor_notes}}</p>
   </md-card-content>
 
   <md-card-actions *ngIf="teaching">

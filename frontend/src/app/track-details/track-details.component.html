@@ -4,13 +4,11 @@
     <img src="{{track.links.image}}"/>
     <h1>Track:</h1>
     <h2 class="md-title">{{track.title}}</h2>
+    <p>{{track.description}}</p>
   </div>
 
   <md-tab-group>
-    <md-tab label="Description">
-      <p>{{track.description}}</p>
-    </md-tab>
-    <md-tab label="Workshops">
+1    <md-tab label="Workshops">
       <app-workshop-list [workshops]="workshops"></app-workshop-list>
     </md-tab>
   </md-tab-group>
