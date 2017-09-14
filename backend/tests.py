@@ -360,6 +360,11 @@ class TestCase(unittest.TestCase):
         data = json.loads(self.get_current_participant().data.decode())
         self.assertTrue('participant_sessions' in data)
 
+    def test_session_knows_instructors(self):
+        session = models.Session.query.first()
+        self.assertIsNotNone(session.instructors())
+        self.assertTrue(len(session.instructors()) > 0)
+
 
 
 

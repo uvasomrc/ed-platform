@@ -131,6 +131,25 @@ class Session(db.Model):
     workshop_id = db.Column('workshop_id', db.Integer, db.ForeignKey('workshop.id'))
     participant_sessions = db.relationship('ParticipantSession', backref='session')
 
+    def instructors(self):
+        instructors = []
+        for ps in self.participant_sessions:
+            if ps.is_instructor:
+                instructors.append(ps.participant)
+        return instructors
+
+    def participants(self):
+        participants = []
+        for ps in self.participant_sessions:
+            if not ps.is_instructor:
+                participants.append(ps.participant)
+        return participants
+
+    def total_participants(self):
+        return(len(self.participants()))
+
+
+
 class ParticipantSession(db.Model):
     __tablename__ = 'participant_session'
     participant_id = db.Column('participant_id', db.Integer, db.ForeignKey('participant.id'), primary_key=True)
@@ -210,12 +229,6 @@ class ParticipantAPIMinimalSchema(ma.Schema):
         'image': ma.URLFor('get_participant_image', id='<id>'),
     })
 
-class ParticipantSessionAPISchema(ma.Schema):
-    class Meta:
-        fields = ('participant', 'created', 'review_score', 'review_comment', 'attended', 'is_instructor')
-        ordered = True
-    participant = ma.Nested(ParticipantAPIMinimalSchema)
-
 class WorkshopAPIMinimalSchema(ma.Schema):
     class Meta:
         fields = ('id', 'title', 'description', '_links')
@@ -228,19 +241,35 @@ class WorkshopAPIMinimalSchema(ma.Schema):
         'sessions': ma.URLFor('get_workshop_sessions', id='<id>'),
     })
 
+class SessionAPIMinimalSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'date_time','duration_minutes','instructor_notes','max_attendees', 'workshop')
+        ordered = True
+    workshop = ma.Nested(WorkshopAPIMinimalSchema)
+#    instructors = ma.Nested(ParticipantAPIMinimalSchema)
+
+
 class ParticipantSessionAPISchema(ma.Schema):
     class Meta:
-        fields = ('participant', 'created', 'review_score', 'review_comment', 'attended', 'is_instructor')
+        fields = ('participant', 'session', 'created', 'review_score', 'review_comment', 'attended', 'is_instructor')
         ordered = True
     participant = ma.Nested(ParticipantAPIMinimalSchema)
-    workshop = ma.Nested(WorkshopAPIMinimalSchema)
+    session = ma.Nested(SessionAPIMinimalSchema)
+    _links = ma.Hyperlinks({
+        'self': ma.URLFor('get_participant', id='<id>'),
+        'collection': ma.URLFor('get_participants'),
+        'sessions': ma.URLFor('get_participant_sessions', id='<id>')
+    })
 
 class SessionAPISchema(ma.Schema):
     class Meta:
         fields = ('id', 'date_time', 'duration_minutes', 'instructor_notes',
-                  'workshop_id', '_links', 'max_attendees', 'participant_sessions')
+                  'workshop', '_links', 'max_attendees', 'participant_sessions', 'instructors')
         ordered = True
     participant_sessions = ma.List(ma.Nested(ParticipantSessionAPISchema))
+    workshop = ma.Nested(WorkshopAPIMinimalSchema)
+    instructors = ma.List(ma.Nested(ParticipantAPIMinimalSchema))
+
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_session', id='<id>'),
         'collection': ma.URLFor('get_sessions'),
@@ -263,15 +292,37 @@ class WorkshopAPISchema(ma.Schema):
 
 
 
-
 class ParticipantAPISchema(ma.Schema):
+
+
+    class SubAttendSchema(ma.Schema):
+        class SubSessionSchema(ma.Schema):
+            class Meta:
+                fields = ('id', 'date_time', 'duration_minutes', 'instructor_notes', 'max_attendees', 'workshop',
+                          'total_participants', 'instructors')
+                ordered = True
+            workshop = ma.Nested(WorkshopAPIMinimalSchema)
+            instructors = ma.List(ma.Nested(ParticipantAPIMinimalSchema))
+
+        class Meta:
+            fields = ('session', 'created', 'review_score', 'review_comment',
+                      'attended', 'is_instructor', '_links')
+            ordered = True
+        session = ma.Nested(SubSessionSchema)
+        _links = ma.Hyperlinks({
+            'register': ma.URLFor('register', participant_id='<participant_id>', session_id='<session_id>')
+        })
+
     class Meta:
         fields = ('id', 'uid', 'display_name', 'email_address', 'phone_number',
                   'bio', 'created', '_links', 'participant_sessions')
         ordered = True
-    participant_sessions = ma.List(ma.Nested(ParticipantSessionAPISchema))
+    participant_sessions = ma.List(ma.Nested(SubAttendSchema))
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_participant', id='<id>'),
         'collection': ma.URLFor('get_participants'),
+        'image': ma.URLFor('get_participant_image', id='<id>'),
         'sessions': ma.URLFor('get_participant_sessions', id='<id>')
     })
+
+
