@@ -6,7 +6,7 @@ SECRET_KEY = 'ed_platform_key_of_deep_secret_knackwursts!'
 SQLALCHEMY_DATABASE_URI = "postgresql://ed_user:ed_pass@localhost/ed_platform"
 
 #: Default attribute map for single signon.
-SSO_DEVELOPMENT_UID = 'dhf8r'
+SSO_DEVELOPMENT_UID = 'bk7k'
 SSO_ATTRIBUTE_MAP = {
     'eppn': (False, 'eppn'),  # dhf8r@virginia.edu
     'uid': (True, 'uid'),  # dhf8r
