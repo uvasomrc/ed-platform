@@ -12,3 +12,7 @@
   height: 35px;
   vertical-align:middle;
 }
+
+.content {
+  max-width: 100%;
+}

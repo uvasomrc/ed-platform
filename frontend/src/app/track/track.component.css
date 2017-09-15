@@ -1,9 +1,11 @@
 .track-card {
   max-width: 200px;
+  height:65px;
   margin: 20px;
 }
 
-.track-card .md-card-header {
+.track-card md-card-header {
+  cursor: pointer;
   height: 20px;
 }
 

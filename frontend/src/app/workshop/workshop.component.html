@@ -1,11 +1,17 @@
-<md-card class="workshop-card">
-  <md-card-header>
-    <md-card-title>{{workshop.title}}</md-card-title>
-  </md-card-header>
-  <img md-card-image src="{{workshop.links.image}}">
-  <md-card-content>{{workshop.description}}</md-card-content>
+<md-card class="workshop-card"  fxFlex="80">
+  <img md-card-image src="{{workshop.links.image}}" class="md-card-image"/>
+  <md-card-content>
+    <div class="card-body-header">
+      <div class="card-body-header-category">Workshop</div>
+      <h1>{{workshop.title}}</h1>
+      <p class="card-body-description">{{workshop.description | slice:0:300}}...</p>
+    </div>
+  </md-card-content>
 
   <md-card-actions>
     <button md-button (click)="goWorkshop(workshop.id)">Register Now!</button>
+      <button md-button class="md-icon-button" aria-label="icon">
+        <md-icon md-svg-icon="icon"></md-icon>
+      </button>
   </md-card-actions>
 </md-card>

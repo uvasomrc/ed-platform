@@ -17,5 +17,7 @@ export class WorkshopComponent  {
     this.router.navigate(['workshop', id]);
   }
 
-
+  background() {
+    return `url(${this.workshop.links.image})`;
+  }
 }
