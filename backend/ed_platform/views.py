@@ -1,5 +1,6 @@
-from flask import jsonify, request, send_file, session, redirect
+from flask import jsonify, request, send_file, session, redirect, g
 from ed_platform import app, db, models, sso, RestException
+from flask_httpauth import HTTPTokenAuth
 
 user_schema = models.UserSchema()
 track_schema = models.TrackAPISchema()
@@ -13,6 +14,21 @@ session_db_schema = models.SessionDBSchema()
 participant_db_schema = models.ParticipantDBSchema()
 participant_session_db_schema = models.ParticipantSessionDBSchema()
 
+auth = HTTPTokenAuth('Bearer')
+
+@auth.verify_token
+def verify_token(token):
+    resp = models.Participant.decode_auth_token(token)
+    print ("The token is %s" % token)
+    g.user = None
+    try:
+       g.user = models.Participant.query.filter_by(uid=resp).first()
+    except:
+       raise RestException(RestException.TOKEN_MISSING)
+    if(g.user != None):
+        return True
+    else:
+        return False
 
 @app.route('/api', methods=['GET'])
 def root():
@@ -20,7 +36,6 @@ def root():
 
 # User Accounts
 # *****************************
-
 @sso.login_handler
 def login(user_info):
     if (app.config["DEVELOPMENT"]) :
@@ -40,22 +55,11 @@ def login(user_info):
     response_url = ("%s/%s" % (app.config["FRONTEND_AUTH_CALLBACK"], auth_token))
     return redirect(response_url)
 
-
-
 @app.route('/api/auth')
+@auth.login_required
 def status():
-    auth_header = request.headers.get('Authorization')
-    if auth_header and len(auth_header.split(" ")) > 1:
-            auth_token = auth_header.split(" ")[1]
-    else:
-        auth_token = ''
-    if auth_token:
-        resp = models.Participant.decode_auth_token(auth_token)
-        participant = models.Participant.query.filter_by(uid=resp).first()
-        return jsonify(participant_schema.dump(participant).data)
-    else:
-        raise RestException(RestException.TOKEN_MISSING)
-
+    participant = g.user
+    return jsonify(participant_schema.dump(participant).data)
 
 @app.route('/api/logout')
 def logout():
@@ -221,6 +225,61 @@ def remove_session(id):
     db.session.commit()
     return ""
 
+@app.route('/api/session/<int:id>/register', methods=['GET'])
+@auth.login_required
+def view_registration(id):
+    participant = g.user
+    session = models.Session.query.filter_by(id=id).first()
+    return (jsonify(participant_session_db_schema.dump(participant.getParticipantSession(session)).data))
+
+@app.route('/api/session/<int:id>/register', methods=['POST'])
+@auth.login_required
+def register(id):
+    participant = g.user
+    session = models.Session.query.filter_by(id=id).first()
+    if(session is None):
+        raise RestException(RestException.NO_SUCH_SESSION, 404)
+    if(session.max_attendees <= len(session.participant_sessions)):
+        raise RestException(RestException.SESSION_FULL)
+
+    participant.register(session)
+    db.session.merge(participant)
+    db.session.commit()
+    return (jsonify(participant_session_db_schema.dump(participant.getParticipantSession(session)).data))
+
+@app.route('/api/session/<int:id>/register', methods=['PUT'])
+@auth.login_required
+def review(id):
+
+    participant = g.user
+    reg = models.ParticipantSession.query.filter_by(participant_id=participant.id,
+                                                    session_id=id).first()
+    updates = request.get_json()
+    reg.review_score = updates["review_score"]
+    reg.review_comment = updates["review_comment"]
+
+    db.session.commit()
+    return (jsonify(participant_session_db_schema.dump(reg).data))
+
+
+@app.route('/api/session/<int:id>/register', methods=['DELETE'])
+@auth.login_required
+def unregister(id):
+    participant = g.user
+    participant = models.Participant.query.filter_by(id=participant.id).first()
+    if(participant is None):
+        return jsonify(error=404, text=str("no such participant.")), 404
+    session = models.Session.query.filter_by(id=id).first()
+    if(session is None):
+        return jsonify(error=404, text=str("no such session.")), 404
+    participant_session = participant.getParticipantSession(session)
+    if(participant_session is not None):
+        db.session.delete(participant_session)
+        db.session.commit()
+    return ""
+
+
+
 # Participants
 # *****************************
 
@@ -279,46 +338,4 @@ def get_registration(participant_id, session_id):
     return(jsonify(participant_session_db_schema.dump(participant_session).data))
 
 
-@app.route('/api/participant/<int:participant_id>/session/<int:session_id>', methods=['POST'])
-def register(participant_id, session_id):
-    participant = models.Participant.query.filter_by(id=participant_id).first()
-    if(participant is None):
-        raise RestException(RestException.NO_SUCH_PARTICIPANT, 404)
-    session = models.Session.query.filter_by(id=session_id).first()
-    if(session is None):
-        raise RestException(RestException.NO_SUCH_SESSION, 404)
-    if(session.max_attendees <= len(session.participant_sessions)):
-        raise RestException(RestException.SESSION_FULL)
-
-    participant.register(session)
-    db.session.merge(participant)
-    db.session.commit()
-    return (jsonify(participant_session_db_schema.dump(participant.getParticipantSession(session)).data))
-
-@app.route('/api/participant/<int:participant_id>/session/<int:session_id>', methods=['PUT'])
-def review(participant_id, session_id):
-
-    reg = models.ParticipantSession.query.filter_by(participant_id=participant_id,
-                                                    session_id=session_id).first()
-    updates = request.get_json()
-    reg.review_score = updates["review_score"]
-    reg.review_comment = updates["review_comment"]
-
-    db.session.commit()
-    return (jsonify(participant_session_db_schema.dump(reg).data))
-
-
-@app.route('/api/participant/<int:participant_id>/session/<int:session_id>', methods=['DELETE'])
-def unregister(participant_id, session_id):
-    participant = models.Participant.query.filter_by(id=participant_id).first()
-    if(participant is None):
-        return jsonify(error=404, text=str("no such participant.")), 404
-    session = models.Session.query.filter_by(id=session_id).first()
-    if(session is None):
-        return jsonify(error=404, text=str("no such session.")), 404
-    participant_session = participant.getParticipantSession(session)
-    if(participant_session is not None):
-        db.session.delete(participant_session)
-        db.session.commit()
-    return ""
 
