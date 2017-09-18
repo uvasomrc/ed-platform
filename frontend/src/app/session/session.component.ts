@@ -29,20 +29,20 @@ export class SessionComponent implements OnInit {
   constructor(private accountService: AccountService) {}
 
   ngOnInit() {
-    this.account = this.accountService.getCachedAccount();
     this.available = this.session.isAvailable();
-    if (this.account) {
+    this.accountService.getAccount().subscribe (account => {
+      this.account = account;
       this.taking = this.account.isUpcoming(this.session);
       this.teaching = this.account.isTeaching(this.session);
-      if (this.teaching || this.taking) this.available = false;
-    }
+      if (this.teaching || this.taking) { this.available = false; }
+    });
   }
 
   status() {
-    if (this.removed) return 'removed';
-    if (this.taking) return 'taking';
-    if (this.teaching) return 'teaching';
-    if (this.available) return 'available';
+    if (this.removed) { return 'removed'; }
+    if (this.taking) { return 'taking'; }
+    if (this.teaching) { return 'teaching'; }
+    if (this.available) { return 'available'; }
   }
 
   removeSession() {
@@ -55,6 +55,7 @@ export class SessionComponent implements OnInit {
   }
 
   addSession() {
+    console.log('Adding Session!');
     this.accountService.register(this.session).subscribe( session => {
       this.session = session;
       this.taking = true;

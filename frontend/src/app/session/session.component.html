@@ -26,6 +26,7 @@
   </md-card-actions>
 
   <md-card-actions *ngIf="taking">
+    <p>You are Registered for this session.</p>
     <button md-button (click)="removeSession()">Un-Register</button>
   </md-card-actions>
 
@@ -33,7 +34,7 @@
     <button md-button (click)="addSession()">Undo</button>
   </md-card-actions>
 
-  <md-card-actions *ngIf="available">
+  <md-card-actions *ngIf="available && !taking">
     <button md-button (click)="addSession()">Register Now!</button>
   </md-card-actions>
 

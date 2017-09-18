@@ -24,7 +24,6 @@ export class ApiService {
         localStorage.getItem('token') !== 'undefined') {
       this.token = JSON.parse(localStorage.getItem('token'));
     }
-    console.log('The Token At Construction is:' + this.token);
   }
 
   getOptions(): RequestOptions {
@@ -54,17 +53,16 @@ export class ApiService {
   }
 
   unRegister(session: Session): Observable<Session> {
-    return this.http.delete(`${this.apiRoot}${session.links.register}`, this.getOptions())
+    return this.http.delete(session.links.register, this.getOptions())
       .map(res => { return session; })
       .catch(this.handleError);
   }
 
   register(session: Session): Observable<Session> {
-    return this.http.post(`${this.apiRoot}${session.links.register}`, this.getOptions())
+    return this.http.post(session.links.register, '{}', this.getOptions())
       .map(res => { return session; })
       .catch(this.handleError);
   }
-
 
   getTracks(): Observable<Track[]> {
     return this.http.get(this.track_url)

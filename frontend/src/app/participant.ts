@@ -19,7 +19,6 @@ export class Participant {
       if (ps['review_score']) { this.reviews.push(new Review(ps)); }
       if (parent == null) {
         const session = new Session(ps['session'], this);
-        session.links.register = ps['_links']['register'];
         this.sessions.push(session);
       }
     }
