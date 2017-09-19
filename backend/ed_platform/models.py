@@ -143,7 +143,7 @@ class Session(db.Model):
         participants = []
         for ps in self.participant_sessions:
             if not ps.is_instructor:
-                participants.append(ps.participant)
+                participants.append(ps)
         return participants
 
     def total_participants(self):
@@ -265,9 +265,9 @@ class ParticipantSessionAPISchema(ma.Schema):
 class SessionAPISchema(ma.Schema):
     class Meta:
         fields = ('id', 'date_time', 'duration_minutes', 'instructor_notes',
-                  'workshop', '_links', 'max_attendees', 'participant_sessions', 'instructors')
+                  'workshop', '_links', 'max_attendees', 'participants', 'instructors')
         ordered = True
-    participant_sessions = ma.List(ma.Nested(ParticipantSessionAPISchema))
+    participants = ma.List(ma.Nested(ParticipantSessionAPISchema))
     workshop = ma.Nested(WorkshopAPIMinimalSchema)
     instructors = ma.List(ma.Nested(ParticipantAPIMinimalSchema))
 
