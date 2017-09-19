@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Session} from '../session';
 import {AccountService} from '../account.service';
 import {Participant} from '../participant';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-session',
@@ -26,7 +27,8 @@ export class SessionComponent implements OnInit {
   available = false;
   removed = false;
 
-  constructor(private accountService: AccountService) {}
+  constructor(private accountService: AccountService,
+              private router: Router) {}
 
   ngOnInit() {
     this.available = this.session.isAvailable();
@@ -62,6 +64,10 @@ export class SessionComponent implements OnInit {
       this.removed = false;
       this.register.emit(this.session);
     });
+  }
+
+  teacherDashboard() {
+    this.router.navigate(['teacherDashboard', this.session.id]);
   }
 
 }

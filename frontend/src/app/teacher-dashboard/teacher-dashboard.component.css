@@ -1,0 +1,50 @@
+.header {
+  background-image: url('../../header.png');
+  min-height:100px;
+  color: white;
+  margin: auto;
+  vertical-align: middle;
+  padding: 40px 10px 10px 20px;
+}
+
+.header img {
+  max-height: 100px;
+  float: left;
+  margin: 0 20px 20px 50px;
+}
+
+ul.list {
+  display: table;
+  width: 100%;
+  padding: 8px 0;
+  margin: 0;
+  list-style:none;
+}
+
+ul.list li {
+  display: table-row;
+  height: 48px; /* that's actually min-height for rows */
+}
+
+ul.list li > * {
+  /* Align always to middle */
+  display: table-cell;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+}
+
+ul.list li > *:first-child {
+  /* Whoever is the first child it needs 16px left space */
+  padding-left: 16px;
+  background: rgba(0,255,0,0.05);
+}
+ul.list li > *:last-child{
+  /* Whoever is the last child it needs 16 right space */
+  padding-right: 16px;
+}
+
+ul.list .avatar {
+  /* Always left-align! Don't center icons */
+  width: 72px; /* 72-16 but we already use box-sizing */
+}

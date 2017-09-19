@@ -2,6 +2,7 @@ import {Participant} from './participant';
 import {Review} from './review';
 import {Workshop} from './workshop';
 import {Links} from './links';
+import {Attendee} from "./attendee";
 
 export class Session {
   id: number;
@@ -12,6 +13,7 @@ export class Session {
   total_attendees = 0;
   reviews = Array<Review>();
   instructors = Array<Participant>();
+  attendees = Array<Participant>();
   workshop: Workshop;
   links: Links;
 
@@ -20,10 +22,12 @@ export class Session {
     this.date_time = new Date(values['date_time']);
     this.instructors = new Array<Participant>();
     this.links = new Links(values['_links']);
-    if ('participant_sessions' in values) {
-      this.total_attendees ++;
-      for (const ps of values['participant_sessions']) {
+    if ('participants' in values) {
+      for (const ps of values['participants']) {
         if (ps['review_score']) { this.reviews.push(new Review(ps)); }
+        this.total_attendees ++;
+        this.attendees.push(new Attendee(ps['participant'],
+                            ps['attended'], ps['created'], this));
       }
     }
     if ('instructors' in values) {

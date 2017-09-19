@@ -1,0 +1,32 @@
+<div *ngIf="is_data_loaded">
+
+  <div class="header">
+    <img src="{{session.workshop.links.image}}"/>
+    <h1>Teacher Dashboard:</h1>
+    <h2>Date: <b>{{session.date_time | date: 'fullDate'}}</b></h2>
+    <h2>Time: <b>{{session.date_time | date: 'shortTime'}}</b></h2>
+    <p>{{session.workshop.description}}</p>
+  </div>
+
+  <md-tab-group>
+    <md-tab label="Participants">
+      <p>There are currently {{session.total_attendees}} participants signed up for this session. </p>
+      <p> The maximum number of attendees is set to {{session.max_attendees}}.</p>
+      <ul class="list">
+        <li *ngFor="let a of session.attendees">
+          <img class="avatar" src="{{a.links.image}}" alt=""/>
+          <div class="list-text">
+            <p>
+              <b>{{ a.display_name }}</b><br/>
+              Signed up on {{ a.created | date: 'fullDate'}}<br/>
+            </p>
+          </div>
+        </li>
+      </ul>
+    </md-tab>
+  </md-tab-group>
+
+</div>
+
+
+

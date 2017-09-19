@@ -16,6 +16,7 @@ export class ApiService {
   apiRoot = environment.api;
   workshop_url = `${this.apiRoot}/api/workshop`;
   track_url = `${this.apiRoot}/api/track`;
+  session_url = `${this.apiRoot}/api/session`;
   account_url = `${this.apiRoot}/api/auth`;
   token: string;
 
@@ -103,6 +104,13 @@ export class ApiService {
     return this.http.get(this.workshop_url + '/' + workshop_id)
       .map(res => {
         return new Workshop(res.json());
+      });
+  }
+
+  getSession(session_id: number): Observable<Session> {
+    return this.http.get(this.session_url + '/' + session_id)
+      .map(res => {
+        return new Session(res.json());
       });
   }
 

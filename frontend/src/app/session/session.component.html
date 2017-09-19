@@ -22,7 +22,7 @@
   </md-card-content>
 
   <md-card-actions *ngIf="teaching">
-    <button md-button>Teacher Dashboard</button>
+    <button md-button (click)="teacherDashboard()">Teacher Dashboard</button>
   </md-card-actions>
 
   <md-card-actions *ngIf="taking">

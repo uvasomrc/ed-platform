@@ -31,6 +31,7 @@ import { AccountDetailsComponent } from './account-details/account-details.compo
 import {AccountService} from './account.service';
 import { AccountRedirectComponent } from './account-redirect/account-redirect.component';
 import {AuthGuard} from './auth.guard';
+import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -40,9 +41,12 @@ const routes: Routes = [
   {path: 'workshop/:id', component: WorkshopDetailsComponent},
   {path: 'account/:token', component: AccountRedirectComponent},
   {path: 'accountDetails', component: AccountDetailsComponent,
+    canActivate: [AuthGuard]},
+  {path: 'teacherDashboard/:id', component: TeacherDashboardComponent,
     canActivate: [AuthGuard]}
-//  {path: 'track', component: TrackComponent},
-// {path: 'workshop', component: WorkshopComponent}
+
+    //  {path: 'track', component: TrackComponent},
+    // {path: 'workshop', component: WorkshopComponent}
 ];
 
 @NgModule({
@@ -63,6 +67,7 @@ const routes: Routes = [
     TimesPipe,
     AccountDetailsComponent,
     AccountRedirectComponent,
+    TeacherDashboardComponent,
   ],
   imports: [
     BrowserModule,
