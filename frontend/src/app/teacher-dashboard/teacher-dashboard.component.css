@@ -48,3 +48,12 @@ ul.list .avatar {
   /* Always left-align! Don't center icons */
   width: 72px; /* 72-16 but we already use box-sizing */
 }
+
+form.email_form {
+  width: 100%;
+  margin: 25px;
+}
+
+md-form-field {
+  width: 100%;
+}

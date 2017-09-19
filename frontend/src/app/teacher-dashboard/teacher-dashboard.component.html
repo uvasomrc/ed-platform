@@ -9,7 +9,8 @@
   </div>
 
   <md-tab-group>
-    <md-tab label="Participants">
+
+    <md-tab label="Attendee List">
       <p>There are currently {{session.total_attendees}} participants signed up for this session. </p>
       <p> The maximum number of attendees is set to {{session.max_attendees}}.</p>
       <ul class="list">
@@ -24,6 +25,35 @@
         </li>
       </ul>
     </md-tab>
+
+    <md-tab label="Email Attendees">
+      <form [formGroup]="email_form" novalidate (ngSubmit)="onSendEmail()" class="email_form">
+        <div>
+          <md-form-field class="example-full-width">
+            <input mdInput formControlName="email_title" placeholder="Email Title" value="" class="form-control">
+            <md-error>
+              Title is <strong>required</strong>
+            </md-error>
+          </md-form-field>
+        </div>
+        <div>
+          <md-form-field class="example-full-width">
+    <textarea mdInput formControlName="email_content" placeholder="Description" value="" class="form-control">
+    </textarea>
+            <md-error>
+              This description is too short.
+            </md-error>
+          </md-form-field>
+        </div>
+        <button type="submit" md-button>Send Email to Attendees</button>
+      </form>
+
+    </md-tab>
+
+    <md-tab label="Previous Emails">
+      <p>This will list out all emails sent to participants so far.</p>
+    </md-tab>
+
   </md-tab-group>
 
 </div>
