@@ -2,6 +2,7 @@ import os
 
 from flask import Flask, jsonify
 from flask_cors import CORS
+from flask_mail import Mail
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 from flask_sso import SSO
@@ -39,12 +40,20 @@ app.secret_key = app.config['SECRET_KEY']
 # Set up Single sign-on.
 sso = SSO(app=app)
 
+# Sending email messages.
+mail = Mail(app)
+
 # Handle errors consistently
 @app.errorhandler(RestException)
 def handle_invalid_usage(error):
     response = jsonify(error.to_dict())
     response.status_code = error.status_code
     return response
+
+@app.errorhandler(404)
+def handle_404(error):
+    return handle_invalid_usage(RestException(RestException.NOT_FOUND, 404))
+
 
 from ed_platform import models
 from ed_platform import views

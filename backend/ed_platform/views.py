@@ -1,5 +1,5 @@
-from flask import jsonify, request, send_file, session, redirect, g
-from ed_platform import app, db, models, sso, RestException
+from flask import jsonify, request, send_file, session, redirect, g, render_template
+from ed_platform import app, db, models, sso, RestException, emails
 from flask_httpauth import HTTPTokenAuth
 
 user_schema = models.UserSchema()
@@ -13,6 +13,7 @@ workshop_db_schema = models.WorkshopDBSchema()
 session_db_schema = models.SessionDBSchema()
 participant_db_schema = models.ParticipantDBSchema()
 participant_session_db_schema = models.ParticipantSessionDBSchema()
+email_message_db_schema = models.EmailMessageDbSchema()
 
 auth = HTTPTokenAuth('Bearer')
 
@@ -28,7 +29,7 @@ def verify_token(token):
     if(g.user != None):
         return True
     else:
-        return False
+        raise RestException(RestException.TOKEN_INVALID)
 
 @app.route('/api', methods=['GET'])
 def root():
@@ -278,6 +279,35 @@ def unregister(id):
         db.session.commit()
     return ""
 
+@app.route('/api/session/<int:id>/email', methods=['POST'])
+@auth.login_required
+def email_participants(id):
+    instructor = g.user
+    session = models.Session.query.filter_by(id=id).first()
+    if(not(instructor in session.instructors())):
+        raise RestException(RestException.NOT_INSTRUCTOR)
+
+    request_data = request.get_json()
+    email = email_message_db_schema.load(request_data).data
+    email.author = instructor
+
+    for ps in session.participants():
+        email_log = models.EmailLog(participant = ps.participant,
+                                    email_message = email)
+        email.logs.append(email_log)
+        emails.send_email("[edplatform] %s" % email.subject,
+               recipients = [ps.participant.email_address],
+               text_body = render_template("instructor_message.txt",
+                               session=session, participant = ps.participant,
+                               instructor = instructor,  content = email.content),
+               html_body = render_template("instructor_message.html",
+                               session=session, participant = ps.participant,
+                               instructor = instructor,  content = email.content,
+                               tracking_code = email_log.tracking_code))
+    db.session.add(email)
+    db.session.commit()
+
+    return jsonify({'email':{'subject':'test'}})
 
 
 # Participants

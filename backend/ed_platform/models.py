@@ -1,10 +1,14 @@
 import datetime
+import uuid
+
 import jwt
 
 from ed_platform import app, db, ma, RestException
 
 
 class User():
+    '''Used exclusively to manage the SSO/Shibboleth information,
+       Participants are the actual users returned from the API.'''
     uid = ""
     givenName = ""
     email = ""
@@ -70,14 +74,16 @@ class Participant(db.Model):
     image_file = db.Column(db.String())
     created = db.Column(db.DateTime, default=datetime.datetime.now)
     participant_sessions = db.relationship('ParticipantSession', backref='participant')
+    email_logs = db.relationship('EmailLog', backref='participant')
+    sent_emails = db.relationship('EmailMessage', backref='author')
 
     def is_registered(self, session):
         return len([r for r in self.participant_sessions if r.session_id == session.id]) > 0
 
-    def register(self, session):
+    def register(self, session, is_instructor=False):
         if(self.is_registered(session)): return
         self.participant_sessions.append(ParticipantSession(
-            participant_id = self.id, session_id=session.id
+            participant_id = self.id, session_id=session.id, is_instructor=is_instructor
         ))
 
     def getParticipantSession(self, session):
@@ -131,6 +137,7 @@ class Session(db.Model):
     max_attendees = db.Column(db.Integer)
     workshop_id = db.Column('workshop_id', db.Integer, db.ForeignKey('workshop.id'))
     participant_sessions = db.relationship('ParticipantSession', backref='session')
+    email_messages = db.relationship('EmailMessage', backref='session')
 
     def instructors(self):
         instructors = []
@@ -149,8 +156,6 @@ class Session(db.Model):
     def total_participants(self):
         return(len(self.participants()))
 
-
-
 class ParticipantSession(db.Model):
     __tablename__ = 'participant_session'
     participant_id = db.Column('participant_id', db.Integer, db.ForeignKey('participant.id'), primary_key=True)
@@ -160,6 +165,22 @@ class ParticipantSession(db.Model):
     review_comment = db.Column(db.TEXT())
     attended = db.Column(db.Boolean, default=False)
     is_instructor = db.Column(db.Boolean, default=False)
+
+class EmailMessage(db.Model):
+    __tablename__ = 'email_message'
+    id = db.Column(db.Integer, primary_key=True)
+    session_id = db.Column('session_id', db.Integer, db.ForeignKey('session.id'))
+    subject = db.Column(db.String())
+    content = db.Column(db.TEXT())
+    sent_date = db.Column(db.DateTime, default=datetime.datetime.now)
+    author_id = db.Column('author_id', db.Integer, db.ForeignKey('participant.id'))
+    logs = db.relationship("EmailLog", backref="email_message")
+
+class EmailLog(db.Model):
+    participant_id = db.Column('participant_id', db.Integer, db.ForeignKey('participant.id'), primary_key=True)
+    email_message_id = db.Column('email_message_id', db.Integer, db.ForeignKey('email_message.id'), primary_key=True)
+    tracking_code = db.Column(db.String(), default=str(uuid.uuid4())[:16])
+    opened = db.Column(db.Boolean, default=False)
 
 
 # For marshalling objects to the database
@@ -193,7 +214,13 @@ class ParticipantSessionDBSchema(ma.ModelSchema):
                           participant_id='<participant.id>', session_id='<session.id>')
     },  dump_only = True)
 
+class EmailMessageDbSchema(ma.ModelSchema):
+    class Meta:
+        model = EmailMessage
 
+class EmailLogDbSchema(ma.ModelSchema):
+    class Meta:
+        model = EmailLog
 
 # For marshalling objects to the Front End
 # ----------------------------------------

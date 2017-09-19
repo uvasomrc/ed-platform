@@ -1,5 +1,7 @@
 import unittest
 from flask import json, request
+from flask_mail import Mail
+
 from ed_platform import app, db, data_loader, models
 
 
@@ -9,7 +11,7 @@ class TestCase(unittest.TestCase):
 
     def setUp(self):
         app.config.from_pyfile('../config/testing.py')
-
+        app.mail = Mail(app)  # Re-Load mail app so it knows its in a testing env.
         self.app = app.test_client()
         db.create_all()
         self.ctx = app.test_request_context()
@@ -91,6 +93,7 @@ class TestCase(unittest.TestCase):
         headers = {'uid': self.test_uid, 'givenName': 'Daniel', 'mail': 'dhf8r@virginia.edu'}
         rv = self.app.get("/api/login", headers=headers, follow_redirects=True,
                       content_type="application/json")
+
         participant = models.Participant.query.filter_by(uid=self.test_uid).first()
 
         # Now get the user back.
@@ -111,6 +114,7 @@ class TestCase(unittest.TestCase):
         self.assertFalse(rv.status_code >= 200 and rv.status_code < 300,
                         "Incorrect Valid Response:" + rv.status + ".")
         if(code != ""):
+            print(rv.get_data(as_text=True))
             errors = json.loads(rv.get_data(as_text=True))
             self.assertEquals(errors["code"],code)
 
@@ -382,7 +386,34 @@ class TestCase(unittest.TestCase):
         self.assertIsNotNone(session.instructors())
         self.assertTrue(len(session.instructors()) > 0)
 
+    def test_email_participants_only_by_instructor(self):
+        session = models.Session.query.first()
+        rv = self.app.post("/api/session/%i/email" % session.id, follow_redirects=True,
+                          content_type="application/json")
+        self.assert_failure(rv, "token_invalid")
 
+        rv = self.app.post("/api/session/%i/email" % session.id, headers=self.logged_in_headers())
+        self.assert_failure(rv, "not_the_instructor")
+
+    def test_email_sends_to_recipient(self):
+        session = models.Session.query.first()
+        headers = self.logged_in_headers()
+        instructor = models.Participant.query.filter_by(uid=self.test_uid).first()
+        instructor.register(session, is_instructor=True)
+        data = {'subject':'Test Subject', 'content': 'Test Content'}
+        orig_log_count = len(models.EmailLog.query.all())
+
+        with app.mail.record_messages() as outbox:
+            rv = self.app.post("/api/session/%i/email" % session.id, headers=headers,
+                               data=json.dumps(data),  content_type="application/json")
+            self.assert_success(rv)
+            self.assertEqual(3, len(outbox))
+            self.assertEqual("[edplatform] Test Subject", outbox[0].subject)
+            self.assertTrue("Test Content" in outbox[0].body)
+            logs = models.EmailLog.query.all()
+            self.assertEqual(len(logs), orig_log_count + 3)
+            self.assertIsNotNone(logs[0].tracking_code)
+            self.assertEqual(logs[0].email_message.subject, data["subject"])
 
 
 if __name__ == '__main__':

@@ -1,0 +1,12 @@
+Dear {{ participant.display_name }},
+
+This is in regards to your upcoming workship "{{ session.workshop.title }}" which
+Your instructor, {{ instructor.display_name }}, sends you the following message:
+
+{{content}}
+
+We look forward to seeing you on {{ session.date_time }}.
+
+Regards,
+
+The Ed-Platform Team

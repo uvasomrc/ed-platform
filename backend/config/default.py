@@ -20,3 +20,12 @@ SSO_ATTRIBUTE_MAP = {
 
 FRONTEND_AUTH_CALLBACK = "http://localhost:4200/#/account"
 SSO_LOGIN_URL = '/api/login'
+
+# email server
+MAIL_SERVER = 'smtp.gmail.com'
+MAIL_PORT = 465
+#MAIL_USE_TLS = False
+MAIL_USE_SSL = True
+MAIL_USERNAME = ""
+MAIL_PASSWORD = ""
+MAIL_DEFAULT_SENDER='daniel.h.funk@gmail.com'
