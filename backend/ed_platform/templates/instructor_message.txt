@@ -1,12 +1,18 @@
-Dear {{ participant.display_name }},
+Hi {{ participant.display_name }},
 
-This is in regards to your upcoming workship "{{ session.workshop.title }}" which
-Your instructor, {{ instructor.display_name }}, sends you the following message:
+Your Instructor, {{ instructor.display_name }}, just send you a message
+about your upcoming workshop <i>"{{ session.workshop.title }}"</i></p>
 
 {{content}}
 
-We look forward to seeing you on {{ session.date_time }}.
+We look forward to seeing you on {{ workshop_date }} at {{ workshop_time }}.
+This workshop will take place at {{ session.workshop.location }}.
 
 Regards,
 
 The Ed-Platform Team
+
+You received this email because you signed up to attend a workshop on the
+Education Platform. You can manage your contact preferences by visiting our
+site at {{ url }} and modifying your account settings.
+

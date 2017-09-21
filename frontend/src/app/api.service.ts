@@ -9,6 +9,7 @@ import {Workshop} from './workshop';
 import {Track} from './track';
 import {Participant} from './participant';
 import {Session} from "./session";
+import {EmailMessage} from "./EmailMessage";
 
 @Injectable()
 export class ApiService {
@@ -64,6 +65,25 @@ export class ApiService {
       .map(res => { return session; })
       .catch(this.handleError);
   }
+
+  emailParticipants(email: EmailMessage, session: Session): Observable<EmailMessage> {
+    return this.http.post(session.links.send_email, email, this.getOptions())
+      .map(res => {
+        return new EmailMessage(res.json());
+      })
+      .catch(this.handleError);
+  }
+
+  getMessagesForSession(session: Session): Observable<EmailMessage[]> {
+    return this.http.get(session.links.messages, this.getOptions())
+      .map(res => {
+        return res.json().map(item => {
+          return (new EmailMessage(item));
+        });
+      })
+      .catch(this.handleError);
+  }
+
 
   getTracks(): Observable<Track[]> {
     return this.http.get(this.track_url)

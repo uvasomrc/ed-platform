@@ -4,6 +4,7 @@ import {Session} from '../session';
 import {WorkshopService} from '../workshop.service';
 import {ActivatedRoute} from '@angular/router';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {EmailMessage} from "../EmailMessage";
 
 @Component({
   selector: 'app-teacher-dashboard',
@@ -16,9 +17,12 @@ export class TeacherDashboardComponent implements OnInit {
   session: Session;
   session_id = 0;
   is_data_loaded = false;
+  is_sending = false;
   email_form: FormGroup;
   email_title: FormControl;
   email_content: FormControl;
+  messages: EmailMessage[];
+  selected_tab: number;
 
   constructor(private workshopService: WorkshopService,
               private route: ActivatedRoute) {
@@ -30,9 +34,14 @@ export class TeacherDashboardComponent implements OnInit {
     this.workshopService.getSession(this.session_id).subscribe(
       session => {
         this.session = session;
-        this.is_data_loaded = true;
+        this.workshopService.getMessages(this.session).subscribe(
+          messages => {
+            this.messages = messages;
+            this.is_data_loaded = true;
+          });
       }
     );
+
     this.createFormControls();
     this.createForm();
   }
@@ -51,9 +60,20 @@ export class TeacherDashboardComponent implements OnInit {
 
   onSendEmail() {
     if (this.email_form.valid) {
+      const email = new EmailMessage({'subject': this.email_title.value,
+                                  'content': this.email_content.value});
+      this.email_form.disable();
+      this.is_sending = true;
+      this.workshopService.emailParticipants(email, this.session).subscribe(
+        message => {
+          this.messages.push(message);
+          this.email_form.reset();
+          this.email_form.enable();
+          this.selected_tab = 2;
+          this.is_sending = false;
+        }
+      );
       console.log(`Sending an email message with subject: ${this.email_title.value}`);
     }
   }
-
-
 }

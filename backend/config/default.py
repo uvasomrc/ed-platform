@@ -18,6 +18,10 @@ SSO_ATTRIBUTE_MAP = {
     'title': (False, 'title')  # SOFTWARE ENGINEER V
 }
 
+API_URL = "http://localhost:5000"
+SITE_URL = "http://localhost:4200"
+
+
 FRONTEND_AUTH_CALLBACK = "http://localhost:4200/#/account"
 SSO_LOGIN_URL = '/api/login'
 
@@ -29,3 +33,4 @@ MAIL_USE_SSL = True
 MAIL_USERNAME = ""
 MAIL_PASSWORD = ""
 MAIL_DEFAULT_SENDER='daniel.h.funk@gmail.com'
+

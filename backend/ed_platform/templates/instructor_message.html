@@ -1,18 +1,59 @@
-<p>Dear {{ participant.display_name }},</p>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 
-<table>
-    <tr valign="top">
-        <td><img src=""></td>
-        <td>
-            This is in regards to your upcoming workshop "{{ session.workshop.title }}" which
-            Your instructor, {{ instructor.display_name }}, sends you the following message:
-            <p style="padding:20px">
-            {{ content }}
-            </p>
-        </td>
-    </tr>
-</table>
-<p>Regards,</p>
-<p>The <code>Ed-Platform </code> team</p>
+<head id="headerFragment">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Education Platform - Email from Instructor</title>
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,700,700italic,600' rel='stylesheet'
+          type='text/css'/>
+</head>
 
+<body style="font-family: 'Source Sans Pro', sans-serif; font-size:20px; box-sizing:border-box; background-color: #FFF">
+
+<div id="body_style" style="padding:15px">
+    <table cellpadding="0" cellspacing="0" width="400" align="center" style="margin-top:20px">
+        <tr>
+            <td width="300"></td>
+            <td width="100">
+                <a href="{{ site_url }}" target="_blank">
+                    <img src="{{ api_url }}/static/images/logo.png"
+                         alt="Education Platform" title="Education Platform" style="display:block" border="0"/>
+                </a>
+            </td>
+        </tr>
+    </table>
+
+    <table cellpadding="0" cellspacing="0" width="600" align="center" style="margin-top:20px">
+        <tr>
+            <td width="400">
+                <p style="margin-top:0; margin-bottom:10px"> Hi {{ participant.display_name }}, </p>
+                <p style="margin-top:5px">Your Instructor, {{ instructor.display_name }}, just send you a message
+                    for your upcoming workshop <i>"{{ session.workshop.title }}"</i></p>
+
+                <div style="border-radius: 15px; background: #fff; text-align:center; border: 1px solid #666; margin: 20px;">
+                    <div style="border-top-right-radius: 15px; border-top-left-radius: 15px; width:100%; height:20px; background:#F77D38;"></div>
+                    <img style="margin:auto; padding: 10px;  border-radius: 50%; height: 50px"
+                         src="{{ api_url }}/api/participant/{{ instructor.id }}/image" alt="" border="none"/>
+                    <p>{{ content }}</p>
+                </div>
+
+                <p style="margin-top:5px">We look forward to seeing you on {{ session.date_time.strftime('%Y-%m-%d') }}
+                    at {{ session.date_time.strftime('%I:%M %p') }}.
+                    This workshop will take place at {{ session.location }}.</p>
+
+                <div id="footer">
+                    <p style="margin-top:30px">Best,</p>
+                    <p style="margin:0 0 0 0; font-weight: bold;">The Ed Platform Team</p>
+                </div>
+                <p style="margin-top:20px; font-size:.9em; text-align:left; padding-top: 4px">You received this email
+                    because you
+                    signed up to attend a workshop on the Education Platform. You can manage your contact
+                    preferences by visiting your <a th:href="${site_url} + '/account'">account settings.</a></p>
+            </td>
+        </tr>
+    </table>
+    <p style="margin-top:0"></p>
+</div>
+</body>
+</html>
 

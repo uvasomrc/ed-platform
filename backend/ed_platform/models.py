@@ -182,6 +182,9 @@ class EmailLog(db.Model):
     tracking_code = db.Column(db.String(), default=str(uuid.uuid4())[:16])
     opened = db.Column(db.Boolean, default=False)
 
+    def participant_name(self):
+        return self.participant.display_name;
+
 
 # For marshalling objects to the database
 # ----------------------------------------
@@ -303,6 +306,8 @@ class SessionAPISchema(ma.Schema):
         'collection': ma.URLFor('get_sessions'),
         'workshop': ma.URLFor('get_workshop', id='<workshop_id>'),
         'register': ma.URLFor('register', id='<id>'),
+        'send_email': ma.URLFor('email_participants', id='<id>'),
+        'messages': ma.URLFor('list_messages', id='<id>')
     })
 
 class WorkshopAPISchema(ma.Schema):
@@ -318,7 +323,20 @@ class WorkshopAPISchema(ma.Schema):
         'sessions': ma.URLFor('get_workshop_sessions', id='<id>'),
     })
 
+class EmailLogAPISchema(ma.Schema):
+    class Meta:
+        fields = ('participant_id', 'opened', 'participant_name')
+        ordered = True
 
+class EmailMessageAPISchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'subject', 'content', 'sent_date', "author_id", 'logs')
+        ordered = True
+    logs = ma.List(ma.Nested(EmailLogAPISchema))
+    _links = ma.Hyperlinks({
+        'self': ma.URLFor('get_messages', id='session_id'),
+        'session': ma.URLFor('get_session', id='session_id')
+    })
 
 
 class ParticipantAPISchema(ma.Schema):

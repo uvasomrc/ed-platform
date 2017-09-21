@@ -9,7 +9,7 @@ import {TrackService} from './track.service';
 import { TrackListComponent } from './track-list/track-list.component';
 import {
   MdButtonModule, MdIconModule, MdMenuModule, MdToolbarModule, MdCardModule,
-  MdInputModule, MdCheckboxModule, MdFormFieldModule, MdTabsModule
+  MdInputModule, MdCheckboxModule, MdFormFieldModule, MdTabsModule, MdProgressSpinnerModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {WorkshopService} from './workshop.service';
@@ -85,6 +85,7 @@ const routes: Routes = [
     MdCheckboxModule,
     MdFormFieldModule,
     MdTabsModule,
+    MdProgressSpinnerModule,
     RouterModule.forRoot(routes, {useHash: true})
   ],
   providers: [TrackService, WorkshopService, ApiService, AccountService, AuthGuard],

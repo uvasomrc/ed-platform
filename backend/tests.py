@@ -414,6 +414,21 @@ class TestCase(unittest.TestCase):
             self.assertEqual(len(logs), orig_log_count + 3)
             self.assertIsNotNone(logs[0].tracking_code)
             self.assertEqual(logs[0].email_message.subject, data["subject"])
+        return session
+
+    def test_get_messages(self):
+        session = self.test_email_sends_to_recipient() # Generate some messages.
+
+        rv = self.app.get("/api/session/%i" % session.id, headers=self.logged_in_headers())
+        self.assert_success(rv)
+        s_result = json.loads(rv.get_data(as_text=True))
+        self.assertTrue("messages" in s_result["_links"])
+
+        rv = self.app.get(s_result["_links"]["messages"])
+        self.assert_success(rv)
+        s_result = json.loads(rv.get_data(as_text=True))
+        self.assertEqual(1, len(s_result))
+
 
 
 if __name__ == '__main__':

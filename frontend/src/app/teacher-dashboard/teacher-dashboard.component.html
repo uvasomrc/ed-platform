@@ -8,7 +8,7 @@
     <p>{{session.workshop.description}}</p>
   </div>
 
-  <md-tab-group>
+  <md-tab-group [selectedIndex]="selected_tab">
 
     <md-tab label="Attendee List">
       <p>There are currently {{session.total_attendees}} participants signed up for this session. </p>
@@ -27,7 +27,7 @@
     </md-tab>
 
     <md-tab label="Email Attendees">
-      <form [formGroup]="email_form" novalidate (ngSubmit)="onSendEmail()" class="email_form">
+      <form [formGroup]="email_form" novalidate (ngSubmit)="onSendEmail()" class="email_form"  [hidden]="is_sending">
         <div>
           <md-form-field class="example-full-width">
             <input mdInput formControlName="email_title" placeholder="Email Title" value="" class="form-control">
@@ -47,11 +47,28 @@
         </div>
         <button type="submit" md-button>Send Email to Attendees</button>
       </form>
+      <div id="sending-email" [hidden]="!is_sending">
+        <md-progress-spinner class="example-margin"  color="secondary" mode="indeterminate">
+        </md-progress-spinner>
+        Sending your email ...
+      </div>
 
     </md-tab>
 
     <md-tab label="Previous Emails">
-      <p>This will list out all emails sent to participants so far.</p>
+      <p>The following messages were sent to attendees:</p>
+      <ul class="list">
+        <li *ngFor="let m of messages">
+          <img class="avatar" src="{{session.getInstructor(m.author_id).links.image}}" alt=""/>
+          <div class="list_subject">
+            <b>Subject:</b> {{m.subject}}<br/>
+            <b>Date:</b> {{m.sent_date | date: 'fullDate'}}
+          </div>
+          <div class="list-content">
+            {{m.content}}
+          </div>
+        </li>
+      </ul>
     </md-tab>
 
   </md-tab-group>

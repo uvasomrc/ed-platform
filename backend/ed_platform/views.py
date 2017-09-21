@@ -7,6 +7,7 @@ track_schema = models.TrackAPISchema()
 workshop_schema = models.WorkshopAPISchema()
 session_schema = models.SessionAPISchema()
 participant_schema = models.ParticipantAPISchema()
+email_schema = models.EmailMessageAPISchema()
 
 track_db_schema = models.TrackDBSchema()
 workshop_db_schema = models.WorkshopDBSchema()
@@ -14,6 +15,7 @@ session_db_schema = models.SessionDBSchema()
 participant_db_schema = models.ParticipantDBSchema()
 participant_session_db_schema = models.ParticipantSessionDBSchema()
 email_message_db_schema = models.EmailMessageDbSchema()
+
 
 auth = HTTPTokenAuth('Bearer')
 
@@ -290,25 +292,38 @@ def email_participants(id):
     request_data = request.get_json()
     email = email_message_db_schema.load(request_data).data
     email.author = instructor
-
+    email.session = session
     for ps in session.participants():
-        email_log = models.EmailLog(participant = ps.participant,
-                                    email_message = email)
+        email_log = models.EmailLog(participant=ps.participant,
+                                    email_message=email)
         email.logs.append(email_log)
+
+        # To Add: site_url, logo_url, session_url
+        # instructor_image_url, workshop_date
+
+        text_body = render_template("instructor_message.txt",
+                                    session=session, participant=ps.participant,
+                                    api_url=app.config['API_URL'], site_url=app.config['SITE_URL'],
+                                    instructor=instructor, content=email.content)
+        html_body = render_template("instructor_message.html",
+                                    session=session, participant=ps.participant,
+                                    instructor=instructor, content=email.content,
+                                    api_url=app.config['API_URL'], site_url=app.config['SITE_URL'],
+                                    tracking_code=email_log.tracking_code)
+
         emails.send_email("[edplatform] %s" % email.subject,
-               recipients = [ps.participant.email_address],
-               text_body = render_template("instructor_message.txt",
-                               session=session, participant = ps.participant,
-                               instructor = instructor,  content = email.content),
-               html_body = render_template("instructor_message.html",
-                               session=session, participant = ps.participant,
-                               instructor = instructor,  content = email.content,
-                               tracking_code = email_log.tracking_code))
+                          recipients=[ps.participant.email_address], text_body=text_body,
+                          html_body=html_body)
+        print(html_body)
     db.session.add(email)
     db.session.commit()
 
-    return jsonify({'email':{'subject':'test'}})
+    return email_schema.jsonify(email)
 
+@app.route('/api/session/<int:id>/messages', methods=['GET'])
+def list_messages(id):
+    session = models.Session.query.filter_by(id=id).first()
+    return (email_schema.jsonify(session.email_messages, many=True))
 
 # Participants
 # *****************************

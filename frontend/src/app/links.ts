@@ -7,9 +7,11 @@ export class Links {
   workshops = '';
   tracks = '';
   register = '';
+  send_email = '';
+  messages = '';
 
   constructor(values: Object = {}) {
-    for (let key in values) {
+    for (const key in values) {
       values[key] = environment.api + values[key];
     }
     Object.assign(this, values);

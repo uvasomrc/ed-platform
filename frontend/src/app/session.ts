@@ -40,6 +40,19 @@ export class Session {
     }
   }
 
+  getParticipant(id): Participant {
+    for (const p of this.attendees) {
+      if (p.id === id) {return p;}
+    }
+  }
+
+  getInstructor(id): Participant {
+    for (const p of this.instructors) {
+      if (p.id === id) {return p;}
+    }
+  }
+
+
   isPast(): boolean {
     return (this.date_time.valueOf() < new Date().valueOf());
   }
