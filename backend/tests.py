@@ -3,6 +3,7 @@ from flask import json, request
 from flask_mail import Mail
 
 from ed_platform import app, db, data_loader, models
+from ed_platform.emails import TEST_MESSAGES
 
 
 class TestCase(unittest.TestCase):
@@ -403,17 +404,16 @@ class TestCase(unittest.TestCase):
         data = {'subject':'Test Subject', 'content': 'Test Content'}
         orig_log_count = len(models.EmailLog.query.all())
 
-        with app.mail.record_messages() as outbox:
-            rv = self.app.post("/api/session/%i/email" % session.id, headers=headers,
-                               data=json.dumps(data),  content_type="application/json")
-            self.assert_success(rv)
-            self.assertEqual(3, len(outbox))
-            self.assertEqual("[edplatform] Test Subject", outbox[0].subject)
-            self.assertTrue("Test Content" in outbox[0].body)
-            logs = models.EmailLog.query.all()
-            self.assertEqual(len(logs), orig_log_count + 3)
-            self.assertIsNotNone(logs[0].tracking_code)
-            self.assertEqual(logs[0].email_message.subject, data["subject"])
+        rv = self.app.post("/api/session/%i/email" % session.id, headers=headers,
+                           data=json.dumps(data),  content_type="application/json")
+        self.assert_success(rv)
+
+        self.assertEqual(3, len(TEST_MESSAGES))
+        self.assertEqual("[edplatform] Test Subject", TEST_MESSAGES[0]['subject'])
+        logs = models.EmailLog.query.all()
+        self.assertEqual(len(logs), orig_log_count + 3)
+        self.assertIsNotNone(logs[0].tracking_code)
+        self.assertEqual(logs[0].email_message.subject, data["subject"])
         return session
 
     def test_get_messages(self):
