@@ -7,7 +7,7 @@ from ed_platform import models
 class DataLoader():
     "loads a json file into the database. A poor man's seed program, since I couldn't find one.  Handles relationships."
     file = "example_data.json"
-    load_order = ["Track", "Workshop", "TrackWorkshop","Session","Participant","ParticipantSession"]
+    load_order = ["Track", "Workshop", "TrackWorkshop","Session","Participant","ParticipantSession", "EmailMessage", "EmailLog"]
 
     def __init__(self, db, file = None):
         self.db = db
@@ -19,7 +19,10 @@ class DataLoader():
         with open(file) as data_file:
             tables = json.load(data_file)
             for key in self.load_order:
-                schema_class_ = getattr(models, key + "DBSchema")
+                try:
+                    schema_class_ = getattr(models, key + "DBSchema")
+                except:
+                    continue
                 schema = schema_class_ ()
                 for i in tables[key]:
                     # replace the name with a unique id when encountered.
