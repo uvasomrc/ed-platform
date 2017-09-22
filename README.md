@@ -1,7 +1,7 @@
 
 A mobile friendly web application that allow students to browse, search
 and register for live workshops on the University of Virginia campus.
-
+ 
 
 ## Development
 This application provides a front end (Angular 4) and a backend (Python/Flask)
