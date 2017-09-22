@@ -1,3 +1,5 @@
+import datetime
+
 from flask import jsonify, request, send_file, session, redirect, g, render_template
 from ed_platform import app, db, models, sso, RestException, emails
 from flask_httpauth import HTTPTokenAuth
@@ -353,6 +355,16 @@ def get_participant(id):
 def get_participant_image(id):
     participant = models.Participant.query.filter_by(id=id).first()
     return send_file("static/" + participant.image_file, mimetype='image/png')
+
+@app.route('/api/logo/<string:id>/<string:tracking_id>/logo.png')
+def get_logo_tracking(id, tracking_id):
+    email_log = models.EmailLog.query.filter_by(participant_id=id, tracking_code=tracking_id).first()
+    if(email_log) :
+        email_log.opened = True
+        email_log.date_opened = datetime.datetime.now()
+        db.session.add(email_log)
+        db.session.commit()
+    return send_file("static/images/logo.png", mimetype='image/png')
 
 @app.route('/api/participant/<int:id>', methods=['DELETE'])
 def remove_participant(id):

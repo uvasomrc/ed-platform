@@ -429,7 +429,23 @@ class TestCase(unittest.TestCase):
         s_result = json.loads(rv.get_data(as_text=True))
         self.assertEqual(1, len(s_result))
 
+    def test_tracking_logo(self):
+        participant = self.get_current_participant()
+        email_message = models.EmailMessage()
+        email_log = models.EmailLog()
+        email_log.participant_id = participant['id']
+        email_message.logs.append(email_log)
+        db.session.add(email_message)
+        db.session.commit()
 
+        self.assertFalse(email_log.opened)
+        rv = self.app.get("/api/logo/%i/%s/logo.png" %
+                          (participant['id'], email_log.tracking_code))
+        self.assert_success(rv)
+
+        updated = models.EmailLog.query.filter_by(tracking_code=email_log.tracking_code).first()
+        self.assertTrue(updated.opened)
+        self.assertIsNotNone(updated.date_opened)
 
 if __name__ == '__main__':
     unittest.main()

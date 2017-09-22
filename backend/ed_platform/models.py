@@ -174,16 +174,17 @@ class EmailMessage(db.Model):
     content = db.Column(db.TEXT())
     sent_date = db.Column(db.DateTime, default=datetime.datetime.now)
     author_id = db.Column('author_id', db.Integer, db.ForeignKey('participant.id'))
-    logs = db.relationship("EmailLog", backref="email_message")
+    logs = db.relationship("EmailLog", backref="email_message", cascade="all, delete-orphan")
 
 class EmailLog(db.Model):
     participant_id = db.Column('participant_id', db.Integer, db.ForeignKey('participant.id'), primary_key=True)
     email_message_id = db.Column('email_message_id', db.Integer, db.ForeignKey('email_message.id'), primary_key=True)
     tracking_code = db.Column(db.String(), default=str(uuid.uuid4())[:16])
     opened = db.Column(db.Boolean, default=False)
+    date_opened = db.Column(db.DateTime)
 
     def participant_name(self):
-        return self.participant.display_name;
+        return self.participant.display_name
 
 
 # For marshalling objects to the database
