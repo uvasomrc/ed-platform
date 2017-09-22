@@ -14,7 +14,10 @@ cp /home/ubuntu/edp_config.py ./backend/instance/config.py
 source /home/ubuntu/anaconda3/bin/activate edp
 export HOME_DIR=`pwd`
 echo "Running from ${HOME_DIR}"
+# Continue to update conda in case I can get that working ...
 eval 'cd ${HOME_DIR}/backend && conda env update'
+# But also install via pip3, which is what the production server is using now.
+eval 'pip3 install flask sqlalchemy psycopg2 flask-migrate flask-script flask-cors flask-marshmallow marshmallow-sqlalchemy flask-sso pyjwt flask-httpauth flask_mail'
 eval 'python ${HOME_DIR}/backend/manage.py clear_data'
 eval 'cd ${HOME_DIR}/backend && python ${HOME_DIR}/backend/manage.py db upgrade'
 eval 'cd ${HOME_DIR}/backend && python ${HOME_DIR}/backend/manage.py load_data'
