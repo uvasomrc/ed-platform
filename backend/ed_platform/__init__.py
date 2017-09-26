@@ -7,6 +7,7 @@ from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 from flask_sso import SSO
 
+from ed_platform.elastic_index import ElasticIndex
 from ed_platform.rest_exception import RestException
 
 app = Flask(__name__, instance_relative_config=True)
@@ -42,6 +43,9 @@ sso = SSO(app=app)
 
 # Sending email messages.
 mail = Mail(app)
+
+# Search System
+elastic_index = ElasticIndex(app)
 
 # Handle errors consistently
 @app.errorhandler(RestException)

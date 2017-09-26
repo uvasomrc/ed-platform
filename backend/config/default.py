@@ -34,3 +34,15 @@ MAIL_USERNAME = ""
 MAIL_PASSWORD = ""
 MAIL_DEFAULT_SENDER='daniel.h.funk@gmail.com'
 
+# Elastic Search
+ELASTIC_SEARCH = {
+    "index_name": "workshops",
+    "hosts": ["localhost"],
+    "port": 9200,
+    "timeout": 20,
+    "verify_certs": False,
+    "use_ssl": False,
+    "http_auth_user": "",
+    "http_auth_pass": ""
+}
+

@@ -8,7 +8,7 @@ from ed_platform import app, db, ma, RestException
 
 class User():
     '''Used exclusively to manage the SSO/Shibboleth information,
-       Participants are the actual users returned from the API.'''
+       Participants are the actual objects returned from the API.'''
     uid = ""
     givenName = ""
     email = ""
@@ -155,6 +155,9 @@ class Session(db.Model):
 
     def total_participants(self):
         return(len(self.participants()))
+
+    def open(self):
+        return(self.total_participants() < self.max_attendees)
 
 class ParticipantSession(db.Model):
     __tablename__ = 'participant_session'

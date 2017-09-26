@@ -64,3 +64,8 @@ class DataLoader():
                      # exist yet no worries.
             self.db.session.commit()
 
+    def index(self, index):
+        '''Take all the data in the database and reindex it.'''
+        index.clear()
+        workshops = models.Workshop.query.all()
+        index.load_all(workshops)

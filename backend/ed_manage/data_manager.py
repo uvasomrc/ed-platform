@@ -32,3 +32,15 @@ class ClearData(Command):
     def run(self):
         print("Deleting data.")
         self.loader.clear()
+
+class IndexData(Command):
+    """Take all data in the database and index it in ElasticSearch"""
+    def __init__(self, db, index):
+        object.__init__(self)
+        self.db = db
+        self.index = index
+        self.loader = data_loader.DataLoader(db)
+
+    def run(self):
+        print("Rebuilding the Index.")
+        self.loader.index(self.index)
