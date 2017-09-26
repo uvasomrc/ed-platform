@@ -84,14 +84,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   left() {
     if (this.sponsor_index <= 1) { return; }
-    console.log('sponsor state ' + this.sponsor_state);
     this.sponsor_index = this.sponsor_index - 1;
     this.sponsor_state = this.sponsor_index.toString();
   }
 
   right() {
     if (this.sponsor_index >= 5) { return; }
-    console.log('sponsor state ' + this.sponsor_state);
     this.sponsor_index = this.sponsor_index + 1;
     this.sponsor_state = this.sponsor_index.toString();
   }
