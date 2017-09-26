@@ -1,23 +1,20 @@
 <div class="docs-primary-header">
   <h1 class="md-title">The CADRE Education Platform</h1>
   <h2 class="md-subhead">Free Technology Classes on the UVA Campus.</h2>
-  <div
-    class="container sponsors"
-    fxLayout="row"
-    fxLayoutGap="10px"
-    fxLayoutGap.xs="0"
-    fxLayoutAlign="space-around">
-    <img src="../../assets/sponsors/uva-info-tech.png" class="sponsor_logo"/>
-    <img src="../../assets/sponsors/uva-adcs.png" class="sponsor_logo"/>
-    <img src="../../assets/sponsors/uva_somrc_logo.png" class="sponsor_logo"/>
-    <img src="../../assets/sponsors/uva-library.png" class="sponsor_logo"/>
-    <img src="../../assets/sponsors/bio-connector.png" class="sponsor_logo"/>
+
+
+  <section class="carousel-wrapper">
+    <ul class="carousel-inner" [@slide]="sponsor_state">
+      <li *ngFor="let sponsor of sponsors;" class="carousel">
+        <img class="item" src="{{sponsor.image}}">
+      </li>
+    </ul>
+  </section>
+  <div *ngIf="showControls">
+    <button (click)="left()">&lt;</button>
+    <button (click)="right()">&gt;</button>
   </div>
 </div>
-
-
-<div flex layout="row"></div>
-
 
 <h2>Available Tracks</h2>
 <app-track-list [tracks]="tracks"></app-track-list>

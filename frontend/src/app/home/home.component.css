@@ -12,12 +12,26 @@
   text-align: center;
   padding-top: 40px;
 }
-.sponsors {
+
+.carousel-wrapper {
+  overflow: hidden;
   background-color: white;
-  overflow-y: scroll;
-  overflow-x: auto;
+}
+.carousel {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 6000px;
+}
+.carousel-inner {
+  display: flex;
 }
 
-.sponsor_logo {
-  height: 80px;
+.arrows {
+  font-size: 48px;
+  color: lightgrey;
+}
+
+.sponsor_slider {
+  background-color: white;
 }

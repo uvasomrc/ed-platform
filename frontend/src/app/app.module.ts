@@ -67,7 +67,7 @@ const routes: Routes = [
     TimesPipe,
     AccountDetailsComponent,
     AccountRedirectComponent,
-    TeacherDashboardComponent,
+    TeacherDashboardComponent
   ],
   imports: [
     BrowserModule,
