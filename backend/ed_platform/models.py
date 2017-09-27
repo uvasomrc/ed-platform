@@ -4,6 +4,7 @@ import uuid
 import jwt
 
 from ed_platform import app, db, ma, RestException
+from marshmallow import fields, post_load
 
 
 class User():
@@ -29,6 +30,12 @@ class User():
         eppn = eppn
         title = title
 
+class Search():
+    query = ""
+    filters = {}
+
+    def __init__(self, query, filters):
+        self.query = query
 
 class Track(db.Model):
     __tablename__ = 'track'
@@ -232,11 +239,22 @@ class EmailLogDbSchema(ma.ModelSchema):
 # For marshalling objects to the Front End
 # ----------------------------------------
 
+class SearchSchema(ma.Schema):
+    query = fields.Str()
+    filters = fields.Dict()
+    ordered = True
+
+    @post_load
+    def make_search(self, data):
+        return Search(**data)
+
+
 class UserSchema(ma.Schema):
     class Meta:
         fields = ('uid','givenName','email','surName','affiliation', 'displayName',
                   'eppn','title')
         ordered = True
+
 
 class TrackAPISchema(ma.Schema):
     class Meta:
@@ -299,7 +317,7 @@ class ParticipantSessionAPISchema(ma.Schema):
 class SessionAPISchema(ma.Schema):
     class Meta:
         fields = ('id', 'date_time', 'duration_minutes', 'instructor_notes',
-                  'workshop', '_links', 'max_attendees', 'participants', 'instructors')
+                  'workshop', '_links', 'max_attendees', 'participants', 'instructors','location')
         ordered = True
     participants = ma.List(ma.Nested(ParticipantSessionAPISchema))
     workshop = ma.Nested(WorkshopAPIMinimalSchema)

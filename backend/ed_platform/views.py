@@ -1,7 +1,7 @@
 import datetime
 
 from flask import jsonify, request, send_file, session, redirect, g, render_template
-from ed_platform import app, db, models, sso, RestException, emails
+from ed_platform import app, db, models, sso, RestException, emails, elastic_index
 from flask_httpauth import HTTPTokenAuth
 
 user_schema = models.UserSchema()
@@ -150,6 +150,17 @@ def get_workshops():
                          models.Workshop.query.all()))
     return jsonify({"workshops": workshops})
 
+@app.route('/api/workshop/search', methods=['POST'])
+def search_workshops():
+    request_data = request.get_json()
+    search = models.SearchSchema().load(request_data).data
+    results = elastic_index.search(search)
+    workshops = []
+    for hit in results:
+        workshop = models.Workshop.query.filter_by(id=hit.id).first()
+        workshops.append(workshop)
+
+    return workshop_schema.jsonify(workshops, many=True)
 
 @app.route('/api/workshop', methods=['POST'])
 def create_workshop():
