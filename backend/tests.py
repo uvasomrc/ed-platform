@@ -1,8 +1,12 @@
 import unittest
 from flask import json, request
 from flask_mail import Mail
+import os
 
-from ed_platform import app, db, data_loader, models
+# Set enivoronment variable to testing before loading.
+os.environ["APP_CONFIG_FILE"] = '../config/testing.py'
+
+from ed_platform import app, db, data_loader, models, elastic_index
 from ed_platform.emails import TEST_MESSAGES
 
 
@@ -10,16 +14,16 @@ class TestCase(unittest.TestCase):
 
     test_uid = "dhf8rtest"
 
+
     def setUp(self):
-        app.config.from_pyfile('../config/testing.py')
-        app.mail = Mail(app)  # Re-Load mail app so it knows its in a testing env.
         self.app = app.test_client()
         db.create_all()
         self.ctx = app.test_request_context()
         self.ctx.push()
         loader = data_loader.DataLoader(db)
         loader.load("example_data.json")
-
+        loader.index(elastic_index)
+        print("Data loaded.")
         # Disable sending emails during unit testing
         # mail.init_app(app)
         # self.assertEqual(app.debug, False)
@@ -27,6 +31,7 @@ class TestCase(unittest.TestCase):
     def tearDown(self):
         self.ctx.pop()
         db.drop_all()
+        elastic_index.clear()
         pass
 
     def test_base(self):
@@ -446,6 +451,51 @@ class TestCase(unittest.TestCase):
         updated = models.EmailLog.query.filter_by(tracking_code=email_log.tracking_code).first()
         self.assertTrue(updated.opened)
         self.assertIsNotNone(updated.date_opened)
+
+    def search(self, query):
+        '''Executes a query, returning the resulting dict of workshops.'''
+        rv = self.app.post('/api/workshop/search', data=json.dumps(query), follow_redirects=True,
+                           content_type="application/json")
+        self.assert_success(rv)
+        return json.loads(rv.get_data(as_text=True))
+
+
+    def test_search_title(self):
+        data = {'query': 'python', 'filters': {}}
+        workshops = self.search(data)
+        self.assertEqual(3, len(workshops))
+
+    def test_search_description(self):
+        data = {'query': 'amazon web services', 'filters': {}}
+        workshops = self.search(data)
+        self.assertEqual(6, len(workshops))
+        self.assertEqual("Introduction to Cloud Computing with AWS",
+                         workshops[0]['title'])
+
+    def test_search_location(self):
+        data = {'query': 'Brown 133', 'filters': {}}
+        workshops = self.search(data)
+        self.assertEqual(10, len(workshops))
+        for w in workshops:
+            self.assertEquals(w['sessions'][0]['location'],'Brown 133')
+
+    def test_search_instructor(self):
+        data = {'query': 'Nagraj', 'filters': {}}
+        workshops = self.search(data)
+        self.assertEqual(5, len(workshops))
+        for w in workshops:
+            match = False
+            for i in w['sessions'][0]['instructors']:
+                if(i['display_name'] == 'VP Nagraj (Pete)'): match = True
+            assert(match, "No matches for Pete in instructors:" + str(w['sessions'][0]['instructors']))
+
+    def test_view_instructor_aggregations(self):
+        data = {'query': '', 'filters': {}}
+        workshops = self.search(data)
+        self.assertEqual(10, len(workshops)) # pagination
+
+    def test_filter_on_track(self):
+        self.assertTrue(False,"Make sure we can filter on track")
 
 if __name__ == '__main__':
     unittest.main()
