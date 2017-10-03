@@ -28,14 +28,22 @@ class ElasticIndex:
 
     def establish_connection(self, settings):
         """Establish connection to an ElasticSearch host, and initialize the Submission collection"""
-        self.connection = connections.create_connection(hosts=settings["hosts"],
+        if(settings["http_user"] != ''):
+            self.connection = connections.create_connection(hosts=settings["hosts"],
                                                         port=settings["port"],
                                                         timeout=settings["timeout"],
                                                         verify_certs=settings["verify_certs"],
                                                         use_ssl=settings["use_ssl"],
                                                         http_auth=(settings["http_auth_user"],
                                                                    settings["http_auth_pass"]))
-
+        else:
+            # Don't set an http_auth at all for connecting to AWS ElasticSearch or you will
+            # get a cryptic message that is darn near ungoogleable.
+            self.connection = connections.create_connection(hosts=settings["hosts"],
+                                                            port=settings["port"],
+                                                            timeout=settings["timeout"],
+                                                            verify_certs=settings["verify_certs"],
+                                                            use_ssl=settings["use_ssl"])
     def clear(self):
         try:
             self.logger.info("Clearing the index.")
