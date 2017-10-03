@@ -10,7 +10,6 @@ from elasticsearch_dsl.connections import connections
 import os
 import logging
 
-
 class ElasticIndex:
 
     logger = logging.getLogger("ElasticIndex")
@@ -56,6 +55,7 @@ class ElasticIndex:
             for s in w.sessions:
                 ew.date.append(s.date_time)
                 ew.location.append(s.location)
+                ew.location_search.append(s.location)
                 ew.open.append(s.open()),
                 ew.notes.append(s.instructor_notes)
                 for email in s.email_messages:
@@ -63,6 +63,7 @@ class ElasticIndex:
                     ew.messages.append(email.subject)
                 for instructor in s.instructors():
                     ew.instructors.append(instructor.display_name)
+                    ew.instructors_search.append(instructor.display_name)
 
             ElasticWorkshop.save(ew)
         self.index.flush()
@@ -70,9 +71,8 @@ class ElasticIndex:
     def search(self, search):
         # when using:
         #        workshop_search = BlogSearch("web framework", filters={"category": "python"})
-        workshop_search = WorkshopSearch(search.query, search.filters, index=self.index_name)
-        workshop_search.index = self.index_name
-
+        workshop_search = WorkshopSearch(search.query, search.jsonFilters(), index=self.index_name)
+        #workshop_search = WorkshopSearch(search.query, index=self.index_name)
         return workshop_search.execute()
 
 
@@ -83,10 +83,12 @@ class ElasticWorkshop(DocType):
     description = Text()
     date = Date(multi=True)
     location = Keyword(multi=True)
+    location_search = Text(multi=True)
     open = Keyword(multi=True)
     notes = Text(multi=True)
     messages = Text(multi=True)
     instructors = Keyword(multi=True)
+    instructors_search = Text(multi=True)
     track = Keyword(multi=True)
 
 class WorkshopSearch(elasticsearch_dsl.FacetedSearch):
@@ -98,11 +100,11 @@ class WorkshopSearch(elasticsearch_dsl.FacetedSearch):
 
 
     doc_types = [ElasticWorkshop]
-    fields = ['title^10', 'description^5', 'instructors^2', 'location', 'notes']
+    fields = ['title^10', 'description^5', 'instructors_search^2', 'location_search', 'notes']
 
     facets = {
         'location': elasticsearch_dsl.TermsFacet(field='location'),
-        'instructor': elasticsearch_dsl.TermsFacet(field='instructors'),
+        'instructors': elasticsearch_dsl.TermsFacet(field='instructors'),
         'date': elasticsearch_dsl.DateHistogramFacet(field='date', interval='week'),
         'track': elasticsearch_dsl.TermsFacet(field='track'),
         'open': elasticsearch_dsl.TermsFacet(field='open')
