@@ -16,6 +16,7 @@ export class SearchComponent implements OnInit {
 
   ngOnInit() {
     this.search = new Search();
+    this.doSearch('');
   }
 
   doSearch(query: string) {
@@ -30,6 +31,11 @@ export class SearchComponent implements OnInit {
 
   addFilter(field: string, value: string) {
     this.search.addFilter(field, value);
+    this.doSearch(this.search.query);
+  }
+
+  removeFilter(filter: Filter) {
+    this.search.removeFilter(filter);
     this.doSearch(this.search.query);
   }
 

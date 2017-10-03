@@ -9,7 +9,13 @@
 <p>Total Results Found: <span>{{search.total}}</span></p>
 
 <ul>
-  <li *ngFor="let filter of search.filters">{{filter.name}}</li>
+  <li *ngIf="search.query">
+    <button md-icon-button (click)="doSearch('')"><i class="material-icons">remove_circle_outline</i></button>
+    Search: {{search.query}}</li>
+
+  <li *ngFor="let filter of search.filters">
+    <button md-icon-button (click)="removeFilter(filter)"><i class="material-icons">remove_circle_outline</i></button>
+    {{filter.field}} : {{filter.value}}</li>
 </ul>
 
 <h2>Filters</h2>

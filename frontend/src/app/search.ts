@@ -22,17 +22,24 @@ export class Search {
    }
    this.filters = new Array<Filter>();
    if ('filters' in values) {
-     for (const f in values['filters']) {
+     for (const f of values['filters']) {
        this.filters.push(new Filter(f));
      }
    }
  }
 
  addFilter(field: string, value: string) {
-   let filter = new Filter();
+   const filter = new Filter();
    filter.field = field;
    filter.value = value;
    this.filters.push(filter);
+ }
+
+ removeFilter(filter: Filter) {
+   const index: number = this.filters.indexOf(filter);
+   if (index !== -1) {
+     this.filters.splice(index, 1);
+   }
  }
 
 }

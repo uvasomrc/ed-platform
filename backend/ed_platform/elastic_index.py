@@ -52,6 +52,9 @@ class ElasticIndex:
                                  title=w.title,
                                  description=w.description,
                                  )
+            for tw in w.track_workshops:
+                ew.tracks.append(tw.track.title)
+
             for s in w.sessions:
                 ew.date.append(s.date_time)
                 ew.location.append(s.location)
@@ -64,7 +67,6 @@ class ElasticIndex:
                 for instructor in s.instructors():
                     ew.instructors.append(instructor.display_name)
                     ew.instructors_search.append(instructor.display_name)
-
             ElasticWorkshop.save(ew)
         self.index.flush()
 
@@ -89,7 +91,7 @@ class ElasticWorkshop(DocType):
     messages = Text(multi=True)
     instructors = Keyword(multi=True)
     instructors_search = Text(multi=True)
-    track = Keyword(multi=True)
+    tracks = Keyword(multi=True)
 
 class WorkshopSearch(elasticsearch_dsl.FacetedSearch):
 
@@ -99,6 +101,7 @@ class WorkshopSearch(elasticsearch_dsl.FacetedSearch):
         super(WorkshopSearch, self).__init__(*args, **kwargs)
 
 
+
     doc_types = [ElasticWorkshop]
     fields = ['title^10', 'description^5', 'instructors_search^2', 'location_search', 'notes']
 
@@ -106,7 +109,7 @@ class WorkshopSearch(elasticsearch_dsl.FacetedSearch):
         'location': elasticsearch_dsl.TermsFacet(field='location'),
         'instructors': elasticsearch_dsl.TermsFacet(field='instructors'),
         'date': elasticsearch_dsl.DateHistogramFacet(field='date', interval='week'),
-        'track': elasticsearch_dsl.TermsFacet(field='track'),
+        'tracks': elasticsearch_dsl.TermsFacet(field='tracks'),
         'open': elasticsearch_dsl.TermsFacet(field='open')
     }
 
