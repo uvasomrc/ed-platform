@@ -21,6 +21,7 @@ eval 'pip3 install flask sqlalchemy psycopg2 flask-migrate flask-script flask-co
 eval 'python ${HOME_DIR}/backend/manage.py clear_data'
 eval 'cd ${HOME_DIR}/backend && python ${HOME_DIR}/backend/manage.py db upgrade'
 eval 'cd ${HOME_DIR}/backend && python ${HOME_DIR}/backend/manage.py load_data'
+eval 'cd ${HOME_DIR}/backend && python ${HOME_DIR}/backend/manage.py index_data'
 # Rebuild the front end.
 eval 'cd ${HOME_DIR}/frontend && npm install'
 eval 'cd ${HOME_DIR}/frontend && ng build -prod'
