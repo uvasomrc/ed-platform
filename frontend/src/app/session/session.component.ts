@@ -33,10 +33,12 @@ export class SessionComponent implements OnInit {
   ngOnInit() {
     this.available = this.session.isAvailable();
     this.accountService.getAccount().subscribe (account => {
-      this.account = account;
-      this.taking = this.account.isUpcoming(this.session);
-      this.teaching = this.account.isTeaching(this.session);
-      if (this.teaching || this.taking) { this.available = false; }
+      if(account != null) {
+        this.account = account;
+        this.taking = this.account.isUpcoming(this.session);
+        this.teaching = this.account.isTeaching(this.session);
+        if (this.teaching || this.taking) { this.available = false; }
+      }
     });
   }
 
