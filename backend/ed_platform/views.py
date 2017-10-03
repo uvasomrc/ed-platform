@@ -1,5 +1,6 @@
 import datetime
 
+import elasticsearch
 from flask import jsonify, request, send_file, session, redirect, g, render_template
 from ed_platform import app, db, models, sso, RestException, emails, elastic_index
 from flask_httpauth import HTTPTokenAuth
@@ -154,13 +155,25 @@ def get_workshops():
 def search_workshops():
     request_data = request.get_json()
     search = models.SearchSchema().load(request_data).data
-    results = elastic_index.search(search)
+    try:
+        results = elastic_index.search(search)
+    except elasticsearch.ElasticsearchException as e:
+        raise RestException(RestException.ELASTIC_ERROR)
+    search.total = results.hits.total
+    facets = {}
+    for facet_name in results.facets:
+        counts = []
+        for category, hit_count, is_selected in results.facets[facet_name]:
+            counts.append({'category':category, 'hit_count':hit_count, 'is_selected': is_selected})
+        facets[facet_name] = counts
+    print(jsonify(facets))
+    search.facets = facets
     workshops = []
     for hit in results:
         workshop = models.Workshop.query.filter_by(id=hit.id).first()
         workshops.append(workshop)
-
-    return workshop_schema.jsonify(workshops, many=True)
+    search.hits = workshop_schema.dump(workshops, many=True).data
+    return models.SearchSchema().jsonify(search)
 
 @app.route('/api/workshop', methods=['POST'])
 def create_workshop():

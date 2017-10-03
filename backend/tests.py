@@ -408,7 +408,6 @@ class TestCase(unittest.TestCase):
         instructor.register(session, is_instructor=True)
         data = {'subject':'Test Subject', 'content': 'Test Content'}
         orig_log_count = len(models.EmailLog.query.all())
-
         rv = self.app.post("/api/session/%i/email" % session.id, headers=headers,
                            data=json.dumps(data),  content_type="application/json")
         self.assert_success(rv)
@@ -453,7 +452,7 @@ class TestCase(unittest.TestCase):
         self.assertIsNotNone(updated.date_opened)
 
     def search(self, query):
-        '''Executes a query, returning the resulting dict of workshops.'''
+        '''Executes a query, returning the resulting search results object.'''
         rv = self.app.post('/api/workshop/search', data=json.dumps(query), follow_redirects=True,
                            content_type="application/json")
         self.assert_success(rv)
@@ -461,41 +460,62 @@ class TestCase(unittest.TestCase):
 
 
     def test_search_title(self):
-        data = {'query': 'python', 'filters': {}}
-        workshops = self.search(data)
-        self.assertEqual(3, len(workshops))
+        data = {'query': 'python', 'filters': []}
+        search_results = self.search(data)
+        self.assertEqual(3, len(search_results["hits"]))
+
 
     def test_search_description(self):
-        data = {'query': 'amazon web services', 'filters': {}}
-        workshops = self.search(data)
-        self.assertEqual(6, len(workshops))
+        data = {'query': 'amazon web services', 'filters': []}
+        search_results = self.search(data)
+        self.assertEqual(6, len(search_results["hits"]))
         self.assertEqual("Introduction to Cloud Computing with AWS",
-                         workshops[0]['title'])
+                         search_results["hits"][0]['title'])
 
     def test_search_location(self):
-        data = {'query': 'Brown 133', 'filters': {}}
-        workshops = self.search(data)
-        self.assertEqual(10, len(workshops))
-        for w in workshops:
-            self.assertEquals(w['sessions'][0]['location'],'Brown 133')
+        data = {'query': 'Brown', 'filters': []}
+        search_results = self.search(data)
+        self.assertEqual(17, search_results["total"])
+        self.assertEqual(10, len(search_results["hits"]))
+        for w in search_results["hits"]:
+            self.assertEqual(w['sessions'][0]['location'],'Brown 133')
 
     def test_search_instructor(self):
-        data = {'query': 'Nagraj', 'filters': {}}
-        workshops = self.search(data)
-        self.assertEqual(5, len(workshops))
-        for w in workshops:
+        data = {'query': 'Nagraj', 'filters': []}
+        search_results = self.search(data)
+        self.assertEqual(5, search_results["total"])
+        self.assertEqual(5, len(search_results["hits"]))
+        for w in search_results["hits"]:
             match = False
             for i in w['sessions'][0]['instructors']:
                 if(i['display_name'] == 'VP Nagraj (Pete)'): match = True
-            assert(match, "No matches for Pete in instructors:" + str(w['sessions'][0]['instructors']))
+            assert match, "No matches for Pete in instructors:" + str(w['sessions'][0]['instructors'])
+
+    def test_search_meta(self):
+        data = {'query': '', 'filters': []}
+        results = self.search(data)
+        self.assertIn('total', results)
+        self.assertEqual(17, results["total"])
+        self.assertEqual(10, len(results["hits"]))
 
     def test_view_instructor_aggregations(self):
-        data = {'query': '', 'filters': {}}
-        workshops = self.search(data)
-        self.assertEqual(10, len(workshops)) # pagination
+        data = {'query': '', 'filters': []}
+        results = self.search(data)
+        self.assertIn('facets', results)
+        self.assertIn('instructors', results["facets"])
 
-    def test_filter_on_track(self):
-        self.assertTrue(False,"Make sure we can filter on track")
+    def test_filter_on_instructor(self):
+        data = {'query': '', 'filters': [{'field':'instructors','value':'VP Nagraj (Pete)'}]}
+        results = self.search(data)
+        self.assertEquals(5, len(results["hits"]))
+        self.assertEquals(5, results["total"])
+        for hit in results["hits"]:
+            match = False
+            for session in hit["sessions"]:
+                for instructor in session["instructors"]:
+                    if(instructor["display_name"] == 'VP Nagraj (Pete)'):
+                        match = True
+            self.assertTrue(match, "Every hit should now have Pete as an instructor.")
 
 if __name__ == '__main__':
     unittest.main()

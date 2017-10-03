@@ -32,10 +32,33 @@ class User():
 
 class Search():
     query = ""
-    filters = {}
+    filters = []
+    total = 0
+    hits = []
+    facets = []
 
-    def __init__(self, query, filters):
+    def __init__(self, query="", filters=[]):
         self.query = query
+        self.filters = filters
+
+    def jsonFilters(self):
+        jfilter = {}
+        for f in self.filters:
+            jfilter[f.field] = f.value
+        return jfilter
+
+class Facet():
+    name = ""
+    count = 0
+    is_selected = False
+
+class Filter():
+    field = ""
+    value = ""
+
+    def __init__(self, field, value):
+        self.field = field
+        self.value = value
 
 class Track(db.Model):
     __tablename__ = 'track'
@@ -240,8 +263,20 @@ class EmailLogDbSchema(ma.ModelSchema):
 # ----------------------------------------
 
 class SearchSchema(ma.Schema):
+
+    class FilterSchema(ma.Schema):
+        field = fields.Str()
+        value = fields.Str()
+
+        @post_load
+        def make_filter(self, data):
+            return Filter(**data)
+
     query = fields.Str()
-    filters = fields.Dict()
+    filters = ma.List(ma.Nested(FilterSchema))
+    total = fields.Integer(dump_only=True)
+    hits = fields.List(fields.Dict(), dump_only=True)
+    facets = fields.Dict(dump_only=True)
     ordered = True
 
     @post_load
