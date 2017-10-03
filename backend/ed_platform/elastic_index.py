@@ -28,7 +28,7 @@ class ElasticIndex:
 
     def establish_connection(self, settings):
         """Establish connection to an ElasticSearch host, and initialize the Submission collection"""
-        if(settings["http_user"] != ''):
+        if(settings["http_auth_user"] != ''):
             self.connection = connections.create_connection(hosts=settings["hosts"],
                                                         port=settings["port"],
                                                         timeout=settings["timeout"],
@@ -116,9 +116,9 @@ class WorkshopSearch(elasticsearch_dsl.FacetedSearch):
     facets = {
         'location': elasticsearch_dsl.TermsFacet(field='location'),
         'instructors': elasticsearch_dsl.TermsFacet(field='instructors'),
-        'date': elasticsearch_dsl.DateHistogramFacet(field='date', interval='week'),
-        'tracks': elasticsearch_dsl.TermsFacet(field='tracks'),
-        'open': elasticsearch_dsl.TermsFacet(field='open')
+        'tracks': elasticsearch_dsl.TermsFacet(field='tracks')
+#        'date': elasticsearch_dsl.DateHistogramFacet(field='date', interval='week'),
+#        'open': elasticsearch_dsl.TermsFacet(field='open')
     }
 
     #def search(self):
