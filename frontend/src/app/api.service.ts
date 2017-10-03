@@ -10,15 +10,18 @@ import {Track} from './track';
 import {Participant} from './participant';
 import {Session} from "./session";
 import {EmailMessage} from "./EmailMessage";
+import {Search} from "./search";
 
 @Injectable()
 export class ApiService {
 
   apiRoot = environment.api;
   workshop_url = `${this.apiRoot}/api/workshop`;
+  search_url = `${this.apiRoot}/api/workshop/search`;
   track_url = `${this.apiRoot}/api/track`;
   session_url = `${this.apiRoot}/api/session`;
   account_url = `${this.apiRoot}/api/auth`;
+
   token: string;
 
   constructor(private http: Http) {
@@ -118,6 +121,15 @@ export class ApiService {
           return(new Workshop(item));
         });
       });
+  }
+
+  searchWorkshops(search: Search): Observable<Search> {
+    return this.http
+      .post(this.search_url, search)
+      .map(response => {
+        return new Search(response.json());
+      })
+      .catch(this.handleError);
   }
 
   getWorkshop(workshop_id: number): Observable<Workshop> {

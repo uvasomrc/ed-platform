@@ -1,0 +1,33 @@
+<form class="search-form" name="search-form">
+  <div>Search:</div>
+  <input #query type="search">
+  <button (click)="doSearch(query.value)">
+    <md-icon>search</md-icon>
+  </button>
+</form>
+
+<p>Total Results Found: <span>{{search.total}}</span></p>
+
+<ul>
+  <li *ngFor="let filter of search.filters">{{filter.name}}</li>
+</ul>
+
+<h2>Filters</h2>
+<md-expansion-panel *ngFor="let facet of search.facets">
+  <md-expansion-panel-header>
+    <md-panel-title>
+      {{facet.name}}
+    </md-panel-title>
+  </md-expansion-panel-header>
+
+  <md-selection-list>
+    <md-list-option *ngFor="let count of facet.counts" (click)="addFilter(facet.name, count.category)">
+      {{count.category}}  {{count.hit_count}}
+    </md-list-option>
+  </md-selection-list>
+</md-expansion-panel>
+
+
+
+<h2>Workshops</h2>
+<app-workshop-list [workshops]="search.hits"></app-workshop-list>

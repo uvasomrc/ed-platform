@@ -4,6 +4,7 @@ import {ApiService} from './api.service';
 import {Observable} from 'rxjs/Observable';
 import {Session} from "./session";
 import {EmailMessage} from "./EmailMessage";
+import {Search} from "./search";
 
 @Injectable()
 export class WorkshopService {
@@ -34,5 +35,9 @@ export class WorkshopService {
   // Simulate POST /workshop
   addWorkshop(workshop: Workshop): Observable<Workshop> {
     return this.api.addWorkshop(workshop);
+  }
+
+  searchWorkshops(search: Search): Observable<Search> {
+    return this.api.searchWorkshops(search);
   }
 }

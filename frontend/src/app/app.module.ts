@@ -9,7 +9,8 @@ import {TrackService} from './track.service';
 import { TrackListComponent } from './track-list/track-list.component';
 import {
   MdButtonModule, MdIconModule, MdMenuModule, MdToolbarModule, MdCardModule,
-  MdInputModule, MdCheckboxModule, MdFormFieldModule, MdTabsModule, MdProgressSpinnerModule
+  MdInputModule, MdCheckboxModule, MdFormFieldModule, MdTabsModule, MdProgressSpinnerModule,
+  MdExpansionModule, MdSelectModule, MdListModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {WorkshopService} from './workshop.service';
@@ -32,11 +33,13 @@ import {AccountService} from './account.service';
 import { AccountRedirectComponent } from './account-redirect/account-redirect.component';
 import {AuthGuard} from './auth.guard';
 import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard.component';
+import { SearchComponent } from './search/search.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'find', redirectTo: 'search'},
   {path: 'home', component: HomeComponent},
+  {path: 'search', component: SearchComponent},
   {path: 'track/:id', component: TrackDetailsComponent},
   {path: 'workshop/:id', component: WorkshopDetailsComponent},
   {path: 'account/:token', component: AccountRedirectComponent},
@@ -67,7 +70,8 @@ const routes: Routes = [
     TimesPipe,
     AccountDetailsComponent,
     AccountRedirectComponent,
-    TeacherDashboardComponent
+    TeacherDashboardComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -86,6 +90,9 @@ const routes: Routes = [
     MdFormFieldModule,
     MdTabsModule,
     MdProgressSpinnerModule,
+    MdSelectModule,
+    MdExpansionModule,
+    MdListModule,
     RouterModule.forRoot(routes, {useHash: true})
   ],
   providers: [TrackService, WorkshopService, ApiService, AccountService, AuthGuard],

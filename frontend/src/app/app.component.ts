@@ -25,6 +25,10 @@ export class AppComponent implements OnInit {
     this.accountService.refreshAccount();
   }
 
+  goSearch() {
+    this.router.navigate(['search']);
+  }
+
   goHome() {
     this.router.navigate(['home']);
   }

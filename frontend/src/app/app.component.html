@@ -1,6 +1,8 @@
 <md-toolbar color="primary" >
   <span>Ed-Platform</span>
   <span class="spacer"></span>
+  <button (click)="goSearch()"><md-icon>search</md-icon></button>
+  <span class="spacer"></span>
   <span *ngIf="account" class="logged-in">
     <img class="user-icon" src="{{account.links.image}}" alt="{{account.display_name}}">
   </span>
