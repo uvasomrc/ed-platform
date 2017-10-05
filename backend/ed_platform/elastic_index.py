@@ -81,7 +81,8 @@ class ElasticIndex:
     def search(self, search):
         # when using:
         #        workshop_search = BlogSearch("web framework", filters={"category": "python"})
-        workshop_search = WorkshopSearch(search.query, search.jsonFilters(), index=self.index_name)
+        workshop_search = WorkshopSearch(search.query, search.jsonFilters(),
+                                         date_restriction=search.date_restriction, index=self.index_name)
         #workshop_search = WorkshopSearch(search.query, index=self.index_name)
         return workshop_search.execute()
 
@@ -105,10 +106,10 @@ class WorkshopSearch(elasticsearch_dsl.FacetedSearch):
 
     def __init__(self, *args, **kwargs):
         self.index = kwargs["index"]
+        self.date_restriction = kwargs["date_restriction"]
         kwargs.pop("index")
+        kwargs.pop("date_restriction")
         super(WorkshopSearch, self).__init__(*args, **kwargs)
-
-
 
     doc_types = [ElasticWorkshop]
     fields = ['title^10', 'description^5', 'instructors_search^2', 'location_search', 'notes']
@@ -121,8 +122,16 @@ class WorkshopSearch(elasticsearch_dsl.FacetedSearch):
 #        'open': elasticsearch_dsl.TermsFacet(field='open')
     }
 
-    #def search(self):
-    #    ' Override search to add your own filters '
-    #    s = super(WorkshopSearch, self).search()
-    #    #return s.filter('term', open=True)
+    def search(self):
+        ' Override search to add your own filters '
+        s = super(WorkshopSearch, self).search()
+        if(self.date_restriction.lower() == "past"):
+            s = s.filter('range',date={"lte": "now-1d/d"})
+        if (self.date_restriction.lower() == "future"):
+            s = s.filter('range',date={"gt": "now-1d/d"})
+        if (self.date_restriction.lower() == "7days"):
+            s = s.filter('range',date={"gt": "now-1d/d","lte":"now+7d/d"})
+        if (self.date_restriction.lower() == "30days"):
+            s = s.filter('range',date={"gt": "now-1d/d", "lte": "now+30d/d"})
+        return s
 

@@ -1,7 +1,7 @@
-<form class="search-form" name="search-form">
+<form class="search-box">
   <div>Search:</div>
   <input #query type="search">
-  <button (click)="doSearch(query.value)">
+  <button (click)="updateQuery(query.value)">
     <md-icon>search</md-icon>
   </button>
 </form>
@@ -10,8 +10,12 @@
 
 <ul>
   <li *ngIf="search.query">
-    <button md-icon-button (click)="doSearch('')"><i class="material-icons">remove_circle_outline</i></button>
+    <button md-icon-button (click)="updateQuery()"><i class="material-icons">remove_circle_outline</i></button>
     Search: {{search.query}}</li>
+
+  <li *ngIf="search.date_restriction">
+    <button md-icon-button (click)="removeDateRange()"><i class="material-icons">remove_circle_outline</i></button>
+    Date Range: {{date_range_display}}</li>
 
   <li *ngFor="let filter of search.filters">
     <button md-icon-button (click)="removeFilter(filter)"><i class="material-icons">remove_circle_outline</i></button>
@@ -19,18 +23,32 @@
 </ul>
 
 <h2>Filters</h2>
+<md-expansion-panel>
+  <md-expansion-panel-header>
+    <md-panel-title>
+      Date Range
+    </md-panel-title>
+  </md-expansion-panel-header>
+  <md-list>
+    <md-list-item (click)="setDateRange('all', 'All')">All</md-list-item>
+    <md-list-item (click)="setDateRange('future', 'Upcoming')">Upcoming</md-list-item>
+    <md-list-item (click)="setDateRange('7days', 'Upcoming (7 days)')">Upcoming (7 days)</md-list-item>
+    <md-list-item (click)="setDateRange('30days', 'Upcoming (30 days)')">Upcoming (30 days)</md-list-item>
+    <md-list-item (click)="setDateRange('past', 'Past')">Past</md-list-item>
+  </md-list>
+</md-expansion-panel>
+
 <md-expansion-panel *ngFor="let facet of search.facets">
   <md-expansion-panel-header>
     <md-panel-title>
       {{facet.name}}
     </md-panel-title>
   </md-expansion-panel-header>
-
-  <md-selection-list>
-    <md-list-option *ngFor="let count of facet.counts" (click)="addFilter(facet.name, count.category)">
+  <md-list>
+    <md-list-item *ngFor="let count of facet.counts" (click)="addFilter(facet.name, count.category)">
       {{count.category}}  {{count.hit_count}}
-    </md-list-option>
-  </md-selection-list>
+    </md-list-item>
+  </md-list>
 </md-expansion-panel>
 
 

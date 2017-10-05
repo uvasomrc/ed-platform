@@ -5,6 +5,7 @@ export class Search {
  total = 0;
  hits: Array<Workshop>;
  facets: Array<Facet>;
+ date_restriction: string;
 
  constructor(values: Object= {}) {
    Object.assign(this, values);

@@ -1,4 +1,7 @@
+import datetime
 import unittest
+
+import dateutil
 from flask import json, request
 from flask_mail import Mail
 import os
@@ -516,6 +519,29 @@ class TestCase(unittest.TestCase):
                     if(instructor["display_name"] == 'VP Nagraj (Pete)'):
                         match = True
             self.assertTrue(match, "Every hit should now have Pete as an instructor.")
+
+    def test_search_by_date_past(self):
+        data = {'query': '', 'date_restriction':'past'}
+        results = self.search(data)
+        for hit in results["hits"]:
+            match = False
+            for session in hit["sessions"]:
+                date = dateutil.parser.parse(session['date_time'])
+                present = datetime.datetime.now(datetime.timezone.utc)
+                if(date < present): match=True;
+            self.assertTrue(match, "Every hit should now have a session in the past.")
+
+    def test_search_by_date_future(self):
+        data = {'query': '', 'date_restriction':'future'}
+        results = self.search(data)
+        for hit in results["hits"]:
+            match = False
+            for session in hit["sessions"]:
+                date = dateutil.parser.parse(session['date_time'])
+                present = datetime.datetime.now(datetime.timezone.utc)
+                if(date >= present): match=True;
+            self.assertTrue(match, "Every hit should now have a session in the future.")
+
 
 if __name__ == '__main__':
     unittest.main()

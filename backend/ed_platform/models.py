@@ -36,15 +36,18 @@ class Search():
     total = 0
     hits = []
     facets = []
+    date_restriction = ""
 
-    def __init__(self, query="", filters=[]):
+    def __init__(self, query="", filters=[], date_restriction=""):
         self.query = query
         self.filters = filters
+        self.date_restriction = date_restriction
 
     def jsonFilters(self):
         jfilter = {}
         for f in self.filters:
             jfilter[f.field] = f.value
+
         return jfilter
 
 class Facet():
@@ -273,6 +276,7 @@ class SearchSchema(ma.Schema):
             return Filter(**data)
 
     query = fields.Str()
+    date_restriction = fields.Str()
     filters = ma.List(ma.Nested(FilterSchema))
     total = fields.Integer(dump_only=True)
     hits = fields.List(fields.Dict(), dump_only=True)
