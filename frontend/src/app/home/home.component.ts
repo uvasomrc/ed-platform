@@ -10,7 +10,7 @@ import { trigger, state, style, transition, animate, keyframes, query, stagger }
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  styleUrls: ['./home.component.scss'],
   animations: [
   /*
     trigger('slide', [
@@ -20,9 +20,9 @@ import { trigger, state, style, transition, animate, keyframes, query, stagger }
     ])
 */
     trigger('slide', [
-      state('1', style({ transform: 'translateX(0)' })),
+      state('1', style({ transform: 'translateX(-50px)' })),
       state('2', style({ transform: 'translateX(-300px)' })),
-      state('3', style({ transform: 'translateX(-560px)' })),
+      state('3', style({ transform: 'translateX(-580px)' })),
       state('4', style({ transform: 'translateX(-800px)' })),
       state('5', style({ transform: 'translateX(-920px)' })),
       transition('* => *', animate(300))
@@ -37,8 +37,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   trackSub: Subscription;
   sponsors: Sponsor[] = [];
   showControls = false;
-  sponsor_index = 3;
-  sponsor_state = '3';
+  sponsor_index = 1;
+  sponsor_state = '1';
 
   constructor(private workshopService: WorkshopService,
               private trackService: TrackService,

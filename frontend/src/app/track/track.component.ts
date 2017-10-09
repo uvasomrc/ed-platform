@@ -6,7 +6,7 @@ import {Router} from "@angular/router";
 @Component({
   selector: 'app-track',
   templateUrl: './track.component.html',
-  styleUrls: ['./track.component.css'],
+  styleUrls: ['./track.component.scss'],
   encapsulation: ViewEncapsulation.Emulated
 })
 export class TrackComponent implements OnInit {

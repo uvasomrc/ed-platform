@@ -1,17 +1,25 @@
-<md-card class="workshop-card"  fxFlex="80">
-  <img md-card-image src="{{workshop.links.image}}" class="md-card-image"/>
-  <md-card-content>
-    <div class="card-body-header">
-      <div class="card-body-header-category">Workshop</div>
-      <h1>{{workshop.title}}</h1>
-      <p class="card-body-description">{{workshop.description | slice:0:300}}...</p>
-    </div>
-  </md-card-content>
+<md-card class="workshop">
+  <md-card-header *ngIf="workshop.hasUpcomingSession()" (click)="goWorkshop()">
+    <img md-card-avatar src="{{workshop.nextSession().firstInstructor().links.image}}">
+    <md-card-title>{{workshop.title}}</md-card-title>
+    <md-card-subtitle>
+      with {{workshop.nextSession().instructorsDisplay()}}<br/>
+      {{workshop.nextSession().date_time | date: 'EEE. MMMM d, y, h:mm-'}}{{workshop.nextSession().endTime() | date: 'h:mma'}}
+      <br/>
+      Location: {{workshop.nextSession().location}}
+    </md-card-subtitle>
+  </md-card-header>
+  <md-card-header *ngIf="!workshop.hasUpcomingSession()">
+    <md-card-title>{{workshop.title}}</md-card-title>
+    <p>No upcoming sessions for this workshop.</p>
+  </md-card-header>
 
+  <!--
   <md-card-actions>
     <button md-button (click)="goWorkshop(workshop.id)">Register Now!</button>
-      <button md-button class="md-icon-button" aria-label="icon">
-        <md-icon md-svg-icon="icon"></md-icon>
-      </button>
+    <button md-button class="md-icon-button" aria-label="icon">
+      <md-icon md-svg-icon="icon"></md-icon>
+    </button>
   </md-card-actions>
+  -->
 </md-card>

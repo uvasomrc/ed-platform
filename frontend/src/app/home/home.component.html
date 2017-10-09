@@ -1,8 +1,13 @@
 <div class="docs-primary-header">
-  <h1 class="md-title">The CADRE Education Platform</h1>
-  <h2 class="md-subhead">Free Technology Classes on the UVA Campus.</h2>
-
-
+  <div class="logo">
+    <img class="logo" src="../../assets/logo.png"
+         alt="Welcome to Cadre Academy.  Free Technology Classes on the UVA Campus."/>
+  </div>
+</div>
+<div class="sponsors">
+  <button (click)="left()" class="arrows">
+    <md-icon>arrow_back</md-icon>
+  </button>
   <section class="carousel-wrapper">
     <ul class="carousel-inner" [@slide]="sponsor_state">
       <li *ngFor="let sponsor of sponsors;" class="carousel">
@@ -10,17 +15,31 @@
       </li>
     </ul>
   </section>
-  <div *ngIf="showControls">
-    <button (click)="left()">&lt;</button>
-    <button (click)="right()">&gt;</button>
-  </div>
+  <button (click)="right()" class="arrows">
+    <md-icon>arrow_forward</md-icon>
+  </button>
 </div>
 
-<h2>Available Tracks</h2>
-<app-track-list [tracks]="tracks"></app-track-list>
+<h1>Welcome!</h1>
+<p>
+  The Cadre Academy is available for students, faculty
+  and staff to sign up for live workshops on the UVA campus.
+  You can sign up for any upcoming workshop. You can also
+  use Tracks to get a better sense of what workshop to take
+  when, and how to further progress your skills.
+</p>
 
-<h2>Available Workshops</h2>
-<app-workshop-list [workshops]="workshops"></app-workshop-list>
-
-<h2>Create Workshop</h2>
-<app-workshop-form (add)="onAddWorkshop($event)"></app-workshop-form>
+<section>
+  <h2>Popular Tracks</h2>
+  <app-track-list [tracks]="tracks"></app-track-list>
+</section>
+<section>
+  <h2>Popular Workshops</h2>
+  <app-workshop-list [workshops]="workshops"></app-workshop-list>
+</section>
+<!--
+<section>
+  <h2>Create Workshop</h2>
+  <app-workshop-form (add)="onAddWorkshop($event)"></app-workshop-form>
+</section>
+-->

@@ -1,0 +1,62 @@
+// Import theming functions
+@import '~@angular/material/theming';
+// Import your custom theme
+@import '../../uva_material.scss';
+// Load the UVA Theme
+@include uva-theme($uva-theme);
+
+.docs-primary-header {
+  background-image: url('../../assets/logo-bg.png');
+}
+
+div.logo {
+  background: -webkit-linear-gradient(bottom,rgba(0,47,108,0),rgba(0,47,108,1)); /*Safari 5.1-6*/
+  background: -o-linear-gradient(top,rgba(0,47,108,0),rgba(0,47,108,1)); /*Opera 11.1-12*/
+  background: -moz-linear-gradient(bottom,rgba(0,47,108,0),rgba(0,47,108,1)); /*Fx 3.6-15*/
+  background: linear-gradient(to bottom, rgba(0,47,108,0), rgba(0,47,108,1));
+  width: 100%;
+  color: white;
+  margin: auto;
+  vertical-align: middle;
+  text-align: center;
+}
+
+img.logo {
+  width: 90%;
+  max-width: 500px;
+  padding: 20px 0 20px 0;
+}
+
+.carousel-wrapper {
+  overflow: hidden;
+  background-color: white;
+  text-align: center;
+}
+.carousel {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 6000px;
+}
+.carousel-inner {
+  display: flex;
+}
+.sponsors {
+  display: flex;
+}
+
+.arrows {
+  font-size: 48px;
+  color: lightgrey;
+  background: white;
+  border: none;
+}
+
+.arrows:active {
+  border: none;
+}
+
+.sponsor_slider {
+  background-color: white;
+}
+

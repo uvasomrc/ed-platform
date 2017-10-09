@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+/*@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';*/
+
+// Import theming functions
+@import '~@angular/material/theming';
+// Import your custom theme
+@import 'uva_material.scss';
+// Load the UVA Theme
+@include uva-theme($uva-theme);
+

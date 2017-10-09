@@ -1,3 +1,11 @@
+// Import theming functions
+@import '~@angular/material/theming';
+// Import your custom theme
+@import '../uva_material.scss';
+// Load the UVA Theme
+@include uva-theme($uva-theme);
+
+
 .spacer {
   flex: 1 1 auto;
 }

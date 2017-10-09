@@ -1,14 +1,12 @@
-<md-toolbar color="primary" >
-  <span>Ed-Platform</span>
+<md-toolbar>
+  <button md-button [mdMenuTriggerFor]="appMenu">
+    <md-icon>menu</md-icon>
+  </button>
   <span class="spacer"></span>
-  <button (click)="goSearch()"><md-icon>search</md-icon></button>
-  <span class="spacer"></span>
+  <button md-button (click)="goSearch()"><md-icon>search</md-icon></button>
   <span *ngIf="account" class="logged-in">
     <img class="user-icon" src="{{account.links.image}}" alt="{{account.display_name}}">
   </span>
-  <button md-button [mdMenuTriggerFor]="appMenu">
-    <md-icon>menu</md-icon> Menu
-  </button>
 </md-toolbar>
 <md-menu #appMenu="mdMenu">
   <button md-menu-item (click)="goHome()">

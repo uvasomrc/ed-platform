@@ -70,10 +70,74 @@ $md-orange: (
   )
 );
 
-$custom-theme-primary: mat-palette($md-blue);
-$custom-theme-accent: mat-palette($md-orange, A200, A100, A400);
+$uva-primary: mat-palette($md-blue);
+$uva-accent: mat-palette($md-orange, A200, A100, A400);
 $my-app-warn:    mat-palette($mat-deep-orange);
 
-$my-app-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent, $my-app-warn);
+$uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
 
-@include angular-material-theme($my-app-theme);
+@include angular-material-theme($uva-theme);
+
+
+// Define a mixin that accepts a theme and outputs the color styles for the component.
+@mixin uva-theme($theme) {
+  // Extract whichever individual palettes you need from the theme.
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+
+  // Use mat-color to extract individual colors from a palette as necessary.
+
+  body {
+    background-color: mat-color($primary, 50);
+    margin: 0px;
+  }
+
+  p {
+    padding: 5px 20px;
+    color: #888;
+    font-weight: 400;
+    max-width: 500px;
+  }
+
+  h1, h2 {
+    background-color: transparent;
+    color: mat-color($primary, 900);
+    padding: 10px 20px;
+    margin: 0;
+  }
+
+  h2 {
+    background-color: mat-contrast($primary, 900);
+    font-size: 16sp;
+  }
+
+  .mat-toolbar {
+    background-color: mat-color($accent, 500);
+    color: mat-contrast($accent, 700);
+  }
+
+  md-card {
+    margin: 20px;
+    max-width: 300px;
+    min-height: 50px;
+  }
+
+  md-card md-card-header {
+    cursor: pointer;
+  }
+
+  md-card-title, md-card-subtitle {
+    margin-bottom: 6px;
+  }
+
+  .mat-card-avatar {
+    height: 60px;
+    width: 60px;
+  }
+
+  md-card-subtitle {
+    color: mat-color($primary, 50);
+  }
+
+}
+

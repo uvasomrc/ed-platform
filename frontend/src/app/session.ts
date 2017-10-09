@@ -2,13 +2,14 @@ import {Participant} from './participant';
 import {Review} from './review';
 import {Workshop} from './workshop';
 import {Links} from './links';
-import {Attendee} from "./attendee";
+import {Attendee} from './attendee';
 
 export class Session {
   id: number;
   date_time: Date;
   duration_minutes: number;
   instructor_notes: string;
+  location: string;
   max_attendees: number;
   total_attendees = 0;
   reviews = Array<Review>();
@@ -42,16 +43,21 @@ export class Session {
 
   getParticipant(id): Participant {
     for (const p of this.attendees) {
-      if (p.id === id) {return p;}
+      if (p.id === id) {return p; }
     }
   }
 
   getInstructor(id): Participant {
     for (const p of this.instructors) {
-      if (p.id === id) {return p;}
+      if (p.id === id) {return p; }
     }
   }
 
+  firstInstructor(): Participant {
+    for (const p of this.instructors) {
+      return p;
+    }
+  }
 
   isPast(): boolean {
     return (this.date_time.valueOf() < new Date().valueOf());
@@ -60,6 +66,28 @@ export class Session {
   isAvailable(): boolean {
     return(!this.isPast() && this.max_attendees > this.total_attendees);
   }
+
+  endTime(): Date {
+    const end_date = new Date();
+    end_date.setTime(this.date_time.getTime() + (this.duration_minutes * 60 * 1000));
+    return end_date;
+  }
+
+  instructorsDisplay(): String {
+    if (this.instructors.length === 0) {
+      return 'Net yet assigned.';
+    }
+    if (this.instructors.length === 1) {
+      return this.instructors[0].display_name;
+    } else if (this.instructors.length === 2) {
+      return this.instructors[0].display_name +
+          ' and ' + this.instructors[1].display_name;
+    } else {
+      return this.instructors[0].display_name + ' et al.';
+    }
+
+  }
+
 }
 
 

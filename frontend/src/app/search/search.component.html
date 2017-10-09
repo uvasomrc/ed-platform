@@ -4,6 +4,9 @@
   <button (click)="updateQuery(query.value)">
     <md-icon>search</md-icon>
   </button>
+  <button (click)="toggleFilter()">
+    <i class="material-icons">filter_list</i>
+  </button>
 </form>
 
 <p>Total Results Found: <span>{{search.total}}</span></p>
@@ -22,6 +25,7 @@
     {{filter.field}} : {{filter.value}}</li>
 </ul>
 
+<div *ngIf="showFilters">
 <h2>Filters</h2>
 <md-expansion-panel>
   <md-expansion-panel-header>
@@ -50,8 +54,8 @@
     </md-list-item>
   </md-list>
 </md-expansion-panel>
-
-
+  <br/>
+</div>
 
 <h2>Workshops</h2>
 <app-workshop-list [workshops]="search.hits"></app-workshop-list>

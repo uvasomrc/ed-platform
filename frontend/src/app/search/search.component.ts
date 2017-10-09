@@ -5,20 +5,22 @@ import {WorkshopService} from '../workshop.service';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
 
   @Input()
   search: Search;
 
-  @Input()
   date_range_display: string;
+
+  showFilters = false;
 
   constructor(private workshopService: WorkshopService) { }
 
   ngOnInit() {
     this.search = new Search();
+    this.setDateRange('future', 'Upcoming');
     this.doSearch();
   }
 
@@ -38,6 +40,7 @@ export class SearchComponent implements OnInit {
   setDateRange(value, display) {
     this.search.date_restriction = value;
     this.date_range_display = display;
+    this.showFilters = false;
     this.doSearch();
   }
 
@@ -50,12 +53,19 @@ export class SearchComponent implements OnInit {
 
   addFilter(field: string, value: string) {
     this.search.addFilter(field, value);
+    this.showFilters = false;
     this.doSearch();
   }
 
   removeFilter(filter: Filter) {
     this.search.removeFilter(filter);
+    this.showFilters = false;
     this.doSearch();
+  }
+
+  toggleFilter() {
+    this.showFilters = !this.showFilters;
+    console.log('Filters are visible?' + this.showFilters);
   }
 
 }

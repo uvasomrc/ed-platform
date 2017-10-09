@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
 @Component({
   selector: 'app-workshop',
   templateUrl: './workshop.component.html',
-  styleUrls: ['./workshop.component.css']
+  styleUrls: ['./workshop.component.scss']
 })
 export class WorkshopComponent  {
 
@@ -13,8 +13,8 @@ export class WorkshopComponent  {
 
   constructor(private router: Router) {}
 
-  goWorkshop(id: Number) {
-    this.router.navigate(['workshop', id]);
+  goWorkshop() {
+    this.router.navigate(['workshop', this.workshop.id]);
   }
 
   background() {

@@ -1,6 +1,14 @@
+// Import theming functions
+@import '~@angular/material/theming';
+// Import your custom theme
+@import '../../uva_material.scss';
+// Load the UVA Theme
+@include uva-theme($uva-theme);
+
+
 form.search-box {
+  background-color: white;
   border-radius: 5px;
-  border: 2px solid black;
   padding: 0px 10px;
   margin: 10px 0 0 0;
   display: flex;
