@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router, RoutesRecognized} from '@angular/router';
 import {environment} from '../environments/environment';
 import {Participant} from './participant';
 import {AccountService} from './account.service';
@@ -13,9 +13,17 @@ export class AppComponent implements OnInit {
 
   login_url = environment.api + '/api/login';
   account: Participant;
+  title: String;
 
   constructor(private router: Router,
               private accountService: AccountService) {
+    router.events.subscribe(event => {
+      if (event instanceof RoutesRecognized) {
+        const route = event.state.root.firstChild;
+        this.title = route.data.title || '';
+        console.log('Title', this.title);
+      }
+    });
   }
 
   ngOnInit() {
@@ -29,10 +37,6 @@ export class AppComponent implements OnInit {
     this.router.navigate(['search']);
   }
 
-  goHome() {
-    this.router.navigate(['home']);
-  }
-
   goLogin() {
     window.location.href = this.login_url;
   }
@@ -40,10 +44,6 @@ export class AppComponent implements OnInit {
   goLogout() {
     this.accountService.logout();
     this.router.navigate(['home']);
-  }
-
-  goAccount() {
-    this.router.navigate(['accountDetails']);
   }
 
 }

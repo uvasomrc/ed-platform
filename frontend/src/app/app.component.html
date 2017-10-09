@@ -2,6 +2,7 @@
   <button md-button [mdMenuTriggerFor]="appMenu">
     <md-icon>menu</md-icon>
   </button>
+  <span>{{title}}</span>
   <span class="spacer"></span>
   <button md-button (click)="goSearch()"><md-icon>search</md-icon></button>
   <span *ngIf="account" class="logged-in">
@@ -9,25 +10,31 @@
   </span>
 </md-toolbar>
 <md-menu #appMenu="mdMenu">
-  <button md-menu-item (click)="goHome()">
+  <button md-menu-item
+     [routerLink]="['home']"
+     [routerLinkActive]="['active']">
     <md-icon> home </md-icon>
     <span> Home </span>
+  </button>
+  <button md-menu-item
+          [routerLink]="['search']"
+          [routerLinkActive]="['active']">
+    <md-icon> search </md-icon>
+    <span> Search </span>
+  </button>
+  <button *ngIf="account" md-menu-item
+          [routerLink]="['accountDetails']"
+          [routerLinkActive]="['active']">
+    <md-icon> person </md-icon>
+    <span> Your Account </span>
   </button>
   <button *ngIf="!(account)" md-menu-item (click)="goLogin()">
     <md-icon> person </md-icon>
     <span> Log in </span>
   </button>
-  <button *ngIf="account" md-menu-item (click)="goAccount()">
-    <md-icon> person </md-icon>
-    <span> My Account </span>
-  </button>
   <button *ngIf="account" md-menu-item (click)="goLogout()">
     <md-icon> exit_to_app </md-icon>
     <span> Log out </span>
-  </button>
-  <button md-menu-item disabled>
-    <md-icon> notifications_off </md-icon>
-    <span> Disable alerts </span>
   </button>
 </md-menu>
 

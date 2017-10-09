@@ -37,13 +37,13 @@ import { SearchComponent } from './search/search.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
-  {path: 'find', redirectTo: 'search'},
-  {path: 'home', component: HomeComponent},
-  {path: 'search', component: SearchComponent},
-  {path: 'track/:id', component: TrackDetailsComponent},
-  {path: 'workshop/:id', component: WorkshopDetailsComponent},
-  {path: 'account/:token', component: AccountRedirectComponent},
-  {path: 'accountDetails', component: AccountDetailsComponent,
+  {path: 'find', redirectTo: 'search', data: {title: 'Search'}},
+  {path: 'home', component: HomeComponent, data: {title: 'Home'}},
+  {path: 'search', component: SearchComponent, data: {title: 'Search'}},
+  {path: 'track/:id', component: TrackDetailsComponent, data: {title: 'Track'}},
+  {path: 'workshop/:id', component: WorkshopDetailsComponent, data: {title: 'Workshop'}},
+  {path: 'account/:token', component: AccountRedirectComponent, data: {title: 'Account Details'}},
+  {path: 'accountDetails', component: AccountDetailsComponent, data: {title: 'Your Account'},
     canActivate: [AuthGuard]},
   {path: 'teacherDashboard/:id', component: TeacherDashboardComponent,
     canActivate: [AuthGuard]}

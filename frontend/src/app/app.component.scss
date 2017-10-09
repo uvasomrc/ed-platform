@@ -24,3 +24,7 @@
 .content {
   max-width: 100%;
 }
+
+.active {
+  background-color: mat-color($uva-accent, 50);
+}
