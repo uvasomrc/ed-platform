@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {MatIconRegistry} from "@angular/material";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-track-progress',
@@ -7,7 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TrackProgressComponent implements OnInit {
 
-  constructor() { }
+  constructor(private iconRegistry: MatIconRegistry,
+              private sanitizer: DomSanitizer) {
+    iconRegistry.addSvgIcon('progress-next',
+      sanitizer.bypassSecurityTrustResourceUrl('/assets/tiny_arrow.svg'));
+    iconRegistry.addSvgIcon('complete',
+      sanitizer.bypassSecurityTrustResourceUrl('/assets/complete.svg'));
+  }
 
   ngOnInit() {
   }

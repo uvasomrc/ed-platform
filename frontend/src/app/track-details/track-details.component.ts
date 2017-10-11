@@ -1,10 +1,8 @@
-import {Component, OnInit, SecurityContext} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Track} from '../track';
 import {Workshop} from '../workshop';
 import {TrackService} from '../track.service';
 import {ActivatedRoute} from '@angular/router';
-import {MatIconRegistry} from '@angular/material';
-import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-track-details',
@@ -19,15 +17,9 @@ export class TrackDetailsComponent implements OnInit {
   isDataLoaded = false;
 
   constructor(private trackService: TrackService,
-              private route: ActivatedRoute,
-              private iconRegistry: MatIconRegistry,
-              private sanitizer: DomSanitizer) {
+              private route: ActivatedRoute) {
     this.route.params.subscribe( params =>
           this.track_id = params['id']);
-    iconRegistry.addSvgIcon('progress-next',
-        sanitizer.bypassSecurityTrustResourceUrl('/assets/tiny_arrow.svg'));
-    iconRegistry.addSvgIcon('complete',
-      sanitizer.bypassSecurityTrustResourceUrl('/assets/complete.svg'));
   }
 
   ngOnInit() {

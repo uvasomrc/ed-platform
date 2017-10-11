@@ -95,11 +95,11 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
   p {
     color: #888;
     font-weight: 400;
-    max-width: 500px;
+    max-width: 600px;
   }
 
   h1, h2 {
-    background-color: transparent;
+    background-color: #fff;
     color: #000;
     padding: 10px 10px;
     margin: 0;
@@ -109,9 +109,10 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
     font-size: 24px;
   }
 
-  h2 {
+  h2.mat-h2, h2.mat-title {
     background-color: mat-contrast($primary, 900);
     padding-bottom: 0px;
+    margin-button: 0px;
     font-size: 18px;
     line-height: 20px;
   }
@@ -135,7 +136,7 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
     cursor: pointer;
   }
 
-  mat-card-title, mat-card-subtitle {
+  .mat-title, .mat-card-title, mat-card-title, mat-card-subtitle {
     margin-bottom: 6px;
   }
 
@@ -152,11 +153,15 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
   section {
     background-color: transparent;
     padding: 10px;
-    max-width: 540px;
-
     h1, h2 {
+      background-color: transparent;
       padding-left: 0;
     }
+  }
+
+  section.center {
+    width: 600px;
+    margin: auto;
   }
 
   section.flex {
