@@ -1,24 +1,17 @@
-<mat-card ngClass="{{status()}}">
-  <mat-card-header>
-    <mat-card-title>
-      <h1>{{session.workshop.title}}</h1>
-      <p>Date: <b>{{session.date_time | date: 'fullDate'}}</b></p>
-      <p>Time: <b>{{session.date_time | date: 'shortTime'}}</b></p>
-      <p>Duration: <b>{{session.duration_minutes}}</b> minutes.</p>
-    </mat-card-title>
+<mat-card class="session">
+  <mat-card-header (click)="goWorkshop(session.workshop.id)">
+    <img mat-card-avatar src="{{session.firstInstructor().links.image}}">
+    <mat-card-title>{{session.workshop.title}}</mat-card-title>
+    <mat-card-subtitle>
+      with {{session.instructorsDisplay()}}<br/>
+      {{session.date_time | date: 'EEE. MMMM d, y, h:mm-'}}{{session.endTime() | date: 'h:mma'}}
+      <br/>
+      Location: {{session.location}}
+    </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <div *ngIf="teaching">You are Teaching this class.</div>
-    <div *ngIf="!teaching">
-      <h2>Instructor(s):</h2>
-      <div *ngFor="let instructor of session.instructors">
-        <h3>
-          <img mat-card-avatar src="{{instructor.links.image}}">
-          {{instructor.display_name}}
-        </h3>
-      </div>
-      <p>Notes: {{session.instructor_notes}}</p>
-    </div>
+    <p>Notes: {{session.instructor_notes}}</p>
   </mat-card-content>
 
   <mat-card-actions *ngIf="teaching">

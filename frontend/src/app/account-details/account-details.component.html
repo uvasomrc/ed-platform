@@ -1,10 +1,16 @@
 <div *ngIf="isDataLoaded">
 
-  <div class="header">
-    <img src="{{account.links.image}}"/>
-    <h1 class="mat-title">{{account.display_name}}</h1>
-    <div class="mat-subtitle">{{account.bio}}</div>
-  </div>
+  <section class="header">
+    <div class="circleborder">
+      <img class="participant-big" src="{{account.links.image}}">
+    </div>
+    <h2 class="mat-title">{{account.display_name}}</h2>
+  </section>
+
+  <section class="header">
+    <p>{{account.bio}}</p>
+  </section>
+
   <mat-tab-group>
     <mat-tab label="Upcoming Sessions">
       <div

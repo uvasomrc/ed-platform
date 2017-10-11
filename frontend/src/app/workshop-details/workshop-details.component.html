@@ -40,8 +40,16 @@
           <div class="sub-title">Similar Workshops offered</div>
         </div>
       </ng-template>
-      <h1>Terrible sushi restaurants</h1>
-      <p>...</p>
+      <div
+        class="container"
+        fxLayout="row"
+        fxLayoutWrap
+        fxLayout.xs="column"
+        fxLayoutAlign="center"
+        fxLayoutGap="10px"
+        fxLayoutGap.xs="0">
+        <app-session *ngFor="let session of workshop.sessions" [session]="session"></app-session>
+      </div>
     </mat-tab>
   </mat-tab-group>
 

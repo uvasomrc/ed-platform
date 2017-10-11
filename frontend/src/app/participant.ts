@@ -15,6 +15,7 @@ export class Participant {
     Object.assign(this, values);
     this.links = new Links(values['_links']);
     if ('participant_sessions' in values) {
+    this.sessions = Array<Session>();
     for (const ps of values['participant_sessions']) {
       if (ps['review_score']) { this.reviews.push(new Review(ps)); }
       if (parent == null) {

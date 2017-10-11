@@ -7,7 +7,7 @@ import {Router} from "@angular/router";
 @Component({
   selector: 'app-session',
   templateUrl: './session.component.html',
-  styleUrls: ['./session.component.css']
+  styleUrls: ['./session.component.scss']
 })
 export class SessionComponent implements OnInit {
 
@@ -31,9 +31,10 @@ export class SessionComponent implements OnInit {
               private router: Router) {}
 
   ngOnInit() {
+    console.log("The session is:" + JSON.stringify(this.session))
     this.available = this.session.isAvailable();
     this.accountService.getAccount().subscribe (account => {
-      if(account != null) {
+      if (account != null) {
         this.account = account;
         this.taking = this.account.isUpcoming(this.session);
         this.teaching = this.account.isTeaching(this.session);
