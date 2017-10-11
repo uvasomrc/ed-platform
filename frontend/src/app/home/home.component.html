@@ -8,18 +8,20 @@
   <button (click)="left()" class="arrows">
     <md-icon>arrow_back</md-icon>
   </button>
-  <section class="carousel-wrapper">
+  <div class="carousel-wrapper">
     <ul class="carousel-inner" [@slide]="sponsor_state">
       <li *ngFor="let sponsor of sponsors;" class="carousel">
         <img class="item" src="{{sponsor.image}}">
       </li>
     </ul>
-  </section>
+  </div>
   <button (click)="right()" class="arrows">
     <md-icon>arrow_forward</md-icon>
   </button>
 </div>
 
+
+<section>
 <h1>Welcome!</h1>
 <p>
   The Cadre Academy is available for students, faculty
@@ -28,15 +30,14 @@
   use Tracks to get a better sense of what workshop to take
   when, and how to further progress your skills.
 </p>
+</section>
 
-<section>
-  <h2>Popular Tracks</h2>
-  <app-track-list [tracks]="tracks"></app-track-list>
-</section>
-<section>
-  <h2>Popular Workshops</h2>
-  <app-workshop-list [workshops]="workshops"></app-workshop-list>
-</section>
+<h2>Popular Tracks</h2>
+<app-track-list [tracks]="tracks"></app-track-list>
+
+<h2>Popular Workshops</h2>
+<app-workshop-list [workshops]="workshops"></app-workshop-list>
+
 <!--
 <section>
   <h2>Create Workshop</h2>

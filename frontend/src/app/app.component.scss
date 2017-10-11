@@ -6,9 +6,7 @@
 @include uva-theme($uva-theme);
 
 
-.spacer {
-  flex: 1 1 auto;
-}
+
 
 .logged-in {
   font-size: .8em;
@@ -22,7 +20,8 @@
 }
 
 .content {
-  max-width: 100%;
+  max-width: 1200px;
+  margin:auto;
 }
 
 .active {

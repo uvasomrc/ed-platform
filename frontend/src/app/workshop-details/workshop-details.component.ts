@@ -6,7 +6,7 @@ import {Workshop} from '../workshop';
 @Component({
   selector: 'app-workshop-details',
   templateUrl: './workshop-details.component.html',
-  styleUrls: ['./workshop-details.component.css']
+  styleUrls: ['./workshop-details.component.scss']
 })
 export class WorkshopDetailsComponent implements OnInit {
 

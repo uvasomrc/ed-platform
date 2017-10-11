@@ -5,7 +5,7 @@
 
 
 $md-blue: (
-  50 : #e0e6ed,
+  50 : #F1F5F7, // Modified, was #e0e6ed
   100 : #b3c1d3,
   200 : #8097b6,
   300 : #4d6d98,
@@ -93,7 +93,6 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
   }
 
   p {
-    padding: 5px 20px;
     color: #888;
     font-weight: 400;
     max-width: 500px;
@@ -101,14 +100,18 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
 
   h1, h2 {
     background-color: transparent;
-    color: mat-color($primary, 900);
-    padding: 10px 20px;
+    color: #000;
+    padding: 10px 10px;
     margin: 0;
+  }
+
+  h1 {
+    font-size: 24px;
   }
 
   h2 {
     background-color: mat-contrast($primary, 900);
-    font-size: 16sp;
+    padding-bottom: 0px;
   }
 
   .mat-toolbar {
@@ -116,8 +119,12 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
     color: mat-contrast($accent, 700);
   }
 
+  .spacer {
+    flex: 1 1 auto;
+  }
+
   md-card {
-    margin: 20px;
+    margin: 10px;
     max-width: 300px;
     min-height: 50px;
   }
@@ -135,8 +142,48 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
     width: 60px;
   }
 
-  md-card-subtitle {
-    color: mat-color($primary, 50);
+  md-card-subtitle, .sub-title {
+    color: rgba(0, 0, 0, 0.54);
+    padding-bottom: 10px;
+  }
+
+  section {
+    background-color: transparent;
+    padding: 10px;
+    max-width: 540px;
+
+    h1, h2 {
+      padding-left: 0;
+    }
+  }
+
+  section.flex {
+    display: flex;
+  }
+
+  section.header {
+    background-color: white;
+  }
+
+  .mat-raised-button {
+    background-color: #42BD41;
+    color: #fff;
+  }
+
+  md-tab-group.tall-labels {
+    background-color: white;
+    .mat-tab-labels .mat-tab-label {
+      height: 100px;
+      white-space: normal;
+      padding: 10px;
+      h1 {
+        margin: 0px;
+        padding: 0px;
+      }
+    }
+    .mat-tab-body-wrapper {
+      background-color: mat-color($primary, 50);
+    }
   }
 
 }

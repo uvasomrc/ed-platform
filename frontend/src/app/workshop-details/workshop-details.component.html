@@ -1,37 +1,51 @@
 <div *ngIf="isDataLoaded">
-  <div class="workshop-header">
-    <img src="{{workshop.links.image}}"/>
-    <h1>Workshop:</h1>
-    <h2 class="md-title">{{workshop.title}}</h2>
-  </div>
 
-  <md-tab-group>
-    <md-tab label="Description">
-      <p>{{workshop.description}}</p>
+  <section class="header">
+    <div class="circleborder">
+      <img class="instructor-big" src="{{workshop.nextSession().firstInstructor().links.image}}">
+    </div>
+    <h2 class="md-title">{{workshop.title}}</h2>
+    <span class="sub-title">with {{workshop.nextSession().instructorsDisplay()}}</span>
+  </section>
+
+  <section class="header">
+    <p>{{workshop.description}}</p>
+  </section>
+
+  <section class="header flex">
+    <div>
+      {{workshop.nextSession().date_time | date: 'EEE. MMMM d, y, h:mm-'}}{{workshop.nextSession().endTime() | date: 'h:mma'}}
+      <br/>
+      <span class="sub-title">Location: {{workshop.nextSession().location}}</span>
+    </div>
+    <span class="spacer"></span>
+    <button md-raised-button>Register</button>
+  </section>
+
+  <md-tab-group class="tall-labels">
+    <md-tab>
+      <ng-template mat-tab-label>
+          <div>
+            <h1>5</h1>
+            <div class="sub-title">Tracks contain this workshop</div>
+          </div>
+      </ng-template>
+      <h1>Best pasta restaurants</h1>
+      <p>...</p>
     </md-tab>
-    <md-tab label="Sessions">
-      <div
-        class="container"
-        fxLayout="row"
-        fxLayout.xs="column"
-        fxLayoutAlign="center"
-        fxLayoutGap="10px"
-        fxLayoutGap.xs="0">
-        <app-session *ngFor="let s of workshop.sessions" [session]="s"></app-session>
-      </div>
-    </md-tab>
-    <md-tab label="Reviews">
-      <div
-        class="container"
-        fxLayout="row"
-        fxLayout.xs="column"
-        fxLayoutAlign="center"
-        fxLayoutGap="10px"
-        fxLayoutGap.xs="0">
-        <app-review *ngFor="let review of workshop.reviews()" [review]="review"></app-review>
-      </div>
+    <md-tab>
+      <ng-template mat-tab-label>
+        <div>
+          <h1>3</h1>
+          <div class="sub-title">Similar Workshops offered</div>
+        </div>
+      </ng-template>
+      <h1>Terrible sushi restaurants</h1>
+      <p>...</p>
     </md-tab>
   </md-tab-group>
+
+
 
 
 
