@@ -1,17 +1,25 @@
 <div *ngIf="isDataLoaded">
 
-  <div class="track-header">
-    <img src="{{track.links.image}}"/>
-    <h1>Track:</h1>
-    <h2 class="md-title">{{track.title}}</h2>
+  <section class="header flex">
+    <div>
+      <h2 class="mat-title">{{track.title}}</h2>
+      <div class="sub-title">Unaccredited Program</div>
+    </div>
+    <div class="spacer"></div>
+    <button mat-raised-button>Follow</button>
+  </section>
+  <section class="header">
     <p>{{track.description}}</p>
-  </div>
+    <app-track-progress></app-track-progress>
+  </section>
 
-  <md-tab-group>
-    <md-tab label="Workshops">
+  <mat-tab-group>
+    <mat-tab label="Workshops">
       <app-workshop-list [workshops]="workshops"></app-workshop-list>
-    </md-tab>
-  </md-tab-group>
+    </mat-tab>
+  </mat-tab-group>
+
+
 
 </div>
 

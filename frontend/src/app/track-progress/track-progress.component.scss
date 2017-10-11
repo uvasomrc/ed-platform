@@ -1,0 +1,31 @@
+// Import theming functions
+@import '~@angular/material/theming';
+// Import your custom theme
+@import '../../uva_material.scss';
+// Load the UVA Theme
+@include uva-theme($uva-theme);
+
+.track-progress {
+  display: flex;
+}
+
+.track-progress mat-icon {
+  color: rgba(0, 0, 0, 0.54);
+  fill: rgba(0, 0, 0, 0.54);
+  -webkit-border-radius:15px;
+  -moz-border-radius:15px;
+  border-radius: 15px;
+  border: 2px solid transparent;
+}
+
+.progress-next {
+  width: 10px;
+}
+
+.track-progress mat-icon.active {
+  border: 2px solid mat-color($uva-accent, 500);
+}
+
+.track-progress mat-icon.complete {
+  fill: mat-color($uva-primary, 500);
+}

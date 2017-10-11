@@ -7,23 +7,23 @@
 
 <form [formGroup]="workshop_form" novalidate (ngSubmit)="onSubmit()">
   <div>
-  <md-form-field class="example-full-width">
+  <mat-form-field class="example-full-width">
     <input mdInput formControlName="title" placeholder="Title" value="" class="form-control" >
-    <md-error>
+    <mat-error>
       Title is <strong>required</strong>
-    </md-error>
-  </md-form-field>
+    </mat-error>
+  </mat-form-field>
   </div>
   <div>
-  <md-form-field class="example-full-width">
+  <mat-form-field class="example-full-width">
     <textarea mdInput formControlName="description" placeholder="Description" value="" class="form-control">
     </textarea>
-    <md-error>
+    <mat-error>
       This description is too short.
-    </md-error>
-  </md-form-field>
+    </mat-error>
+  </mat-form-field>
   </div>
-  <button type="submit" md-button>Create Workshop</button>
+  <button type="submit" mat-button>Create Workshop</button>
   <!--
   <div>
     <input id="fileInput" name="file" type="file" class="ng-hide" multiple>

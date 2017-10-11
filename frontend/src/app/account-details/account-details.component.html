@@ -2,11 +2,11 @@
 
   <div class="header">
     <img src="{{account.links.image}}"/>
-    <h1 class="md-title">{{account.display_name}}</h1>
-    <div class="md-subtitle">{{account.bio}}</div>
+    <h1 class="mat-title">{{account.display_name}}</h1>
+    <div class="mat-subtitle">{{account.bio}}</div>
   </div>
-  <md-tab-group>
-    <md-tab label="Upcoming Sessions">
+  <mat-tab-group>
+    <mat-tab label="Upcoming Sessions">
       <div
         class="container"
         fxLayout="row"
@@ -17,8 +17,8 @@
 
         <app-session *ngFor="let session of account.upcomingSessions()" [session]="session" ></app-session>
       </div>
-    </md-tab>
-    <md-tab label="Past Sessions">
+    </mat-tab>
+    <mat-tab label="Past Sessions">
       <div
         class="container"
         fxLayout="row"
@@ -29,8 +29,8 @@
 
         <app-session *ngFor="let session of account.pastSessions()" [session]="session" ></app-session>
       </div>
-    </md-tab>
-    <md-tab label="Instructing" *ngIf="account.isTeacher()">
+    </mat-tab>
+    <mat-tab label="Instructing" *ngIf="account.isTeacher()">
       <div
         class="container"
         fxLayout="row"
@@ -41,9 +41,9 @@
 
         <app-session *ngFor="let session of account.teachingSessions()" [session]="session"></app-session>
       </div>
-    </md-tab>
-    <md-tab label="Edit Account">
+    </mat-tab>
+    <mat-tab label="Edit Account">
       <p>{{account.bio}}</p>
-    </md-tab>
-  </md-tab-group>
+    </mat-tab>
+  </mat-tab-group>
 </div>

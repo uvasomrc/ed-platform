@@ -1,44 +1,44 @@
-<md-card ngClass="{{status()}}">
-  <md-card-header>
-    <md-card-title>
+<mat-card ngClass="{{status()}}">
+  <mat-card-header>
+    <mat-card-title>
       <h1>{{session.workshop.title}}</h1>
       <p>Date: <b>{{session.date_time | date: 'fullDate'}}</b></p>
       <p>Time: <b>{{session.date_time | date: 'shortTime'}}</b></p>
       <p>Duration: <b>{{session.duration_minutes}}</b> minutes.</p>
-    </md-card-title>
-  </md-card-header>
-  <md-card-content>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
     <div *ngIf="teaching">You are Teaching this class.</div>
     <div *ngIf="!teaching">
       <h2>Instructor(s):</h2>
       <div *ngFor="let instructor of session.instructors">
         <h3>
-          <img md-card-avatar src="{{instructor.links.image}}">
+          <img mat-card-avatar src="{{instructor.links.image}}">
           {{instructor.display_name}}
         </h3>
       </div>
       <p>Notes: {{session.instructor_notes}}</p>
     </div>
-  </md-card-content>
+  </mat-card-content>
 
-  <md-card-actions *ngIf="teaching">
-    <button md-button (click)="teacherDashboard()">Teacher Dashboard</button>
-  </md-card-actions>
+  <mat-card-actions *ngIf="teaching">
+    <button mat-button (click)="teacherDashboard()">Teacher Dashboard</button>
+  </mat-card-actions>
 
-  <md-card-actions *ngIf="taking">
+  <mat-card-actions *ngIf="taking">
     <p>You are Registered for this session.</p>
-    <button md-button (click)="removeSession()">Un-Register</button>
-  </md-card-actions>
+    <button mat-button (click)="removeSession()">Un-Register</button>
+  </mat-card-actions>
 
-  <md-card-actions *ngIf="removed">
-    <button md-button (click)="addSession()">Undo</button>
-  </md-card-actions>
+  <mat-card-actions *ngIf="removed">
+    <button mat-button (click)="addSession()">Undo</button>
+  </mat-card-actions>
 
-  <md-card-actions *ngIf="available && !taking">
-    <button md-button (click)="addSession()">Register Now!</button>
-  </md-card-actions>
+  <mat-card-actions *ngIf="available && !taking">
+    <button mat-button (click)="addSession()">Register Now!</button>
+  </mat-card-actions>
 
 
-</md-card>
+</mat-card>
 
 

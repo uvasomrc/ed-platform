@@ -8,9 +8,9 @@ import { TrackComponent } from './track/track.component';
 import {TrackService} from './track.service';
 import { TrackListComponent } from './track-list/track-list.component';
 import {
-  MdButtonModule, MdIconModule, MdMenuModule, MdToolbarModule, MdCardModule,
-  MdInputModule, MdCheckboxModule, MdFormFieldModule, MdTabsModule, MdProgressSpinnerModule,
-  MdExpansionModule, MdSelectModule, MdListModule, MdRadioModule
+  MatButtonModule, MatIconModule, MatMenuModule, MatToolbarModule, MatCardModule,
+  MatInputModule, MatCheckboxModule, MatFormFieldModule, MatTabsModule, MatProgressSpinnerModule,
+  MatExpansionModule, MatSelectModule, MatListModule, MatRadioModule, MatStepperModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {WorkshopService} from './workshop.service';
@@ -34,6 +34,7 @@ import { AccountRedirectComponent } from './account-redirect/account-redirect.co
 import {AuthGuard} from './auth.guard';
 import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard.component';
 import { SearchComponent } from './search/search.component';
+import { TrackProgressComponent } from './track-progress/track-progress.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -72,6 +73,7 @@ const routes: Routes = [
     AccountRedirectComponent,
     TeacherDashboardComponent,
     SearchComponent,
+    TrackProgressComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,21 +81,22 @@ const routes: Routes = [
     ReactiveFormsModule,
     HttpModule,
     BrowserAnimationsModule,
-    MdButtonModule,
-    MdMenuModule,
-    MdToolbarModule,
-    MdIconModule,
-    MdCardModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatCardModule,
     FlexLayoutModule,
-    MdInputModule,
-    MdCheckboxModule,
-    MdFormFieldModule,
-    MdTabsModule,
-    MdProgressSpinnerModule,
-    MdSelectModule,
-    MdExpansionModule,
-    MdListModule,
-    MdRadioModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatTabsModule,
+    MatProgressSpinnerModule,
+    MatSelectModule,
+    MatExpansionModule,
+    MatListModule,
+    MatRadioModule,
+    MatStepperModule,
     RouterModule.forRoot(routes, {useHash: true})
   ],
   providers: [TrackService, WorkshopService, ApiService, AccountService, AuthGuard],

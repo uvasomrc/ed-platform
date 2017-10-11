@@ -1,15 +1,15 @@
-<md-card>
-  <md-card-header>
-    <md-card-title>
-      <img md-card-avatar src="{{review.participant.links.image}}">
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <img mat-card-avatar src="{{review.participant.links.image}}">
       <app-review-stars [score]="review.review_score"
                         [max_score]="review.max_score"></app-review-stars>
-    </md-card-title>
-  </md-card-header>
-  <md-card-content>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
       <b>{{review.created | date: "longDate"}}</b>
       <p>{{review.review_comment}}</p>
-  </md-card-content>
-  <md-card-actions>
-  </md-card-actions>
-</md-card>
+  </mat-card-content>
+  <mat-card-actions>
+  </mat-card-actions>
+</mat-card>

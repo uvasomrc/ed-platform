@@ -8,9 +8,9 @@
     <p>{{session.workshop.description}}</p>
   </div>
 
-  <md-tab-group [selectedIndex]="selected_tab">
+  <mat-tab-group [selectedIndex]="selected_tab">
 
-    <md-tab label="Attendee List">
+    <mat-tab label="Attendee List">
       <p>There are currently {{session.total_attendees}} participants signed up for this session. </p>
       <p> The maximum number of attendees is set to {{session.max_attendees}}.</p>
       <ul class="list">
@@ -24,38 +24,38 @@
           </div>
         </li>
       </ul>
-    </md-tab>
+    </mat-tab>
 
-    <md-tab label="Email Attendees">
+    <mat-tab label="Email Attendees">
       <form [formGroup]="email_form" novalidate (ngSubmit)="onSendEmail()" class="email_form"  [hidden]="is_sending">
         <div>
-          <md-form-field class="example-full-width">
+          <mat-form-field class="example-full-width">
             <input mdInput formControlName="email_title" placeholder="Email Title" value="" class="form-control">
-            <md-error>
+            <mat-error>
               Title is <strong>required</strong>
-            </md-error>
-          </md-form-field>
+            </mat-error>
+          </mat-form-field>
         </div>
         <div>
-          <md-form-field class="example-full-width">
+          <mat-form-field class="example-full-width">
     <textarea mdInput formControlName="email_content" placeholder="Description" value="" class="form-control">
     </textarea>
-            <md-error>
+            <mat-error>
               This description is too short.
-            </md-error>
-          </md-form-field>
+            </mat-error>
+          </mat-form-field>
         </div>
-        <button type="submit" md-button>Send Email to Attendees</button>
+        <button type="submit" mat-button>Send Email to Attendees</button>
       </form>
       <div id="sending-email" [hidden]="!is_sending">
-        <md-progress-spinner class="example-margin"  color="secondary" mode="indeterminate">
-        </md-progress-spinner>
+        <mat-progress-spinner class="example-margin"  color="secondary" mode="indeterminate">
+        </mat-progress-spinner>
         Sending your email ...
       </div>
 
-    </md-tab>
+    </mat-tab>
 
-    <md-tab label="Previous Emails">
+    <mat-tab label="Previous Emails">
       <p>The following messages were sent to attendees:</p>
       <ul class="list">
         <li *ngFor="let m of messages">
@@ -69,9 +69,9 @@
           </div>
         </li>
       </ul>
-    </md-tab>
+    </mat-tab>
 
-  </md-tab-group>
+  </mat-tab-group>
 
 </div>
 

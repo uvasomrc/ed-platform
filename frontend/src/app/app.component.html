@@ -1,42 +1,42 @@
-<md-toolbar>
-  <button md-button [mdMenuTriggerFor]="appMenu">
-    <md-icon>menu</md-icon>
+<mat-toolbar>
+  <button mat-button [matMenuTriggerFor]="appMenu">
+    <mat-icon>menu</mat-icon>
   </button>
   <span>{{title}}</span>
   <span class="spacer"></span>
-  <button md-button (click)="goSearch()"><md-icon>search</md-icon></button>
+  <button mat-button (click)="goSearch()"><mat-icon>search</mat-icon></button>
   <span *ngIf="account" class="logged-in">
     <img class="user-icon" src="{{account.links.image}}" alt="{{account.display_name}}">
   </span>
-</md-toolbar>
-<md-menu #appMenu="mdMenu">
-  <button md-menu-item
+</mat-toolbar>
+<mat-menu #appMenu="matMenu">
+  <button mat-menu-item
      [routerLink]="['home']"
      [routerLinkActive]="['active']">
-    <md-icon> home </md-icon>
+    <mat-icon> home </mat-icon>
     <span> Home </span>
   </button>
-  <button md-menu-item
+  <button mat-menu-item
           [routerLink]="['search']"
           [routerLinkActive]="['active']">
-    <md-icon> search </md-icon>
+    <mat-icon> search </mat-icon>
     <span> Search </span>
   </button>
-  <button *ngIf="account" md-menu-item
+  <button *ngIf="account" mat-menu-item
           [routerLink]="['accountDetails']"
           [routerLinkActive]="['active']">
-    <md-icon> person </md-icon>
+    <mat-icon> person </mat-icon>
     <span> Your Account </span>
   </button>
-  <button *ngIf="!(account)" md-menu-item (click)="goLogin()">
-    <md-icon> person </md-icon>
+  <button *ngIf="!(account)" mat-menu-item (click)="goLogin()">
+    <mat-icon> person </mat-icon>
     <span> Log in </span>
   </button>
-  <button *ngIf="account" md-menu-item (click)="goLogout()">
-    <md-icon> exit_to_app </md-icon>
+  <button *ngIf="account" mat-menu-item (click)="goLogout()">
+    <mat-icon> exit_to_app </mat-icon>
     <span> Log out </span>
   </button>
-</md-menu>
+</mat-menu>
 
 <div class="content">
   <router-outlet></router-outlet>

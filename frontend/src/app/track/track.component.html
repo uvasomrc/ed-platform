@@ -1,21 +1,10 @@
-<md-card class="track" (click)="goTrack(track.id)">
+<mat-card class="track" (click)="goTrack(track.id)">
 
-  <md-card-header>
-    <md-card-title class='md-title'>{{track.title}}</md-card-title>
-    <md-card-subtitle>Unaccredited Program</md-card-subtitle>
-  </md-card-header>
-  <md-card-content>
-    <div class="track-progress">
-      <md-icon>radio_button_unchecked</md-icon>
-      <md-icon class="divider">play_arrow</md-icon>
-      <md-icon>radio_button_unchecked</md-icon>
-      <md-icon class="divider">play_arrow</md-icon>
-      <md-icon>radio_button_unchecked</md-icon>
-      <md-icon class="divider">play_arrow</md-icon>
-      <md-icon>radio_button_unchecked</md-icon>
-      <md-icon class="divider">play_arrow</md-icon>
-      <md-icon>radio_button_unchecked</md-icon>
-    </div>
-
-  </md-card-content>
-</md-card>
+  <mat-card-header>
+    <mat-card-title class='mat-title'>{{track.title}}</mat-card-title>
+    <mat-card-subtitle>Unaccredited Program</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+  <app-track-progress></app-track-progress>
+  </mat-card-content>
+</mat-card>

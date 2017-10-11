@@ -4,7 +4,7 @@
     <div class="circleborder">
       <img class="instructor-big" src="{{workshop.nextSession().firstInstructor().links.image}}">
     </div>
-    <h2 class="md-title">{{workshop.title}}</h2>
+    <h2 class="mat-title">{{workshop.title}}</h2>
     <span class="sub-title">with {{workshop.nextSession().instructorsDisplay()}}</span>
   </section>
 
@@ -19,11 +19,11 @@
       <span class="sub-title">Location: {{workshop.nextSession().location}}</span>
     </div>
     <span class="spacer"></span>
-    <button md-raised-button>Register</button>
+    <button mat-raised-button>Register</button>
   </section>
 
-  <md-tab-group class="tall-labels">
-    <md-tab>
+  <mat-tab-group class="tall-labels">
+    <mat-tab>
       <ng-template mat-tab-label>
           <div>
             <h1>5</h1>
@@ -32,8 +32,8 @@
       </ng-template>
       <h1>Best pasta restaurants</h1>
       <p>...</p>
-    </md-tab>
-    <md-tab>
+    </mat-tab>
+    <mat-tab>
       <ng-template mat-tab-label>
         <div>
           <h1>3</h1>
@@ -42,8 +42,8 @@
       </ng-template>
       <h1>Terrible sushi restaurants</h1>
       <p>...</p>
-    </md-tab>
-  </md-tab-group>
+    </mat-tab>
+  </mat-tab-group>
 
 
 

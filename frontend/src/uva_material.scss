@@ -4,7 +4,7 @@
 @include mat-core();
 
 
-$md-blue: (
+$mat-blue: (
   50 : #F1F5F7, // Modified, was #e0e6ed
   100 : #b3c1d3,
   200 : #8097b6,
@@ -37,7 +37,7 @@ $md-blue: (
   )
 );
 
-$md-orange: (
+$mat-orange: (
   50 : #fceee0,
   100 : #f7d5b3,
   200 : #f2b980,
@@ -70,8 +70,8 @@ $md-orange: (
   )
 );
 
-$uva-primary: mat-palette($md-blue);
-$uva-accent: mat-palette($md-orange, A200, A100, A400);
+$uva-primary: mat-palette($mat-blue);
+$uva-accent: mat-palette($mat-orange, A200, A100, A400);
 $my-app-warn:    mat-palette($mat-deep-orange);
 
 $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
@@ -112,6 +112,8 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
   h2 {
     background-color: mat-contrast($primary, 900);
     padding-bottom: 0px;
+    font-size: 18px;
+    line-height: 20px;
   }
 
   .mat-toolbar {
@@ -123,17 +125,17 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
     flex: 1 1 auto;
   }
 
-  md-card {
+  mat-card {
     margin: 10px;
     max-width: 300px;
     min-height: 50px;
   }
 
-  md-card md-card-header {
+  mat-card mat-card-header {
     cursor: pointer;
   }
 
-  md-card-title, md-card-subtitle {
+  mat-card-title, mat-card-subtitle {
     margin-bottom: 6px;
   }
 
@@ -142,7 +144,7 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
     width: 60px;
   }
 
-  md-card-subtitle, .sub-title {
+  mat-card-subtitle, .sub-title {
     color: rgba(0, 0, 0, 0.54);
     padding-bottom: 10px;
   }
@@ -170,7 +172,7 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
     color: #fff;
   }
 
-  md-tab-group.tall-labels {
+  mat-tab-group.tall-labels {
     background-color: white;
     .mat-tab-labels .mat-tab-label {
       height: 100px;
