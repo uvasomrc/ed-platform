@@ -63,14 +63,28 @@ class Filter():
         self.field = field
         self.value = value
 
+
+codes = db.Table('codes',
+    db.Column('track_id', db.Integer, db.ForeignKey('track.id'), primary_key=True),
+    db.Column('code_id', db.Integer, db.ForeignKey('code.id'), primary_key=True),
+    db.Column('order', db.Integer)
+)
+
+class Code(db.Model):
+    __tablename__ = 'code'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String())
+    desc = db.Column(db.TEXT())
+    workshops = db.relationship('Workshop', backref='code')
+
 class Track(db.Model):
     __tablename__ = 'track'
-
     id = db.Column(db.Integer, primary_key=True)
     image_file = db.Column(db.String())
     title = db.Column(db.TEXT())
     description = db.Column(db.TEXT())
-    track_workshops = db.relationship('TrackWorkshop', backref='track')
+    codes = db.relationship('Code', secondary=codes, lazy='subquery',
+        backref=db.backref('tracks', lazy=True))
 
     def __init__(self, image_file, title, description):
         self.image_file = image_file
@@ -87,14 +101,9 @@ class Workshop(db.Model):
     image_file = db.Column(db.String())
     title = db.Column(db.TEXT())
     description = db.Column(db.TEXT())
-    track_workshops = db.relationship('TrackWorkshop', backref='workshop')
     sessions = db.relationship("Session", backref="workshop")
+    #code:  Backref created a code on Workshop
 
-class TrackWorkshop(db.Model):
-    __tablename__ = 'track_workshop'
-    track_id = db.Column('track_id', db.Integer, db.ForeignKey('track.id'), primary_key=True)
-    workshop_id = db.Column('workshop_id', db.Integer, db.ForeignKey('workshop.id'), primary_key=True)
-    order = db.Column(db.Integer)
 
 class Participant(db.Model):
     __tablename__ = 'participant'
