@@ -12,6 +12,7 @@ export class Participant {
   sessions = Array<Session>();
 
   constructor(values: Object = {}, parent = null) {
+    if (values === null) { return; }
     Object.assign(this, values);
     if ('_links' in values) {
       this.links = new Links(values['_links']);
