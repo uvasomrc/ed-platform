@@ -73,4 +73,7 @@ export class SessionComponent implements OnInit {
     this.router.navigate(['teacherDashboard', this.session.id]);
   }
 
+  goWorkshop(id) {
+    this.router.navigate(['workshop', id]);
+  }
 }
