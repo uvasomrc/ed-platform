@@ -169,7 +169,7 @@
       "name": "python_intro_workshop_1",
       "data": {
         "workshop": "python_intro_workshop",
-        "date_time":"2017-09-11T18:30:00.000Z",
+        "date_time":"2017-11-11T18:30:00.000Z",
         "duration_minutes":"60",
         "max_attendees":20,
         "instructor_notes": "Class details are available at http://sartography.com.",
@@ -191,7 +191,7 @@
       "name": "r_intro_workshop_1",
       "data": {
         "workshop": "r_intro_workshop",
-        "date_time":"2017-10-12T10:30:00.000Z",
+        "date_time":"2018-02-12T10:30:00.000Z",
         "duration_minutes":"90",
         "max_attendees":10,
         "instructor_notes": "Materials will be provided during class.  Please bring a Flash drive with at least 6gb of free space.",
@@ -224,7 +224,7 @@
       "name": "unix_into_workshop_2",
       "data": {
         "workshop": "unix_into_workshop",
-        "date_time":"2017-09-06T14:00:00.000Z",
+        "date_time":"2017-11-06T14:00:00.000Z",
         "duration_minutes":"120",
         "max_attendees":20,
         "instructor_notes": "",
@@ -235,7 +235,7 @@
       "name": "unix_into_workshop_3",
       "data": {
         "workshop": "unix_into_workshop",
-        "date_time":"2017-09-20T14:00:00.000Z",
+        "date_time":"2017-11-20T14:00:00.000Z",
         "duration_minutes":"120",
         "max_attendees":20,
         "instructor_notes": "",
@@ -246,7 +246,7 @@
       "name": "github_intro_workshop_1",
       "data": {
         "workshop": "github_intro_workshop",
-        "date_time":"2017-09-07T14:00:00.000Z",
+        "date_time":"2017-11-07T14:00:00.000Z",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -257,7 +257,7 @@
       "name": "data_in_excel_1",
       "data": {
         "workshop": "data_in_excel",
-        "date_time":"2017-09-12T14:00:00.000Z",
+        "date_time":"2017-11-12T14:00:00.000Z",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -268,7 +268,7 @@
       "name": "intro_cloud_aws_1",
       "data": {
         "workshop": "intro_cloud_aws",
-        "date_time":"2017-09-14T10:00:00.000Z",
+        "date_time":"2017-11-14T10:00:00.000Z",
         "duration_minutes":"120",
         "max_attendees":20,
         "instructor_notes": "",
@@ -290,7 +290,7 @@
       "name": "intro_dedoose_1",
       "data": {
         "workshop": "intro_dedoose",
-        "date_time":"2017-09-26T14:00:00.000Z",
+        "date_time":"2017-11-26T14:00:00.000Z",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -301,7 +301,7 @@
       "name": "interactive_visualization_1",
       "data": {
         "workshop": "inter_vis_py",
-        "date_time":"2017-09-27T14:00:00.000Z",
+        "date_time":"2017-11-27T14:00:00.000Z",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -312,7 +312,7 @@
       "name": "vis_ggplot2_1",
       "data": {
         "workshop": "vis_ggplot2",
-        "date_time":"2017-09-28T10:00:00.000Z",
+        "date_time":"2017-11-28T10:00:00.000Z",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -323,7 +323,7 @@
       "name": "jekyll_1",
       "data": {
         "workshop": "jekyll",
-        "date_time":"2017-10-05T10:00:00.000Z",
+        "date_time":"2018-02-05T10:00:00.000Z",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -334,7 +334,7 @@
       "name": "scikit_1",
       "data": {
         "workshop": "scikit",
-        "date_time":"2017-10-11T14:00:00.000Z",
+        "date_time":"2018-02-11T14:00:00.000Z",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -356,7 +356,7 @@
       "name": "funders_1",
       "data": {
         "workshop": "funders",
-        "date_time":"2017-10-12T10:30:00.000Z",
+        "date_time":"2018-02-12T10:30:00.000Z",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -367,7 +367,7 @@
       "name": "visual_javascript_1",
       "data": {
         "workshop": "visual_javascript",
-        "date_time":"2017-10-17T10:00:00.000Z",
+        "date_time":"2018-02-17T10:00:00.000Z",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -378,7 +378,7 @@
       "name": "visual_tableau_1",
       "data": {
         "workshop": "visual_tableau",
-        "date_time":"2017-10-19T14:00:00.000Z",
+        "date_time":"2018-02-19T14:00:00.000Z",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -833,7 +833,7 @@
       "name":"intro_cloud_aws_i",
       "data": {
         "participant": "nem2p",
-        "session": "intro_cloud_aws",
+        "session": "intro_cloud_aws_1",
         "created": "2017-07-11T07:11:00.000Z",
         "attended": true,
         "is_instructor": true
