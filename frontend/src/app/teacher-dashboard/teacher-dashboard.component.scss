@@ -1,17 +1,21 @@
-.header {
-  background-image: url('../../header.png');
-  min-height:100px;
-  color: white;
-  margin: auto;
-  vertical-align: middle;
-  padding: 40px 10px 10px 20px;
+// Import theming functions
+@import '~@angular/material/theming';
+// Import your custom theme
+@import '../../uva_material.scss';
+// Load the UVA Theme
+@include uva-theme($uva-theme);
+
+.instructor-big {
+  float: left;
+  width: 50px;
+  height: 50px;
+  border-radius: 381px;
+  border: 4px solid mat-color($uva-accent, 500);
+  padding: 4px;
+  margin-right: 10px;
 }
 
-.header img {
-  max-height: 100px;
-  float: left;
-  margin: 0 20px 20px 50px;
-}
+
 
 ul.list {
   display: table;

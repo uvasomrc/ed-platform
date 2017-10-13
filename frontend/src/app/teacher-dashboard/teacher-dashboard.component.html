@@ -1,12 +1,25 @@
 <div *ngIf="is_data_loaded">
 
-  <div class="header">
-    <img src="{{session.workshop.links.image}}"/>
-    <h1>Teacher Dashboard:</h1>
-    <h2>Date: <b>{{session.date_time | date: 'fullDate'}}</b></h2>
-    <h2>Time: <b>{{session.date_time | date: 'shortTime'}}</b></h2>
+  <section class="header">
+    <div class="circleborder">
+      <img class="instructor-big" src="{{session.firstInstructor().links.image}}">
+    </div>
+    <h2 class="mat-title">{{session.workshop.title}}</h2>
+    <span class="sub-title">with {{session.instructorsDisplay()}}</span>
+  </section>
+
+  <section class="header">
     <p>{{session.workshop.description}}</p>
-  </div>
+  </section>
+
+  <section class="header flex">
+    <div>
+      {{session.date_time | date: 'EEE. MMMM d, y, h:mm-'}}{{session.endTime() | date: 'h:mma'}}
+      <br/>
+      <span class="sub-title">Location: {{session.location}}</span>
+    </div>
+  </section>
+
 
   <mat-tab-group [selectedIndex]="selected_tab">
 
@@ -30,7 +43,7 @@
       <form [formGroup]="email_form" novalidate (ngSubmit)="onSendEmail()" class="email_form"  [hidden]="is_sending">
         <div>
           <mat-form-field class="example-full-width">
-            <input mdInput formControlName="email_title" placeholder="Email Title" value="" class="form-control">
+            <input matInput formControlName="email_title" placeholder="Email Title" value="" class="form-control">
             <mat-error>
               Title is <strong>required</strong>
             </mat-error>
@@ -38,7 +51,7 @@
         </div>
         <div>
           <mat-form-field class="example-full-width">
-    <textarea mdInput formControlName="email_content" placeholder="Description" value="" class="form-control">
+    <textarea matInput formControlName="email_content" placeholder="Description" value="" class="form-control">
     </textarea>
             <mat-error>
               This description is too short.
