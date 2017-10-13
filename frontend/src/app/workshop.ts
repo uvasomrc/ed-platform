@@ -44,7 +44,7 @@ export class Workshop  {
     let session = null;
     for (const s of this.sessions) {
       if (s.date_time.valueOf() > Date.now().valueOf()) {
-        if (session == null || s.date_time.valueOf() < session.date.valueOf()) {
+        if (session == null || s.date_time.valueOf() < session.date_time.valueOf()) {
           session = s;
         }
       }
