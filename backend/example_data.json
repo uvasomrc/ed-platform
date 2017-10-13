@@ -25,6 +25,7 @@
       }
     }
   ],
+
   "Workshop": [
     {
       "name": "python_intro_workshop",
@@ -386,6 +387,22 @@
       }
     }
   ],
+  "Code": [
+    {
+      "name": "Python101",
+      "data": {
+        "name":"Python101",
+        "description": "Introductory Python Workshops"
+      }
+    },
+    {
+      "name": "python101",
+      "data": {
+        "name":"python101",
+        "description": "Introductory Python Workshops"
+      }
+    },
+  ]
   "TrackWorkshop": [
     {
       "name": "tw_py1",
