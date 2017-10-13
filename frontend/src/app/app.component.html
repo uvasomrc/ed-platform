@@ -5,9 +5,9 @@
   <span>{{title}}</span>
   <span class="spacer"></span>
   <button mat-button (click)="goSearch()"><mat-icon>search</mat-icon></button>
-  <span *ngIf="account" class="logged-in">
+  <button mat-icon-button *ngIf="account" class="logged-in" [routerLink]="['accountDetails']">
     <img class="user-icon" src="{{account.links.image}}" alt="{{account.display_name}}">
-  </span>
+  </button>
 </mat-toolbar>
 <mat-menu #appMenu="matMenu">
   <button mat-menu-item
