@@ -58,10 +58,14 @@ class ElasticIndex:
             ew = ElasticWorkshop(meta={'id': 'workshop_' + str(w.id)},
                                  id=w.id,
                                  title=w.title,
-                                 description=w.description,
+                                 description=w.description
                                  )
-            for tw in w.track_workshops:
-                ew.tracks.append(tw.track.title)
+            if(w.code != None):
+                ew.code = w.code.id
+
+                for tc in w.code.track_codes:
+                    print("The Track Id is " + str(tc.track_id))
+                    ew.tracks.append(tc.track.title)
 
             for s in w.sessions:
                 ew.date.append(s.date_time)
@@ -92,6 +96,7 @@ class ElasticWorkshop(DocType):
     id = Integer()
     title = Text()
     description = Text()
+    code = Text()
     date = Date(multi=True)
     location = Keyword(multi=True)
     location_search = Text(multi=True)

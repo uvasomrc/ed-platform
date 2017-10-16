@@ -12,6 +12,7 @@ class RestException(Exception):
     NO_SUCH_SESSION = {'code': 'no_such_session', 'message': 'This session does not exist.'}
     NOT_INSTRUCTOR = {'code': 'not_the_instructor', 'message':'You must be the instructor of this session to perform this action.'}
     ELASTIC_ERROR = {'code': 'elastic_error', 'message':"Error connecting to ElasticSearch."}
+    NO_SUCH_CODE = {'code': 'no_such_code', 'message': 'This Track Code does not exist, and cannot be assigned.'}
 
     def __init__(self, payload, status_code=None):
         Exception.__init__(self)

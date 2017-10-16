@@ -63,19 +63,12 @@ class Filter():
         self.field = field
         self.value = value
 
-
-codes = db.Table('codes',
-    db.Column('track_id', db.Integer, db.ForeignKey('track.id'), primary_key=True),
-    db.Column('code_id', db.Integer, db.ForeignKey('code.id'), primary_key=True),
-    db.Column('order', db.Integer)
-)
-
-class Code(db.Model):
-    __tablename__ = 'code'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String())
-    desc = db.Column(db.TEXT())
-    workshops = db.relationship('Workshop', backref='code')
+class TrackCode(db.Model):
+    __tablename__ = 'track_code'
+    track_id = db.Column('track_id', db.Integer, db.ForeignKey('track.id'), primary_key=True)
+    code_id = db.Column('code_id', db.String(), db.ForeignKey('code.id'), primary_key=True)
+    order = db.Column(db.Integer())
+    prereq = db.Column(db.Boolean())
 
 class Track(db.Model):
     __tablename__ = 'track'
@@ -83,8 +76,8 @@ class Track(db.Model):
     image_file = db.Column(db.String())
     title = db.Column(db.TEXT())
     description = db.Column(db.TEXT())
-    codes = db.relationship('Code', secondary=codes, lazy='subquery',
-        backref=db.backref('tracks', lazy=True))
+    codes = db.relationship(lambda : TrackCode, order_by=TrackCode.order,
+        backref=db.backref('track', lazy=True, cascade="all, delete-orphan", single_parent=True))
 
     def __init__(self, image_file, title, description):
         self.image_file = image_file
@@ -102,8 +95,15 @@ class Workshop(db.Model):
     title = db.Column(db.TEXT())
     description = db.Column(db.TEXT())
     sessions = db.relationship("Session", backref="workshop")
+    code_id = db.Column('code_id', db.String(), db.ForeignKey('code.id'))
     #code:  Backref created a code on Workshop
 
+class Code(db.Model):
+    __tablename__ = 'code'
+    id = db.Column(db.String(), primary_key=True)
+    desc = db.Column(db.TEXT)
+    workshops = db.relationship('Workshop', backref=db.backref('code', lazy=True))
+    track_codes = db.relationship('TrackCode', backref=db.backref('code', lazy=True))
 
 class Participant(db.Model):
     __tablename__ = 'participant'
@@ -235,6 +235,15 @@ class EmailLog(db.Model):
 # For marshalling objects to the database
 # ----------------------------------------
 
+class CodeDBSchema(ma.ModelSchema):
+    class Meta:
+        model = Code
+
+class TrackCodeDBSchema(ma.ModelSchema):
+    class Meta:
+        model = TrackCode
+
+
 class TrackDBSchema(ma.ModelSchema):
     class Meta:
         model = Track
@@ -242,10 +251,6 @@ class TrackDBSchema(ma.ModelSchema):
 class WorkshopDBSchema(ma.ModelSchema):
     class Meta:
         model = Workshop
-
-class TrackWorkshopDBSchema(ma.ModelSchema):
-    class Meta:
-        model = TrackWorkshop
 
 class SessionDBSchema(ma.ModelSchema):
     class Meta:
@@ -305,15 +310,22 @@ class UserSchema(ma.Schema):
 
 
 class TrackAPISchema(ma.Schema):
+
+    class TrackCodeSchema(ma.Schema):
+        class Meta:
+            fields = ('prereq','id')
+        id = fields.Function(lambda obj: obj.code_id)
+
     class Meta:
         # Fields to expose
-        fields = ('id','title', 'description', '_links')
+        fields = ('id','title', 'description', '_links', 'codes')
         ordered = True
+
+    codes = ma.List(ma.Nested(TrackCodeSchema))
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_track', track_id='<id>'),
         'collection': ma.URLFor('get_tracks'),
         'image': ma.URLFor('get_track_image', track_id='<id>'),
-        'workshops': ma.URLFor('get_track_workshops', track_id='<id>'),
     })
 #    workshops = ma.Method('links_to_workshops')
 #    def links_to_workshops(self, obj):
@@ -349,7 +361,6 @@ class SessionAPIMinimalSchema(ma.Schema):
     workshop = ma.Nested(WorkshopAPIMinimalSchema)
 #    instructors = ma.Nested(ParticipantAPIMinimalSchema)
 
-
 class ParticipantSessionAPISchema(ma.Schema):
     class Meta:
         fields = ('participant', 'session', 'created', 'review_score', 'review_comment', 'attended', 'is_instructor')
@@ -361,6 +372,12 @@ class ParticipantSessionAPISchema(ma.Schema):
         'collection': ma.URLFor('get_participants'),
         'sessions': ma.URLFor('get_participant_sessions', id='<id>')
     })
+
+class CodeApiSchema(ma.Schema):
+    class Meta:
+        fields = ('id','desc','workshops')
+        ordered = True
+    workshops = ma.List(ma.Nested(WorkshopAPIMinimalSchema))
 
 class SessionAPISchema(ma.Schema):
     class Meta:

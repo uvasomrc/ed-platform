@@ -1,7 +1,7 @@
 import datetime
 
 import elasticsearch
-from flask import jsonify, request, send_file, session, redirect, g, render_template
+from flask import jsonify, request, send_file, session, redirect, g, render_template, json
 from ed_platform import app, db, models, sso, RestException, emails, elastic_index
 from flask_httpauth import HTTPTokenAuth
 
@@ -74,6 +74,25 @@ def logout():
     return redirect('/api/')
 
 
+# Codes
+# *****************************
+@app.route('/api/code', methods=['POST'])
+def create_code():
+    request_data = request.get_json()
+    new_code = models.CodeDBSchema().load(request_data).data
+    db.session.add(new_code)
+    db.session.commit()
+    return models.CodeDBSchema().jsonify(new_code)
+
+@app.route('/api/code', methods=['GET'])
+def get_codes():
+    codes = list(map(lambda c: models.CodeDBSchema().dump(c).data, models.Code.query.all()))
+    return jsonify(codes)
+
+@app.route('/api/code/<string:code>')
+def get_code(code):
+    code = models.Code.query.filter_by(id=code).first()
+    return models.CodeApiSchema().jsonify(code)
 
 # Tracks
 # *****************************
@@ -105,34 +124,26 @@ def remove_track(track_id):
     track = models.Track.query.filter_by(id=track_id).first()
     if(track is None):
         return jsonify(error=404, text=str("no such track.")), 404
-    for tw in track.track_workshops:
-        db.session.delete(tw)
     db.session.delete(track)
     return ""
 
-
-@app.route('/api/track/<int:track_id>/workshops')
-def get_track_workshops(track_id):
-    track = models.Track.query.filter_by(id=track_id).first()
-    track_workshops = track.track_workshops
-    workshops = list(map(lambda t: workshop_schema.dump(t.workshop).data, track_workshops))
-    return jsonify({"workshops": workshops})
-
-
-@app.route('/api/track/<int:id>/workshops', methods=['PATCH'])
-def set_track_workshops(id):
+@app.route('/api/track/<int:id>/codes', methods=['PATCH'])
+def set_track_codes(id):
     request_data = request.get_json()
-    workshops = workshop_db_schema.load(request_data["workshops"], many=True).data
     track = models.Track.query.filter_by(id=id).first()
-    track_workshops = []
+    track_codes = []
     order = 0
-    for workshop in workshops:
-        track_workshops.append(models.TrackWorkshop(track_id=track.id, workshop_id=workshop.id, order=order))
+    for code in request_data:
+        db_code = models.Code.query.filter_by(id=code['id']).first()
+        if(db_code == None):
+            raise RestException(RestException.NO_SUCH_CODE)
+        track_codes.append(models.TrackCode(track_id=track.id, code_id=code["id"],
+                                             prereq=code["prereq"], order=order))
         order += 1
-    track.track_workshops = track_workshops
+    track.codes = track_codes
     db.session.commit()
-    workshops = list(map(lambda t: workshop_schema.dump(t.workshop).data, track_workshops))
-    return jsonify({"workshops": workshops})
+    track = models.Track.query.filter_by(id=id).first()
+    return jsonify(track_schema.dump(track))
 
 
 @app.route('/api/track/<int:track_id>/image')
@@ -178,6 +189,10 @@ def search_workshops():
 @app.route('/api/workshop', methods=['POST'])
 def create_workshop():
     request_data = request.get_json()
+    if(request_data['code'] != None and request_data['code'] != ''):
+        db_code = models.Code.query.filter_by(id=request_data['code']).first()
+        if (db_code == None): raise RestException(RestException.NO_SUCH_CODE)
+
     new_workshop = workshop_db_schema.load(request_data).data
     db.session.add(new_workshop)
     db.session.commit()
@@ -260,6 +275,19 @@ def view_registration(id):
     participant = g.user
     session = models.Session.query.filter_by(id=id).first()
     return (jsonify(participant_session_db_schema.dump(participant.getParticipantSession(session)).data))
+
+
+@app.route('/api/session/<int:id>/instructor/<int:instructor_id>', methods=['POST'])
+def set_instructor(id, instructor_id):
+    participant = models.Participant.query.filter_by(id=id).first()
+    session = models.Session.query.filter_by(id=id).first()
+    if(participant is None):
+        raise RestException(RestException.NO_SUCH_PARTICIPANT)
+    if(session is None):
+        raise RestException(RestException.NO_SUCH_SESSION)
+    participant.register(session, True)
+    return (jsonify(session_schema.dump(session)))
+
 
 @app.route('/api/session/<int:id>/register', methods=['POST'])
 @auth.login_required

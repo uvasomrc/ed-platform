@@ -1,38 +1,100 @@
 {
   "Track": [
     {
-      "name": "python_track",
+      "name": "python_for_data_analysis",
       "data": {
         "image_file": "images/python_track.png",
-        "title": "Learning Python The Hard Way",
-        "description": "A Data Scientist combines statistical and machine learning techniques with Python programming to analyze and interpret complex data."
-      }
-    },
-    {
-      "name": "ml_track",
-      "data": {
-        "image_file": "images/machine_learning_track.png",
-        "title": "Leaning Machine Learning",
-        "description": "Machine learning represents a key evolution in the fields of computer science, data analysis, software engineering, and artificial intelligence. This program will teach you how to become a machine learning engineer, and apply predictive models to massive data sets in fields like finance, healthcare, education, and more."
-      }
-    },
-    {
-      "name": "ds_track",
-      "data": {
-        "image_file": "images/ds_track.png",
-        "title": "Data Science with R",
-        "description": "Here's a course that will give you an in-depth understanding of Business Analytics and Big Data using R, SAS, Hadoop, Python, and Spark. The course helps you understand data mining, exploration, visualization, and hypothesis testing. With 12+ industry-based projects to be executed on CloudLabs and other platforms, this is the perfect course for Data Analysts and Big Data professionals."
+        "title": "Python for Data Analysis",
+        "description": "Intro Python > Python Data Manipulation > Python Data Visualization > Advanced Topics Python > Python Modeling"
       }
     }
   ],
 
+  "Code": [
+    {"name":"python_intro", "data": {"id":"Python: Intro"}},
+    {"name":"python_data", "data": {"id":"Python: Data"}},
+    {"name":"python_visual", "data": {"id":"Python: Visualization"}},
+    {"name":"python_adv", "data": {"id":"Python: Advanced"}},
+    {"name":"python_modeling", "data": {"id":"Python: Modeling"}}
+  ],
+
+  "TrackCode": [
+    {"name":"python_intro_tc",
+    "data": {
+      "track":"python_for_data_analysis",
+      "code":"python_intro",
+      "order":0,
+      "prereq":true
+    }},
+    {"name":"python_data_tc",
+    "data": {
+      "track":"python_for_data_analysis",
+      "code":"python_data",
+      "order":1,
+      "prereq":true
+    }},
+    {"name":"python_visual_tc",
+    "data": {
+      "track":"python_for_data_analysis",
+      "code":"python_visual",
+      "order":2,
+      "prereq":false
+    }},
+    {"name":"python_adv_tc",
+    "data": {
+      "track":"python_for_data_analysis",
+      "code":"python_adv",
+      "order":3,
+      "prereq":false
+    }},
+    {"name":"python_modeling_tc",
+    "data": {
+      "track":"python_for_data_analysis",
+      "code":"python_modeling",
+      "order":4,
+      "prereq":false
+    }}
+  ],
   "Workshop": [
     {
       "name": "python_intro_workshop",
       "data": {
         "image_file": "images/python_intro_workshop.png",
         "title": "Introduction to Python",
-        "description": "This workshop covers the fundamentals of python beginning with setting it up on your system. No prior experience is required. Just bring your laptop. We will start with installation and then move to interpreted coding focusing on the built-in data types. This will be a hands on experience with exercises throughout and plenty of time to get your hands dirty."
+        "description": "This workshop covers the fundamentals of python beginning with setting it up on your system. No prior experience is required. Just bring your laptop. We will start with installation and then move to interpreted coding focusing on the built-in data types. This will be a hands on experience with exercises throughout and plenty of time to get your hands dirty.",
+        "code":"python_intro"
+      }
+    },
+    {
+      "name": "python_intro_workshop_t2",
+      "data": {
+        "title": "Introduction to Python",
+        "description": "This workshop will teach you the basics of Python, starting with installation and setup on your computer. We will work through examples that showcase the built-in data types, loops, and conditionals, as well as using the most popular Python packages for scientific research. Be sure to bring your laptop to participate in the exercises. No prior coding experience is required.",
+        "code":"python_intro"
+      }
+    },
+    {
+      "name": "python_data_cleaning",
+      "data": {
+        "title": "Data cleansing in Python using Pandas and the Jupyter Notebook",
+        "description": "This workshop will consist of about an hour of presentation and discussion followed by about an hour for in-class practice exercises. The presentation will cover reading data from text/csv and Excel files, managing data type conversions (numbers, text, dates), managing NULL values, creation and deletion of columns in Pandas data frames, indexing and re-indexing data frames, and identifying/managing incorrect values. Demonstration and practice data will be pulled from a variety of sources including deidentified clinical data.",
+        "code":"python_data"
+      }
+    },
+    {
+      "name": "python_data_vis",
+      "data": {
+        "title": "Data visualization in Python",
+        "description": "This workshop will consist of about an hour of presentation and discussion followed by about an hour for in-class practice exercises. The presentation will cover creation of 2-D plots with Matplotlib (v. 2.0), including publication-quality plots, and interactive Web plots with Bokeh. Plots will include histograms, bar graphs, line graphs, scatter plots, and several types of statistical graphs. Demonstration and practice data will be pulled from a variety of sources including deidentified clinical data.",
+        "code":"python_visual"
+      }
+    },
+    {
+      "name": "python_flask",
+      "data": {
+        "title": "Python Web apps using the Flask framework",
+        "description": "This workshop will consist of about an hour of presentation and discussion followed by about an hour for in-class practice exercises. The presentation will cover creation of Web apps using the Flask app framework with Pandas and Bokeh. Web apps are data processing applications that may be deployed on a Web server and use a Web browser as a user interface.",
+        "code":"python_adv"
       }
     },
     {
@@ -104,7 +166,8 @@
       "data": {
         "image_file": "images/visualization.png",
         "title": "Interactive Visualization with Python/Bokeh",
-        "description": "We will explore how to take your data from bits in memory to beautiful images on the screen. We’ll use the package Bokeh, which allows you to create interactive visualizations that you can easily publish on the Internet. This will be a hands on experience with exercises throughout."
+        "description": "We will explore how to take your data from bits in memory to beautiful images on the screen. We’ll use the package Bokeh, which allows you to create interactive visualizations that you can easily publish on the Internet. This will be a hands on experience with exercises throughout.",
+        "code": "python_visual"
       }
     },
     {
@@ -128,7 +191,8 @@
       "data": {
         "image_file": "images/scikit.png",
         "title": "Machine learning with Python-scikit",
-        "description": "Have an interest in this machine learning craze? Then you’ve come to the right place. This workshops highlights fundamentals of machine learning using the python package scikit-learn. We will work through the steps of a machine learning example and explain the core concepts as we go. Bring you laptop so you can follow along."
+        "description": "Have an interest in this machine learning craze? Then you’ve come to the right place. This workshops highlights fundamentals of machine learning using the python package scikit-learn. We will work through the steps of a machine learning example and explain the core concepts as we go. Bring you laptop so you can follow along.",
+        "code":"python_modeling"
       }
     },
     {
@@ -167,7 +231,7 @@
   ],
   "Session": [
     {
-      "name": "python_intro_workshop_1",
+      "name": "python_intro_workshop_s1",
       "data": {
         "workshop": "python_intro_workshop",
         "date_time":"2017-11-11T18:30:00.000Z",
@@ -178,14 +242,69 @@
       }
     },
     {
-      "name": "python_intro_workshop_2",
+      "name": "python_intro_workshop_s2",
       "data": {
         "workshop": "python_intro_workshop",
-        "date_time":"2017-11-11T18:30:00.000Z",
+        "date_time":"2017-11-14T18:30:00.000Z",
         "duration_minutes":"60",
         "max_attendees":2,
-        "instructor_notes": "Class details are available at http://sartography.com.",
+        "instructor_notes": "",
         "location":"Brown 133"
+      }
+    },
+    {
+      "name": "python_intro_workshop_s3",
+      "data": {
+        "workshop": "python_intro_workshop_t2",
+        "date_time":"2018-01-12T14:00:00.000Z",
+        "duration_minutes":"120",
+        "max_attendees":20,
+        "instructor_notes": "",
+        "location":"Health Sciences Library Carter Classroom"
+      }
+    },
+    {
+      "name": "python_intro_workshop_s4",
+      "data": {
+        "workshop": "python_intro_workshop",
+        "date_time":"2017-11-24T14:00:00.000Z",
+        "duration_minutes":"120",
+        "max_attendees":2,
+        "instructor_notes": "",
+        "location":"Brown 133"
+      }
+    },
+    {
+      "name": "python_data_cleaning_s1",
+      "data": {
+        "workshop": "python_data_cleaning",
+        "date_time":"2017-12-09T13:00:00.000Z",
+        "duration_minutes":"90",
+        "max_attendees":12,
+        "instructor_notes": "",
+        "location":"Health Sciences Library Carter Classroom"
+      }
+    },
+    {
+      "name": "python_data_vis_s1",
+      "data": {
+        "workshop": "python_data_cleaning",
+        "date_time":"2017-12-11T14:00:00.000Z",
+        "duration_minutes":"90",
+        "max_attendees":12,
+        "instructor_notes": "",
+        "location":"Health Sciences Library Carter Classroom"
+      }
+    },
+    {
+      "name": "python_flask_s1",
+      "data": {
+        "workshop": "python_flask",
+        "date_time":"2018-02-01T14:00:00.000Z",
+        "duration_minutes":"90",
+        "max_attendees":12,
+        "instructor_notes": "",
+        "location":"Health Sciences Library Carter Classroom"
       }
     },
     {
@@ -387,131 +506,19 @@
       }
     }
   ],
-  "Code": [
-    {
-      "name": "Python101",
-      "data": {
-        "name":"Python101",
-        "description": "Introductory Python Workshops"
-      }
-    },
-    {
-      "name": "python101",
-      "data": {
-        "name":"python101",
-        "description": "Introductory Python Workshops"
-      }
-    },
-  ]
-  "TrackWorkshop": [
-    {
-      "name": "tw_py1",
-      "data": {
-        "track": "python_track",
-        "workshop": "python_intro_workshop",
-        "order": 0
-      }
-    },
-    {
-      "name": "tw_py2",
-      "data": {
-        "track": "python_track",
-        "workshop": "github_intro_workshop",
-        "order": 1
-      }
-    },
-    {
-      "name": "tw_py3",
-      "data": {
-        "track": "python_track",
-        "workshop": "inter_vis_py",
-        "order": 2
-      }
-    },
-    {
-      "name": "tw_ds1",
-      "data": {
-        "track": "ds_track",
-        "workshop": "github_intro_workshop",
-        "order": 0
-      }
-    },
-    {
-      "name": "tw_ds2",
-      "data": {
-        "track": "ds_track",
-        "workshop": "unix_into_workshop",
-        "order": 1
-      }
-    },
-    {
-      "name": "tw_ds3",
-      "data": {
-        "track": "ds_track",
-        "workshop": "vis_ggplot2",
-        "order": 2
-      }
-    },
-    {
-      "name": "tw_ds4",
-      "data": {
-        "track": "ds_track",
-        "workshop": "visual_javascript",
-        "order": 3
-      }
-    },
-    {
-      "name": "tw_ds5",
-      "data": {
-        "track": "ds_track",
-        "workshop": "visual_tableau",
-        "order": 4
-      }
-    },
-    {
-      "name": "tw_ml1",
-      "data": {
-        "track": "ml_track",
-        "workshop": "r_intro_workshop",
-        "order": 0
-      }
-    },
-    {
-      "name": "tw_ml2",
-      "data": {
-        "track": "ml_track",
-        "workshop": "ml_intro_workshop",
-        "order": 1
-      }
-    },
-    {
-      "name": "tw_ml3",
-      "data": {
-        "track": "ml_track",
-        "workshop": "intro_cloud_aws",
-        "order": 2
-      }
-    },
-    {
-      "name": "tw_ml4",
-      "data": {
-        "track": "ml_track",
-        "workshop": "intro_dedoose",
-        "order": 3
-      }
-    }
-    ,
-    {
-      "name": "tw_ml5",
-      "data": {
-        "track": "ml_track",
-        "workshop": "scikit",
-        "order": 4
-      }
-    }
-
-  ],
   "Participant": [
+    {
+      "name": "CRD2JG",
+      "data": {
+        "uid": "CRD2JG",
+        "display_name": "Cory DeFreitas",
+        "email_address": "CRD2JG@virginia.edu",
+        "phone_number": "+15404570024",
+        "image_file": "images/profile/crd2jg.png",
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "Cory works at Centers for Computation Research & Scholarship"
+      }
+    },
     {
       "name": "dhf8r",
       "data": {
@@ -551,7 +558,7 @@
       }
     },
     {
-      "name": "vpnagraj",
+      "name": "vpn7n",
       "data": {
         "uid": "vpn7n",
         "display_name": "VP Nagraj (Pete)",
@@ -627,27 +634,91 @@
         "created": "2017-08-25T10:30:00.000Z",
         "bio": ""
       }
+    },
+    {
+      "name": "jamesh",
+      "data": {
+        "uid": "jamesh",
+        "display_name": "James Harrison",
+        "title": "Director, Division of Biomedical Informatics",
+        "email_address": "james.harrison@Virginia.EDU",
+        "phone_number": "",
+        "image_file": "images/profile/harrison.jpg",
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "Dr. Harrison is Associate Professor and Director of the Division of Biomedical Informatics in the Department of Public Health Sciences at UVA, and has a secondary appointment in the Department of Pathology. He also has a courtesy appointment in the Department of Systems and Information Engineering in the School of Engineering and Applied Sciences. He has 20 years of experience in the field of medical informatics, including work in clinical laboratory information systems, electronic health records, clinical data analysis, World Wide Web development, funded participation in the caBIG® Architecture and Documentation/Training Workspaces, and has current and previous R01 funding in informatics and software development from the NCI and NLM."
+      }
     }
+
   ],
   "ParticipantSession": [
     {
-      "name":"dhf8r_python_intro_workshop_1",
+      "name":"dhf8r_python_intro_workshop_s1",
       "data": {
         "participant": "dhf8r",
-        "session": "python_intro_workshop_1",
+        "session": "python_intro_workshop_s1",
         "created": "2017-08-25T10:30:00.000Z",
         "attended": false,
         "is_instructor": true
       }
     },
     {
-      "name":"dhf8r_python_intro_workshop_2",
+      "name":"pete_python_intro_workshop_s2",
       "data": {
-        "participant": "dhf8r",
-        "session": "python_intro_workshop_2",
+        "participant": "vpn7n",
+        "session": "python_intro_workshop_s2",
         "created": "2017-07-12T12:30:00.000Z",
         "attended": false,
-        "is_instructor": false
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"pete_python_intro_workshop_s3",
+      "data": {
+        "participant": "vpn7n",
+        "session": "python_intro_workshop_s4",
+        "created": "2017-07-12T12:30:00.000Z",
+        "attended": false,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"corey_python_intro_workshop_s1",
+      "data": {
+        "participant": "CRD2JG",
+        "session": "python_intro_workshop_s3",
+        "created": "2017-08-25T10:30:00.000Z",
+        "attended": false,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"jamesh_cleaning",
+      "data": {
+        "participant": "jamesh",
+        "session": "python_data_cleaning_s1",
+        "created": "2017-08-25T10:30:00.000Z",
+        "attended": false,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"jamesh_vis",
+      "data": {
+        "participant": "jamesh",
+        "session": "python_data_vis_s1",
+        "created": "2017-08-25T10:30:00.000Z",
+        "attended": false,
+        "is_instructor": true
+      }
+    },
+    {
+      "name":"jamesh_flask",
+      "data": {
+        "participant": "jamesh",
+        "session": "python_flask_s1",
+        "created": "2017-08-25T10:30:00.000Z",
+        "attended": false,
+        "is_instructor": true
       }
     },
     {
@@ -673,20 +744,20 @@
       }
     },
     {
-      "name":"bk7k_python_intro_workshop_1",
+      "name":"bk7k_python_intro_workshop_s1",
       "data": {
         "participant": "bk7k",
-        "session": "python_intro_workshop_1",
+        "session": "python_intro_workshop_s1",
         "created": "2017-08-12T09:35:00.000Z",
         "attended": false,
         "is_instructor": false
       }
     },
     {
-      "name":"bk7k_python_intro_workshop_2",
+      "name":"bk7k_python_intro_workshop_s2",
       "data": {
         "participant": "bk7k",
-        "session": "python_intro_workshop_2",
+        "session": "python_intro_workshop_s2",
         "created": "2017-06-04T15:55:00.000Z",
         "attended": false,
         "is_instructor": true
@@ -718,7 +789,7 @@
       "name":"nem2p_python_intro_workshop_1",
       "data": {
         "participant": "alonzi",
-        "session": "python_intro_workshop_1",
+        "session": "python_intro_workshop_s1",
         "created": "2017-07-22T20:02:00.000Z",
         "attended": false,
         "is_instructor": false
@@ -728,7 +799,7 @@
       "name":"nem2p_python_intro_workshop_2",
       "data": {
         "participant": "alonzi",
-        "session": "python_intro_workshop_2",
+        "session": "python_intro_workshop_s2",
         "created": "2017-08-10T12:02:00.000Z",
         "attended": false,
         "is_instructor": false
@@ -759,19 +830,9 @@
         {
       "name":"vpnagraj_python_intro_workshop_1",
       "data": {
-        "participant": "vpnagraj",
-        "session": "python_intro_workshop_1",
+        "participant": "vpn7n",
+        "session": "python_intro_workshop_s1",
         "created": "2017-07-05T11:11:12.000Z",
-        "attended": false,
-        "is_instructor": false
-      }
-    },
-    {
-      "name":"vpnagraj_python_intro_workshop_2",
-      "data": {
-        "participant": "vpnagraj",
-        "session": "python_intro_workshop_2",
-        "created": "2017-08-17T11:22:00.000Z",
         "attended": false,
         "is_instructor": false
       }
@@ -779,7 +840,7 @@
     {
       "name":"vpnagraj_r_intro_workshop_1",
       "data": {
-        "participant": "vpnagraj",
+        "participant": "vpn7n",
         "session": "r_intro_workshop_1",
         "created": "2017-07-19T18:16:00.000Z",
         "attended": false,
@@ -789,7 +850,7 @@
     {
       "name":"vpnagraj_ml_intro_workshop_1",
       "data": {
-        "participant": "vpnagraj",
+        "participant": "vpn7n",
         "session": "ml_intro_workshop_1",
         "created": "2017-07-11T07:11:00.000Z",
         "attended": true,
@@ -879,7 +940,7 @@
     {
       "name":"interactive_visualization_1_i",
       "data": {
-        "participant": "vpnagraj",
+        "participant": "vpn7n",
         "session": "interactive_visualization_1",
         "created": "2017-07-11T07:11:00.000Z",
         "attended": true,
@@ -909,7 +970,7 @@
     {
       "name":"scikit_1_i",
       "data": {
-        "participant": "vpnagraj",
+        "participant": "vpn7n",
         "session": "scikit_1",
         "created": "2017-07-11T07:11:00.000Z",
         "attended": true,
@@ -939,7 +1000,7 @@
     {
       "name":"visual_javascript_1_i",
       "data": {
-        "participant": "vpnagraj",
+        "participant": "vpn7n",
         "session": "visual_javascript_1",
         "created": "2017-07-11T07:11:00.000Z",
         "attended": true,

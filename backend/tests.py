@@ -16,20 +16,26 @@ from ed_platform.emails import TEST_MESSAGES
 class TestCase(unittest.TestCase):
 
     test_uid = "dhf8rtest"
-
+    test_code_1 = "TEST-101"
+    test_code_2 = "TEST-102"
+    test_code_3 = "TEST-103"
 
     def setUp(self):
         self.app = app.test_client()
         db.create_all()
         self.ctx = app.test_request_context()
         self.ctx.push()
-        loader = data_loader.DataLoader(db)
-        loader.load("example_data.json")
-        loader.index(elastic_index)
-        print("Data loaded.")
         # Disable sending emails during unit testing
         # mail.init_app(app)
         # self.assertEqual(app.debug, False)
+
+    def load_sample_data(self):
+        db.drop_all()
+        db.create_all()
+        loader = data_loader.DataLoader(db)
+        loader.load("./example_data.json")
+        loader.index(elastic_index)
+        print("Data Loaded")
 
     def tearDown(self):
         self.ctx.pop()
@@ -52,10 +58,40 @@ class TestCase(unittest.TestCase):
         rd = json.loads(rv.get_data(as_text=True))
         return rd
 
+    def add_codes(self):
+        self.add_code(self.test_code_1, "test code one desc.")
+        self.add_code(self.test_code_2, "test code two desc.")
+        self.add_code(self.test_code_3, "test code three desc.")
+
+    def add_code(self, id, desc):
+        data = {'id': id,
+                'desc': desc}
+        rv = self.app.post('/api/code', data=json.dumps(data), follow_redirects=True,
+                           content_type="application/json")
+        self.assert_success(rv)
+        return rv
+
+    def assign_codes_to_track(self, track_id):
+        self.add_codes()
+        data = [{'id': self.test_code_1,
+                'prereq': True},
+                {'id': self.test_code_2,
+                 'prereq': False},
+                {'id': self.test_code_3,
+                 'prereq': False}
+                ]
+        rv = self.app.patch('/api/track/%i/codes' % track_id, data=json.dumps(data), follow_redirects=True,
+                           content_type="application/json")
+        self.assert_success(rv)
+        return rv
+
+
     def add_test_workshop(self):
+        self.add_code(self.test_code_1, "Some description.")
         data = {'image_file': 'workshop_one.jpg',
                 'title': 'This is a test workshop',
                 'description': 'This is the test description',
+                'code': self.test_code_1
                 }
         rv = self.app.post('/api/workshop', data=json.dumps(data), follow_redirects=True,
                            content_type="application/json")
@@ -125,7 +161,7 @@ class TestCase(unittest.TestCase):
         if(code != ""):
             print(rv.get_data(as_text=True))
             errors = json.loads(rv.get_data(as_text=True))
-            self.assertEquals(errors["code"],code)
+            self.assertEqual(errors["code"],code)
 
     def get_workshop(self, id):
         rv = self.app.get('/api/workshop/%i' %id,
@@ -144,58 +180,97 @@ class TestCase(unittest.TestCase):
         assert b'This is the title' in rv2.data
         assert b'This is the description' in rv2.data
 
+    def test_add_code(self):
+        rv = self.add_codes()
+        rv = self.app.get('/api/code',
+                           follow_redirects=True,
+                           content_type="application/json")
+        self.assert_success(rv)
+        data = json.loads(rv.get_data(as_text=True))
+        self.assertEqual(3, len(data))
+        # Codes should come back in the order they are added.
+        self.assertEquals(self.test_code_1, data[0]["id"])
+        self.assertEquals(self.test_code_2, data[1]["id"])
+        self.assertEquals(self.test_code_3, data[2]["id"])
+
+
+    def test_add_workshop_with_invalid_code(self):
+        data = {'image_file': 'workshop_one.jpg',
+                'title': 'This is a test workshop',
+                'description': 'This is the test description',
+                'code': 'there is no code like this.'
+                }
+        rv = self.app.post('/api/workshop', data=json.dumps(data), follow_redirects=True,
+                           content_type="application/json")
+        self.assert_failure(rv)
+        self.assertIn("no_such_code", rv.get_data(as_text=True))
+
+    def test_get_code(self):
+        self.add_codes()
+        self.add_test_workshop()
+        rv = self.app.get('/api/code/%s' % self.test_code_1,
+                           follow_redirects=True,
+                           content_type="application/json")
+        self.assert_success(rv)
+        data = json.loads(rv.get_data(as_text=True))
+        self.assertEquals(self.test_code_1, data["id"])
+        self.assertEqual(1, len(data["workshops"]))
+
     def test_get_tracks(self):
+        rd = self.add_test_track()
+        self.assign_codes_to_track(rd["id"])
         response = self.app.get('/api/track')
         all_tracks = json.loads(response.get_data(as_text=True))
-        assert len(all_tracks["tracks"]) > 1
+        assert len(all_tracks["tracks"]) >= 1
         track1 = all_tracks["tracks"][0]
         self.assertTrue("title" in track1.keys())
         self.assertTrue("description" in track1.keys())
-        self.assertTrue(len(track1["_links"]["workshops"]) > 0)
+
+    def test_assign_bad_codes_to_track(self):
+        rd = self.add_test_track()
+        data = [{'id': "no_such_id",
+                'prereq': True}]
+        rv = self.app.patch('/api/track/%i/codes' % rd["id"], data=json.dumps(data), follow_redirects=True,
+                           content_type="application/json")
+        self.assert_failure(rv, "no_such_code")
+
+    def test_assign_codes_to_track(self):
+        rd = self.add_test_track()
+        self.add_codes()
+        self.assign_codes_to_track(rd["id"])
+        rv = self.app.get('/api/track/%s' % rd["id"])
+        track = json.loads(rv.get_data(as_text=True))
+        self.assertEqual(3, len(track["codes"]))
+        self.assertEqual(self.test_code_1, track["codes"][0]["id"])
+        self.assertEqual(self.test_code_2, track["codes"][1]["id"])
+        self.assertEqual(self.test_code_3, track["codes"][2]["id"])
+        self.assertTrue(track["codes"][0]["prereq"])
+        self.assertFalse(track["codes"][1]["prereq"])
+        self.assertFalse(track["codes"][2]["prereq"])
+
 
     def test_sample_data_load(self):
+        self.load_sample_data()
         track = models.Track.query.filter_by(id=1).first()
-        assert track.title == "Learning Python The Hard Way"
+        self.assertEquals(track.title, "Python for Data Analysis")
 
     def test_add_workshop(self):
         workshop = self.add_test_workshop()
         self.assertEqual("This is a test workshop", workshop["title"])
 
-    def test_set_workshops_for_track(self):
-        track    = self.add_test_track()
-        workshop = self.add_test_workshop()
-        data = json.dumps({"workshops":[workshop]})
-        url = '/api/track/%i/workshops' % track['id']
-
-        response = self.app.patch(url,
-                            follow_redirects=True,
-                            data = data,
-                            content_type="application/json")
-
-        workshops = json.loads(response.get_data(as_text=True))
-        self.assertTrue(len(workshops["workshops"]), 1)
-
     def test_remove_track(self):
         track    = self.add_test_track()
-        workshop = self.add_test_workshop()
-        data = json.dumps({"workshops":[workshop]})
-        url = '/api/track/%i/workshops' % track['id']
 
-        response = self.app.patch(url,
-                            follow_redirects=True,
-                            data = data,
-                            content_type="application/json")
-
-        workshops = json.loads(response.get_data(as_text=True))
-        self.assertTrue(len(workshops["workshops"]), 1)
+        response = self.app.get('/api/track')
+        all_tracks = json.loads(response.get_data(as_text=True))
+        self.assertEqual(1,len(all_tracks["tracks"]))
 
         rv = self.app.delete(track["_links"]["self"], follow_redirects=True)
         self.assert_success(rv)
 
-        rv = self.app.get(workshop["_links"]["tracks"], follow_redirects=True)
-        self.assert_success(rv)
-        tracks = json.loads(rv.get_data(as_text=True))
-        self.assertEqual(0, len(tracks["tracks"]))
+        response = self.app.get('/api/track')
+        all_tracks = json.loads(response.get_data(as_text=True))
+        self.assertEqual(0,len(all_tracks["tracks"]))
 
     def test_add_session(self):
         workshop = self.add_test_workshop()
@@ -266,6 +341,7 @@ class TestCase(unittest.TestCase):
         self.assertEqual(404, rv.status_code)
 
     def test_get_all_participants(self):
+        participant = self.add_test_participant()
         rv = self.app.get('/api/participant', follow_redirects=True)
         self.assert_success(rv)
         ps = json.loads(rv.get_data(as_text=True))
@@ -378,7 +454,7 @@ class TestCase(unittest.TestCase):
         self.assertTrue(data['display_name'] == 'Daniel')
 
     def test_current_participant_details(self):
-
+        self.test_add_session()
         # Register user to a session.
         self.get_current_participant()
         participant = models.Participant.query.filter_by(uid=self.test_uid).first()
@@ -391,11 +467,19 @@ class TestCase(unittest.TestCase):
         self.assertTrue('participant_sessions' in data)
 
     def test_session_knows_instructors(self):
+        ws = self.add_test_workshop()
+        session = self.add_test_session(ws["id"])
+        participant = self.add_test_participant()
+
+        # Mark participant as the instructor.
+        rv = self.app.post("/api/session/%i/instructor/%i" % (session["id"], participant["id"]))
+
         session = models.Session.query.first()
         self.assertIsNotNone(session.instructors())
         self.assertTrue(len(session.instructors()) > 0)
 
     def test_email_participants_only_by_instructor(self):
+        self.test_add_session()
         session = models.Session.query.first()
         rv = self.app.post("/api/session/%i/email" % session.id, follow_redirects=True,
                           content_type="application/json")
@@ -405,6 +489,7 @@ class TestCase(unittest.TestCase):
         self.assert_failure(rv, "not_the_instructor")
 
     def test_email_sends_to_recipient(self):
+        self.load_sample_data()
         session = models.Session.query.first()
         headers = self.logged_in_headers()
         instructor = models.Participant.query.filter_by(uid=self.test_uid).first()
@@ -415,7 +500,7 @@ class TestCase(unittest.TestCase):
                            data=json.dumps(data),  content_type="application/json")
         self.assert_success(rv)
 
-        self.assertEqual(3, len(TEST_MESSAGES))
+        self.assertGreater(len(TEST_MESSAGES),2)
         self.assertEqual("[edplatform] Test Subject", TEST_MESSAGES[0]['subject'])
         logs = models.EmailLog.query.all()
         self.assertEqual(len(logs), orig_log_count + 3)
@@ -455,6 +540,7 @@ class TestCase(unittest.TestCase):
         self.assertIsNotNone(updated.date_opened)
 
     def search(self, query):
+        self.load_sample_data()
         '''Executes a query, returning the resulting search results object.'''
         rv = self.app.post('/api/workshop/search', data=json.dumps(query), follow_redirects=True,
                            content_type="application/json")
@@ -463,19 +549,22 @@ class TestCase(unittest.TestCase):
 
 
     def test_search_title(self):
+        self.load_sample_data()
         data = {'query': 'python', 'filters': []}
         search_results = self.search(data)
-        self.assertEqual(3, len(search_results["hits"]))
+        self.assertEqual(7, len(search_results["hits"]))
 
 
     def test_search_description(self):
+        self.load_sample_data()
         data = {'query': 'amazon web services', 'filters': []}
         search_results = self.search(data)
-        self.assertEqual(6, len(search_results["hits"]))
+        self.assertEqual(8, len(search_results["hits"]))
         self.assertEqual("Introduction to Cloud Computing with AWS",
                          search_results["hits"][0]['title'])
 
     def test_search_location(self):
+        self.load_sample_data()
         data = {'query': 'Brown', 'filters': []}
         search_results = self.search(data)
         self.assertEqual(17, search_results["total"])
@@ -484,10 +573,11 @@ class TestCase(unittest.TestCase):
             self.assertEqual(w['sessions'][0]['location'],'Brown 133')
 
     def test_search_instructor(self):
+        self.load_sample_data()
         data = {'query': 'Nagraj', 'filters': []}
         search_results = self.search(data)
-        self.assertEqual(5, search_results["total"])
-        self.assertEqual(5, len(search_results["hits"]))
+        self.assertEqual(6, search_results["total"])
+        self.assertEqual(6, len(search_results["hits"]))
         for w in search_results["hits"]:
             match = False
             for i in w['sessions'][0]['instructors']:
@@ -495,23 +585,26 @@ class TestCase(unittest.TestCase):
             assert match, "No matches for Pete in instructors:" + str(w['sessions'][0]['instructors'])
 
     def test_search_meta(self):
+        self.load_sample_data()
         data = {'query': '', 'filters': []}
         results = self.search(data)
         self.assertIn('total', results)
-        self.assertEqual(17, results["total"])
+        self.assertEqual(21, results["total"])
         self.assertEqual(10, len(results["hits"]))
 
     def test_view_instructor_aggregations(self):
+        self.load_sample_data()
         data = {'query': '', 'filters': []}
         results = self.search(data)
         self.assertIn('facets', results)
         self.assertIn('instructors', results["facets"])
 
     def test_filter_on_instructor(self):
+        self.load_sample_data()
         data = {'query': '', 'filters': [{'field':'instructors','value':'VP Nagraj (Pete)'}]}
         results = self.search(data)
-        self.assertEquals(5, len(results["hits"]))
-        self.assertEquals(5, results["total"])
+        self.assertEquals(6, len(results["hits"]))
+        self.assertEquals(6, results["total"])
         for hit in results["hits"]:
             match = False
             for session in hit["sessions"]:
@@ -521,6 +614,7 @@ class TestCase(unittest.TestCase):
             self.assertTrue(match, "Every hit should now have Pete as an instructor.")
 
     def test_search_by_date_past(self):
+        self.load_sample_data()
         data = {'query': '', 'date_restriction':'past'}
         results = self.search(data)
         for hit in results["hits"]:
@@ -532,6 +626,7 @@ class TestCase(unittest.TestCase):
             self.assertTrue(match, "Every hit should now have a session in the past.")
 
     def test_search_by_date_future(self):
+        self.load_sample_data()
         data = {'query': '', 'date_restriction':'future'}
         results = self.search(data)
         for hit in results["hits"]:
