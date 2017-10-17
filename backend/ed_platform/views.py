@@ -61,17 +61,28 @@ def login(user_info):
     response_url = ("%s/%s" % (app.config["FRONTEND_AUTH_CALLBACK"], auth_token))
     return redirect(response_url)
 
-@app.route('/api/auth')
+@app.route('/api/user')
 @auth.login_required
 def status():
     participant = g.user
     return jsonify(participant_schema.dump(participant).data)
 
 @app.route('/api/logout')
+@auth.login_required
 def logout():
     #fixme: Logout should invalidate the auth token.
     session.pop('user')
     return redirect('/api/')
+
+@app.route('/api/user/workshops', methods=["GET"])
+@auth.login_required
+def user_workshops():
+    workshops = []
+    participant = g.user
+    for ps in g.user.participant_sessions:
+        workshops.append(ps.session.workshop)
+    return models.WorkshopAPISchema().jsonify(workshops, many=True)
+
 
 
 # Codes
@@ -430,13 +441,6 @@ def remove_participant(id):
     db.session.delete(participant)
     db.session.commit()
     return ""
-
-@app.route('/api/participant/<int:id>/sessions', methods=['GET'])
-def get_participant_sessions(id):
-    participant = models.Participant.query.filter_by(id=id).first()
-    sessions = list(map(lambda ps: session_schema.dump(ps.session).data, participant.participant_sessions))
-    return jsonify({"sessions":sessions})
-
 
 @app.route('/api/participant/<int:participant_id>/session/<int:session_id>', methods=['GET'])
 def get_registration(participant_id, session_id):

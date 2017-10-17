@@ -153,7 +153,7 @@ class TestCase(unittest.TestCase):
         participant = models.Participant.query.filter_by(uid=self.test_uid).first()
 
         # Now get the user back.
-        response = self.app.get('/api/auth',headers=dict(
+        response = self.app.get('/api/user',headers=dict(
                        Authorization='Bearer ' +
                         participant.encode_auth_token().decode()
             )
@@ -342,7 +342,7 @@ class TestCase(unittest.TestCase):
         session = self.add_test_session(workshop["id"])
         self.assertEqual("This is a note from the instructor", session["instructor_notes"])
 
-        self.assertEqual(workshop["id"], session["workshop"]["id"])
+        self.assertIn(str(workshop["id"]), session["_links"]["workshop"])
 
     def test_get_sessions(self):
         url = '/api/session'
@@ -359,7 +359,7 @@ class TestCase(unittest.TestCase):
         self.assert_success(rv)
         session = json.loads(rv.get_data(as_text=True))
         self.assertEqual("This is a note from the instructor", session["instructor_notes"])
-        self.assertEqual(workshop["id"], session["workshop"]["id"])
+        self.assertIn(str(workshop["id"]), session["_links"]["workshop"])
         self.assertTrue("_links" in session, "Session Has Links.")
 
     def test_get_workshop_sessions(self):
@@ -420,17 +420,17 @@ class TestCase(unittest.TestCase):
         self.assert_failure(rv, code="token_invalid")
         rv = self.app.post("/api/session/%i/register" % (session["id"]), headers=self.logged_in_headers())
         self.assert_success(rv)
-        rv = self.app.get(participant["_links"]["sessions"], follow_redirects=True)
+        rv = self.app.get(participant["_links"]["workshops"], headers=self.logged_in_headers(), follow_redirects=True)
         self.assert_success(rv)
-        sessions = json.loads(rv.get_data(as_text=True))
-        self.assertEqual(1, len(sessions["sessions"]))
+        workshops = json.loads(rv.get_data(as_text=True))
+        self.assertEqual(1, len(workshops))
         session2 = self.add_test_session(workshop)
         rv = self.app.post("/api/session/%i/register" % (session2["id"]), headers=self.logged_in_headers())
         rv = self.app.post("/api/session/%i/register" % (session2["id"]), headers=self.logged_in_headers())
         rv = self.app.post("/api/session/%i/register" % (session2["id"]), headers=self.logged_in_headers())
-        rv = self.app.get(participant["_links"]["sessions"], follow_redirects=True)
-        sessions = json.loads(rv.get_data(as_text=True))
-        self.assertEqual(2, len(sessions["sessions"]), "adding a second session three times, we still only have two sessions")
+        rv = self.app.get(participant["_links"]["workshops"], follow_redirects=True)
+        workshops = json.loads(rv.get_data(as_text=True))
+        self.assertEqual(2, len(workshops), "adding a second session three times, we still only have two sessions")
 
     def test_max_participants(self):
         p1 = self.add_test_participant()
@@ -457,10 +457,14 @@ class TestCase(unittest.TestCase):
         session = self.add_test_session(workshop)
         self.app.post("/api/session/%i/register" % session["id"], headers=self.logged_in_headers())
         self.app.delete("/api/session/%i/register" % session["id"], headers=self.logged_in_headers())
-        rv = self.app.get("/api/auth", headers=self.logged_in_headers(), follow_redirects=True)
+        rv = self.app.get("/api/user", headers=self.logged_in_headers(), follow_redirects=True)
+        self.assert_success(rv)
         participant = json.loads(rv.get_data(as_text=True))
         print("The participant is:" + str(participant))
-        self.assertEqual(0, len(participant["participant_sessions"]))
+        rv = self.app.get(participant["_links"]["workshops"],headers=self.logged_in_headers(), follow_redirects=True)
+        self.assert_success(rv)
+        workshops = json.loads(rv.get_data(as_text=True))
+        self.assertEqual(0, len(workshops))
 
     def test_review(self):
         workshop = self.add_test_workshop()
@@ -511,16 +515,16 @@ class TestCase(unittest.TestCase):
         self.assertIsNotNone(participant.email_address)
         self.assertIsNotNone(participant.created)
 
+
     def test_current_participant_status(self):
         data = self.get_current_participant()
         self.assertTrue("id" in data)
-        self.assertTrue(data['email_address'] == 'dhf8r@virginia.edu')
         self.assertTrue(data['uid'] == self.test_uid)
         self.assertTrue(data['display_name'] == 'Daniel')
 
-    def test_current_participant_details(self):
+
+    def test_get_workshops_for_current_user(self):
         self.test_add_session()
-        # Register user to a session.
         self.get_current_participant()
         participant = models.Participant.query.filter_by(uid=self.test_uid).first()
         session = models.Session.query.first()
@@ -528,8 +532,13 @@ class TestCase(unittest.TestCase):
         db.session.merge(participant)
         db.session.commit()
 
-        data = self.get_current_participant()
-        self.assertTrue('participant_sessions' in data)
+        rv = self.app.get("/api/user/workshops", follow_redirects=True,
+                          headers=self.logged_in_headers(),
+                          content_type="application/json")
+
+        self.assert_success(rv)
+        workshops = json.loads(rv.get_data(as_text=True))
+        self.assertEqual(1, len(workshops))
 
     def test_session_knows_instructors(self):
         ws = self.add_test_workshop()
@@ -645,8 +654,9 @@ class TestCase(unittest.TestCase):
         self.assertEqual(6, len(search_results["hits"]))
         for w in search_results["hits"]:
             match = False
-            for i in w['sessions'][0]['instructors']:
-                if(i['display_name'] == 'VP Nagraj (Pete)'): match = True
+            for s in w['sessions']:
+                for i in s['instructors']:
+                    if(i['display_name'] == 'VP Nagraj (Pete)'): match = True
             assert match, "No matches for Pete in instructors:" + str(w['sessions'][0]['instructors'])
 
     def test_search_meta(self):

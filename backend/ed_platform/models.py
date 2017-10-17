@@ -361,61 +361,55 @@ class TrackAPISchema(ma.Schema):
 #        return list(map(lambda t: flask.url_for('get_workshop', id=t.workshop_id),
 #                                                obj.track_workshops))
 
-class ParticipantAPIMinimalSchema(ma.Schema):
+
+class ParticipantAPISchema(ma.Schema):
+
     class Meta:
-        fields = ('id','display_name', 'bio', '_links')
-        order = True
+        # Note that we don't surface the phone number or email address of any participants.
+        fields = ('id', 'uid', 'display_name', 'bio', 'created', '_links')
+        ordered = True
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_participant', id='<id>'),
         'collection': ma.URLFor('get_participants'),
         'image': ma.URLFor('get_participant_image', id='<id>'),
+        'workshops': ma.URLFor('user_workshops')
     })
 
-class WorkshopAPIMinimalSchema(ma.Schema):
-    class Meta:
-        fields = ('id', 'title', 'description', '_links')
-        ordered = True
-    _links = ma.Hyperlinks({
-        'self': ma.URLFor('get_workshop', id='<id>'),
-        'collection': ma.URLFor('get_workshops'),
-        'image': ma.URLFor('get_workshop_image', id='<id>'),
-        'tracks': ma.URLFor('get_workshop_tracks', id='<id>'),
-        'sessions': ma.URLFor('get_workshop_sessions', id='<id>'),
-    })
-
-class SessionAPIMinimalSchema(ma.Schema):
-    class Meta:
-        fields = ('id', 'date_time','duration_minutes','instructor_notes','max_attendees', 'workshop')
-        ordered = True
-    workshop = ma.Nested(WorkshopAPIMinimalSchema)
-#    instructors = ma.Nested(ParticipantAPIMinimalSchema)
 
 class ParticipantSessionAPISchema(ma.Schema):
     class Meta:
-        fields = ('participant', 'session', 'created', 'review_score', 'review_comment', 'attended', 'is_instructor')
+        fields = ('participant', 'created', 'review_score', 'review_comment', 'attended', 'is_instructor')
         ordered = True
-    participant = ma.Nested(ParticipantAPIMinimalSchema)
-    session = ma.Nested(SessionAPIMinimalSchema)
+    participant = ma.Nested(ParticipantAPISchema)
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_participant', id='<id>'),
         'collection': ma.URLFor('get_participants'),
         'sessions': ma.URLFor('get_participant_sessions', id='<id>')
     })
 
-class CodeApiSchema(ma.Schema):
-    class Meta:
-        fields = ('id','desc','workshops')
-        ordered = True
-    workshops = ma.List(ma.Nested(WorkshopAPIMinimalSchema))
-
 class SessionAPISchema(ma.Schema):
     class Meta:
         fields = ('id', 'date_time', 'duration_minutes', 'instructor_notes',
-                  'workshop', '_links', 'max_attendees', 'participants', 'instructors','location')
+                  '_links', 'max_attendees', 'participants', 'instructors','location',
+                  'status')
         ordered = True
     participants = ma.List(ma.Nested(ParticipantSessionAPISchema))
-    workshop = ma.Nested(WorkshopAPIMinimalSchema)
-    instructors = ma.List(ma.Nested(ParticipantAPIMinimalSchema))
+    instructors = ma.List(ma.Nested(ParticipantAPISchema))
+    status = fields.Method('get_status')
+
+    def get_status(self, obj):
+        participant = g.user
+        if participant == None:
+            return "UNREGISTERED"
+        for ps in participant.participant_sessions:
+            if ps.session.id == obj.id:
+                if (ps.attended):
+                    return "ATTENDED"
+                elif ps.session.is_past():
+                    return "WAITING_ATTENDANCE"
+                else:
+                    return "REGISTERED"
+        return "UNREGISTERED"
 
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_session', id='<id>'),
@@ -425,6 +419,7 @@ class SessionAPISchema(ma.Schema):
         'send_email': ma.URLFor('email_participants', id='<id>'),
         'messages': ma.URLFor('list_messages', id='<id>')
     })
+
 
 class WorkshopAPISchema(ma.Schema):
     class Meta:
@@ -439,12 +434,21 @@ class WorkshopAPISchema(ma.Schema):
         'sessions': ma.URLFor('get_workshop_sessions', id='<id>'),
     })
 
-class EmailLogAPISchema(ma.Schema):
+
+class CodeApiSchema(ma.Schema):
     class Meta:
-        fields = ('participant_id', 'opened', 'participant_name')
+        fields = ('id','desc','workshops')
         ordered = True
+    workshops = ma.List(ma.Nested(WorkshopAPISchema))
+
 
 class EmailMessageAPISchema(ma.Schema):
+
+    class EmailLogAPISchema(ma.Schema):
+        class Meta:
+            fields = ('participant_id', 'opened', 'participant_name')
+            ordered = True
+
     class Meta:
         fields = ('id', 'subject', 'content', 'sent_date', "author_id", 'logs')
         ordered = True
@@ -454,41 +458,5 @@ class EmailMessageAPISchema(ma.Schema):
         'session': ma.URLFor('get_session', id='session_id')
     })
 
-
-class ParticipantAPISchema(ma.Schema):
-
-
-    class SubAttendSchema(ma.Schema):
-        class SubSessionSchema(ma.Schema):
-            class Meta:
-                fields = ('id', 'date_time', 'duration_minutes', 'instructor_notes', 'max_attendees', 'workshop',
-                          'total_participants', 'instructors', '_links')
-                ordered = True
-            workshop = ma.Nested(WorkshopAPIMinimalSchema)
-            instructors = ma.List(ma.Nested(ParticipantAPIMinimalSchema))
-            _links = ma.Hyperlinks({
-                'self': ma.URLFor('get_session', id='<id>'),
-                'collection': ma.URLFor('get_sessions'),
-                'workshop': ma.URLFor('get_workshop', id='<workshop_id>'),
-                'register': ma.URLFor('register', id='<id>'),
-            })
-
-        class Meta:
-            fields = ('session', 'created', 'review_score', 'review_comment',
-                      'attended', 'is_instructor')
-            ordered = True
-        session = ma.Nested(SubSessionSchema) 
-
-    class Meta:
-        fields = ('id', 'uid', 'display_name', 'email_address', 'phone_number',
-                  'bio', 'created', '_links', 'participant_sessions')
-        ordered = True
-    participant_sessions = ma.List(ma.Nested(SubAttendSchema))
-    _links = ma.Hyperlinks({
-        'self': ma.URLFor('get_participant', id='<id>'),
-        'collection': ma.URLFor('get_participants'),
-        'image': ma.URLFor('get_participant_image', id='<id>'),
-        'sessions': ma.URLFor('get_participant_sessions', id='<id>')
-    })
 
 
