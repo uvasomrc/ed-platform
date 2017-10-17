@@ -5,7 +5,7 @@ import jwt
 
 from ed_platform import app, db, ma, RestException
 from marshmallow import fields, post_load
-
+from flask import g
 
 class User():
     '''Used exclusively to manage the SSO/Shibboleth information,
@@ -86,6 +86,8 @@ class Track(db.Model):
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
+
+
 
 class Workshop(db.Model):
     __tablename__ = 'workshop'
@@ -201,6 +203,15 @@ class Session(db.Model):
     def open(self):
         return(self.total_participants() < self.max_attendees)
 
+    def is_past(self):
+        if datetime.datetime.now() > self.date_time:
+            return True
+        else:
+            return False
+
+    def code(self):
+        return self.workshop.code
+
 class ParticipantSession(db.Model):
     __tablename__ = 'participant_session'
     participant_id = db.Column('participant_id', db.Integer, db.ForeignKey('participant.id'), primary_key=True)
@@ -313,8 +324,26 @@ class TrackAPISchema(ma.Schema):
 
     class TrackCodeSchema(ma.Schema):
         class Meta:
-            fields = ('prereq','id')
+            fields = ('prereq','id', 'status', '_links')
         id = fields.Function(lambda obj: obj.code_id)
+        status = fields.Method('get_status')
+        _links = ma.Hyperlinks({
+            'self': ma.URLFor('get_code', code='<code_id>'),
+        })
+        def get_status(self, obj):
+            participant = g.user
+            if participant == None:
+                return "UNREGISTERED"
+            for ps in participant.participant_sessions:
+                if ps.session.code().id == obj.code.id:
+                    if (ps.attended):
+                        return "ATTENDED"
+                    elif ps.session.is_past():
+                        return "WAITING_ATTENDANCE"
+                    else:
+                        return "REGISTERED"
+            return "UNREGISTERED"
+
 
     class Meta:
         # Fields to expose

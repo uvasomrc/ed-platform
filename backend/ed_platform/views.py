@@ -97,6 +97,7 @@ def get_code(code):
 # Tracks
 # *****************************
 
+
 @app.route('/api/track', methods=['POST'])
 def create_track():
     request_data = request.get_json()
@@ -105,6 +106,10 @@ def create_track():
     db.session.commit()
     return track_schema.jsonify(new_track)
 
+
+def update_tracks_for_participant(track, participant):
+    for code in track:
+        code.status = participant.get_status_for_code(code)
 
 @app.route('/api/track', methods=['GET'])
 def get_tracks():
@@ -314,6 +319,7 @@ def review(id):
     updates = request.get_json()
     reg.review_score = updates["review_score"]
     reg.review_comment = updates["review_comment"]
+    reg.attended = True
 
     db.session.commit()
     return (jsonify(participant_session_db_schema.dump(reg).data))

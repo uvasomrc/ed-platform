@@ -132,6 +132,17 @@ class TestCase(unittest.TestCase):
 
         return dict(Authorization='Bearer ' + participant.encode_auth_token().decode())
 
+    def review(self, session):
+        rv = self.app.get("/api/session/%i/register" % session["id"], headers=self.logged_in_headers())
+        self.assert_success(rv)
+        reg = json.loads(rv.get_data(as_text=True))
+        reg["review_score"] = 5
+        reg["review_comment"] = "An excellent class"
+        rv = self.app.put('/api/session/%i/register' % session["id"],
+                          headers=self.logged_in_headers(),
+                          data=json.dumps(reg), follow_redirects=True,
+                          content_type="application/json")
+
     def get_current_participant(self):
         """ Test for the current participant status """
         # Create the user
@@ -225,6 +236,60 @@ class TestCase(unittest.TestCase):
         track1 = all_tracks["tracks"][0]
         self.assertTrue("title" in track1.keys())
         self.assertTrue("description" in track1.keys())
+        self.assertTrue("_links" in track1.keys())
+        self.assertIsNotNone(track1["_links"]["self"])
+
+        self.assertTrue("codes" in track1.keys())
+        codes = track1["codes"]
+        self.assertEqual(3, len(codes))
+        self.assertTrue("_links" in codes[0].keys())
+        self.assert_success(self.app.get(codes[0]["_links"]["self"]))
+
+    def test_tracks_with_active_participant_know_completed_codes(self):
+        participant = self.get_current_participant()
+        rd = self.add_test_track()
+        self.assign_codes_to_track(rd["id"])
+        ws = self.add_test_workshop()
+        session = self.add_test_session(ws["id"])
+
+        # Track state for sessions is all null.
+        response = self.app.get('/api/track')
+        all_tracks = json.loads(response.get_data(as_text=True))
+        code1 = all_tracks["tracks"][0]["codes"][0]
+        self.assertTrue("status" in code1)
+        self.assertEquals("UNREGISTERED", code1["status"])
+
+        # Sign up for session
+        rv = self.app.post("/api/session/%i/register" % (session["id"]), headers=self.logged_in_headers())
+
+        # Get Tracks, now marked as Registered
+        response = self.app.get('/api/track', headers=self.logged_in_headers())
+        all_tracks = json.loads(response.get_data(as_text=True))
+        code1 = all_tracks["tracks"][0]["codes"][0]
+        self.assertEquals("REGISTERED", code1["status"])
+
+        # Set the session date to the past.
+        dbs = models.Session.query.filter_by(id=session["id"]).first()
+        dbs.date_time = datetime.datetime.now() - datetime.timedelta(days=1)
+        db.session.add(dbs)
+        db.session.commit()
+
+        # Get Tracks, now marked as waiting for attendance info
+        response = self.app.get('/api/track', headers=self.logged_in_headers())
+        all_tracks = json.loads(response.get_data(as_text=True))
+        code1 = all_tracks["tracks"][0]["codes"][0]
+        self.assertEquals("WAITING_ATTENDANCE", code1["status"])
+
+        # Review the session (mark it as completed)
+        self.review(session)
+
+        # Get Tracks, now marked as attended
+        response = self.app.get('/api/track', headers=self.logged_in_headers())
+        all_tracks = json.loads(response.get_data(as_text=True))
+        code1 = all_tracks["tracks"][0]["codes"][0]
+        self.assertEquals("ATTENDED", code1["status"])
+
+
 
     def test_assign_bad_codes_to_track(self):
         rd = self.add_test_track()
