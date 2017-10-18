@@ -10,15 +10,15 @@
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <div *ngIf="teaching">You are Teaching this class.</div>
+    <div *ngIf="session.instructing()">You are Teaching this class.</div>
     <p>Notes: {{session.instructor_notes}}</p>
   </mat-card-content>
 
-  <mat-card-actions *ngIf="teaching">
+  <mat-card-actions *ngIf="session.instructing()">
     <button mat-button (click)="teacherDashboard()">Teacher Dashboard</button>
   </mat-card-actions>
 
-  <mat-card-actions *ngIf="taking">
+  <mat-card-actions *ngIf="session.registered()">
     <p>You are Registered for this session.</p>
     <button mat-button (click)="removeSession()">Un-Register</button>
   </mat-card-actions>

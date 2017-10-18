@@ -71,7 +71,7 @@ $mat-orange: (
 );
 
 $uva-primary: mat-palette($mat-blue);
-$uva-accent: mat-palette($mat-orange, A200, A100, A400);
+$uva-accent: mat-palette($mat-orange);
 $my-app-warn:    mat-palette($mat-deep-orange);
 
 $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
@@ -84,6 +84,7 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
   // Extract whichever individual palettes you need from the theme.
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
+
 
   // Use mat-color to extract individual colors from a palette as necessary.
 

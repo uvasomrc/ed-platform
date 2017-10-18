@@ -1,13 +1,10 @@
 <div class="track-progress">
   <div class="spacer"></div>
-  <mat-icon class="complete" svgIcon="complete"></mat-icon>
-  <mat-icon class="progress-next" svgIcon="progress-next"></mat-icon>
-  <mat-icon class="active">radio_button_unchecked</mat-icon>
-  <mat-icon class="progress-next" svgIcon="progress-next"></mat-icon>
-  <mat-icon>radio_button_unchecked</mat-icon>
-  <mat-icon class="progress-next" svgIcon="progress-next"></mat-icon>
-  <mat-icon>radio_button_unchecked</mat-icon>
-  <mat-icon class="progress-next" svgIcon="progress-next"></mat-icon>
-  <mat-icon>radio_button_unchecked</mat-icon>
+  <span *ngFor="let code of track.codes">
+    <mat-icon color="{{code.color()}}"
+            svgIcon="{{code.icon()}}"></mat-icon>
+    <mat-icon color="primary" svgIcon="{{code.progress_icon()}}"></mat-icon>
+  </span>
   <div class="spacer"></div>
+
 </div>

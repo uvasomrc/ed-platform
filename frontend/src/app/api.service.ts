@@ -20,7 +20,7 @@ export class ApiService {
   search_url = `${this.apiRoot}/api/workshop/search`;
   track_url = `${this.apiRoot}/api/track`;
   session_url = `${this.apiRoot}/api/session`;
-  account_url = `${this.apiRoot}/api/auth`;
+  account_url = `${this.apiRoot}/api/user`;
 
   token: string;
 

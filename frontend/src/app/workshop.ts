@@ -1,6 +1,6 @@
 import {Links} from './links';
 import {Session} from './session';
-import {Review} from "./review";
+import {Review} from './review';
 
 export class Workshop  {
 
@@ -8,13 +8,13 @@ export class Workshop  {
   title = '';
   description = '';
   links = new Links();
-  sessions = new Array<Session>();
+  sessions = Array<Session>();
 
-  constructor(values: Object = {}, parent = null) {
+  constructor(values: Object = {}) {
     Object.assign(this, values);
     this.links = new Links(values['_links']);
-    this.sessions = new Array<Session>();
-    if ('sessions' in values && !(parent instanceof Session)) {
+    this.sessions = Array<Session>();
+    if ('sessions' in values) {
       for (const s of values['sessions']) {
         this.sessions.push(new Session(s));
       }
@@ -29,6 +29,11 @@ export class Workshop  {
     return reviews;
   }
 
+  instructing() { return this.sessions.filter(s => s.instructing()).length > 0; }
+  attended() { return this.sessions.filter(s => s.attended()).length > 0; }
+  awaiting_review() { return this.sessions.filter(s => s.awaiting_review()).length > 0; }
+  registered() { return this.sessions.filter(s => s.registered()).length > 0; }
+
   hasUpcomingSession(): boolean {
     for (const s of this.sessions) {
       if (s.date_time.valueOf() > Date.now().valueOf()) {
@@ -37,8 +42,6 @@ export class Workshop  {
     }
     return false;
   }
-
-
 
   nextSession(): Session {
     let session = null;

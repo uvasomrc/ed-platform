@@ -9,21 +9,23 @@
   display: flex;
 }
 
+.track-progress span {
+  display: flex;
+}
+
 .track-progress mat-icon {
-  color: rgba(0, 0, 0, 0.54);
-  fill: rgba(0, 0, 0, 0.54);
-  -webkit-border-radius:15px;
-  -moz-border-radius:15px;
-  border-radius: 15px;
-  border: 2px solid transparent;
 }
 
 .progress-next {
-  width: 10px;
+//  width: 10px;
 }
 
 .track-progress mat-icon.active {
-  border: 2px solid mat-color($uva-accent, 500);
+//  border: 2px solid mat-color($uva-accent, 500);
+}
+
+.track-progress mat-icon.open {
+  fill: #888;
 }
 
 .track-progress mat-icon.complete {

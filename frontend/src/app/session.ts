@@ -11,11 +11,11 @@ export class Session {
   instructor_notes: string;
   location: string;
   max_attendees: number;
+  status: string;
   total_attendees = 0;
   reviews = Array<Review>();
   instructors = Array<Participant>();
   attendees = Array<Participant>();
-  workshop: Workshop;
   links: Links;
 
   constructor(values: Object = {}, parent = null) {
@@ -28,23 +28,33 @@ export class Session {
         if (ps['review_score']) { this.reviews.push(new Review(ps)); }
         this.total_attendees ++;
         this.attendees.push(new Attendee(ps['participant'],
-                            ps['attended'], ps['created'], this));
+                            ps['attended'], ps['created']));
       }
     }
     if ('instructors' in values) {
       for (const i of values['instructors']) {
-        this.instructors.push(new Participant(i, this));
+        this.instructors.push(new Participant(i));
       }
     }
-    if ('workshop' in values && !(parent instanceof Workshop)) {
-      this.workshop = new Workshop(values['workshop']);
-    }
   }
+
+  unregistered() { return this.status === 'UNREGISTERED'; }
+  instructing() { return this.status === 'INSTRUCTOR'; }
+  attended() { return this.status === 'ATTENDED'; }
+  awaiting_review() { return this.status === 'AWAITING_REVIEW'; }
+  registered() { return this.status === 'REGISTERED'; }
 
   getParticipant(id): Participant {
     for (const p of this.attendees) {
       if (p.id === id) {return p; }
     }
+  }
+
+  isInstructor(user: Participant) {
+    for (const p of this.instructors) {
+      if (p.id === user.id) {return true; }
+    }
+    return false;
   }
 
   getInstructor(id): Participant {
