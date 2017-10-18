@@ -339,7 +339,7 @@ class TrackAPISchema(ma.Schema):
                     if (ps.attended):
                         return "ATTENDED"
                     elif ps.session.is_past():
-                        return "WAITING_ATTENDANCE"
+                        return "AWAITING_REVIEW"
                     else:
                         return "REGISTERED"
             return "UNREGISTERED"
@@ -403,10 +403,12 @@ class SessionAPISchema(ma.Schema):
             return "UNREGISTERED"
         for ps in participant.participant_sessions:
             if ps.session.id == obj.id:
+                if (ps.is_instructor):
+                    return "INSTRUCTOR"
                 if (ps.attended):
                     return "ATTENDED"
                 elif ps.session.is_past():
-                    return "WAITING_ATTENDANCE"
+                    return "AWAITING_REVIEW"
                 else:
                     return "REGISTERED"
         return "UNREGISTERED"
