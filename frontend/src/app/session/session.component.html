@@ -26,7 +26,7 @@
     <button mat-button (click)="addSession()">Undo</button>
   </mat-card-actions>
 
-  <mat-card-actions *ngIf="available && !taking">
+  <mat-card-actions *ngIf="available && !session.registered()">
     <button mat-button (click)="addSession()">Register Now!</button>
   </mat-card-actions>
 
