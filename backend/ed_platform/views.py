@@ -22,19 +22,23 @@ email_message_db_schema = models.EmailMessageDbSchema()
 
 auth = HTTPTokenAuth('Bearer')
 
+defaultParticipant = models.Participant()
+defaultParticipant.id = 0
+
+
 @auth.verify_token
 def verify_token(token):
-    resp = models.Participant.decode_auth_token(token)
-    print ("The token is %s" % token)
-    g.user = None
     try:
-       g.user = models.Participant.query.filter_by(uid=resp).first()
+        resp = models.Participant.decode_auth_token(token)
+        g.user = models.Participant.query.filter_by(uid=resp).first()
     except:
-       raise RestException(RestException.TOKEN_MISSING)
+        g.user = defaultParticipant
+
     if(g.user != None):
         return True
     else:
-        raise RestException(RestException.TOKEN_INVALID)
+        g.user = defaultParticipant
+        return True
 
 @app.route('/api', methods=['GET'])
 def root():
@@ -65,6 +69,8 @@ def login(user_info):
 @auth.login_required
 def status():
     participant = g.user
+    if(g.user.id == 0):
+        raise RestException(RestException.NO_SUCH_PARTICIPANT)
     return jsonify(participant_schema.dump(participant).data)
 
 @app.route('/api/logout')
@@ -88,6 +94,7 @@ def user_workshops():
 # Codes
 # *****************************
 @app.route('/api/code', methods=['POST'])
+@auth.login_required
 def create_code():
     request_data = request.get_json()
     new_code = models.CodeDBSchema().load(request_data).data
@@ -96,11 +103,13 @@ def create_code():
     return models.CodeDBSchema().jsonify(new_code)
 
 @app.route('/api/code', methods=['GET'])
+@auth.login_required
 def get_codes():
     codes = list(map(lambda c: models.CodeDBSchema().dump(c).data, models.Code.query.all()))
     return jsonify(codes)
 
 @app.route('/api/code/<string:code>')
+@auth.login_required
 def get_code(code):
     code = models.Code.query.filter_by(id=code).first()
     return models.CodeApiSchema().jsonify(code)
@@ -110,6 +119,7 @@ def get_code(code):
 
 
 @app.route('/api/track', methods=['POST'])
+@auth.login_required
 def create_track():
     request_data = request.get_json()
     new_track = track_db_schema.load(request_data).data
@@ -123,12 +133,14 @@ def update_tracks_for_participant(track, participant):
         code.status = participant.get_status_for_code(code)
 
 @app.route('/api/track', methods=['GET'])
+@auth.login_required
 def get_tracks():
     tracks = list(map(lambda t: track_schema.dump(t).data, models.Track.query.all()))
     return jsonify({"tracks": tracks})
 
 
 @app.route('/api/track/<int:track_id>')
+@auth.login_required
 def get_track(track_id):
     track = models.Track.query.filter_by(id=track_id).first()
     if(track is None):
@@ -136,6 +148,7 @@ def get_track(track_id):
     return track_schema.jsonify(track)
 
 @app.route('/api/track/<int:track_id>', methods=['DELETE'])
+@auth.login_required
 def remove_track(track_id):
     track = models.Track.query.filter_by(id=track_id).first()
     if(track is None):
@@ -144,6 +157,7 @@ def remove_track(track_id):
     return ""
 
 @app.route('/api/track/<int:id>/codes', methods=['PATCH'])
+@auth.login_required
 def set_track_codes(id):
     request_data = request.get_json()
     track = models.Track.query.filter_by(id=id).first()
@@ -173,12 +187,14 @@ def get_track_image(track_id):
 
 
 @app.route('/api/workshop')
+@auth.login_required
 def get_workshops():
     workshops = list(map(lambda t: workshop_schema.dump(t).data,
                          models.Workshop.query.all()))
     return jsonify({"workshops": workshops})
 
 @app.route('/api/workshop/search', methods=['POST'])
+@auth.login_required
 def search_workshops():
     request_data = request.get_json()
     search = models.SearchSchema().load(request_data).data
@@ -203,6 +219,7 @@ def search_workshops():
     return models.SearchSchema().jsonify(search)
 
 @app.route('/api/workshop', methods=['POST'])
+@auth.login_required
 def create_workshop():
     request_data = request.get_json()
     if(request_data['code'] != None and request_data['code'] != ''):
@@ -216,6 +233,7 @@ def create_workshop():
 
 
 @app.route('/api/workshop/<int:id>')
+@auth.login_required
 def get_workshop(id):
     workshop = models.Workshop.query.filter_by(id=id).first()
     if(workshop is None):
@@ -224,6 +242,7 @@ def get_workshop(id):
 
 
 @app.route('/api/workshop/<int:id>', methods=['DELETE'])
+@auth.login_required
 def remove_workshop(id):
     workshop = models.Workshop.query.filter_by(id=id).first()
     if(workshop is None): return ""
@@ -235,6 +254,7 @@ def remove_workshop(id):
 
 
 @app.route('/api/workshop/<int:id>/tracks')
+@auth.login_required
 def get_workshop_tracks(id):
     workshop = models.Workshop.query.filter_by(id=id).first()
     tracks = list(map(lambda t: track_schema.dump(t.track).data, workshop.track_workshops))
@@ -242,6 +262,7 @@ def get_workshop_tracks(id):
 
 
 @app.route('/api/workshop/<int:id>/sessions', methods=['GET'])
+@auth.login_required
 def get_workshop_sessions(id):
     workshop = models.Workshop.query.filter_by(id=id).first()
     sessions = list(map(lambda s: session_schema.dump(s).data, workshop.sessions))
@@ -257,6 +278,7 @@ def get_workshop_image(id):
 # *****************************
 
 @app.route('/api/session', methods=['GET'])
+@auth.login_required
 def get_sessions():
     sessions = list(map(lambda t: session_schema.dump(t).data,
                          models.Session.query.all()))
@@ -264,6 +286,7 @@ def get_sessions():
 
 
 @app.route('/api/session', methods=['POST'])
+@auth.login_required
 def create_session():
     request_data = request.get_json()
     new_session = session_db_schema.load(request_data).data
@@ -272,6 +295,7 @@ def create_session():
     return session_schema.jsonify(new_session)
 
 @app.route('/api/session/<int:id>', methods=['GET'])
+@auth.login_required
 def get_session(id):
     session = models.Session.query.filter_by(id=id).first()
     if(session is None):
@@ -279,6 +303,7 @@ def get_session(id):
     return  session_schema.jsonify(session)
 
 @app.route('/api/session/<int:id>', methods=['DELETE'])
+@auth.login_required
 def remove_session(id):
     session = models.Session.query.filter_by(id=id).first()
     db.session.delete(session)
@@ -294,6 +319,7 @@ def view_registration(id):
 
 
 @app.route('/api/session/<int:id>/instructor/<int:instructor_id>', methods=['POST'])
+@auth.login_required
 def set_instructor(id, instructor_id):
     participant = models.Participant.query.filter_by(id=id).first()
     session = models.Session.query.filter_by(id=id).first()
@@ -318,7 +344,7 @@ def register(id):
     participant.register(session)
     db.session.merge(participant)
     db.session.commit()
-    return (jsonify(participant_session_db_schema.dump(participant.getParticipantSession(session)).data))
+    return models.SessionAPISchema().jsonify(session)
 
 @app.route('/api/session/<int:id>/register', methods=['PUT'])
 @auth.login_required
@@ -350,7 +376,8 @@ def unregister(id):
     if(participant_session is not None):
         db.session.delete(participant_session)
         db.session.commit()
-    return ""
+    session = models.Session.query.filter_by(id=id).first()
+    return models.SessionAPISchema().jsonify(session)
 
 @app.route('/api/session/<int:id>/email', methods=['POST'])
 @auth.login_required
@@ -392,6 +419,7 @@ def email_participants(id):
     return email_schema.jsonify(email)
 
 @app.route('/api/session/<int:id>/messages', methods=['GET'])
+@auth.login_required
 def list_messages(id):
     session = models.Session.query.filter_by(id=id).first()
     return (email_schema.jsonify(session.email_messages, many=True))
@@ -400,12 +428,14 @@ def list_messages(id):
 # *****************************
 
 @app.route('/api/participant', methods=['GET'])
+@auth.login_required
 def get_participants():
     participants = list(map(lambda t: participant_schema.dump(t).data,
                          models.Participant.query.all()))
     return jsonify({"participants": participants})
 
 @app.route('/api/participant', methods=['POST'])
+@auth.login_required
 def create_participant():
     request_data = request.get_json()
     participant = participant_db_schema.load(request_data).data
@@ -414,6 +444,7 @@ def create_participant():
     return participant_schema.jsonify(participant)
 
 @app.route('/api/participant/<int:id>', methods=['GET'])
+@auth.login_required
 def get_participant(id):
     participant = models.Participant.query.filter_by(id=id).first()
     if(participant is None):
@@ -436,6 +467,7 @@ def get_logo_tracking(id, tracking_id):
     return send_file("static/images/logo.png", mimetype='image/png')
 
 @app.route('/api/participant/<int:id>', methods=['DELETE'])
+@auth.login_required
 def remove_participant(id):
     participant = models.Participant.query.filter_by(id=id).first()
     db.session.delete(participant)
@@ -443,6 +475,7 @@ def remove_participant(id):
     return ""
 
 @app.route('/api/participant/<int:participant_id>/session/<int:session_id>', methods=['GET'])
+@auth.login_required
 def get_registration(participant_id, session_id):
     participant = models.Participant.query.filter_by(id=participant_id).first()
     if(participant is None):
