@@ -12,7 +12,7 @@
   </section>
 
   <mat-tab-group>
-    <mat-tab label="Upcoming Sessions">
+    <mat-tab label="Upcoming Workshops">
       <div
         class="container"
         fxLayout="row"
@@ -21,10 +21,10 @@
         fxLayoutGap="10px"
         fxLayoutGap.xs="0">
 
-        <app-session *ngFor="let session of account.upcomingSessions()" [session]="session" ></app-session>
+        <app-workshop *ngFor="let workshop of upcomingWorkshops()" [workshop]="workshop" ></app-workshop>
       </div>
     </mat-tab>
-    <mat-tab label="Past Sessions">
+    <mat-tab label="Past Workshops">
       <div
         class="container"
         fxLayout="row"
@@ -33,10 +33,10 @@
         fxLayoutGap="10px"
         fxLayoutGap.xs="0">
 
-        <app-session *ngFor="let session of account.pastSessions()" [session]="session" ></app-session>
+        <app-workshop *ngFor="let workshop of pastWorkshops()" [workshop]="workshop" ></app-workshop>
       </div>
     </mat-tab>
-    <mat-tab label="Instructing" *ngIf="account.isTeacher()">
+    <mat-tab label="Instructing" *ngIf="instructingWorkshops().length > 0">
       <div
         class="container"
         fxLayout="row"
@@ -45,7 +45,7 @@
         fxLayoutGap="10px"
         fxLayoutGap.xs="0">
 
-        <app-session *ngFor="let session of account.teachingSessions()" [session]="session"></app-session>
+        <app-workshop *ngFor="let workshop of instructingWorkshops()" [workshop]="workshop" ></app-workshop>
       </div>
     </mat-tab>
     <mat-tab label="Edit Account">

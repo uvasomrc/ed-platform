@@ -8,9 +8,10 @@ import 'rxjs/add/observable/throw';
 import {Workshop} from './workshop';
 import {Track} from './track';
 import {Participant} from './participant';
-import {Session} from "./session";
-import {EmailMessage} from "./EmailMessage";
-import {Search} from "./search";
+import {Session} from './session';
+import {EmailMessage} from './EmailMessage';
+import {Search} from './search';
+import {Code} from './code';
 
 @Injectable()
 export class ApiService {
@@ -32,8 +33,8 @@ export class ApiService {
   }
 
   getOptions(): RequestOptions {
-    let headers = new Headers({'Authorization': 'Bearer ' + this.token});
-    let options = new RequestOptions({headers: headers});
+    const headers = new Headers({'Authorization': 'Bearer ' + this.token});
+    const options = new RequestOptions({headers: headers});
     return options;
   }
 
@@ -59,13 +60,13 @@ export class ApiService {
 
   unRegister(session: Session): Observable<Session> {
     return this.http.delete(session.links.register, this.getOptions())
-      .map(res => { return session; })
+      .map(res => { return new Session(res.json()); })
       .catch(this.handleError);
   }
 
   register(session: Session): Observable<Session> {
     return this.http.post(session.links.register, '{}', this.getOptions())
-      .map(res => { return session; })
+      .map(res => { return new Session(res.json()); })
       .catch(this.handleError);
   }
 
@@ -89,7 +90,7 @@ export class ApiService {
 
 
   getTracks(): Observable<Track[]> {
-    return this.http.get(this.track_url)
+    return this.http.get(this.track_url, this.getOptions())
       .map(res => {
         return res.json().tracks.map(item => {
           return(new Track(item));
@@ -98,24 +99,21 @@ export class ApiService {
   }
 
   getTrack(track_id: number): Observable<Track> {
-    return this.http.get(this.track_url + '/' + track_id)
+    return this.http.get(this.track_url + '/' + track_id, this.getOptions())
       .map(res => {
         return new Track(res.json());
         });
   }
 
-  getTrackWorkshops(track: Track): Observable<Workshop[]> {
-    console.log('Calling: ' + track.links.workshops);
-    return this.http.get(track.links.workshops)
+  getCode(code: Code): Observable<Code> {
+    return this.http.get(code.links.self, this.getOptions())
       .map(res => {
-        return res.json().workshops.map(item => {
-          return(new Workshop(item));
-        });
+          return(new Code(res.json()));
       });
   }
 
   getAllWorkshops(): Observable<Workshop[]> {
-    return this.http.get(this.workshop_url)
+    return this.http.get(this.workshop_url, this.getOptions())
       .map(res => {
         return res.json().workshops.map(item => {
           return(new Workshop(item));
@@ -125,7 +123,7 @@ export class ApiService {
 
   searchWorkshops(search: Search): Observable<Search> {
     return this.http
-      .post(this.search_url, search)
+      .post(this.search_url, search, this.getOptions())
       .map(response => {
         return new Search(response.json());
       })
@@ -133,14 +131,31 @@ export class ApiService {
   }
 
   getWorkshop(workshop_id: number): Observable<Workshop> {
-    return this.http.get(this.workshop_url + '/' + workshop_id)
+    return this.http.get(this.workshop_url + '/' + workshop_id, this.getOptions())
       .map(res => {
         return new Workshop(res.json());
       });
   }
 
+  getWorkshopForSession(session: Session): Observable<Workshop> {
+    return this.http.get(session.links.workshop, this.getOptions())
+      .map(res => {
+        return new Workshop(res.json());
+      });
+  }
+
+  getWorkshopsForParticipant(participant: Participant): Observable<Workshop[]> {
+    return this.http.get(participant.links.workshops, this.getOptions())
+      .map(res => {
+        return res.json().map(item => {
+          return(new Workshop(item));
+        });
+      });
+  }
+
+
   getSession(session_id: number): Observable<Session> {
-    return this.http.get(this.session_url + '/' + session_id)
+    return this.http.get(this.session_url + '/' + session_id, this.getOptions())
       .map(res => {
         return new Session(res.json());
       });
@@ -148,7 +163,7 @@ export class ApiService {
 
   public addWorkshop(workshop: Workshop): Observable<Workshop> {
     return this.http
-      .post(this.workshop_url, workshop)
+      .post(this.workshop_url, workshop, this.getOptions())
       .map(response => {
         return new Workshop(response.json());
       })

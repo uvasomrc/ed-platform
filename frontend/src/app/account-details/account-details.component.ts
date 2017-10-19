@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AccountService} from '../account.service';
 import {Participant} from '../participant';
 import {Session} from '../session';
+import {Workshop} from "../workshop";
 
 
 @Component({
@@ -13,6 +14,7 @@ import {Session} from '../session';
 export class AccountDetailsComponent implements OnInit {
 
   account: Participant;
+  workshops: Workshop[];
   isDataLoaded = false;
 
   constructor(private accountService: AccountService) {}
@@ -20,9 +22,26 @@ export class AccountDetailsComponent implements OnInit {
   ngOnInit() {
     this.accountService.getAccount().subscribe(acct => {
       this.account = acct;
-      this.isDataLoaded = true;
+      this.accountService.getWorkshopsForParticipant(acct).subscribe(ws => {
+        this.workshops = ws;
+        this.isDataLoaded = true;
+      });
+
     });
     this.accountService.refreshAccount();
   }
+
+  upcomingWorkshops() {
+    return this.workshops.filter(ws => ws.registered())
+  }
+
+  pastWorkshops() {
+    return this.workshops.filter(ws => ws.attended())
+  }
+
+  instructingWorkshops() {
+    return this.workshops.filter(ws => ws.instructing())
+  }
+
 
 }

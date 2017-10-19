@@ -6,6 +6,7 @@ import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 import {Session} from "./session";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {Workshop} from "./workshop";
 
 @Injectable()
 export class AccountService implements OnDestroy {
@@ -40,6 +41,10 @@ export class AccountService implements OnDestroy {
 
   getAccount(): Observable<Participant> {
     return (this.participant.asObservable());
+  }
+
+  getWorkshopsForParticipant(participant:Participant): Observable<Workshop[]> {
+    return (this.api.getWorkshopsForParticipant(participant));
   }
 
   login(token: string): void {
