@@ -5,6 +5,7 @@ export class Links {
   image = '';
   self = '';
   workshops = '';
+  workshop = '';
   tracks = '';
   register = '';
   send_email = '';
@@ -12,7 +13,9 @@ export class Links {
 
   constructor(values: Object = {}) {
     for (const key in values) {
-      values[key] = environment.api + values[key];
+      if(!(values[key].substring(0, environment.api.length) === environment.api)) {
+        values[key] = environment.api + values[key];
+      }
     }
     Object.assign(this, values);
   }

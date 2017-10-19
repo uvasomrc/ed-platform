@@ -43,6 +43,11 @@ export class Workshop  {
     return false;
   }
 
+  replaceSession(session) {
+    this.sessions = this.sessions.filter(s => s.id !== session.id);
+    this.sessions.push(session);
+  }
+
   nextSession(): Session {
     let session = null;
     for (const s of this.sessions) {

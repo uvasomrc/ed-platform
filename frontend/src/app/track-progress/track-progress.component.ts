@@ -13,6 +13,10 @@ export class TrackProgressComponent implements OnInit {
   @Input('track')
   track: Track;
 
+  @Input('codeIndex')
+  codeIndex = -1;
+
+
   constructor(private iconRegistry: MatIconRegistry,
               private sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon('progress-next',

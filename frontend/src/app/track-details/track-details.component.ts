@@ -3,6 +3,7 @@ import {Track} from '../track';
 import {Workshop} from '../workshop';
 import {TrackService} from '../track.service';
 import {ActivatedRoute} from '@angular/router';
+import {Code} from "../code";
 
 @Component({
   selector: 'app-track-details',
@@ -15,6 +16,8 @@ export class TrackDetailsComponent implements OnInit {
   track: Track;
   workshops: Workshop[] = [];
   isDataLoaded = false;
+  codeIndex = 0;
+  code: Code;
 
   constructor(private trackService: TrackService,
               private route: ActivatedRoute) {
@@ -26,17 +29,35 @@ export class TrackDetailsComponent implements OnInit {
     this.trackService.getTrack(this.track_id).subscribe(
       (track) => {
         this.track = track;
-        this.getWorkshops(track);
-        this.isDataLoaded = true;
+        this.getCode(track.codes[this.codeIndex]);
       }
-
     );
   }
 
-  getWorkshops(track: Track) {
-    this.trackService.getWorkshops(track).subscribe(
-      (workshops) => {this.workshops = workshops; }
+  prevCode() {
+    if (this.codeIndex === 0) {
+      return;
+    } else {
+      this.codeIndex--;
+      this.getCode(this.track.codes[this.codeIndex]);
+    }
+  }
+
+
+  nextCode() {
+    if (this.codeIndex === this.track.codes.length - 1) {
+      return;
+    } else {
+      this.codeIndex++;
+      this.getCode(this.track.codes[this.codeIndex]);
+    }
+  }
+
+  getCode(code: Code) {
+    this.trackService.getCode(code).subscribe(
+      (fullCode) => {this.code = fullCode; }
     );
+    this.isDataLoaded = true;
   }
 
 }

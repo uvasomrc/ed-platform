@@ -5,6 +5,7 @@ import {WorkshopService} from '../workshop.service';
 import {ActivatedRoute} from '@angular/router';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {EmailMessage} from "../EmailMessage";
+import {Workshop} from "../workshop";
 
 @Component({
   selector: 'app-teacher-dashboard',
@@ -15,6 +16,7 @@ export class TeacherDashboardComponent implements OnInit {
 
   account: Participant;
   session: Session;
+  workshop: Workshop;
   session_id = 0;
   is_data_loaded = false;
   is_sending = false;
@@ -34,10 +36,14 @@ export class TeacherDashboardComponent implements OnInit {
     this.workshopService.getSession(this.session_id).subscribe(
       session => {
         this.session = session;
-        this.workshopService.getMessages(this.session).subscribe(
-          messages => {
-            this.messages = messages;
-            this.is_data_loaded = true;
+        this.workshopService.getWorkshopForSession(this.session).subscribe(
+          workshop => {
+            this.workshop = workshop;
+            this.workshopService.getMessages(this.session).subscribe(
+              messages => {
+                this.messages = messages;
+                this.is_data_loaded = true;
+              });
           });
       }
     );

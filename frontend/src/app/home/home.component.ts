@@ -73,14 +73,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.workshopSub.unsubscribe();
     this.trackSub.unsubscribe();
   }
-
-  onAddWorkshop(workshop) {
-    this.workshopService
-      .addWorkshop(workshop)
-      .subscribe((newWorkshop) => {
-        this.workshops = this.workshops.concat(newWorkshop);
-      });
-  }
+  
 
   left() {
     if (this.sponsor_index <= 1) { return; }

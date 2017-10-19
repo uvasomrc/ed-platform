@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import {ApiService} from './api.service';
 import {Workshop} from './workshop';
+import {Code} from './code';
 
 @Injectable()
 export class TrackService {
@@ -18,8 +19,8 @@ export class TrackService {
     return this.api.getTrack(track_id);
   }
 
-  getWorkshops(track: Track): Observable<Workshop[]> {
-    return this.api.getTrackWorkshops(track);
+  getCode(code: Code): Observable<Code> {
+    return this.api.getCode(code);
   }
 
 

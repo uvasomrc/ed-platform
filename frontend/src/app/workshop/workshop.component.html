@@ -4,7 +4,7 @@
     <mat-card-title>{{workshop.title}}</mat-card-title>
     <mat-card-subtitle>
       with {{workshop.nextSession().instructorsDisplay()}}<br/>
-      {{workshop.nextSession().date_time | date: 'EEE. MMMM d, y, h:mm-'}}{{workshop.nextSession().endTime() | date: 'h:mma'}}
+      {{workshop.nextSession().date_time | date: 'EEE. MMMM d, h:mm-'}}{{workshop.nextSession().endTime() | date: 'h:mma'}}
       <br/>
       Location: {{workshop.nextSession().location}}
     </mat-card-subtitle>
@@ -13,6 +13,17 @@
     <mat-card-title>{{workshop.title}}</mat-card-title>
     <p>No upcoming sessions for this workshop.</p>
   </mat-card-header>
+
+  <span *ngIf="loggedIn()">
+  <mat-card-actions *ngIf="workshop.instructing()">
+    <button mat-button (click)="teacherDashboard()">Teacher Dashboard</button>
+  </mat-card-actions>
+
+  <mat-card-actions *ngIf="workshop.registered()">
+    You are Registered for this class.
+  </mat-card-actions>
+
+  </span>
 
   <!--
   <mat-card-actions>

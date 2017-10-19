@@ -19,7 +19,8 @@
       <span class="sub-title">Location: {{workshop.nextSession().location}}</span>
     </div>
     <span class="spacer"></span>
-    <button mat-raised-button>Register</button>
+    <button *ngIf="!workshop.registered()" mat-raised-button (click)="register()">Register</button>
+    <button *ngIf="workshop.registered()" mat-raised-button (click)="unRegister()">Un-Register</button>
   </section>
 
   <mat-tab-group class="tall-labels">

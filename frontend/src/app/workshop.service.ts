@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import {Workshop} from './workshop';
 import {ApiService} from './api.service';
 import {Observable} from 'rxjs/Observable';
-import {Session} from "./session";
-import {EmailMessage} from "./EmailMessage";
-import {Search} from "./search";
+import {Session} from './session';
+import {EmailMessage} from './EmailMessage';
+import {Search} from './search';
 
 @Injectable()
 export class WorkshopService {
@@ -22,6 +22,10 @@ export class WorkshopService {
 
   getSession(id: number): Observable<Session> {
     return this.api.getSession(id);
+  }
+
+  getWorkshopForSession(session: Session): Observable<Workshop> {
+    return this.api.getWorkshopForSession(session);
   }
 
   emailParticipants(email: EmailMessage, session: Session): Observable<EmailMessage> {

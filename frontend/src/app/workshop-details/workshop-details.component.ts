@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {WorkshopService} from '../workshop.service';
 import {ActivatedRoute} from '@angular/router';
 import {Workshop} from '../workshop';
+import {AccountService} from "../account.service";
 
 @Component({
   selector: 'app-workshop-details',
@@ -15,6 +16,7 @@ export class WorkshopDetailsComponent implements OnInit {
   isDataLoaded = false;
 
   constructor(private workshopService: WorkshopService,
+              private accountService: AccountService,
               private route: ActivatedRoute) {
     this.route.params.subscribe( params =>
       this.workshop_id = params['id']);
@@ -29,6 +31,21 @@ export class WorkshopDetailsComponent implements OnInit {
     );
   }
 
+  register() {
+    const session = this.workshop.nextSession();
+    this.accountService.register(session).subscribe(
+      (newSession) => {
+        this.workshop.replaceSession(newSession);
+      });
+  }
+
+  unRegister() {
+    const session = this.workshop.nextSession();
+    this.accountService.unRegister(session).subscribe(
+      (newSession) => {
+        this.workshop.replaceSession(newSession);
+      });
+  }
 
 
 }
