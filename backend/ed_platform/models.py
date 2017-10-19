@@ -87,8 +87,6 @@ class Track(db.Model):
     def __repr__(self):
         return '<id {}>'.format(self.id)
 
-
-
 class Workshop(db.Model):
     __tablename__ = 'workshop'
 
@@ -335,7 +333,7 @@ class TrackAPISchema(ma.Schema):
             if participant == None:
                 return "UNREGISTERED"
             for ps in participant.participant_sessions:
-                if ps.session.code().id == obj.code.id:
+                if ps.session.code() != None and ps.session.code().id == obj.code.id:
                     if (ps.attended):
                         return "ATTENDED"
                     elif ps.session.is_past():
