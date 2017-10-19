@@ -420,6 +420,9 @@ class TestCase(unittest.TestCase):
         self.assert_failure(rv, code="token_invalid")
         rv = self.app.post("/api/session/%i/register" % (session["id"]), headers=self.logged_in_headers())
         self.assert_success(rv)
+        session_js = json.loads(rv.get_data(as_text=True))
+        self.assertEqual("REGISTERED", session_js['status'])
+
         rv = self.app.get(participant["_links"]["workshops"], headers=self.logged_in_headers(), follow_redirects=True)
         self.assert_success(rv)
         workshops = json.loads(rv.get_data(as_text=True))
@@ -456,9 +459,14 @@ class TestCase(unittest.TestCase):
         workshop = self.add_test_workshop()
         session = self.add_test_session(workshop)
         self.app.post("/api/session/%i/register" % session["id"], headers=self.logged_in_headers())
-        self.app.delete("/api/session/%i/register" % session["id"], headers=self.logged_in_headers())
+        rv = self.app.delete("/api/session/%i/register" % session["id"], headers=self.logged_in_headers())
+        self.assert_success(rv)
+        session_js = json.loads(rv.get_data(as_text=True))
+        self.assertEqual("UNREGISTERED", session_js['status'])
+
         rv = self.app.get("/api/user", headers=self.logged_in_headers(), follow_redirects=True)
         self.assert_success(rv)
+
         participant = json.loads(rv.get_data(as_text=True))
         print("The participant is:" + str(participant))
         rv = self.app.get(participant["_links"]["workshops"],headers=self.logged_in_headers(), follow_redirects=True)
