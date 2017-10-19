@@ -24,7 +24,8 @@ export class WorkshopComponent  {
   }
 
   teacherDashboard() {
-    this.router.navigate(['teacherDashboard', this.workshop.id]);
+    const s = this.workshop.sessions.filter(s => s.instructing())[0];
+    this.router.navigate(['teacherDashboard', s.id]);
   }
 
 
