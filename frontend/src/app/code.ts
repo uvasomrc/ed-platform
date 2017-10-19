@@ -1,14 +1,22 @@
 import {Links} from './links';
+import {Workshop} from './workshop';
 
 export class Code {
   id: String;
   prereq: boolean;
   status: String;
   links = new Links();
+  workshops = Array<Workshop>();
 
   constructor(values: Object = {}) {
     Object.assign(this, values);
     this.links = new Links(values['_links']);
+    this.workshops = Array<Workshop>();
+    if ('workshops' in values) {
+      for (const w of values['workshops']) {
+          this.workshops.push(new Workshop(w));
+      }
+    }
   }
 
   attended() { return this.status === 'ATTENDED'; }
