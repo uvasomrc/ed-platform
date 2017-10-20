@@ -270,7 +270,9 @@ def remove_workshop(id):
 @auth.login_required
 def get_workshop_tracks(id):
     workshop = models.Workshop.query.filter_by(id=id).first()
-    tracks = workshop.code.tracks()
+    tracks = []
+    if(workshop.code != None):
+        tracks = workshop.code.tracks()
     return models.TrackAPISchema().jsonify(tracks, many=True)
 
 
