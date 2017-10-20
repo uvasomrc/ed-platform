@@ -98,12 +98,20 @@ class Workshop(db.Model):
     code_id = db.Column('code_id', db.String(), db.ForeignKey('code.id'))
     #code:  Backref created a code on Workshop
 
+
+
 class Code(db.Model):
     __tablename__ = 'code'
     id = db.Column(db.String(), primary_key=True)
     desc = db.Column(db.TEXT)
     workshops = db.relationship('Workshop', backref=db.backref('code', lazy=True))
     track_codes = db.relationship('TrackCode', backref=db.backref('code', lazy=True))
+
+    def tracks(self):
+        tracks = []
+        for tc in self.track_codes :
+            tracks.append(tc.track)
+        return tracks
 
 class Participant(db.Model):
     __tablename__ = 'participant'
@@ -432,6 +440,7 @@ class WorkshopAPISchema(ma.Schema):
         'image': ma.URLFor('get_workshop_image', id='<id>'),
         'tracks': ma.URLFor('get_workshop_tracks', id='<id>'),
         'sessions': ma.URLFor('get_workshop_sessions', id='<id>'),
+        'code': ma.URLFor('get_code', code='<code_id>'),
     })
 
 

@@ -270,14 +270,15 @@ def remove_workshop(id):
 @auth.login_required
 def get_workshop_tracks(id):
     workshop = models.Workshop.query.filter_by(id=id).first()
-    tracks = list(map(lambda t: track_schema.dump(t.track).data, workshop.track_workshops))
-    return jsonify({"tracks": tracks})
+    tracks = workshop.code.tracks()
+    return models.TrackAPISchema().jsonify(tracks, many=True)
 
 
 @app.route('/api/workshop/<int:id>/sessions', methods=['GET'])
 @auth.login_required
 def get_workshop_sessions(id):
     workshop = models.Workshop.query.filter_by(id=id).first()
+    workshop.code()
     sessions = list(map(lambda s: session_schema.dump(s).data, workshop.sessions))
     return jsonify({"sessions": sessions})
 
