@@ -22,6 +22,7 @@ export class ApiService {
   track_url = `${this.apiRoot}/api/track`;
   session_url = `${this.apiRoot}/api/session`;
   account_url = `${this.apiRoot}/api/user`;
+  code_url = `${this.apiRoot}/api/code`;
 
   token: string;
 
@@ -112,6 +113,13 @@ export class ApiService {
       });
   }
 
+  getCodeByString(code: String): Observable<Code> {
+    return this.http.get(this.code_url + '/' + code, this.getOptions())
+      .map(res => {
+        return(new Code(res.json()));
+      });
+  }
+
   getAllWorkshops(): Observable<Workshop[]> {
     return this.http.get(this.workshop_url, this.getOptions())
       .map(res => {
@@ -137,12 +145,6 @@ export class ApiService {
       });
   }
 
-  getCodeForWorkshop(workshop: Workshop): Observable<Code> {
-    return this.http.get(workshop.links.code, this.getOptions())
-      .map(res => {
-        return(new Code(res.json()));
-      });
-  }
 
   getTracksForWorkshop(workshop: Workshop): Observable<Track[]> {
     return this.http.get(workshop.links.tracks, this.getOptions())

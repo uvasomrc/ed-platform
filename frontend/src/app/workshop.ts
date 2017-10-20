@@ -9,6 +9,7 @@ export class Workshop  {
   description = '';
   links = new Links();
   sessions = Array<Session>();
+  code_id = ''
 
   constructor(values: Object = {}) {
     Object.assign(this, values);

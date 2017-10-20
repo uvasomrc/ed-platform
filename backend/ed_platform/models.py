@@ -431,7 +431,7 @@ class SessionAPISchema(ma.Schema):
 
 class WorkshopAPISchema(ma.Schema):
     class Meta:
-        fields = ('id', 'title', 'description', '_links', 'sessions')
+        fields = ('id', 'title', 'description', '_links', 'sessions','code_id')
         ordered = True
     sessions = ma.List(ma.Nested(SessionAPISchema))
     _links = ma.Hyperlinks({
@@ -439,8 +439,7 @@ class WorkshopAPISchema(ma.Schema):
         'collection': ma.URLFor('get_workshops'),
         'image': ma.URLFor('get_workshop_image', id='<id>'),
         'tracks': ma.URLFor('get_workshop_tracks', id='<id>'),
-        'sessions': ma.URLFor('get_workshop_sessions', id='<id>'),
-        'code': ma.URLFor('get_code', code='<code_id>'),
+        'sessions': ma.URLFor('get_workshop_sessions', id='<id>')
     })
 
 

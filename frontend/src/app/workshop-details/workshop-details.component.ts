@@ -37,12 +37,17 @@ export class WorkshopDetailsComponent implements OnInit {
             this.updatedLoaded();
           }
         );
-        this.workshopService.getCode(this.workshop).subscribe(
-          (code) => {
-            this.code = code;
-            this.updatedLoaded();
-          }
-        );
+        if (this.workshop.code_id !== '') {
+          this.workshopService.getCodeByString(this.workshop.code_id).subscribe(
+            (code) => {
+              this.code = code;
+              this.updatedLoaded();
+            }
+          );
+        } else {
+          this.code = new Code();
+          this.updatedLoaded();
+        }
       }
     );
   }

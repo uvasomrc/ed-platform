@@ -42,8 +42,8 @@ export class WorkshopService {
     return this.api.addWorkshop(workshop);
   }
 
-  getCode(workshop: Workshop) {
-    return this.api.getCodeForWorkshop(workshop);
+  getCodeByString(code: String) {
+    return this.api.getCodeByString(code);
   }
 
   searchWorkshops(search: Search): Observable<Search> {
