@@ -64,14 +64,13 @@ def login(user_info):
     response_url = ("%s/%s" % (app.config["FRONTEND_AUTH_CALLBACK"], auth_token))
     return redirect(response_url)
 
-@app.route('/api/backdoor/<string:code>')
-def backdoor(code):
+@app.route('/api/backdoor/<string:user>/<string:code>')
+def backdoor(user, code):
     '''A backdoor that allows someone to log in as a default user, if they
        are in a staging environment. Added so our designer, who doesn't have a
        shibboleth account, can still see the system.'''
     if (app.config["STAGING"] and code == app.config["BACKDOOR_CODE"]) :
-        uid = app.config["SSO_DEVELOPMENT_UID"]
-        participant = models.Participant.query.filter_by(uid=uid).first()
+        participant = models.Participant.query.filter_by(uid=user).first()
         auth_token = participant.encode_auth_token().decode()
         response_url = ("%s/%s" % (app.config["FRONTEND_AUTH_CALLBACK"], auth_token))
         return redirect(response_url)

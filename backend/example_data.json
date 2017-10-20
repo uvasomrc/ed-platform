@@ -669,7 +669,21 @@
         "created": "2017-08-25T10:30:00.000Z",
         "bio": "Christopher and his father Jim are Gibson Design Associates. GDA is a technologically adept graphic design, website design, and user interface design firm serving a national clientele from Charlottesville, VA."
       }
+    },
+    {
+      "name": "jimg",
+      "data": {
+        "uid": "jimg",
+        "display_name": "Jim Gibson",
+        "title": "Web Developer and UI Specialist at Gibson Design Associates",
+        "email_address": "jim@gibsondesign.com",
+        "phone_number": "",
+        "image_file": "images/profile/jimg.jpg",
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "Jim and his son Christopher are Gibson Design Associates. GDA is a technologically adept graphic design, website design, and user interface design firm serving a national clientele from Charlottesville, VA."
+      }
     }
+
 
   ],
   "ParticipantSession": [
