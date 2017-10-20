@@ -103,7 +103,7 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
     background-color: #fff;
     color: #000;
     padding: 10px 10px;
-    margin: 0;
+    margin: 0 0 10px 0;
   }
 
   h1 {
@@ -128,9 +128,18 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
   }
 
   mat-card {
-    margin: 10px;
-    max-width: 300px;
-    min-height: 50px;
+    height: 120px;
+    padding: 12px 12px 24px 12px;
+
+//    margin: 10px;
+//    max-width: 300px;
+//    min-height: 50px;
+  }
+
+  app-workshop {
+    margin: auto;
+    width: 300px;
+    height: 200px;
   }
 
   mat-card mat-card-header {
@@ -161,7 +170,7 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
   }
 
   section.center {
-    width: 600px;
+    max-width: 600px;
     margin: auto;
   }
 
