@@ -66,6 +66,15 @@
       }
     },
     {
+      "name": "python_intro_workshop_t3",
+      "data": {
+        "image_file": "images/python_intro_workshop.png",
+        "title": "Introduction to Python",
+        "description": "This workshop covers the fundamentals of python beginning with setting it up on your system. No prior experience is required. Just bring your laptop. We will start with installation and then move to interpreted coding focusing on the built-in data types. This will be a hands on experience with exercises throughout and plenty of time to get your hands dirty.",
+        "code":"python_intro"
+      }
+    },
+    {
       "name": "python_intro_workshop_t2",
       "data": {
         "title": "Introduction to Python",
@@ -244,7 +253,7 @@
     {
       "name": "python_intro_workshop_s2",
       "data": {
-        "workshop": "python_intro_workshop",
+        "workshop": "python_intro_workshop_t3",
         "date_time":"2017-11-14T18:30:00.000Z",
         "duration_minutes":"60",
         "max_attendees":2,
@@ -646,6 +655,19 @@
         "image_file": "images/profile/harrison.jpg",
         "created": "2017-08-25T10:30:00.000Z",
         "bio": "Dr. Harrison is Associate Professor and Director of the Division of Biomedical Informatics in the Department of Public Health Sciences at UVA, and has a secondary appointment in the Department of Pathology. He also has a courtesy appointment in the Department of Systems and Information Engineering in the School of Engineering and Applied Sciences. He has 20 years of experience in the field of medical informatics, including work in clinical laboratory information systems, electronic health records, clinical data analysis, World Wide Web development, funded participation in the caBIG® Architecture and Documentation/Training Workspaces, and has current and previous R01 funding in informatics and software development from the NCI and NLM."
+      }
+    },
+    {
+      "name": "chrisg",
+      "data": {
+        "uid": "chrisg",
+        "display_name": "Christopher Gibson",
+        "title": "Web Developer and UI Specialist at Gibson Design Associates",
+        "email_address": "christopher@gibsondesign.com",
+        "phone_number": "",
+        "image_file": "images/profile/chris.jpg",
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "Christopher and his father Jim are Gibson Design Associates. GDA is a technologically adept graphic design, website design, and user interface design firm serving a national clientele from Charlottesville, VA."
       }
     }
 

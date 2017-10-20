@@ -21,7 +21,6 @@ email_message_db_schema = models.EmailMessageDbSchema()
 
 
 auth = HTTPTokenAuth('Bearer')
-
 defaultParticipant = models.Participant()
 defaultParticipant.id = 0
 
@@ -64,6 +63,21 @@ def login(user_info):
     auth_token = participant.encode_auth_token().decode()
     response_url = ("%s/%s" % (app.config["FRONTEND_AUTH_CALLBACK"], auth_token))
     return redirect(response_url)
+
+@app.route('/api/backdoor/<string:code>')
+def backdoor(code):
+    '''A backdoor that allows someone to log in as a default user, if they
+       are in a staging environment. Added so our designer, who doesn't have a
+       shibboleth account, can still see the system.'''
+    if (app.config["STAGING"] and code == app.config["BACKDOOR_CODE"]) :
+        uid = app.config["SSO_DEVELOPMENT_UID"]
+        participant = models.Participant.query.filter_by(uid=uid).first()
+        auth_token = participant.encode_auth_token().decode()
+        response_url = ("%s/%s" % (app.config["FRONTEND_AUTH_CALLBACK"], auth_token))
+        return redirect(response_url)
+    else :
+        raise RestException(RestException.NOT_FOUND)
+
 
 @app.route('/api/user')
 @auth.login_required
