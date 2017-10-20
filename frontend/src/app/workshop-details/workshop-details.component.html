@@ -19,7 +19,8 @@
       <span class="sub-title">Location: {{workshop.nextSession().location}}</span>
     </div>
     <span class="spacer"></span>
-    <button *ngIf="!workshop.registered()" mat-raised-button (click)="register()">Register</button>
+    <button *ngIf="!workshop.registered() && isLoggedIn()" mat-raised-button (click)="register()">Register</button>
+    <button *ngIf="!isLoggedIn()" mat-raised-button-disabled (click)="goLogin()">Log In To Register</button>
     <button *ngIf="workshop.registered()" mat-raised-button (click)="unRegister()">Un-Register</button>
   </section>
 

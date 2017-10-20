@@ -7,13 +7,16 @@ import {Observable} from 'rxjs/Observable';
 import {Session} from "./session";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Workshop} from "./workshop";
+import {environment} from "../environments/environment";
 
 @Injectable()
 export class AccountService implements OnDestroy {
   USER_KEY = 'currentUser';
+  ROUTE_KEY = 'currentPath';
   login_subscription: Subscription;
   logged_in = false;
   participant = new BehaviorSubject<Participant>(this.from_local());
+  login_url = environment.api + '/api/login';
 
   constructor(private api: ApiService) {}
 
@@ -24,6 +27,17 @@ export class AccountService implements OnDestroy {
     } else {
       return null;
     }
+  }
+
+  goLogin(returnUrl) {
+    console.log('The Return URL IS:' + returnUrl);
+    localStorage.setItem(this.ROUTE_KEY, returnUrl);
+    window.location.href = this.login_url;
+  }
+
+  getRouteAfterLogin() {
+    console.log('Returning user to ' + localStorage.getItem(this.ROUTE_KEY));
+    return localStorage.getItem(this.ROUTE_KEY);
   }
 
   refreshAccount() {

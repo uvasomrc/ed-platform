@@ -20,7 +20,8 @@ export class AccountRedirectComponent implements OnInit {
               private router: Router) {
     this.route.params.subscribe( params =>
       account_service.login(params['token']));
-    this.router.navigate(['home']);
+
+    this.router.navigate([account_service.getRouteAfterLogin()]);
   }
 
   ngOnInit() {}

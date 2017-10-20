@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {WorkshopService} from '../workshop.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Workshop} from '../workshop';
 import {AccountService} from "../account.service";
 
@@ -17,6 +17,7 @@ export class WorkshopDetailsComponent implements OnInit {
 
   constructor(private workshopService: WorkshopService,
               private accountService: AccountService,
+              private router: Router,
               private route: ActivatedRoute) {
     this.route.params.subscribe( params =>
       this.workshop_id = params['id']);
@@ -29,6 +30,15 @@ export class WorkshopDetailsComponent implements OnInit {
         this.isDataLoaded = true;
       }
     );
+  }
+
+  isLoggedIn() {
+    return this.accountService.isLoggedIn();
+  }
+
+  goLogin() {
+    const current_url = this.router.routerState.snapshot.url;
+    this.accountService.goLogin(current_url);
   }
 
   register() {

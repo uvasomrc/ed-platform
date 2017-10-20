@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router, RoutesRecognized} from '@angular/router';
-import {environment} from '../environments/environment';
+import {Router, RoutesRecognized} from '@angular/router';
 import {Participant} from './participant';
 import {AccountService} from './account.service';
 
@@ -11,7 +10,6 @@ import {AccountService} from './account.service';
 })
 export class AppComponent implements OnInit {
 
-  login_url = environment.api + '/api/login';
   account: Participant;
   title: String;
 
@@ -38,7 +36,8 @@ export class AppComponent implements OnInit {
   }
 
   goLogin() {
-    window.location.href = this.login_url;
+    const current_url = this.router.routerState.snapshot.url;
+    this.accountService.goLogin(current_url);
   }
 
   goLogout() {

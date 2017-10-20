@@ -10,7 +10,6 @@ export class AuthGuard implements CanActivate {
 
   canActivate() {
     if (this.accountService.isLoggedIn()) {
-      console.log('You may view stuffs.');
       return true;
     }
 
