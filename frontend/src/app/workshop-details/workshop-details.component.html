@@ -28,17 +28,25 @@
     <mat-tab>
       <ng-template mat-tab-label>
           <div>
-            <h1>5</h1>
+            <h1>{{tracks.length}}</h1>
             <div class="sub-title">Tracks contain this workshop</div>
           </div>
       </ng-template>
-      <h1>Best pasta restaurants</h1>
-      <p>...</p>
+      <div
+        class="container"
+        fxLayout="row"
+        fxLayoutWrap
+        fxLayout.xs="column"
+        fxLayoutAlign="center"
+        fxLayoutGap="10px"
+        fxLayoutGap.xs="0">
+        <app-track *ngFor="let track of tracks" [track]="track"></app-track>
+      </div>
     </mat-tab>
-    <mat-tab>
+    <mat-tab *ngIf="similarWorkshops().length > 0">
       <ng-template mat-tab-label>
         <div>
-          <h1>3</h1>
+          <h1>{{similarWorkshops().length}}</h1>
           <div class="sub-title">Similar Workshops offered</div>
         </div>
       </ng-template>
@@ -50,7 +58,7 @@
         fxLayoutAlign="center"
         fxLayoutGap="10px"
         fxLayoutGap.xs="0">
-        <app-session *ngFor="let session of workshop.sessions" [session]="session"></app-session>
+        <app-workshop *ngFor="let workshop of similarWorkshops()" [workshop]="workshop"></app-workshop>
       </div>
     </mat-tab>
   </mat-tab-group>

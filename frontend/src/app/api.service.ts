@@ -137,6 +137,22 @@ export class ApiService {
       });
   }
 
+  getCodeForWorkshop(workshop: Workshop): Observable<Code> {
+    return this.http.get(workshop.links.code, this.getOptions())
+      .map(res => {
+        return(new Code(res.json()));
+      });
+  }
+
+  getTracksForWorkshop(workshop: Workshop): Observable<Track[]> {
+    return this.http.get(workshop.links.tracks, this.getOptions())
+      .map(res => {
+        return res.json().map(item => {
+          return(new Track(item));
+        });
+      });
+  }
+
   getWorkshopForSession(session: Session): Observable<Workshop> {
     return this.http.get(session.links.workshop, this.getOptions())
       .map(res => {

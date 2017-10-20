@@ -3,6 +3,8 @@ import {WorkshopService} from '../workshop.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Workshop} from '../workshop';
 import {AccountService} from "../account.service";
+import {Track} from "../track";
+import {Code} from "../code";
 
 @Component({
   selector: 'app-workshop-details',
@@ -13,7 +15,9 @@ export class WorkshopDetailsComponent implements OnInit {
 
   workshop_id = 0;
   workshop: Workshop;
+  tracks: Track[];
   isDataLoaded = false;
+  code: Code;
 
   constructor(private workshopService: WorkshopService,
               private accountService: AccountService,
@@ -27,9 +31,30 @@ export class WorkshopDetailsComponent implements OnInit {
     this.workshopService.getWorkshop(this.workshop_id).subscribe(
       (workshop) => {
         this.workshop = workshop;
-        this.isDataLoaded = true;
+        this.workshopService.getTracksForWorkshop(workshop).subscribe(
+          (tracks) => {
+            this.tracks = tracks;
+            this.updatedLoaded();
+          }
+        );
+        this.workshopService.getCode(this.workshop).subscribe(
+          (code) => {
+            this.code = code;
+            this.updatedLoaded();
+          }
+        );
       }
     );
+  }
+
+  updatedLoaded() {
+    if (this.workshop != null && this.tracks != null && this.code != null) {
+      this.isDataLoaded = true;
+    }
+  }
+
+  similarWorkshops(): Workshop[] {
+    return this.code.workshops.filter(w => w.id !== this.workshop.id);
   }
 
   isLoggedIn() {

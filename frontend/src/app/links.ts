@@ -10,6 +10,7 @@ export class Links {
   register = '';
   send_email = '';
   messages = '';
+  code = '';
 
   constructor(values: Object = {}) {
     for (const key in values) {
