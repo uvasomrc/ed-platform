@@ -35,6 +35,7 @@ import {AuthGuard} from './auth.guard';
 import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard.component';
 import { SearchComponent } from './search/search.component';
 import { TrackProgressComponent } from './track-progress/track-progress.component';
+import {AccountFormComponent} from "./account-form/account-form.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -48,9 +49,6 @@ const routes: Routes = [
     canActivate: [AuthGuard]},
   {path: 'teacherDashboard/:id', component: TeacherDashboardComponent,
     canActivate: [AuthGuard]}
-
-    //  {path: 'track', component: TrackComponent},
-    // {path: 'workshop', component: WorkshopComponent}
 ];
 
 @NgModule({
@@ -74,6 +72,7 @@ const routes: Routes = [
     TeacherDashboardComponent,
     SearchComponent,
     TrackProgressComponent,
+    AccountFormComponent
   ],
   imports: [
     BrowserModule,

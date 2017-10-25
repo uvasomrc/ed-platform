@@ -18,10 +18,15 @@ export class AccountRedirectComponent implements OnInit {
   constructor(private account_service: AccountService,
               private route: ActivatedRoute,
               private router: Router) {
-    this.route.params.subscribe( params =>
-      account_service.login(params['token']));
-
-    this.router.navigate([account_service.getRouteAfterLogin()]);
+    this.route.params.subscribe(params => {
+      account_service.login(params['token']).subscribe(p => {
+        if (p.new_account) {
+          this.router.navigate(['accountDetails']);
+        } else {
+          this.router.navigate([account_service.getRouteAfterLogin()]);
+        }
+      });
+    });
   }
 
   ngOnInit() {}

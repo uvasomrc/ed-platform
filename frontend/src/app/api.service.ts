@@ -54,6 +54,15 @@ export class ApiService {
       .catch(this.handleError);
   }
 
+  updateParticipant(participant: Participant): Observable<Participant> {
+    return this.http
+      .put(participant.links.self, participant, this.getOptions())
+      .map(response => {
+        return new Participant(response.json());
+      })
+      .catch(this.handleError);
+  }
+
   logout() {
     this.token = '';
     localStorage.removeItem('token');

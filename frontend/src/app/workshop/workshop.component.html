@@ -1,6 +1,6 @@
 <mat-card class="workshop">
   <mat-card-header *ngIf="workshop.hasUpcomingSession()" (click)="goWorkshop()">
-    <img mat-card-avatar src="{{workshop.nextSession().firstInstructor().links.image}}">
+    <img mat-card-avatar src="{{workshop.nextSession().firstInstructor().image()}}">
     <mat-card-title>{{workshop.title}}</mat-card-title>
     <mat-card-subtitle>
       with {{workshop.nextSession().instructorsDisplay()}}<br/>

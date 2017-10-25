@@ -41,7 +41,7 @@ export class AccountService implements OnDestroy {
   }
 
   refreshAccount() {
-    console.log('Refresh the account details from the server.');
+    console.log('Refresh the participant details from the server.');
     this.api.getAccount().subscribe(participant => {
       localStorage.setItem(this.USER_KEY, JSON.stringify(participant));
       this.logged_in = true;
@@ -57,14 +57,29 @@ export class AccountService implements OnDestroy {
     return (this.participant.asObservable());
   }
 
-  getWorkshopsForParticipant(participant:Participant): Observable<Workshop[]> {
+  updatePaticipant(participant: Participant): Observable<Participant> {
+    this.api.updateParticipant(participant).subscribe( updated_p => {
+      this.participant.next(updated_p);
+    };
+    return this.participant.asObservable();
+  }
+
+    getWorkshopsForParticipant(participant: Participant): Observable<Workshop[]> {
     return (this.api.getWorkshopsForParticipant(participant));
   }
 
-  login(token: string): void {
-    this.login_subscription = this.api.login(token).subscribe(participant => {
-      this.refreshAccount();
-    });
+  login(token: string): Observable<Participant> {
+    const po = this.api.login(token);
+    po.subscribe(participant => {
+        localStorage.setItem(this.USER_KEY, JSON.stringify(participant));
+        this.logged_in = true;
+        this.participant.next(participant);
+      },
+      err => {
+        this.logged_in = false;
+        this.participant.next(null);
+      });
+    return po;
   }
 
   ngOnDestroy() {

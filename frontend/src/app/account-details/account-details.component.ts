@@ -1,10 +1,7 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
 import {AccountService} from '../account.service';
 import {Participant} from '../participant';
-import {Session} from '../session';
-import {Workshop} from "../workshop";
-
+import {Workshop} from '../workshop';
 
 @Component({
   selector: 'app-account-details',
@@ -13,7 +10,7 @@ import {Workshop} from "../workshop";
 })
 export class AccountDetailsComponent implements OnInit {
 
-  account: Participant;
+  participant: Participant;
   workshops: Workshop[];
   isDataLoaded = false;
 
@@ -21,7 +18,7 @@ export class AccountDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.accountService.getAccount().subscribe(acct => {
-      this.account = acct;
+      this.participant = acct;
       this.accountService.getWorkshopsForParticipant(acct).subscribe(ws => {
         this.workshops = ws;
         this.isDataLoaded = true;
@@ -32,15 +29,15 @@ export class AccountDetailsComponent implements OnInit {
   }
 
   upcomingWorkshops() {
-    return this.workshops.filter(ws => ws.registered())
+    return this.workshops.filter(ws => ws.registered());
   }
 
   pastWorkshops() {
-    return this.workshops.filter(ws => ws.attended())
+    return this.workshops.filter(ws => ws.attended());
   }
 
   instructingWorkshops() {
-    return this.workshops.filter(ws => ws.instructing())
+    return this.workshops.filter(ws => ws.instructing());
   }
 
 

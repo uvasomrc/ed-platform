@@ -2,16 +2,16 @@
 
   <section class="header">
     <div class="circleborder">
-      <img class="participant-big" src="{{account.links.image}}">
+      <img class="participant-big" src="{{participant.image()}}">
     </div>
-    <h2 class="mat-title">{{account.display_name}}</h2>
+    <h2 class="mat-title">{{participant.display_name}}</h2>
   </section>
 
   <section class="header">
-    <p>{{account.bio}}</p>
+    <p>{{participant.bio}}</p>
   </section>
 
-  <mat-tab-group>
+  <mat-tab-group [selectedIndex]="participant.new_account? 3 : 0">
     <mat-tab label="Upcoming Workshops">
       <div
         class="container"
@@ -49,7 +49,10 @@
       </div>
     </mat-tab>
     <mat-tab label="Edit Account">
-      <p>{{account.bio}}</p>
+      <div *ngIf="participant.new_account">
+        <h1>Please complete your account details.</h1>
+      </div>
+      <app-account-form [participant]="participant"></app-account-form>
     </mat-tab>
   </mat-tab-group>
 </div>
