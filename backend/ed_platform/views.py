@@ -486,19 +486,24 @@ def get_participant(id):
 @app.route('/api/participant/<int:id>/image')
 def get_participant_image(id):
     participant = models.Participant.query.filter_by(id=id).first()
+    mime = magic.Magic(mime=True)
     image = ""
+    mime_type = ""
     if(participant.image_file is None):
         raise RestException(RestException.NOT_FOUND, 404)
-    elif(os.path.isfile(os.getcwd() + '/static/' + participant.image_file)):
+    elif(os.path.isfile('ed_platform/static/' + participant.image_file)):
+        mime_type = mime.from_file('ed_platform/static/' + participant.image_file)
         image = 'static/' + participant.image_file
     elif(os.path.isfile(profile_photos.path(participant.image_file))):
+        mime_type = mime.from_file(profile_photos.path(participant.image_file))
         image = profile_photos.path(participant.image_file)
     else:
         raise RestException(RestException.NOT_FOUND, 404)
     mime = magic.Magic(mime=True)
-    return send_file(image, mimetype=mime.from_file(image))
+    return send_file(image, mimetype=mime_type)
 
 @app.route('/api/participant/<int:id>/image', methods=['POST'])
+@auth.login_required
 def set_participant_image(id):
     if(g.user.id != id):
         raise RestException(RestException.NOT_YOUR_ACCOUNT, 403)
