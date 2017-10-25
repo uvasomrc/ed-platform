@@ -524,6 +524,7 @@
         "email_address": "CRD2JG@virginia.edu",
         "phone_number": "+15404570024",
         "image_file": "images/profile/crd2jg.png",
+        "use_gravatar": false,
         "created": "2017-08-25T10:30:00.000Z",
         "bio": "Cory works at Centers for Computation Research & Scholarship"
       }
@@ -536,6 +537,7 @@
         "email_address": "daniel.h.funk@gmail.com",
         "phone_number": "+15404570024",
         "image_file": "images/profile/profile_funk.png",
+        "use_gravatar": false,
         "created": "2017-08-25T10:30:00.000Z",
         "bio": "I am software engineer who works on a number of research projects at UVA.  I am a full stack developer with experience in Javascript (Angular4), Python, Java, Scala and other languages.  I'm a certified Casandra Architect with extensive experience in full text search engines like ElasticSearch and Solr."
       }
@@ -549,6 +551,7 @@
         "email_address": "bk7k@virginia.edu",
         "phone_number": "",
         "image_file": "images/profile/profile_bdkim.png",
+        "use_gravatar": false,
         "created": "2017-08-25T10:30:00.000Z",
         "bio": "BD leads the SOM research computing program and also supports university-wide collaborations such as CADRE. He received his PhD in Aeronautics and Astronautics Engineering from Purdue University, and has been working in high-performance computing and big data field for more than 10 years at many institutions including National Center for Supercomputing Applications (NCSA) and Harvard Medical School. He always looks for opportunities where SOM-RC team can maximize the potential of computational biomed research by providing expertise in big data analysis and advanced computing."
       }
@@ -562,6 +565,7 @@
         "email_address": "nem2p@virginia.edu",
         "phone_number": "",
         "image_file": "images/profile/profile_nmagee.png",
+        "use_gravatar": false,
         "created": "2017-08-25T10:30:00.000Z",
         "bio": "Neal designs scaling, service-driven, distributed systems in the public cloud. His recent work has been built primarily in Amazon Web Services, a platform in which he is a certified solution architect. Drawing on a background in development and operations, his work now focuses on “programmable infrastructure” that changes dynamically with the needs of an application. He has extensive experience with Python, the Amazon / Google / Microsoft public clouds, and architecting dynamic systems that scale and heal automatically. Neal is also interested in large IoT and data sensor projects that gather large amounts of data."
       }
@@ -575,6 +579,7 @@
         "email_address": "vpnagraj@virginia.edu",
         "phone_number": "",
         "image_file": "images/profile/profile_pete.png",
+        "use_gravatar": false,
         "created": "2017-08-25T10:30:00.000Z",
         "bio": "Pete teaches, consults and contributes to scientific programming and data analysis projects. With expertise in R and Python, he’s been active in package development and a variety of open-source collaborations."
       }
@@ -588,6 +593,7 @@
         "email_address": "alonzi@virginia.edu",
         "phone_number": "",
         "image_file": "images/profile/alonzi.jpg",
+        "use_gravatar": false,
         "created": "2017-08-25T10:30:00.000Z",
         "bio": "A physicist by training, Pete Alonzi is one of the Library’s data science experts. He provides computational and data science consultation support and training, including support around advanced computing architecture at UVA. As part of the Research Data Services group, Pete works with colleagues to advance the expert use of computational methods and data analytics in support of research across the University. Pete also serves as the liaison to the Physics and Computer Science departments."
       }
@@ -601,6 +607,7 @@
         "email_address": "ricky@virginia.edu",
         "phone_number": "",
         "image_file": "images/profile/ricky.jpg",
+        "use_gravatar": false,
         "created": "2017-08-25T10:30:00.000Z",
         "bio": "STEM Librarian, and Lecturer"
       }
@@ -614,6 +621,7 @@
         "email_address": "kechner@virginia.edu",
         "phone_number": "",
         "image_file": "images/profile/nekyn.jpg",
+        "use_gravatar": false,
         "created": "2017-08-25T10:30:00.000Z",
         "bio": "Nancy moves to StatLab from the ITS Research Computing Support Group. Nancy earned her PhD in Physiology from Temple Medical School in 1997, and has worked in medical research for nearly 20 years. She also has 2 degrees from the Curry School of Education; her BS Ed in Kinesiology, and an M Ed in Instructional Technology."
       }
@@ -627,6 +635,7 @@
         "email_address": "jcf2d@virginia.edu",
         "phone_number": "",
         "image_file": "images/profile/clay.jpg",
+        "use_gravatar": false,
         "created": "2017-08-25T10:30:00.000Z",
         "bio": "Clay joined the UVa Library as a Statistical Research Consultant in 2013. He helps students, faculty, and staff with data analysis questions. Some of the services he provides include assistance with data wrangling and data manipulation, experimental design, selection and implementation of statistical methods, and data visualization. Since coming to UVa Clay has led over a dozen workshops on statistical software and methods, developed and taught a Data Wrangling with R short course, and co-founded the UVa R Users group. He also started and regularly contributes to StatLab Articles, a collection of blog posts on data analysis and statistical practice."
       }
@@ -640,6 +649,7 @@
         "email_address": "dhc4z@Virginia.EDU",
         "phone_number": "",
         "image_file": "images/profile/doug.jpg",
+        "use_gravatar": false,
         "created": "2017-08-25T10:30:00.000Z",
         "bio": ""
       }
@@ -653,6 +663,7 @@
         "email_address": "james.harrison@Virginia.EDU",
         "phone_number": "",
         "image_file": "images/profile/harrison.jpg",
+        "use_gravatar": false,
         "created": "2017-08-25T10:30:00.000Z",
         "bio": "Dr. Harrison is Associate Professor and Director of the Division of Biomedical Informatics in the Department of Public Health Sciences at UVA, and has a secondary appointment in the Department of Pathology. He also has a courtesy appointment in the Department of Systems and Information Engineering in the School of Engineering and Applied Sciences. He has 20 years of experience in the field of medical informatics, including work in clinical laboratory information systems, electronic health records, clinical data analysis, World Wide Web development, funded participation in the caBIG® Architecture and Documentation/Training Workspaces, and has current and previous R01 funding in informatics and software development from the NCI and NLM."
       }
@@ -666,6 +677,7 @@
         "email_address": "christopher@gibsondesign.com",
         "phone_number": "",
         "image_file": "images/profile/chris.jpg",
+        "use_gravatar": false,
         "created": "2017-08-25T10:30:00.000Z",
         "bio": "Christopher and his father Jim are Gibson Design Associates. GDA is a technologically adept graphic design, website design, and user interface design firm serving a national clientele from Charlottesville, VA."
       }
@@ -679,6 +691,7 @@
         "email_address": "jim@gibsondesign.com",
         "phone_number": "",
         "image_file": "images/profile/jimg.jpg",
+        "use_gravatar": false,
         "created": "2017-08-25T10:30:00.000Z",
         "bio": "Jim and his son Christopher are Gibson Design Associates. GDA is a technologically adept graphic design, website design, and user interface design firm serving a national clientele from Charlottesville, VA."
       }

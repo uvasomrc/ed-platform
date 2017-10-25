@@ -459,6 +459,20 @@ def create_participant():
     db.session.commit()
     return participant_schema.jsonify(participant)
 
+@app.route('/api/participant/<int:id>', methods=['PUT'])
+@auth.login_required
+def update_participant(id):
+    request_data = request.get_json()
+    new_participant = participant_db_schema.load(request_data).data
+
+    if(g.user.id != new_participant.id):
+        raise RestException(RestException.NOT_YOUR_ACCOUNT, 403)
+
+    db.session.add(new_participant)
+    db.session.commit()
+    return participant_schema.jsonify(new_participant)
+
+
 @app.route('/api/participant/<int:id>', methods=['GET'])
 @auth.login_required
 def get_participant(id):

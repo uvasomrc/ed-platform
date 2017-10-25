@@ -1,4 +1,5 @@
 import datetime
+import hashlib
 import uuid
 
 import jwt
@@ -122,10 +123,20 @@ class Participant(db.Model):
     phone_number = db.Column(db.String())
     bio = db.Column(db.TEXT())
     image_file = db.Column(db.String())
+    new_account = db.Column(db.Boolean(), default=True)
     created = db.Column(db.DateTime, default=datetime.datetime.now)
     participant_sessions = db.relationship('ParticipantSession', backref='participant')
     email_logs = db.relationship('EmailLog', backref='participant')
     sent_emails = db.relationship('EmailMessage', backref='author')
+    use_gravatar = db.Column(db.Boolean(), default=True)
+
+    def email_hash(self):
+        h = hashlib.md5()
+        h.update(self.email_address.strip().lower().encode('utf-8'))
+        return h.hexdigest()
+
+    def gravatar(self):
+        return 'https://www.gravatar.com/avatar/%s' % self.email_hash
 
     def is_registered(self, session):
         return len([r for r in self.participant_sessions if r.session_id == session.id]) > 0
@@ -372,8 +383,10 @@ class ParticipantAPISchema(ma.Schema):
 
     class Meta:
         # Note that we don't surface the phone number or email address of any participants.
-        fields = ('id', 'uid', 'display_name', 'bio', 'created', '_links')
+        fields = ('id', 'uid', 'display_name', 'bio', 'created', 'new_account',
+                 'gravatar', 'use_gravatar', '_links')
         ordered = True
+
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_participant', id='<id>'),
         'collection': ma.URLFor('get_participants'),
