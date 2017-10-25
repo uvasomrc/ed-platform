@@ -46,3 +46,6 @@ ELASTIC_SEARCH = {
     "http_auth_pass": ""
 }
 
+# Directory where uploaded images should be placed.
+UPLOADS_DEFAULT_DEST = "/tmp/"
+

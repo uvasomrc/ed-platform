@@ -6,6 +6,7 @@ from flask_mail import Mail
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 from flask_sso import SSO
+from flask_uploads import UploadSet, configure_uploads
 
 from ed_platform.elastic_index import ElasticIndex
 from ed_platform.rest_exception import RestException
@@ -46,6 +47,10 @@ mail = Mail(app)
 
 # Search System
 elastic_index = ElasticIndex(app)
+
+# Uploaded Files
+profile_photos = UploadSet('photos')
+configure_uploads(app, (profile_photos))
 
 # Handle errors consistently
 @app.errorhandler(RestException)

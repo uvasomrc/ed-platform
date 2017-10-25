@@ -1,8 +1,10 @@
 import datetime
 
 import elasticsearch
+import magic
+import os
 from flask import jsonify, request, send_file, session, redirect, g, render_template, json
-from ed_platform import app, db, models, sso, RestException, emails, elastic_index
+from ed_platform import app, db, models, sso, RestException, emails, elastic_index, profile_photos
 from flask_httpauth import HTTPTokenAuth
 
 user_schema = models.UserSchema()
@@ -484,7 +486,29 @@ def get_participant(id):
 @app.route('/api/participant/<int:id>/image')
 def get_participant_image(id):
     participant = models.Participant.query.filter_by(id=id).first()
-    return send_file("static/" + participant.image_file, mimetype='image/png')
+    image = ""
+    if(participant.image_file is None):
+        raise RestException(RestException.NOT_FOUND, 404)
+    elif(os.path.isfile(os.getcwd() + '/static/' + participant.image_file)):
+        image = 'static/' + participant.image_file
+    elif(os.path.isfile(profile_photos.path(participant.image_file))):
+        image = profile_photos.path(participant.image_file)
+    else:
+        raise RestException(RestException.NOT_FOUND, 404)
+    mime = magic.Magic(mime=True)
+    return send_file(image, mimetype=mime.from_file(image))
+
+@app.route('/api/participant/<int:id>/image', methods=['POST'])
+def set_participant_image(id):
+    if(g.user.id != id):
+        raise RestException(RestException.NOT_YOUR_ACCOUNT, 403)
+
+    participant = models.Participant.query.filter_by(id=id).first()
+    filename = profile_photos.save(request.files['image'], None, "p%i." % participant.id)
+    participant.image_file = filename
+    db.session.add(participant)
+    db.session.commit()
+    return get_participant_image(id)
 
 @app.route('/api/logo/<string:id>/<string:tracking_id>/logo.png')
 def get_logo_tracking(id, tracking_id):

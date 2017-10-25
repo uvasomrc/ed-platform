@@ -17,3 +17,5 @@ dependencies:
   - pyjwt==1.5.3
   - flask-httpauth==3.2.3
   - elasticsearch_dsl==5.3.0
+  - flask-upload==0.2.1
+  - python-magic==0.4.13
