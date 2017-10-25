@@ -34,12 +34,14 @@ export class AccountFormComponent implements OnInit {
 
   onSubmit() {
     if (this.accountForm.valid) {
+      const new_account = this.participant.new_account;
       this.participant.display_name = this.displayName.value;
       this.participant.bio = this.bio.value;
+      this.participant.new_account = false;
       this.accountService.updatePaticipant(this.participant).subscribe( p => {
         // If this is a new account, then redirect them to page they started on when they hit login, and
         // subsequently got redirected here to complete their details.
-        if(this.participant.new_account) {
+        if (new_account) {
           this.router.navigate([this.accountService.getRouteAfterLogin()]);
         }
       });

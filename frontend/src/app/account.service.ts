@@ -60,7 +60,7 @@ export class AccountService implements OnDestroy {
   updatePaticipant(participant: Participant): Observable<Participant> {
     this.api.updateParticipant(participant).subscribe( updated_p => {
       this.participant.next(updated_p);
-    };
+    });
     return this.participant.asObservable();
   }
 
