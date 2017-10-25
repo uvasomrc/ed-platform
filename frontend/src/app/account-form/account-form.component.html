@@ -1,0 +1,19 @@
+
+<form [formGroup]="accountForm" novalidate (ngSubmit)="onSubmit()">
+  <div>
+    <mat-form-field class="example-full-width">
+      <input matInput formControlName="displayName" placeholder="Your Name" class="form-control" >
+      <mat-error>
+        Name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="example-full-width">
+    <textarea matInput formControlName="bio" placeholder="Tell us about yourself..." class="form-control">
+    </textarea>
+    </mat-form-field>
+  </div>
+  <button type="submit" mat-button>Update</button>
+
+</form>
