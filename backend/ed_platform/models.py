@@ -130,6 +130,7 @@ class Participant(db.Model):
     email_logs = db.relationship('EmailLog', backref='participant')
     sent_emails = db.relationship('EmailMessage', backref='author')
     use_gravatar = db.Column(db.Boolean(), default=True)
+    role = db.Column(db.String(), default='USER')
 
     def cache_bust(self):
         '''Used the bust the cache of user images.'''
@@ -141,7 +142,7 @@ class Participant(db.Model):
         return h.hexdigest()
 
     def gravatar(self):
-        return 'https://www.gravatar.com/avatar/%s' % self.email_hash()
+        return 'https://www.gravatar.com/avatar/%s?d=mm' % self.email_hash()
 
     def is_registered(self, session):
         return len([r for r in self.participant_sessions if r.session_id == session.id]) > 0

@@ -16,6 +16,7 @@ from ed_platform.emails import TEST_MESSAGES
 class TestCase(unittest.TestCase):
 
     test_uid = "dhf8rtest"
+    admin_uid = "dhf8admin"
     test_code_1 = "TEST-101"
     test_code_2 = "TEST-102"
     test_code_3 = "TEST-103"
@@ -52,9 +53,11 @@ class TestCase(unittest.TestCase):
         data = {'image_file': 'track_one.jpg',
                 'title': 'This is the title',
                 'description': 'This is the description'}
+
         rv = self.app.post('/api/track', data=json.dumps(data), follow_redirects=True,
-                           content_type="application/json")
+                           content_type="application/json", headers=self.logged_in_headers_admin())
         self.assert_success(rv)
+
         rd = json.loads(rv.get_data(as_text=True))
         return rd
 
@@ -67,7 +70,7 @@ class TestCase(unittest.TestCase):
         data = {'id': id,
                 'desc': desc}
         rv = self.app.post('/api/code', data=json.dumps(data), follow_redirects=True,
-                           content_type="application/json")
+                           content_type="application/json", headers=self.logged_in_headers_admin())
         self.assert_success(rv)
         return rv
 
@@ -81,7 +84,7 @@ class TestCase(unittest.TestCase):
                  'prereq': False}
                 ]
         rv = self.app.patch('/api/track/%i/codes' % track_id, data=json.dumps(data), follow_redirects=True,
-                           content_type="application/json")
+                           content_type="application/json", headers=self.logged_in_headers_admin())
         self.assert_success(rv)
         return rv
 
@@ -94,7 +97,7 @@ class TestCase(unittest.TestCase):
                 'code': self.test_code_1
                 }
         rv = self.app.post('/api/workshop', data=json.dumps(data), follow_redirects=True,
-                           content_type="application/json")
+                           content_type="application/json", headers=self.logged_in_headers_admin())
         self.assert_success(rv)
         return json.loads(rv.get_data(as_text=True))
 
@@ -107,7 +110,7 @@ class TestCase(unittest.TestCase):
             "max_attendees": 2
         }
         rv = self.app.post('/api/session', data=json.dumps(data), follow_redirects=True,
-                           content_type="application/json")
+                           content_type="application/json", headers=self.logged_in_headers_admin())
         self.assert_success(rv)
         return json.loads(rv.get_data(as_text=True))
 
@@ -120,7 +123,7 @@ class TestCase(unittest.TestCase):
             "bio": "Award-winning actor Peter Dinklage has earned critical acclaim for his work in the 2003 film 'The Station Agent' and on the hit television series 'Game of Thrones.'"
         }
         rv = self.app.post('/api/participant', data=json.dumps(data), follow_redirects=True,
-                           content_type="application/json")
+                           content_type="application/json", headers=self.logged_in_headers_admin())
         self.assert_success(rv)
         return json.loads(rv.get_data(as_text=True))
 
@@ -131,6 +134,18 @@ class TestCase(unittest.TestCase):
         participant = models.Participant.query.filter_by(uid=self.test_uid).first()
 
         return dict(Authorization='Bearer ' + participant.encode_auth_token().decode())
+
+    def logged_in_headers_admin(self):
+        headers = {'uid': self.admin_uid, 'givenName': 'Super Admin Daniel', 'mail': 'dhf8rx2@virginia.edu'}
+        rv = self.app.get("/api/login", headers=headers, follow_redirects=True,
+                          content_type="application/json")
+        participant = models.Participant.query.filter_by(uid=self.admin_uid).first()
+        participant.role = "ADMIN"
+        db.session.add(participant)
+        db.session.commit()
+
+        return dict(Authorization='Bearer ' + participant.encode_auth_token().decode())
+
 
     def review(self, session):
         rv = self.app.get("/api/session/%i/register" % session["id"], headers=self.logged_in_headers())
@@ -149,6 +164,8 @@ class TestCase(unittest.TestCase):
         headers = {'uid': self.test_uid, 'givenName': 'Daniel', 'mail': 'dhf8r@virginia.edu'}
         rv = self.app.get("/api/login", headers=headers, follow_redirects=True,
                       content_type="application/json")
+        # Don't check success, login does a redirect to the front end that might not be running.
+        # self.assert_success(rv)
 
         participant = models.Participant.query.filter_by(uid=self.test_uid).first()
 
@@ -183,6 +200,12 @@ class TestCase(unittest.TestCase):
 
 
     def test_add_track(self):
+
+        rv = self.app.post('/api/track')
+        self.assert_failure(rv,'permission_denied')
+        rv = self.app.post('/api/track', headers=self.logged_in_headers())
+        self.assert_failure(rv,'permission_denied')
+
         rd = self.add_test_track()
         assert rd['title'] == "This is the title"
         assert rd['description'] == "This is the description"
@@ -213,7 +236,7 @@ class TestCase(unittest.TestCase):
                 'code': 'there is no code like this.'
                 }
         rv = self.app.post('/api/workshop', data=json.dumps(data), follow_redirects=True,
-                           content_type="application/json")
+                           content_type="application/json", headers=self.logged_in_headers_admin())
         self.assert_failure(rv)
         self.assertIn("no_such_code", rv.get_data(as_text=True))
 
@@ -297,7 +320,7 @@ class TestCase(unittest.TestCase):
         data = [{'id': "no_such_id",
                 'prereq': True}]
         rv = self.app.patch('/api/track/%i/codes' % rd["id"], data=json.dumps(data), follow_redirects=True,
-                           content_type="application/json")
+                           content_type="application/json", headers=self.logged_in_headers_admin())
         self.assert_failure(rv, "no_such_code")
 
     def test_assign_codes_to_track(self):
@@ -331,7 +354,7 @@ class TestCase(unittest.TestCase):
         all_tracks = json.loads(response.get_data(as_text=True))
         self.assertEqual(1,len(all_tracks["tracks"]))
 
-        rv = self.app.delete(track["_links"]["self"], follow_redirects=True)
+        rv = self.app.delete(track["_links"]["self"], follow_redirects=True, headers=self.logged_in_headers_admin())
         self.assert_success(rv)
 
         response = self.app.get('/api/track')
@@ -376,7 +399,7 @@ class TestCase(unittest.TestCase):
     def test_remove_session(self):
         workshop = self.add_test_workshop()
         session = self.add_test_session(workshop["id"])
-        rv = self.app.delete(session["_links"]["self"], follow_redirects=True)
+        rv = self.app.delete(session["_links"]["self"], follow_redirects=True, headers=self.logged_in_headers_admin())
         self.assert_success(rv)
         rv = self.app.get(session["_links"]["self"], follow_redirects=True)
         self.assertEqual(404, rv.status_code)
@@ -384,11 +407,11 @@ class TestCase(unittest.TestCase):
     def test_remove_workshop_with_active_sessions(self):
         workshop = self.add_test_workshop()
         session = self.add_test_session(workshop["id"])
-        rv = self.app.delete(workshop["_links"]["self"], follow_redirects=True)
+        rv = self.app.delete(workshop["_links"]["self"], follow_redirects=True, headers=self.logged_in_headers_admin())
         self.assertEqual(409, rv.status_code)
-        rv = self.app.delete(session["_links"]["self"], follow_redirects=True)
+        rv = self.app.delete(session["_links"]["self"], follow_redirects=True, headers=self.logged_in_headers_admin())
         self.assert_success(rv)
-        rv = self.app.delete(workshop["_links"]["self"], follow_redirects=True)
+        rv = self.app.delete(workshop["_links"]["self"], follow_redirects=True, headers=self.logged_in_headers_admin())
         self.assert_success(rv)
 
     def test_add_participant(self):
@@ -433,6 +456,13 @@ class TestCase(unittest.TestCase):
     def test_delete_participant(self):
         participant = self.add_test_participant()
         rv = self.app.delete(participant["_links"]["self"], follow_redirects=True)
+        self.assert_failure(rv, 'permission_denied')
+
+        participant = self.add_test_participant()
+        rv = self.app.delete(participant["_links"]["self"], follow_redirects=True,headers=self.logged_in_headers())
+        self.assert_failure(rv, 'permission_denied')
+
+        rv = self.app.delete(participant["_links"]["self"], follow_redirects=True, headers=self.logged_in_headers_admin())
         self.assert_success(rv)
         rv = self.app.get(participant["_links"]["self"], follow_redirects=True)
         self.assertEqual(404, rv.status_code)
@@ -449,7 +479,7 @@ class TestCase(unittest.TestCase):
         workshop = self.add_test_workshop()
         session = self.add_test_session(workshop)
         rv = self.app.post("/api/session/%i/register" % (session["id"]))
-        self.assert_failure(rv, code="token_invalid")
+        self.assert_failure(rv, code="permission_denied")
         rv = self.app.post("/api/session/%i/register" % (session["id"]), headers=self.logged_in_headers())
         self.assert_success(rv)
         session_js = json.loads(rv.get_data(as_text=True))
@@ -558,6 +588,9 @@ class TestCase(unittest.TestCase):
 
 
     def test_current_participant_status(self):
+        rv = self.app.get('/api/user')
+        self.assert_failure(rv, "permission_denied")
+
         data = self.get_current_participant()
         self.assertTrue("id" in data)
         self.assertTrue(data['uid'] == self.test_uid)
@@ -587,7 +620,8 @@ class TestCase(unittest.TestCase):
         participant = self.add_test_participant()
 
         # Mark participant as the instructor.
-        rv = self.app.post("/api/session/%i/instructor/%i" % (session["id"], participant["id"]))
+        rv = self.app.post("/api/session/%i/instructor/%i" % (session["id"], participant["id"]),
+                           headers=self.logged_in_headers_admin())
 
         session = models.Session.query.first()
         self.assertIsNotNone(session.instructors())

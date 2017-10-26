@@ -520,6 +520,7 @@
       "name": "CRD2JG",
       "data": {
         "uid": "CRD2JG",
+        "role": "USER",
         "display_name": "Cory DeFreitas",
         "email_address": "CRD2JG@virginia.edu",
         "phone_number": "+15404570024",
@@ -533,6 +534,7 @@
       "name": "dhf8r",
       "data": {
         "uid": "dhf8r",
+        "role": "ADMIN",
         "display_name": "Dan Funk",
         "email_address": "daniel.h.funk@gmail.com",
         "phone_number": "+15404570024",
@@ -546,6 +548,7 @@
       "name": "bk7k",
       "data": {
         "uid": "bk7k",
+        "role": "ADMIN",
         "display_name": "Byoung-Do Kim, PhD",
         "title": "Director of Research Computing",
         "email_address": "bk7k@virginia.edu",
@@ -560,6 +563,7 @@
       "name": "nem2p",
       "data": {
         "uid": "nem2p",
+        "role": "ADMIN",
         "display_name": "Neal Magee, PhD",
         "title": "Cloud Solution Architect",
         "email_address": "nem2p@virginia.edu",
@@ -574,6 +578,7 @@
       "name": "vpn7n",
       "data": {
         "uid": "vpn7n",
+        "role": "ADMIN",
         "display_name": "VP Nagraj (Pete)",
         "title": "Research Computing Associate",
         "email_address": "vpnagraj@virginia.edu",
@@ -588,6 +593,7 @@
       "name": "alonzi",
       "data": {
         "uid": "alonzi",
+        "role": "USER",
         "display_name": "Pete Alonzi",
         "title": "Senior Research Data Scientist",
         "email_address": "alonzi@virginia.edu",
@@ -602,6 +608,7 @@
       "name": "ricky",
       "data": {
         "uid": "ricky",
+        "role": "USER",
         "display_name": "Ricky Patterson",
         "title": "STEM Librarian, and Lecturer",
         "email_address": "ricky@virginia.edu",
@@ -616,6 +623,7 @@
       "name": "nek8n",
       "data": {
         "uid": "nek8n",
+        "role": "USER",
         "display_name": "Nancy Kechner",
         "title": "Research Software Specialist",
         "email_address": "kechner@virginia.edu",
@@ -630,6 +638,7 @@
       "name": "jcf2d",
       "data": {
         "uid": "jcf2d",
+        "role": "USER",
         "display_name": "Clay Ford",
         "title": "Senior Research Data Scientist-Statistics",
         "email_address": "jcf2d@virginia.edu",
@@ -644,6 +653,7 @@
       "name": "dhc4z",
       "data": {
         "uid": "dhc4z",
+        "role": "USER",
         "display_name": "Doug Chestnut",
         "title": "Lead Engineer for Web & Mobile Development",
         "email_address": "dhc4z@Virginia.EDU",
@@ -657,6 +667,7 @@
     {
       "name": "jamesh",
       "data": {
+        "role": "USER",
         "uid": "jamesh",
         "display_name": "James Harrison",
         "title": "Director, Division of Biomedical Informatics",
@@ -671,6 +682,7 @@
     {
       "name": "chrisg",
       "data": {
+        "role": "USER",
         "uid": "chrisg",
         "display_name": "Christopher Gibson",
         "title": "Web Developer and UI Specialist at Gibson Design Associates",
@@ -685,6 +697,7 @@
     {
       "name": "jimg",
       "data": {
+        "role": "USER",
         "uid": "jimg",
         "display_name": "Jim Gibson",
         "title": "Web Developer and UI Specialist at Gibson Design Associates",
@@ -694,6 +707,20 @@
         "use_gravatar": false,
         "created": "2017-08-25T10:30:00.000Z",
         "bio": "Jim and his son Christopher are Gibson Design Associates. GDA is a technologically adept graphic design, website design, and user interface design firm serving a national clientele from Charlottesville, VA."
+      }
+    },
+    {
+      "name": "joe",
+      "data": {
+        "role": "USER",
+        "uid": "joecool",
+        "display_name": "Joe Cool",
+        "title": "The Red Baron",
+        "email_address": "joe@cool.com",
+        "phone_number": "",
+        "use_gravatar": true,
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "Joe Cool, aka Manfred Albrecht Freiherr von Richthofen (2 May 1892 – 21 April 1918), also known as the 'Red Baron', was a fighter pilot with the German Air Force during World War I. He is considered the ace-of-aces of the war, being officially credited with 80 air combat victories."
       }
     }
 

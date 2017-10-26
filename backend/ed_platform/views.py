@@ -7,6 +7,8 @@ from flask import jsonify, request, send_file, session, redirect, g, render_temp
 from ed_platform import app, db, models, sso, RestException, emails, elastic_index, profile_photos
 from flask_httpauth import HTTPTokenAuth
 
+from ed_platform.wrappers import requires_roles
+
 user_schema = models.UserSchema()
 track_schema = models.TrackAPISchema()
 workshop_schema = models.WorkshopAPISchema()
@@ -23,8 +25,13 @@ email_message_db_schema = models.EmailMessageDbSchema()
 
 
 auth = HTTPTokenAuth('Bearer')
+'''Many endpoints will take the current user into account when returning values. 
+   Since the flask_htttauth will throw an error if the authentication fails, we
+   return a default participant with a role of ANON - and must then check the
+   roles of the user if the endpoint is restricted to logged-in users.'''
 defaultParticipant = models.Participant()
 defaultParticipant.id = 0
+defaultParticipant.role = "ANON"
 
 
 @auth.verify_token
@@ -82,11 +89,9 @@ def backdoor(user, code):
 
 @app.route('/api/user')
 @auth.login_required
+@requires_roles('USER','ADMIN')
 def status():
-    participant = g.user
-    if(g.user.id == 0):
-        raise RestException(RestException.NO_SUCH_PARTICIPANT)
-    return jsonify(participant_schema.dump(participant).data)
+    return jsonify(participant_schema.dump(g.user).data)
 
 @app.route('/api/logout')
 @auth.login_required
@@ -97,6 +102,7 @@ def logout():
 
 @app.route('/api/user/workshops', methods=["GET"])
 @auth.login_required
+@requires_roles('USER','ADMIN')
 def user_workshops():
     workshops = []
     participant = g.user
@@ -110,6 +116,7 @@ def user_workshops():
 # *****************************
 @app.route('/api/code', methods=['POST'])
 @auth.login_required
+@requires_roles('ADMIN')
 def create_code():
     request_data = request.get_json()
     new_code = models.CodeDBSchema().load(request_data).data
@@ -135,6 +142,7 @@ def get_code(code):
 
 @app.route('/api/track', methods=['POST'])
 @auth.login_required
+@requires_roles('ADMIN')
 def create_track():
     request_data = request.get_json()
     new_track = track_db_schema.load(request_data).data
@@ -164,6 +172,7 @@ def get_track(track_id):
 
 @app.route('/api/track/<int:track_id>', methods=['DELETE'])
 @auth.login_required
+@requires_roles('ADMIN')
 def remove_track(track_id):
     track = models.Track.query.filter_by(id=track_id).first()
     if(track is None):
@@ -173,6 +182,7 @@ def remove_track(track_id):
 
 @app.route('/api/track/<int:id>/codes', methods=['PATCH'])
 @auth.login_required
+@requires_roles('ADMIN')
 def set_track_codes(id):
     request_data = request.get_json()
     track = models.Track.query.filter_by(id=id).first()
@@ -235,6 +245,7 @@ def search_workshops():
 
 @app.route('/api/workshop', methods=['POST'])
 @auth.login_required
+@requires_roles('ADMIN')
 def create_workshop():
     request_data = request.get_json()
     if(request_data['code'] != None and request_data['code'] != ''):
@@ -258,6 +269,7 @@ def get_workshop(id):
 
 @app.route('/api/workshop/<int:id>', methods=['DELETE'])
 @auth.login_required
+@requires_roles('ADMIN')
 def remove_workshop(id):
     workshop = models.Workshop.query.filter_by(id=id).first()
     if(workshop is None): return ""
@@ -304,6 +316,7 @@ def get_sessions():
 
 @app.route('/api/session', methods=['POST'])
 @auth.login_required
+@requires_roles('ADMIN')
 def create_session():
     request_data = request.get_json()
     new_session = session_db_schema.load(request_data).data
@@ -321,6 +334,7 @@ def get_session(id):
 
 @app.route('/api/session/<int:id>', methods=['DELETE'])
 @auth.login_required
+@requires_roles('ADMIN')
 def remove_session(id):
     session = models.Session.query.filter_by(id=id).first()
     db.session.delete(session)
@@ -337,6 +351,7 @@ def view_registration(id):
 
 @app.route('/api/session/<int:id>/instructor/<int:instructor_id>', methods=['POST'])
 @auth.login_required
+@requires_roles('ADMIN')
 def set_instructor(id, instructor_id):
     participant = models.Participant.query.filter_by(id=id).first()
     session = models.Session.query.filter_by(id=id).first()
@@ -350,6 +365,7 @@ def set_instructor(id, instructor_id):
 
 @app.route('/api/session/<int:id>/register', methods=['POST'])
 @auth.login_required
+@requires_roles('USER','ADMIN')
 def register(id):
     participant = g.user
     session = models.Session.query.filter_by(id=id).first()
@@ -365,6 +381,7 @@ def register(id):
 
 @app.route('/api/session/<int:id>/register', methods=['PUT'])
 @auth.login_required
+@requires_roles('USER')
 def review(id):
 
     participant = g.user
@@ -381,6 +398,7 @@ def review(id):
 
 @app.route('/api/session/<int:id>/register', methods=['DELETE'])
 @auth.login_required
+@requires_roles('USER')
 def unregister(id):
     participant = g.user
     participant = models.Participant.query.filter_by(id=participant.id).first()
@@ -453,6 +471,7 @@ def get_participants():
 
 @app.route('/api/participant', methods=['POST'])
 @auth.login_required
+@requires_roles('ADMIN')
 def create_participant():
     request_data = request.get_json()
     participant = participant_db_schema.load(request_data).data
@@ -507,6 +526,7 @@ def get_participant_image(id):
 
 @app.route('/api/participant/<int:id>/image/<int:cache_bust>', methods=['POST'])
 @auth.login_required
+@requires_roles('USER','ADMIN')
 def set_participant_image(id, cache_bust):
     if(g.user.id != id):
         raise RestException(RestException.NOT_YOUR_ACCOUNT, 403)
@@ -530,6 +550,7 @@ def get_logo_tracking(id, tracking_id):
 
 @app.route('/api/participant/<int:id>', methods=['DELETE'])
 @auth.login_required
+@requires_roles('ADMIN')
 def remove_participant(id):
     participant = models.Participant.query.filter_by(id=id).first()
     db.session.delete(participant)
