@@ -36,7 +36,6 @@ import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard
 import { SearchComponent } from './search/search.component';
 import { TrackProgressComponent } from './track-progress/track-progress.component';
 import {AccountFormComponent} from './account-form/account-form.component';
-import {ImageUploadModule} from 'angular2-image-upload';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -97,7 +96,6 @@ const routes: Routes = [
     MatListModule,
     MatRadioModule,
     MatStepperModule,
-    ImageUploadModule.forRoot(),
     RouterModule.forRoot(routes, {useHash: true})
   ],
   providers: [TrackService, WorkshopService, ApiService, AccountService, AuthGuard],
