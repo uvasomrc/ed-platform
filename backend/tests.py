@@ -279,7 +279,7 @@ class TestCase(unittest.TestCase):
         response = self.app.get('/api/track', headers=self.logged_in_headers())
         all_tracks = json.loads(response.get_data(as_text=True))
         code1 = all_tracks["tracks"][0]["codes"][0]
-        self.assertEquals("WAITING_ATTENDANCE", code1["status"])
+        self.assertEquals("AWAITING_REVIEW", code1["status"])
 
         # Review the session (mark it as completed)
         self.review(session)
@@ -399,7 +399,6 @@ class TestCase(unittest.TestCase):
         rv = self.app.get(participant["_links"]["self"], follow_redirects=True)
         self.assert_success(rv)
         pData = json.loads(rv.get_data(as_text=True))
-        self.assertIsNotNone(pData['email_hash'])
         self.assertIsNotNone(pData['_links']['image'])
 
     def test_update_participant(self):
@@ -599,7 +598,7 @@ class TestCase(unittest.TestCase):
         session = models.Session.query.first()
         rv = self.app.post("/api/session/%i/email" % session.id, follow_redirects=True,
                           content_type="application/json")
-        self.assert_failure(rv, "token_invalid")
+        self.assert_failure(rv, "not_the_instructor")
 
         rv = self.app.post("/api/session/%i/email" % session.id, headers=self.logged_in_headers())
         self.assert_failure(rv, "not_the_instructor")
@@ -668,7 +667,7 @@ class TestCase(unittest.TestCase):
         self.load_sample_data()
         data = {'query': 'python', 'filters': []}
         search_results = self.search(data)
-        self.assertEqual(7, len(search_results["hits"]))
+        self.assertEqual(8, len(search_results["hits"]))
 
 
     def test_search_description(self):
@@ -683,7 +682,7 @@ class TestCase(unittest.TestCase):
         self.load_sample_data()
         data = {'query': 'Brown', 'filters': []}
         search_results = self.search(data)
-        self.assertEqual(17, search_results["total"])
+        self.assertEqual(18, search_results["total"])
         self.assertEqual(10, len(search_results["hits"]))
         for w in search_results["hits"]:
             self.assertEqual(w['sessions'][0]['location'],'Brown 133')
@@ -692,8 +691,8 @@ class TestCase(unittest.TestCase):
         self.load_sample_data()
         data = {'query': 'Nagraj', 'filters': []}
         search_results = self.search(data)
-        self.assertEqual(6, search_results["total"])
-        self.assertEqual(6, len(search_results["hits"]))
+        self.assertEqual(7, search_results["total"])
+        self.assertEqual(7, len(search_results["hits"]))
         for w in search_results["hits"]:
             match = False
             for s in w['sessions']:
@@ -706,7 +705,7 @@ class TestCase(unittest.TestCase):
         data = {'query': '', 'filters': []}
         results = self.search(data)
         self.assertIn('total', results)
-        self.assertEqual(21, results["total"])
+        self.assertEqual(22, results["total"])
         self.assertEqual(10, len(results["hits"]))
 
     def test_view_instructor_aggregations(self):
@@ -720,8 +719,8 @@ class TestCase(unittest.TestCase):
         self.load_sample_data()
         data = {'query': '', 'filters': [{'field':'instructors','value':'VP Nagraj (Pete)'}]}
         results = self.search(data)
-        self.assertEquals(6, len(results["hits"]))
-        self.assertEquals(6, results["total"])
+        self.assertEquals(7, len(results["hits"]))
+        self.assertEquals(7, results["total"])
         for hit in results["hits"]:
             match = False
             for session in hit["sessions"]:

@@ -1,0 +1,37 @@
+
+// Import theming functions
+@import '~@angular/material/theming';
+// Import your custom theme
+@import '../../uva_material.scss';
+// Load the UVA Theme
+@include uva-theme($uva-theme);
+
+form {
+  display: flex;
+  flex-direction: column;
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+form > mat-form-field {
+  width: 100%;
+}
+
+.image-selector {
+  display: flex;
+  flex-direction: row;
+}
+
+mat-radio-button {
+  margin-top: 10px;
+}
+
+.participant-big {
+  float: left;
+  width: 100px;
+  height: 100px;
+  border-radius: 58px;
+  border: 4px solid mat-color($uva-primary, 500);
+  padding: 4px;
+  margin-right: 10px;
+}

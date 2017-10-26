@@ -1,19 +1,30 @@
-
 <form [formGroup]="accountForm" novalidate (ngSubmit)="onSubmit()">
-  <div>
-    <mat-form-field class="example-full-width">
-      <input matInput formControlName="displayName" placeholder="Your Name" class="form-control" >
-      <mat-error>
-        Name is <strong>required</strong>
-      </mat-error>
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field class="example-full-width">
-    <textarea matInput formControlName="bio" placeholder="Tell us about yourself..." class="form-control">
-    </textarea>
-    </mat-form-field>
-  </div>
-  <button type="submit" mat-button>Update</button>
+  <mat-form-field>
+    <input matInput formControlName="displayName" placeholder="Your Name" class="form-control">
+    <mat-error>
+      Name is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
 
+  <mat-form-field>
+    <textarea matInput formControlName="bio" placeholder="Tell us about yourself..." class="form-control" rows="4">
+    </textarea>
+  </mat-form-field>
+
+  <h2>Choose your Avatar</h2>
+  <div class="image-selector">
+    <img class="participant-big" src="{{selectedImage}}"/>
+    <mat-radio-group formControlName="imageType" (change)="toggleImage()">
+      <mat-radio-button value="uploaded">Use an uploaded image:
+        <br/>
+        <input type="file" (change)="newImage($event)" #fileInput>
+      </mat-radio-button>
+      <mat-radio-button value="gravatar">Use my <a href="https://gravatar.com" target="gravatar">Gravatar</a> image
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+
+  <button type="submit" mat-button>Update</button>
 </form>
+

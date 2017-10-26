@@ -8,6 +8,7 @@ import {Session} from "./session";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Workshop} from "./workshop";
 import {environment} from "../environments/environment";
+import {RequestOptions} from "@angular/http";
 
 @Injectable()
 export class AccountService implements OnDestroy {
@@ -19,6 +20,10 @@ export class AccountService implements OnDestroy {
   login_url = environment.api + '/api/login';
 
   constructor(private api: ApiService) {}
+
+  getOptions(): RequestOptions {
+    return this.api.getOptions();
+  }
 
   from_local() {
     if (localStorage.getItem(this.USER_KEY) !== 'undefined') {
@@ -64,7 +69,11 @@ export class AccountService implements OnDestroy {
     return this.participant.asObservable();
   }
 
-    getWorkshopsForParticipant(participant: Participant): Observable<Workshop[]> {
+  updateParticipantImage(participant: Participant, file: File) {
+    this.api.updateParticipantImage(participant, file).subscribe();
+  }
+
+  getWorkshopsForParticipant(participant: Participant): Observable<Workshop[]> {
     return (this.api.getWorkshopsForParticipant(participant));
   }
 

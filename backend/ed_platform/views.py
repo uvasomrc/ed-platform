@@ -282,7 +282,6 @@ def get_workshop_tracks(id):
 @auth.login_required
 def get_workshop_sessions(id):
     workshop = models.Workshop.query.filter_by(id=id).first()
-    workshop.code()
     sessions = list(map(lambda s: session_schema.dump(s).data, workshop.sessions))
     return jsonify({"sessions": sessions})
 
@@ -483,6 +482,10 @@ def get_participant(id):
         return jsonify(error=404, text=str("no such participant.")), 404
     return  participant_schema.jsonify(participant)
 
+@app.route('/api/participant/<int:id>/image/<int:cache_bust>')
+def get_participant_image_cache_bust(id, cache_bust):
+    return get_participant_image(id)
+
 @app.route('/api/participant/<int:id>/image')
 def get_participant_image(id):
     participant = models.Participant.query.filter_by(id=id).first()
@@ -502,9 +505,9 @@ def get_participant_image(id):
     mime = magic.Magic(mime=True)
     return send_file(image, mimetype=mime_type)
 
-@app.route('/api/participant/<int:id>/image', methods=['POST'])
+@app.route('/api/participant/<int:id>/image/<int:cache_bust>', methods=['POST'])
 @auth.login_required
-def set_participant_image(id):
+def set_participant_image(id, cache_bust):
     if(g.user.id != id):
         raise RestException(RestException.NOT_YOUR_ACCOUNT, 403)
 

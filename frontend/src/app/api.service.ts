@@ -63,6 +63,14 @@ export class ApiService {
       .catch(this.handleError);
   }
 
+  updateParticipantImage(participant: Participant, file: File) {
+    const formData = new FormData();
+    formData.append('image', file, file.name);
+    return this.http
+      .post(participant.links.image, formData, this.getOptions())
+      .catch(this.handleError);
+  }
+
   logout() {
     this.token = '';
     localStorage.removeItem('token');

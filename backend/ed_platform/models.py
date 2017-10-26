@@ -1,5 +1,6 @@
 import datetime
 import hashlib
+import random
 import uuid
 
 import jwt
@@ -130,13 +131,17 @@ class Participant(db.Model):
     sent_emails = db.relationship('EmailMessage', backref='author')
     use_gravatar = db.Column(db.Boolean(), default=True)
 
+    def cache_bust(self):
+        '''Used the bust the cache of user images.'''
+        return random.randint(1,100000)
+
     def email_hash(self):
         h = hashlib.md5()
         h.update(self.email_address.strip().lower().encode('utf-8'))
         return h.hexdigest()
 
     def gravatar(self):
-        return 'https://www.gravatar.com/avatar/%s' % self.email_hash
+        return 'https://www.gravatar.com/avatar/%s' % self.email_hash()
 
     def is_registered(self, session):
         return len([r for r in self.participant_sessions if r.session_id == session.id]) > 0
@@ -390,7 +395,7 @@ class ParticipantAPISchema(ma.Schema):
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_participant', id='<id>'),
         'collection': ma.URLFor('get_participants'),
-        'image': ma.URLFor('get_participant_image', id='<id>'),
+        'image': ma.URLFor('get_participant_image_cache_bust', id='<id>', cache_bust='<cache_bust>'),
         'workshops': ma.URLFor('user_workshops')
     })
 
