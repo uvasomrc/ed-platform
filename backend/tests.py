@@ -513,8 +513,23 @@ class TestCase(unittest.TestCase):
         db.session.merge(participant2)
         db.session.commit()
 
-        rv = self.app.post("/api//session/%i/register" % session["id"], headers=self.logged_in_headers())
-        self.assert_failure(rv)
+        rv = self.app.post("/api/session/%i/register" % session["id"], headers=self.logged_in_headers())
+        self.assert_success(rv)
+        sessionJson = json.loads(rv.get_data(as_text=True))
+        self.assertEquals(2, sessionJson['total_participants'])
+        self.assertEquals(1, sessionJson['waiting_participants'])
+        self.assertEquals('WAIT_LISTED',sessionJson['status'])
+
+        sessionModel = models.Session.query.filter_by(id=session['id']).first()
+        self.assertEquals(3, len(sessionModel.participant_sessions))
+        self.assertFalse(sessionModel.open())
+        participantSession = None
+        for ps in sessionModel.participant_sessions:
+            if ps.participant.uid == self.test_uid:
+                participantSession = ps
+        self.assertIsNotNone(participantSession)
+        self.assertTrue(participantSession.wait_listed)
+
 
     def test_unregister(self):
         participant = self.add_test_participant()
@@ -786,6 +801,8 @@ class TestCase(unittest.TestCase):
                 present = datetime.datetime.now(datetime.timezone.utc)
                 if(date >= present): match=True;
             self.assertTrue(match, "Every hit should now have a session in the future.")
+
+
 
 
 if __name__ == '__main__':

@@ -369,19 +369,21 @@ def set_instructor(id, instructor_id):
 def register(id):
     participant = g.user
     session = models.Session.query.filter_by(id=id).first()
+    wait_listed = False
     if(session is None):
         raise RestException(RestException.NO_SUCH_SESSION, 404)
     if(session.max_attendees <= len(session.participant_sessions)):
-        raise RestException(RestException.SESSION_FULL)
-
-    participant.register(session)
+        wait_listed = True
+        participant.wait_list(session)
+    else:
+        participant.register(session)
     db.session.merge(participant)
     db.session.commit()
     return models.SessionAPISchema().jsonify(session)
 
 @app.route('/api/session/<int:id>/register', methods=['PUT'])
 @auth.login_required
-@requires_roles('USER')
+@requires_roles('USER','ADMIN')
 def review(id):
 
     participant = g.user
@@ -398,7 +400,7 @@ def review(id):
 
 @app.route('/api/session/<int:id>/register', methods=['DELETE'])
 @auth.login_required
-@requires_roles('USER')
+@requires_roles('USER','ADMIN')
 def unregister(id):
     participant = g.user
     participant = models.Participant.query.filter_by(id=participant.id).first()

@@ -153,6 +153,12 @@ class Participant(db.Model):
             participant_id = self.id, session_id=session.id, is_instructor=is_instructor
         ))
 
+    def wait_list(self, session):
+        if(self.is_registered(session)): return
+        self.participant_sessions.append(ParticipantSession(
+            participant_id = self.id, session_id=session.id, wait_listed=True
+        ))
+
     def getParticipantSession(self, session):
         if(not self.is_registered(session)): return
         for ps in self.participant_sessions:
@@ -221,7 +227,10 @@ class Session(db.Model):
         return participants
 
     def total_participants(self):
-        return(len(self.participants()))
+        return len(list(filter(lambda ps: not(ps.wait_listed), self.participant_sessions)))
+
+    def waiting_participants(self):
+        return len(list(filter(lambda ps: ps.wait_listed, self.participant_sessions)))
 
     def open(self):
         return(self.total_participants() < self.max_attendees)
@@ -244,6 +253,7 @@ class ParticipantSession(db.Model):
     review_comment = db.Column(db.TEXT())
     attended = db.Column(db.Boolean, default=False)
     is_instructor = db.Column(db.Boolean, default=False)
+    wait_listed = db.Column(db.Boolean, default=False)
 
 class EmailMessage(db.Model):
     __tablename__ = 'email_message'
@@ -403,7 +413,7 @@ class ParticipantAPISchema(ma.Schema):
 
 class ParticipantSessionAPISchema(ma.Schema):
     class Meta:
-        fields = ('participant', 'created', 'review_score', 'review_comment', 'attended', 'is_instructor')
+        fields = ('participant', 'created', 'review_score', 'review_comment', 'attended', 'is_instructor', 'wait_listed')
         ordered = True
     participant = ma.Nested(ParticipantAPISchema)
     _links = ma.Hyperlinks({
@@ -416,7 +426,7 @@ class SessionAPISchema(ma.Schema):
     class Meta:
         fields = ('id', 'date_time', 'duration_minutes', 'instructor_notes',
                   '_links', 'max_attendees', 'participants', 'instructors','location',
-                  'status')
+                  'status', 'total_participants', 'waiting_participants')
         ordered = True
     participants = ma.List(ma.Nested(ParticipantSessionAPISchema))
     instructors = ma.List(ma.Nested(ParticipantAPISchema))
@@ -428,6 +438,8 @@ class SessionAPISchema(ma.Schema):
             return "UNREGISTERED"
         for ps in participant.participant_sessions:
             if ps.session.id == obj.id:
+                if (ps.wait_listed):
+                    return "WAIT_LISTED"
                 if (ps.is_instructor):
                     return "INSTRUCTOR"
                 if (ps.attended):
