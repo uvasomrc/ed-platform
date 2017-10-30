@@ -257,6 +257,21 @@ def create_workshop():
     db.session.commit()
     return workshop_schema.jsonify(new_workshop)
 
+@app.route('/api/workshop/<int:id>/instructor/<int:instructor_id>', methods=['POST'])
+@auth.login_required
+@requires_roles('ADMIN')
+def set_instructor(id, instructor_id):
+    participant = models.Participant.query.filter_by(id=id).first()
+    workshop = models.Workshop.query.filter_by(id=id).first()
+    if(participant is None):
+        raise RestException(RestException.NO_SUCH_PARTICIPANT)
+    if(workshop is None):
+        raise RestException(RestException.NO_SUCH_WORKSHOP)
+    workshop.instructor = participant
+    db.session.add(workshop)
+    db.session.commit()
+    return (jsonify(workshop_schema.dump(workshop)))
+
 
 @app.route('/api/workshop/<int:id>')
 @auth.login_required
@@ -348,21 +363,6 @@ def view_registration(id):
     session = models.Session.query.filter_by(id=id).first()
     return (jsonify(participant_session_db_schema.dump(participant.getParticipantSession(session)).data))
 
-
-@app.route('/api/session/<int:id>/instructor/<int:instructor_id>', methods=['POST'])
-@auth.login_required
-@requires_roles('ADMIN')
-def set_instructor(id, instructor_id):
-    participant = models.Participant.query.filter_by(id=id).first()
-    session = models.Session.query.filter_by(id=id).first()
-    if(participant is None):
-        raise RestException(RestException.NO_SUCH_PARTICIPANT)
-    if(session is None):
-        raise RestException(RestException.NO_SUCH_SESSION)
-    participant.register(session, True)
-    return (jsonify(session_schema.dump(session)))
-
-
 @app.route('/api/session/<int:id>/register', methods=['POST'])
 @auth.login_required
 @requires_roles('USER','ADMIN')
@@ -421,14 +421,14 @@ def unregister(id):
 def email_participants(id):
     instructor = g.user
     session = models.Session.query.filter_by(id=id).first()
-    if(not(instructor in session.instructors())):
+    if(instructor != session.workshop.instructor):
         raise RestException(RestException.NOT_INSTRUCTOR)
 
     request_data = request.get_json()
     email = email_message_db_schema.load(request_data).data
     email.author = instructor
     email.session = session
-    for ps in session.participants():
+    for ps in session.participant_sessions:
         email_log = models.EmailLog(participant=ps.participant,
                                     email_message=email)
         email.logs.append(email_log)

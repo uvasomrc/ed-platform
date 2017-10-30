@@ -55,6 +55,215 @@
       "prereq":false
     }}
   ],
+  "Participant": [
+    {
+      "name": "CRD2JG",
+      "data": {
+        "uid": "CRD2JG",
+        "role": "USER",
+        "display_name": "Cory DeFreitas",
+        "email_address": "CRD2JG@virginia.edu",
+        "phone_number": "+15404570024",
+        "image_file": "images/profile/crd2jg.png",
+        "use_gravatar": false,
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "Cory works at Centers for Computation Research & Scholarship"
+      }
+    },
+    {
+      "name": "dhf8r",
+      "data": {
+        "uid": "dhf8r",
+        "role": "ADMIN",
+        "display_name": "Dan Funk",
+        "email_address": "daniel.h.funk@gmail.com",
+        "phone_number": "+15404570024",
+        "image_file": "images/profile/profile_funk.png",
+        "use_gravatar": false,
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "I am software engineer who works on a number of research projects at UVA.  I am a full stack developer with experience in Javascript (Angular4), Python, Java, Scala and other languages.  I'm a certified Casandra Architect with extensive experience in full text search engines like ElasticSearch and Solr."
+      }
+    },
+    {
+      "name": "bk7k",
+      "data": {
+        "uid": "bk7k",
+        "role": "ADMIN",
+        "display_name": "Byoung-Do Kim, PhD",
+        "title": "Director of Research Computing",
+        "email_address": "bk7k@virginia.edu",
+        "phone_number": "",
+        "image_file": "images/profile/profile_bdkim.png",
+        "use_gravatar": false,
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "BD leads the SOM research computing program and also supports university-wide collaborations such as CADRE. He received his PhD in Aeronautics and Astronautics Engineering from Purdue University, and has been working in high-performance computing and big data field for more than 10 years at many institutions including National Center for Supercomputing Applications (NCSA) and Harvard Medical School. He always looks for opportunities where SOM-RC team can maximize the potential of computational biomed research by providing expertise in big data analysis and advanced computing."
+      }
+    },
+    {
+      "name": "nem2p",
+      "data": {
+        "uid": "nem2p",
+        "role": "ADMIN",
+        "display_name": "Neal Magee, PhD",
+        "title": "Cloud Solution Architect",
+        "email_address": "nem2p@virginia.edu",
+        "phone_number": "",
+        "image_file": "images/profile/profile_nmagee.png",
+        "use_gravatar": false,
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "Neal designs scaling, service-driven, distributed systems in the public cloud. His recent work has been built primarily in Amazon Web Services, a platform in which he is a certified solution architect. Drawing on a background in development and operations, his work now focuses on “programmable infrastructure” that changes dynamically with the needs of an application. He has extensive experience with Python, the Amazon / Google / Microsoft public clouds, and architecting dynamic systems that scale and heal automatically. Neal is also interested in large IoT and data sensor projects that gather large amounts of data."
+      }
+    },
+    {
+      "name": "vpn7n",
+      "data": {
+        "uid": "vpn7n",
+        "role": "ADMIN",
+        "display_name": "VP Nagraj (Pete)",
+        "title": "Research Computing Associate",
+        "email_address": "vpnagraj@virginia.edu",
+        "phone_number": "",
+        "image_file": "images/profile/profile_pete.png",
+        "use_gravatar": false,
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "Pete teaches, consults and contributes to scientific programming and data analysis projects. With expertise in R and Python, he’s been active in package development and a variety of open-source collaborations."
+      }
+    },
+    {
+      "name": "alonzi",
+      "data": {
+        "uid": "alonzi",
+        "role": "USER",
+        "display_name": "Pete Alonzi",
+        "title": "Senior Research Data Scientist",
+        "email_address": "alonzi@virginia.edu",
+        "phone_number": "",
+        "image_file": "images/profile/alonzi.jpg",
+        "use_gravatar": false,
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "A physicist by training, Pete Alonzi is one of the Library’s data science experts. He provides computational and data science consultation support and training, including support around advanced computing architecture at UVA. As part of the Research Data Services group, Pete works with colleagues to advance the expert use of computational methods and data analytics in support of research across the University. Pete also serves as the liaison to the Physics and Computer Science departments."
+      }
+    },
+    {
+      "name": "ricky",
+      "data": {
+        "uid": "ricky",
+        "role": "USER",
+        "display_name": "Ricky Patterson",
+        "title": "STEM Librarian, and Lecturer",
+        "email_address": "ricky@virginia.edu",
+        "phone_number": "",
+        "image_file": "images/profile/ricky.jpg",
+        "use_gravatar": false,
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "STEM Librarian, and Lecturer"
+      }
+    },
+    {
+      "name": "nek8n",
+      "data": {
+        "uid": "nek8n",
+        "role": "USER",
+        "display_name": "Nancy Kechner",
+        "title": "Research Software Specialist",
+        "email_address": "kechner@virginia.edu",
+        "phone_number": "",
+        "image_file": "images/profile/nekyn.jpg",
+        "use_gravatar": false,
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "Nancy moves to StatLab from the ITS Research Computing Support Group. Nancy earned her PhD in Physiology from Temple Medical School in 1997, and has worked in medical research for nearly 20 years. She also has 2 degrees from the Curry School of Education; her BS Ed in Kinesiology, and an M Ed in Instructional Technology."
+      }
+    },
+    {
+      "name": "jcf2d",
+      "data": {
+        "uid": "jcf2d",
+        "role": "USER",
+        "display_name": "Clay Ford",
+        "title": "Senior Research Data Scientist-Statistics",
+        "email_address": "jcf2d@virginia.edu",
+        "phone_number": "",
+        "image_file": "images/profile/clay.jpg",
+        "use_gravatar": false,
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "Clay joined the UVa Library as a Statistical Research Consultant in 2013. He helps students, faculty, and staff with data analysis questions. Some of the services he provides include assistance with data wrangling and data manipulation, experimental design, selection and implementation of statistical methods, and data visualization. Since coming to UVa Clay has led over a dozen workshops on statistical software and methods, developed and taught a Data Wrangling with R short course, and co-founded the UVa R Users group. He also started and regularly contributes to StatLab Articles, a collection of blog posts on data analysis and statistical practice."
+      }
+    },
+    {
+      "name": "dhc4z",
+      "data": {
+        "uid": "dhc4z",
+        "role": "USER",
+        "display_name": "Doug Chestnut",
+        "title": "Lead Engineer for Web & Mobile Development",
+        "email_address": "dhc4z@Virginia.EDU",
+        "phone_number": "",
+        "image_file": "images/profile/doug.jpg",
+        "use_gravatar": false,
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": ""
+      }
+    },
+    {
+      "name": "jamesh",
+      "data": {
+        "role": "USER",
+        "uid": "jamesh",
+        "display_name": "James Harrison",
+        "title": "Director, Division of Biomedical Informatics",
+        "email_address": "james.harrison@Virginia.EDU",
+        "phone_number": "",
+        "image_file": "images/profile/harrison.jpg",
+        "use_gravatar": false,
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "Dr. Harrison is Associate Professor and Director of the Division of Biomedical Informatics in the Department of Public Health Sciences at UVA, and has a secondary appointment in the Department of Pathology. He also has a courtesy appointment in the Department of Systems and Information Engineering in the School of Engineering and Applied Sciences. He has 20 years of experience in the field of medical informatics, including work in clinical laboratory information systems, electronic health records, clinical data analysis, World Wide Web development, funded participation in the caBIG® Architecture and Documentation/Training Workspaces, and has current and previous R01 funding in informatics and software development from the NCI and NLM."
+      }
+    },
+    {
+      "name": "chrisg",
+      "data": {
+        "role": "USER",
+        "uid": "chrisg",
+        "display_name": "Christopher Gibson",
+        "title": "Web Developer and UI Specialist at Gibson Design Associates",
+        "email_address": "christopher@gibsondesign.com",
+        "phone_number": "",
+        "image_file": "images/profile/chris.jpg",
+        "use_gravatar": false,
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "Christopher and his father Jim are Gibson Design Associates. GDA is a technologically adept graphic design, website design, and user interface design firm serving a national clientele from Charlottesville, VA."
+      }
+    },
+    {
+      "name": "jimg",
+      "data": {
+        "role": "USER",
+        "uid": "jimg",
+        "display_name": "Jim Gibson",
+        "title": "Web Developer and UI Specialist at Gibson Design Associates",
+        "email_address": "jim@gibsondesign.com",
+        "phone_number": "",
+        "image_file": "images/profile/jimg.jpg",
+        "use_gravatar": false,
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "Jim and his son Christopher are Gibson Design Associates. GDA is a technologically adept graphic design, website design, and user interface design firm serving a national clientele from Charlottesville, VA."
+      }
+    },
+    {
+      "name": "joe",
+      "data": {
+        "role": "USER",
+        "uid": "joecool",
+        "display_name": "Joe Cool",
+        "title": "The Red Baron",
+        "email_address": "joe@cool.com",
+        "phone_number": "",
+        "use_gravatar": true,
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "Joe Cool, aka Manfred Albrecht Freiherr von Richthofen (2 May 1892 – 21 April 1918), also known as the 'Red Baron', was a fighter pilot with the German Air Force during World War I. He is considered the ace-of-aces of the war, being officially credited with 80 air combat victories."
+      }
+    }
+  ],
   "Workshop": [
     {
       "name": "python_intro_workshop",
@@ -62,7 +271,8 @@
         "image_file": "images/python_intro_workshop.png",
         "title": "Introduction to Python",
         "description": "This workshop covers the fundamentals of python beginning with setting it up on your system. No prior experience is required. Just bring your laptop. We will start with installation and then move to interpreted coding focusing on the built-in data types. This will be a hands on experience with exercises throughout and plenty of time to get your hands dirty.",
-        "code":"python_intro"
+        "code":"python_intro",
+        "instructor": "dhf8r"
       }
     },
     {
@@ -71,7 +281,8 @@
         "image_file": "images/python_intro_workshop.png",
         "title": "Introduction to Python",
         "description": "This workshop covers the fundamentals of python beginning with setting it up on your system. No prior experience is required. Just bring your laptop. We will start with installation and then move to interpreted coding focusing on the built-in data types. This will be a hands on experience with exercises throughout and plenty of time to get your hands dirty.",
-        "code":"python_intro"
+        "code":"python_intro",
+        "instructor": "CRD2JG"
       }
     },
     {
@@ -79,7 +290,8 @@
       "data": {
         "title": "Introduction to Python",
         "description": "This workshop will teach you the basics of Python, starting with installation and setup on your computer. We will work through examples that showcase the built-in data types, loops, and conditionals, as well as using the most popular Python packages for scientific research. Be sure to bring your laptop to participate in the exercises. No prior coding experience is required.",
-        "code":"python_intro"
+        "code":"python_intro",
+        "instructor": "vpn7n"
       }
     },
     {
@@ -87,7 +299,8 @@
       "data": {
         "title": "Data cleansing in Python using Pandas and the Jupyter Notebook",
         "description": "This workshop will consist of about an hour of presentation and discussion followed by about an hour for in-class practice exercises. The presentation will cover reading data from text/csv and Excel files, managing data type conversions (numbers, text, dates), managing NULL values, creation and deletion of columns in Pandas data frames, indexing and re-indexing data frames, and identifying/managing incorrect values. Demonstration and practice data will be pulled from a variety of sources including deidentified clinical data.",
-        "code":"python_data"
+        "code":"python_data",
+        "instructor": "jamesh"
       }
     },
     {
@@ -95,7 +308,8 @@
       "data": {
         "title": "Data visualization in Python",
         "description": "This workshop will consist of about an hour of presentation and discussion followed by about an hour for in-class practice exercises. The presentation will cover creation of 2-D plots with Matplotlib (v. 2.0), including publication-quality plots, and interactive Web plots with Bokeh. Plots will include histograms, bar graphs, line graphs, scatter plots, and several types of statistical graphs. Demonstration and practice data will be pulled from a variety of sources including deidentified clinical data.",
-        "code":"python_visual"
+        "code":"python_visual",
+        "instructor": "jamesh"
       }
     },
     {
@@ -103,7 +317,8 @@
       "data": {
         "title": "Python Web apps using the Flask framework",
         "description": "This workshop will consist of about an hour of presentation and discussion followed by about an hour for in-class practice exercises. The presentation will cover creation of Web apps using the Flask app framework with Pandas and Bokeh. Web apps are data processing applications that may be deployed on a Web server and use a Web browser as a user interface.",
-        "code":"python_adv"
+        "code":"python_adv",
+        "instructor": "jamesh"
       }
     },
     {
@@ -111,7 +326,8 @@
       "data": {
         "image_file": "images/r_intro_workshop.png",
         "title": "Introduction to the R programming language",
-        "description": "This machine learning course is perfect for those who have a solid basis in R and statistics, but are complete beginners with machine learning. After a broad overview of the discipline's most common techniques and applications, you'll gain more insight into the assessment and training of different machine learning models. The rest of the course is dedicated to a first reconnaissance with three of the most basic machine learning tasks: classification, regression and clustering."
+        "description": "This machine learning course is perfect for those who have a solid basis in R and statistics, but are complete beginners with machine learning. After a broad overview of the discipline's most common techniques and applications, you'll gain more insight into the assessment and training of different machine learning models. The rest of the course is dedicated to a first reconnaissance with three of the most basic machine learning tasks: classification, regression and clustering.",
+        "instructor": "nem2p"
       }
     },
     {
@@ -119,15 +335,16 @@
       "data": {
         "image_file": "images/ml_intro_workshop.png",
         "title": "Introduction to Machine Learning",
-        "description": "In this introduction to R, you will master the basics of this beautiful open source language, including factors, lists and data frames. With the knowledge gained in this course, you will be ready to undertake your first very own data analysis. With over 2 million users worldwide R is rapidly becoming the leading programming language in statistics and data science. Every year, the number of R users grows by 40% and an increasing number of organizations are using it in their day-to-day activities. Leverage the power of R by completing this free R online course today!"
-      }
+        "description": "In this introduction to R, you will master the basics of this beautiful open source language, including factors, lists and data frames. With the knowledge gained in this course, you will be ready to undertake your first very own data analysis. With over 2 million users worldwide R is rapidly becoming the leading programming language in statistics and data science. Every year, the number of R users grows by 40% and an increasing number of organizations are using it in their day-to-day activities. Leverage the power of R by completing this free R online course today!",
+        "instructor": "vpn7n"      }
     },
     {
       "name": "unix_into_workshop",
       "data": {
         "image_file": "images/unix.png",
         "title": "Introduction to Unix",
-        "description": "This workshop will introduce new users to the command line interface and Unix shell commands. This would be useful both for users interested in using Unix on a local machine (including Linux and Mac OS X), as well as users who want to make use of remote resources such as the Rivanna cluster. Users will learn how to create and navigate directories, and to create, copy, move, and search files. We will also cover setting and changing file permissions, and creating symbolic links. Redirection of output and job control, with a brief discussion of shell scripts. Users will need to bring their own laptop in order to fully participate in the workshop."
+        "description": "This workshop will introduce new users to the command line interface and Unix shell commands. This would be useful both for users interested in using Unix on a local machine (including Linux and Mac OS X), as well as users who want to make use of remote resources such as the Rivanna cluster. Users will learn how to create and navigate directories, and to create, copy, move, and search files. We will also cover setting and changing file permissions, and creating symbolic links. Redirection of output and job control, with a brief discussion of shell scripts. Users will need to bring their own laptop in order to fully participate in the workshop.",
+        "instructor": "ricky"
       }
     },
     {
@@ -135,7 +352,8 @@
       "data": {
         "image_file": "images/github.png",
         "title": "Introduction to GitHub",
-        "description": "Git is a program in the class of version control software. Proper use will help you to manage your development. Until recently the software has been a burden to operate but the development of Github.com has changed that. In this workshop we will explore the use of git through the github framework. We will work with the web interface and the desktop client. Please bring your laptops. The use of github requires a user account so please set one up prior to arrival at github.com."
+        "description": "Git is a program in the class of version control software. Proper use will help you to manage your development. Until recently the software has been a burden to operate but the development of Github.com has changed that. In this workshop we will explore the use of git through the github framework. We will work with the web interface and the desktop client. Please bring your laptops. The use of github requires a user account so please set one up prior to arrival at github.com.",
+        "instructor": "alonzi"
       }
     },
     {
@@ -143,7 +361,8 @@
       "data": {
         "image_file": "images/excel.png",
         "title": "Data in Excel",
-        "description": "This workshop is for those new to Excel as a data tool. We will go over everything from the interface, to formulas, charts, and pivot tables."
+        "description": "This workshop is for those new to Excel as a data tool. We will go over everything from the interface, to formulas, charts, and pivot tables.",
+        "instructor": "nek8n"
       }
     },
     {
@@ -151,7 +370,8 @@
       "data": {
         "image_file": "images/aws.png",
         "title": "Introduction to Cloud Computing with AWS",
-        "description": "This workshop covers the basic paradigms of cloud infrastructure and introduces techniques for working in it. Why use the cloud for computation and storage? What are its advantages? We will discuss core concepts such as scaling and infrastructure-as-code, while also getting hands-on experience with creating computing, storage, and data resources in Amazon Web Services. Workshop participants will work directly in the AWS console and command-line tools. Upon completing this workshop, students will be familiar with basic cloud design, as well as with how to deploy simple, resizable environments on their own."
+        "description": "This workshop covers the basic paradigms of cloud infrastructure and introduces techniques for working in it. Why use the cloud for computation and storage? What are its advantages? We will discuss core concepts such as scaling and infrastructure-as-code, while also getting hands-on experience with creating computing, storage, and data resources in Amazon Web Services. Workshop participants will work directly in the AWS console and command-line tools. Upon completing this workshop, students will be familiar with basic cloud design, as well as with how to deploy simple, resizable environments on their own.",
+        "instructor": "nem2p"
       }
     },
     {
@@ -159,7 +379,8 @@
       "data": {
         "image_file": "images/latex.png",
         "title": "LaTeX & ShareLaTeX",
-        "description": "LaTeX is a powerful (and free) document typesetting program, widely used in a number of academic disciplines for compiling professional research papers, articles, dissertations, presentations, letters, and books. It is especially useful for the creation and integration of mathematical formulae, tables and bibliographies into documents. Running an installation of LaTeX on your own computer can make it difficult to work on a document collaboratively. The UVa Library has recently provided access for all UVa users to an on-line collaborative LaTeX editor, ShareLaTeX. Come learn how to take full advantage of this powerful tool. Participants will need to bring their own laptop for this workshop."
+        "description": "LaTeX is a powerful (and free) document typesetting program, widely used in a number of academic disciplines for compiling professional research papers, articles, dissertations, presentations, letters, and books. It is especially useful for the creation and integration of mathematical formulae, tables and bibliographies into documents. Running an installation of LaTeX on your own computer can make it difficult to work on a document collaboratively. The UVa Library has recently provided access for all UVa users to an on-line collaborative LaTeX editor, ShareLaTeX. Come learn how to take full advantage of this powerful tool. Participants will need to bring their own laptop for this workshop.",
+        "instructor": "ricky"
       }
     },
     {
@@ -167,7 +388,8 @@
       "data": {
         "image_file": "images/dedoose.png",
         "title": "Introduction to Dedoose",
-        "description": "New to Qualitative Research? Imagine being able to blend your video, audio, and text data with your spreadsheet information in an on-line tool to get the most out of all of your information! Dedoose is an easy to learn, feature rich, and affordable web app that can help you visualize a variety of information from your work that you can share with the research community. Come and see Dedoose in action to see if you want to add qualitative analysis to your research toolbox."
+        "description": "New to Qualitative Research? Imagine being able to blend your video, audio, and text data with your spreadsheet information in an on-line tool to get the most out of all of your information! Dedoose is an easy to learn, feature rich, and affordable web app that can help you visualize a variety of information from your work that you can share with the research community. Come and see Dedoose in action to see if you want to add qualitative analysis to your research toolbox.",
+        "instructor": "nek8n"
       }
     },
     {
@@ -176,7 +398,8 @@
         "image_file": "images/visualization.png",
         "title": "Interactive Visualization with Python/Bokeh",
         "description": "We will explore how to take your data from bits in memory to beautiful images on the screen. We’ll use the package Bokeh, which allows you to create interactive visualizations that you can easily publish on the Internet. This will be a hands on experience with exercises throughout.",
-        "code": "python_visual"
+        "code": "python_visual",
+        "instructor": "vpn7n"
       }
     },
     {
@@ -184,7 +407,8 @@
       "data": {
         "image_file": "images/ggplot2.png",
         "title": "Visualization in R/ggplot2",
-        "description": "The ggplot2 package has revolutionized data visualization with R. With its consistent syntax and layered approach to making graphics, ggplot2 allows you to rapidly visualize your data in ways that previously would have required hours of tedious programming. In this workshop we introduce the logic behind ggplot2, how to use ggplot2 to explore your data, and how to customize and polish ggplot2 graphs. No prior experience with ggplot2 is assumed, though some previous experience with R would be helpful."
+        "description": "The ggplot2 package has revolutionized data visualization with R. With its consistent syntax and layered approach to making graphics, ggplot2 allows you to rapidly visualize your data in ways that previously would have required hours of tedious programming. In this workshop we introduce the logic behind ggplot2, how to use ggplot2 to explore your data, and how to customize and polish ggplot2 graphs. No prior experience with ggplot2 is assumed, though some previous experience with R would be helpful.",
+        "instructor": "jcf2d"
       }
     },
     {
@@ -192,7 +416,8 @@
       "data": {
         "image_file": "images/jekyll.png",
         "title": "Websites with GitHub and Jekyll",
-        "description": "Would you like to build a website but are unsure where to host it? GitHub, known best as a version control system, is also a hosting service. Join us to learn about GitHub’s hosting capabilities, as well as how to create your own static website using Jekyll and a set of web platform APIs called Web Components. You’ll leave this interactive session knowing how to use these tools to launch your own site! You’ll need a github.com account to participate. An understanding of basic HTML and markdown is helpful."
+        "description": "Would you like to build a website but are unsure where to host it? GitHub, known best as a version control system, is also a hosting service. Join us to learn about GitHub’s hosting capabilities, as well as how to create your own static website using Jekyll and a set of web platform APIs called Web Components. You’ll leave this interactive session knowing how to use these tools to launch your own site! You’ll need a github.com account to participate. An understanding of basic HTML and markdown is helpful.",
+        "instructor": "dhc4z"
       }
     },
     {
@@ -201,7 +426,8 @@
         "image_file": "images/scikit.png",
         "title": "Machine learning with Python-scikit",
         "description": "Have an interest in this machine learning craze? Then you’ve come to the right place. This workshops highlights fundamentals of machine learning using the python package scikit-learn. We will work through the steps of a machine learning example and explain the core concepts as we go. Bring you laptop so you can follow along.",
-        "code":"python_modeling"
+        "code":"python_modeling",
+        "instructor": "vpn7n"
       }
     },
     {
@@ -209,7 +435,8 @@
       "data": {
         "image_file": "images/orchid.png",
         "title": "Introduction to ORCID",
-        "description": "Distinguish yourself with an ORCID ID – ORCID IDs (or ORCIDs) are permanent unique identifiers for researchers, which allows you to unambiguously associate all of your research and scholarship with your name, regardless of discipline, location or time. In this workshop, we will sign up for our own (free) ORCID, look at the available ways to claim academic output, so that it is associated with our ORCID. We will also discuss how ORCIDs are increasingly being required by publishers when submitting papers, and how funders are also starting to use them. Please bring along a laptop (or a tablet) to fully participate in this hands-on workshop."
+        "description": "Distinguish yourself with an ORCID ID – ORCID IDs (or ORCIDs) are permanent unique identifiers for researchers, which allows you to unambiguously associate all of your research and scholarship with your name, regardless of discipline, location or time. In this workshop, we will sign up for our own (free) ORCID, look at the available ways to claim academic output, so that it is associated with our ORCID. We will also discuss how ORCIDs are increasingly being required by publishers when submitting papers, and how funders are also starting to use them. Please bring along a laptop (or a tablet) to fully participate in this hands-on workshop.",
+        "instructor": "ricky"
       }
     },
     {
@@ -217,7 +444,8 @@
       "data": {
         "image_file": "images/funders.png",
         "title": "Funding Discovery Tools",
-        "description": "Funding discovery databases help researchers identify opportunities from public and private funders. UVa now has access to two discovery tools licensed by the Vice Provost of Research, Pivot and GrantForward. These tools allow faculty, students and staff to search for funding and set up email search alerts based on a researcher’s area of interest. After the workshop, the attendees will learn how to create an account, search the databases, share funding opportunities with others, as well as save search strategies for email alerts regarding new opportunities. All students, faculty and staff at the University have access and the ability to create personal accounts. Please bring a laptop for use for this hands-on workshop."
+        "description": "Funding discovery databases help researchers identify opportunities from public and private funders. UVa now has access to two discovery tools licensed by the Vice Provost of Research, Pivot and GrantForward. These tools allow faculty, students and staff to search for funding and set up email search alerts based on a researcher’s area of interest. After the workshop, the attendees will learn how to create an account, search the databases, share funding opportunities with others, as well as save search strategies for email alerts regarding new opportunities. All students, faculty and staff at the University have access and the ability to create personal accounts. Please bring a laptop for use for this hands-on workshop.",
+        "instructor": "ricky"
       }
     },
     {
@@ -225,7 +453,8 @@
       "data": {
         "image_file": "images/visual_js.png",
         "title": "Interactive Visualization with JavaScript and R",
-        "description": "There are a number of JavaScript libraries available that leverage web functionality to produce compelling, dynamic data visualizations. This workshop will introduce several of these tools, including D3, HighCharts and Leaflet, and will demonstrate how to implement them in the context of the R programming language. No JavaScript experience is required. Some familiarity with R will be helpful."
+        "description": "There are a number of JavaScript libraries available that leverage web functionality to produce compelling, dynamic data visualizations. This workshop will introduce several of these tools, including D3, HighCharts and Leaflet, and will demonstrate how to implement them in the context of the R programming language. No JavaScript experience is required. Some familiarity with R will be helpful.",
+        "instructor": "vpn7n"
       }
     },
     {
@@ -233,7 +462,8 @@
       "data": {
         "image_file": "images/tableau.jpg",
         "title": "Visualization with Tableau",
-        "description": "This is an introduction to the Tableau platform starting from beginner, to building an interactive visualization on the web"
+        "description": "This is an introduction to the Tableau platform starting from beginner, to building an interactive visualization on the web",
+        "instructor": "nek8n"
       }
     }
 
@@ -515,288 +745,7 @@
       }
     }
   ],
-  "Participant": [
-    {
-      "name": "CRD2JG",
-      "data": {
-        "uid": "CRD2JG",
-        "role": "USER",
-        "display_name": "Cory DeFreitas",
-        "email_address": "CRD2JG@virginia.edu",
-        "phone_number": "+15404570024",
-        "image_file": "images/profile/crd2jg.png",
-        "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
-        "bio": "Cory works at Centers for Computation Research & Scholarship"
-      }
-    },
-    {
-      "name": "dhf8r",
-      "data": {
-        "uid": "dhf8r",
-        "role": "ADMIN",
-        "display_name": "Dan Funk",
-        "email_address": "daniel.h.funk@gmail.com",
-        "phone_number": "+15404570024",
-        "image_file": "images/profile/profile_funk.png",
-        "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
-        "bio": "I am software engineer who works on a number of research projects at UVA.  I am a full stack developer with experience in Javascript (Angular4), Python, Java, Scala and other languages.  I'm a certified Casandra Architect with extensive experience in full text search engines like ElasticSearch and Solr."
-      }
-    },
-    {
-      "name": "bk7k",
-      "data": {
-        "uid": "bk7k",
-        "role": "ADMIN",
-        "display_name": "Byoung-Do Kim, PhD",
-        "title": "Director of Research Computing",
-        "email_address": "bk7k@virginia.edu",
-        "phone_number": "",
-        "image_file": "images/profile/profile_bdkim.png",
-        "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
-        "bio": "BD leads the SOM research computing program and also supports university-wide collaborations such as CADRE. He received his PhD in Aeronautics and Astronautics Engineering from Purdue University, and has been working in high-performance computing and big data field for more than 10 years at many institutions including National Center for Supercomputing Applications (NCSA) and Harvard Medical School. He always looks for opportunities where SOM-RC team can maximize the potential of computational biomed research by providing expertise in big data analysis and advanced computing."
-      }
-    },
-    {
-      "name": "nem2p",
-      "data": {
-        "uid": "nem2p",
-        "role": "ADMIN",
-        "display_name": "Neal Magee, PhD",
-        "title": "Cloud Solution Architect",
-        "email_address": "nem2p@virginia.edu",
-        "phone_number": "",
-        "image_file": "images/profile/profile_nmagee.png",
-        "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
-        "bio": "Neal designs scaling, service-driven, distributed systems in the public cloud. His recent work has been built primarily in Amazon Web Services, a platform in which he is a certified solution architect. Drawing on a background in development and operations, his work now focuses on “programmable infrastructure” that changes dynamically with the needs of an application. He has extensive experience with Python, the Amazon / Google / Microsoft public clouds, and architecting dynamic systems that scale and heal automatically. Neal is also interested in large IoT and data sensor projects that gather large amounts of data."
-      }
-    },
-    {
-      "name": "vpn7n",
-      "data": {
-        "uid": "vpn7n",
-        "role": "ADMIN",
-        "display_name": "VP Nagraj (Pete)",
-        "title": "Research Computing Associate",
-        "email_address": "vpnagraj@virginia.edu",
-        "phone_number": "",
-        "image_file": "images/profile/profile_pete.png",
-        "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
-        "bio": "Pete teaches, consults and contributes to scientific programming and data analysis projects. With expertise in R and Python, he’s been active in package development and a variety of open-source collaborations."
-      }
-    },
-    {
-      "name": "alonzi",
-      "data": {
-        "uid": "alonzi",
-        "role": "USER",
-        "display_name": "Pete Alonzi",
-        "title": "Senior Research Data Scientist",
-        "email_address": "alonzi@virginia.edu",
-        "phone_number": "",
-        "image_file": "images/profile/alonzi.jpg",
-        "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
-        "bio": "A physicist by training, Pete Alonzi is one of the Library’s data science experts. He provides computational and data science consultation support and training, including support around advanced computing architecture at UVA. As part of the Research Data Services group, Pete works with colleagues to advance the expert use of computational methods and data analytics in support of research across the University. Pete also serves as the liaison to the Physics and Computer Science departments."
-      }
-    },
-    {
-      "name": "ricky",
-      "data": {
-        "uid": "ricky",
-        "role": "USER",
-        "display_name": "Ricky Patterson",
-        "title": "STEM Librarian, and Lecturer",
-        "email_address": "ricky@virginia.edu",
-        "phone_number": "",
-        "image_file": "images/profile/ricky.jpg",
-        "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
-        "bio": "STEM Librarian, and Lecturer"
-      }
-    },
-    {
-      "name": "nek8n",
-      "data": {
-        "uid": "nek8n",
-        "role": "USER",
-        "display_name": "Nancy Kechner",
-        "title": "Research Software Specialist",
-        "email_address": "kechner@virginia.edu",
-        "phone_number": "",
-        "image_file": "images/profile/nekyn.jpg",
-        "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
-        "bio": "Nancy moves to StatLab from the ITS Research Computing Support Group. Nancy earned her PhD in Physiology from Temple Medical School in 1997, and has worked in medical research for nearly 20 years. She also has 2 degrees from the Curry School of Education; her BS Ed in Kinesiology, and an M Ed in Instructional Technology."
-      }
-    },
-    {
-      "name": "jcf2d",
-      "data": {
-        "uid": "jcf2d",
-        "role": "USER",
-        "display_name": "Clay Ford",
-        "title": "Senior Research Data Scientist-Statistics",
-        "email_address": "jcf2d@virginia.edu",
-        "phone_number": "",
-        "image_file": "images/profile/clay.jpg",
-        "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
-        "bio": "Clay joined the UVa Library as a Statistical Research Consultant in 2013. He helps students, faculty, and staff with data analysis questions. Some of the services he provides include assistance with data wrangling and data manipulation, experimental design, selection and implementation of statistical methods, and data visualization. Since coming to UVa Clay has led over a dozen workshops on statistical software and methods, developed and taught a Data Wrangling with R short course, and co-founded the UVa R Users group. He also started and regularly contributes to StatLab Articles, a collection of blog posts on data analysis and statistical practice."
-      }
-    },
-    {
-      "name": "dhc4z",
-      "data": {
-        "uid": "dhc4z",
-        "role": "USER",
-        "display_name": "Doug Chestnut",
-        "title": "Lead Engineer for Web & Mobile Development",
-        "email_address": "dhc4z@Virginia.EDU",
-        "phone_number": "",
-        "image_file": "images/profile/doug.jpg",
-        "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
-        "bio": ""
-      }
-    },
-    {
-      "name": "jamesh",
-      "data": {
-        "role": "USER",
-        "uid": "jamesh",
-        "display_name": "James Harrison",
-        "title": "Director, Division of Biomedical Informatics",
-        "email_address": "james.harrison@Virginia.EDU",
-        "phone_number": "",
-        "image_file": "images/profile/harrison.jpg",
-        "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
-        "bio": "Dr. Harrison is Associate Professor and Director of the Division of Biomedical Informatics in the Department of Public Health Sciences at UVA, and has a secondary appointment in the Department of Pathology. He also has a courtesy appointment in the Department of Systems and Information Engineering in the School of Engineering and Applied Sciences. He has 20 years of experience in the field of medical informatics, including work in clinical laboratory information systems, electronic health records, clinical data analysis, World Wide Web development, funded participation in the caBIG® Architecture and Documentation/Training Workspaces, and has current and previous R01 funding in informatics and software development from the NCI and NLM."
-      }
-    },
-    {
-      "name": "chrisg",
-      "data": {
-        "role": "USER",
-        "uid": "chrisg",
-        "display_name": "Christopher Gibson",
-        "title": "Web Developer and UI Specialist at Gibson Design Associates",
-        "email_address": "christopher@gibsondesign.com",
-        "phone_number": "",
-        "image_file": "images/profile/chris.jpg",
-        "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
-        "bio": "Christopher and his father Jim are Gibson Design Associates. GDA is a technologically adept graphic design, website design, and user interface design firm serving a national clientele from Charlottesville, VA."
-      }
-    },
-    {
-      "name": "jimg",
-      "data": {
-        "role": "USER",
-        "uid": "jimg",
-        "display_name": "Jim Gibson",
-        "title": "Web Developer and UI Specialist at Gibson Design Associates",
-        "email_address": "jim@gibsondesign.com",
-        "phone_number": "",
-        "image_file": "images/profile/jimg.jpg",
-        "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
-        "bio": "Jim and his son Christopher are Gibson Design Associates. GDA is a technologically adept graphic design, website design, and user interface design firm serving a national clientele from Charlottesville, VA."
-      }
-    },
-    {
-      "name": "joe",
-      "data": {
-        "role": "USER",
-        "uid": "joecool",
-        "display_name": "Joe Cool",
-        "title": "The Red Baron",
-        "email_address": "joe@cool.com",
-        "phone_number": "",
-        "use_gravatar": true,
-        "created": "2017-08-25T10:30:00.000Z",
-        "bio": "Joe Cool, aka Manfred Albrecht Freiherr von Richthofen (2 May 1892 – 21 April 1918), also known as the 'Red Baron', was a fighter pilot with the German Air Force during World War I. He is considered the ace-of-aces of the war, being officially credited with 80 air combat victories."
-      }
-    }
-
-
-  ],
   "ParticipantSession": [
-    {
-      "name":"dhf8r_python_intro_workshop_s1",
-      "data": {
-        "participant": "dhf8r",
-        "session": "python_intro_workshop_s1",
-        "created": "2017-08-25T10:30:00.000Z",
-        "attended": false,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"pete_python_intro_workshop_s2",
-      "data": {
-        "participant": "vpn7n",
-        "session": "python_intro_workshop_s2",
-        "created": "2017-07-12T12:30:00.000Z",
-        "attended": false,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"pete_python_intro_workshop_s3",
-      "data": {
-        "participant": "vpn7n",
-        "session": "python_intro_workshop_s4",
-        "created": "2017-07-12T12:30:00.000Z",
-        "attended": false,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"corey_python_intro_workshop_s1",
-      "data": {
-        "participant": "CRD2JG",
-        "session": "python_intro_workshop_s3",
-        "created": "2017-08-25T10:30:00.000Z",
-        "attended": false,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"jamesh_cleaning",
-      "data": {
-        "participant": "jamesh",
-        "session": "python_data_cleaning_s1",
-        "created": "2017-08-25T10:30:00.000Z",
-        "attended": false,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"jamesh_vis",
-      "data": {
-        "participant": "jamesh",
-        "session": "python_data_vis_s1",
-        "created": "2017-08-25T10:30:00.000Z",
-        "attended": false,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"jamesh_flask",
-      "data": {
-        "participant": "jamesh",
-        "session": "python_flask_s1",
-        "created": "2017-08-25T10:30:00.000Z",
-        "attended": false,
-        "is_instructor": true
-      }
-    },
     {
       "name":"dhf8r_r_intro_workshop_1",
       "data": {
@@ -882,16 +831,6 @@
       }
     },
     {
-      "name":"nem2p_r_intro_workshop_1",
-      "data": {
-        "participant": "nem2p",
-        "session": "r_intro_workshop_1",
-        "created": "2017-07-28T22:35:00.000Z",
-        "attended": false,
-        "is_instructor": true
-      }
-    },
-    {
       "name":"nem2p_ml_intro_workshop_1",
       "data": {
         "participant": "nem2p",
@@ -911,186 +850,6 @@
         "created": "2017-07-05T11:11:12.000Z",
         "attended": false,
         "is_instructor": false
-      }
-    },
-    {
-      "name":"vpnagraj_r_intro_workshop_1",
-      "data": {
-        "participant": "vpn7n",
-        "session": "r_intro_workshop_1",
-        "created": "2017-07-19T18:16:00.000Z",
-        "attended": false,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"vpnagraj_ml_intro_workshop_1",
-      "data": {
-        "participant": "vpn7n",
-        "session": "ml_intro_workshop_1",
-        "created": "2017-07-11T07:11:00.000Z",
-        "attended": true,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"unix_into_workshop_1_i",
-      "data": {
-        "participant": "ricky",
-        "session": "unix_into_workshop_1",
-        "created": "2017-07-11T07:11:00.000Z",
-        "attended": true,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"unix_into_workshop_2_i",
-      "data": {
-        "participant": "ricky",
-        "session": "unix_into_workshop_2",
-        "created": "2017-07-11T07:11:00.000Z",
-        "attended": true,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"unix_into_workshop_3_i",
-      "data": {
-        "participant": "ricky",
-        "session": "unix_into_workshop_3",
-        "created": "2017-07-11T07:11:00.000Z",
-        "attended": true,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"github_intro_workshop_1_i",
-      "data": {
-        "participant": "alonzi",
-        "session": "github_intro_workshop_1",
-        "created": "2017-07-11T07:11:00.000Z",
-        "attended": true,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"data_in_excel_1_i",
-      "data": {
-        "participant": "nek8n",
-        "session": "data_in_excel_1",
-        "created": "2017-07-11T07:11:00.000Z",
-        "attended": true,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"intro_cloud_aws_i",
-      "data": {
-        "participant": "nem2p",
-        "session": "intro_cloud_aws_1",
-        "created": "2017-07-11T07:11:00.000Z",
-        "attended": true,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"latex_1_i",
-      "data": {
-        "participant": "ricky",
-        "session": "latex_1",
-        "created": "2017-07-11T07:11:00.000Z",
-        "attended": true,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"intro_dedoose_1_i",
-      "data": {
-        "participant": "nek8n",
-        "session": "intro_dedoose_1",
-        "created": "2017-07-11T07:11:00.000Z",
-        "attended": true,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"interactive_visualization_1_i",
-      "data": {
-        "participant": "vpn7n",
-        "session": "interactive_visualization_1",
-        "created": "2017-07-11T07:11:00.000Z",
-        "attended": true,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"vis_ggplot2_1_i",
-      "data": {
-        "participant": "jcf2d",
-        "session": "vis_ggplot2_1",
-        "created": "2017-07-11T07:11:00.000Z",
-        "attended": true,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"jekyll_1_i",
-      "data": {
-        "participant": "dhc4z",
-        "session": "jekyll_1",
-        "created": "2017-07-11T07:11:00.000Z",
-        "attended": true,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"scikit_1_i",
-      "data": {
-        "participant": "vpn7n",
-        "session": "scikit_1",
-        "created": "2017-07-11T07:11:00.000Z",
-        "attended": true,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"orchid_1_i",
-      "data": {
-        "participant": "ricky",
-        "session": "orchid_1",
-        "created": "2017-07-11T07:11:00.000Z",
-        "attended": true,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"funders_1_i",
-      "data": {
-        "participant": "ricky",
-        "session": "funders_1",
-        "created": "2017-07-11T07:11:00.000Z",
-        "attended": true,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"visual_javascript_1_i",
-      "data": {
-        "participant": "vpn7n",
-        "session": "visual_javascript_1",
-        "created": "2017-07-11T07:11:00.000Z",
-        "attended": true,
-        "is_instructor": true
-      }
-    },
-    {
-      "name":"visual_tableau_1_i",
-      "data": {
-        "participant": "nek8n",
-        "session": "visual_tableau_1",
-        "created": "2017-07-11T07:11:00.000Z",
-        "attended": true,
-        "is_instructor": true
       }
     }
   ]

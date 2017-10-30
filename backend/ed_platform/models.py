@@ -97,6 +97,7 @@ class Workshop(db.Model):
     title = db.Column(db.TEXT())
     description = db.Column(db.TEXT())
     sessions = db.relationship("Session", backref="workshop")
+    instructor_id = db.Column('instructor_id', db.Integer, db.ForeignKey('participant.id'))
     code_id = db.Column('code_id', db.String(), db.ForeignKey('code.id'))
     #code:  Backref created a code on Workshop
 
@@ -131,6 +132,7 @@ class Participant(db.Model):
     sent_emails = db.relationship('EmailMessage', backref='author')
     use_gravatar = db.Column(db.Boolean(), default=True)
     role = db.Column(db.String(), default='USER')
+    instructing_workshops = db.relationship('Workshop', backref=db.backref('instructor', lazy=True))
 
     def cache_bust(self):
         '''Used the bust the cache of user images.'''
@@ -147,10 +149,10 @@ class Participant(db.Model):
     def is_registered(self, session):
         return len([r for r in self.participant_sessions if r.session_id == session.id]) > 0
 
-    def register(self, session, is_instructor=False):
+    def register(self, session):
         if(self.is_registered(session)): return
         self.participant_sessions.append(ParticipantSession(
-            participant_id = self.id, session_id=session.id, is_instructor=is_instructor
+            participant_id = self.id, session_id=session.id
         ))
 
     def wait_list(self, session):
@@ -212,20 +214,6 @@ class Session(db.Model):
     participant_sessions = db.relationship('ParticipantSession', backref='session')
     email_messages = db.relationship('EmailMessage', backref='session')
 
-    def instructors(self):
-        instructors = []
-        for ps in self.participant_sessions:
-            if ps.is_instructor:
-                instructors.append(ps.participant)
-        return instructors
-
-    def participants(self):
-        participants = []
-        for ps in self.participant_sessions:
-            if not ps.is_instructor:
-                participants.append(ps)
-        return participants
-
     def total_participants(self):
         return len(list(filter(lambda ps: not(ps.wait_listed), self.participant_sessions)))
 
@@ -252,7 +240,6 @@ class ParticipantSession(db.Model):
     review_score = db.Column(db.Integer)
     review_comment = db.Column(db.TEXT())
     attended = db.Column(db.Boolean, default=False)
-    is_instructor = db.Column(db.Boolean, default=False)
     wait_listed = db.Column(db.Boolean, default=False)
 
 class EmailMessage(db.Model):
@@ -413,7 +400,7 @@ class ParticipantAPISchema(ma.Schema):
 
 class ParticipantSessionAPISchema(ma.Schema):
     class Meta:
-        fields = ('participant', 'created', 'review_score', 'review_comment', 'attended', 'is_instructor', 'wait_listed')
+        fields = ('participant', 'created', 'review_score', 'review_comment', 'attended', 'wait_listed')
         ordered = True
     participant = ma.Nested(ParticipantAPISchema)
     _links = ma.Hyperlinks({
@@ -425,11 +412,10 @@ class ParticipantSessionAPISchema(ma.Schema):
 class SessionAPISchema(ma.Schema):
     class Meta:
         fields = ('id', 'date_time', 'duration_minutes', 'instructor_notes',
-                  '_links', 'max_attendees', 'participants', 'instructors','location',
+                  '_links', 'max_attendees', 'participants', 'location',
                   'status', 'total_participants', 'waiting_participants')
         ordered = True
     participants = ma.List(ma.Nested(ParticipantSessionAPISchema))
-    instructors = ma.List(ma.Nested(ParticipantAPISchema))
     status = fields.Method('get_status')
 
     def get_status(self, obj):
@@ -440,7 +426,7 @@ class SessionAPISchema(ma.Schema):
             if ps.session.id == obj.id:
                 if (ps.wait_listed):
                     return "WAIT_LISTED"
-                if (ps.is_instructor):
+                if (obj.workshop in participant.instructing_workshops):
                     return "INSTRUCTOR"
                 if (ps.attended):
                     return "ATTENDED"
@@ -462,8 +448,9 @@ class SessionAPISchema(ma.Schema):
 
 class WorkshopAPISchema(ma.Schema):
     class Meta:
-        fields = ('id', 'title', 'description', '_links', 'sessions','code_id')
+        fields = ('id', 'title', 'description', '_links', 'sessions','code_id', 'instructor')
         ordered = True
+    instructor = ma.Nested(ParticipantAPISchema)
     sessions = ma.List(ma.Nested(SessionAPISchema))
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_workshop', id='<id>'),

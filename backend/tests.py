@@ -127,11 +127,17 @@ class TestCase(unittest.TestCase):
         self.assert_success(rv)
         return json.loads(rv.get_data(as_text=True))
 
-    def logged_in_headers(self):
-        headers = {'uid': self.test_uid, 'givenName': 'Daniel', 'mail': 'dhf8r@virginia.edu'}
+    def logged_in_headers(self, participant = None):
+        if(participant == None):
+            uid = self.test_uid
+            headers = {'uid': self.test_uid, 'givenName': 'Daniel', 'mail': 'dhf8r@virginia.edu'}
+        else:
+            uid = participant.uid
+            headers = {'uid': participant.id, 'givenName': participant.display_name, 'mail': participant.email_address}
+
         rv = self.app.get("/api/login", headers=headers, follow_redirects=True,
                           content_type="application/json")
-        participant = models.Participant.query.filter_by(uid=self.test_uid).first()
+        participant = models.Participant.query.filter_by(uid=uid).first()
 
         return dict(Authorization='Bearer ' + participant.encode_auth_token().decode())
 
@@ -629,18 +635,16 @@ class TestCase(unittest.TestCase):
         workshops = json.loads(rv.get_data(as_text=True))
         self.assertEqual(1, len(workshops))
 
-    def test_session_knows_instructors(self):
+    def test_workshop_knows_instructor(self):
         ws = self.add_test_workshop()
-        session = self.add_test_session(ws["id"])
         participant = self.add_test_participant()
 
         # Mark participant as the instructor.
-        rv = self.app.post("/api/session/%i/instructor/%i" % (session["id"], participant["id"]),
+        rv = self.app.post("/api/workshop/%i/instructor/%i" % (ws["id"], participant["id"]),
                            headers=self.logged_in_headers_admin())
 
-        session = models.Session.query.first()
-        self.assertIsNotNone(session.instructors())
-        self.assertTrue(len(session.instructors()) > 0)
+        workshop = models.Workshop.query.first()
+        self.assertIsNotNone(workshop.instructor)
 
     def test_email_participants_only_by_instructor(self):
         self.test_add_session()
@@ -655,9 +659,9 @@ class TestCase(unittest.TestCase):
     def test_email_sends_to_recipient(self):
         self.load_sample_data()
         session = models.Session.query.first()
-        headers = self.logged_in_headers()
-        instructor = models.Participant.query.filter_by(uid=self.test_uid).first()
-        instructor.register(session, is_instructor=True)
+        instructor = session.workshop.instructor
+        headers = self.logged_in_headers(instructor)
+
         data = {'subject':'Test Subject', 'content': 'Test Content'}
         orig_log_count = len(models.EmailLog.query.all())
         rv = self.app.post("/api/session/%i/email" % session.id, headers=headers,
@@ -740,14 +744,10 @@ class TestCase(unittest.TestCase):
         self.load_sample_data()
         data = {'query': 'Nagraj', 'filters': []}
         search_results = self.search(data)
-        self.assertEqual(7, search_results["total"])
-        self.assertEqual(7, len(search_results["hits"]))
+        self.assertEqual(5, search_results["total"])
+        self.assertEqual(5, len(search_results["hits"]))
         for w in search_results["hits"]:
-            match = False
-            for s in w['sessions']:
-                for i in s['instructors']:
-                    if(i['display_name'] == 'VP Nagraj (Pete)'): match = True
-            assert match, "No matches for Pete in instructors:" + str(w['sessions'][0]['instructors'])
+            self.assertEquals('VP Nagraj (Pete)', w['instructor']['display_name'])
 
     def test_search_meta(self):
         self.load_sample_data()
@@ -762,21 +762,16 @@ class TestCase(unittest.TestCase):
         data = {'query': '', 'filters': []}
         results = self.search(data)
         self.assertIn('facets', results)
-        self.assertIn('instructors', results["facets"])
+        self.assertIn('instructor', results["facets"])
 
     def test_filter_on_instructor(self):
         self.load_sample_data()
-        data = {'query': '', 'filters': [{'field':'instructors','value':'VP Nagraj (Pete)'}]}
+        data = {'query': '', 'filters': [{'field':'instructor','value':'VP Nagraj (Pete)'}]}
         results = self.search(data)
-        self.assertEquals(7, len(results["hits"]))
-        self.assertEquals(7, results["total"])
+        self.assertEquals(5, len(results["hits"]))
+        self.assertEquals(5, results["total"])
         for hit in results["hits"]:
-            match = False
-            for session in hit["sessions"]:
-                for instructor in session["instructors"]:
-                    if(instructor["display_name"] == 'VP Nagraj (Pete)'):
-                        match = True
-            self.assertTrue(match, "Every hit should now have Pete as an instructor.")
+            self.assertEquals('VP Nagraj (Pete)', hit['instructor']['display_name'])
 
     def test_search_by_date_past(self):
         self.load_sample_data()

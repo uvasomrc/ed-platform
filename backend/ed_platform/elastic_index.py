@@ -67,6 +67,9 @@ class ElasticIndex:
                     print("The Track Id is " + str(tc.track_id))
                     ew.tracks.append(tc.track.title)
 
+            ew.instructor.append(w.instructor.display_name)
+            ew.instructor_search.append(w.instructor.display_name)
+
             for s in w.sessions:
                 ew.date.append(s.date_time)
                 ew.location.append(s.location)
@@ -76,9 +79,6 @@ class ElasticIndex:
                 for email in s.email_messages:
                     ew.messages.append(email.content)
                     ew.messages.append(email.subject)
-                for instructor in s.instructors():
-                    ew.instructors.append(instructor.display_name)
-                    ew.instructors_search.append(instructor.display_name)
             ElasticWorkshop.save(ew)
         self.index.flush()
 
@@ -103,8 +103,8 @@ class ElasticWorkshop(DocType):
     open = Keyword(multi=True)
     notes = Text(multi=True)
     messages = Text(multi=True)
-    instructors = Keyword(multi=True)
-    instructors_search = Text(multi=True)
+    instructor = Keyword(multi=True)
+    instructor_search = Text(multi=True)
     tracks = Keyword(multi=True)
 
 class WorkshopSearch(elasticsearch_dsl.FacetedSearch):
@@ -117,11 +117,11 @@ class WorkshopSearch(elasticsearch_dsl.FacetedSearch):
         super(WorkshopSearch, self).__init__(*args, **kwargs)
 
     doc_types = [ElasticWorkshop]
-    fields = ['title^10', 'description^5', 'instructors_search^2', 'location_search', 'notes']
+    fields = ['title^10', 'description^5', 'instructor_search^2', 'location_search', 'notes']
 
     facets = {
         'location': elasticsearch_dsl.TermsFacet(field='location'),
-        'instructors': elasticsearch_dsl.TermsFacet(field='instructors'),
+        'instructor': elasticsearch_dsl.TermsFacet(field='instructor'),
         'tracks': elasticsearch_dsl.TermsFacet(field='tracks')
 #        'date': elasticsearch_dsl.DateHistogramFacet(field='date', interval='week'),
 #        'open': elasticsearch_dsl.TermsFacet(field='open')

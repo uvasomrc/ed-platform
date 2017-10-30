@@ -7,7 +7,7 @@ from ed_platform import models
 class DataLoader():
     "loads a json file into the database. A poor man's seed program, since I couldn't find one.  Handles relationships."
     file = "example_data.json"
-    load_order = ["Code", "Track", "TrackCode", "Workshop", "Session","Participant","ParticipantSession", "EmailMessage", "EmailLog"]
+    load_order = ["Code", "Track", "TrackCode", "Participant", "Workshop", "Session","ParticipantSession", "EmailMessage", "EmailLog"]
 
     def __init__(self, db, file = None):
         self.db = db
