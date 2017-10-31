@@ -161,6 +161,14 @@ class Participant(db.Model):
             participant_id = self.id, session_id=session.id, wait_listed=True
         ))
 
+    def getWorkshops(self):
+        workshops = []
+        for ps in self.participant_sessions:
+            workshops.append(ps.session.workshop)
+        for ws in self.instructing_workshops:
+            workshops.append(ws)
+        return workshops
+
     def getParticipantSession(self, session):
         if(not self.is_registered(session)): return
         for ps in self.participant_sessions:
@@ -412,22 +420,22 @@ class ParticipantSessionAPISchema(ma.Schema):
 class SessionAPISchema(ma.Schema):
     class Meta:
         fields = ('id', 'date_time', 'duration_minutes', 'instructor_notes',
-                  '_links', 'max_attendees', 'participants', 'location',
+                  '_links', 'max_attendees', 'participant_sessions', 'location',
                   'status', 'total_participants', 'waiting_participants')
         ordered = True
-    participants = ma.List(ma.Nested(ParticipantSessionAPISchema))
+    participant_sessions = ma.List(ma.Nested(ParticipantSessionAPISchema))
     status = fields.Method('get_status')
 
     def get_status(self, obj):
         participant = g.user
         if participant == None:
             return "UNREGISTERED"
+        if (obj.workshop in participant.instructing_workshops):
+            return "INSTRUCTOR"
         for ps in participant.participant_sessions:
             if ps.session.id == obj.id:
                 if (ps.wait_listed):
                     return "WAIT_LISTED"
-                if (obj.workshop in participant.instructing_workshops):
-                    return "INSTRUCTOR"
                 if (ps.attended):
                     return "ATTENDED"
                 elif ps.session.is_past():

@@ -620,11 +620,16 @@ class TestCase(unittest.TestCase):
 
     def test_get_workshops_for_current_user(self):
         self.test_add_session()
+        ws = self.add_test_workshop()
+        workshop2 = models.Workshop.query.filter_by(id=ws['id']).first()
         self.get_current_participant()
         participant = models.Participant.query.filter_by(uid=self.test_uid).first()
         session = models.Session.query.first()
         participant.register(session)
+        workshop2.instructor = participant
+
         db.session.merge(participant)
+        db.session.merge(workshop2)
         db.session.commit()
 
         rv = self.app.get("/api/user/workshops", follow_redirects=True,
@@ -633,7 +638,9 @@ class TestCase(unittest.TestCase):
 
         self.assert_success(rv)
         workshops = json.loads(rv.get_data(as_text=True))
-        self.assertEqual(1, len(workshops))
+        # Should be two workshops, one being attended, the other being instructed.
+        self.assertEqual(2, len(workshops))
+
 
     def test_workshop_knows_instructor(self):
         ws = self.add_test_workshop()

@@ -104,13 +104,7 @@ def logout():
 @auth.login_required
 @requires_roles('USER','ADMIN')
 def user_workshops():
-    workshops = []
-    participant = g.user
-    for ps in g.user.participant_sessions:
-        workshops.append(ps.session.workshop)
-    return models.WorkshopAPISchema().jsonify(workshops, many=True)
-
-
+    return models.WorkshopAPISchema().jsonify(g.user.getWorkshops(),many=True)
 
 # Codes
 # *****************************
