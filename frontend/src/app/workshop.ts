@@ -1,6 +1,7 @@
 import {Links} from './links';
 import {Session} from './session';
 import {Review} from './review';
+import {Participant} from "./participant";
 
 export class Workshop  {
 
@@ -10,6 +11,7 @@ export class Workshop  {
   links = new Links();
   sessions = Array<Session>();
   code_id = ''
+  instructor: Participant;
 
   constructor(values: Object = {}) {
     Object.assign(this, values);
@@ -19,6 +21,9 @@ export class Workshop  {
       for (const s of values['sessions']) {
         this.sessions.push(new Session(s));
       }
+    }
+    if ('instructor' in values) {
+      this.instructor = new Participant(values['instructor']);
     }
   }
 
@@ -34,6 +39,7 @@ export class Workshop  {
   attended() { return this.sessions.filter(s => s.attended()).length > 0; }
   awaiting_review() { return this.sessions.filter(s => s.awaiting_review()).length > 0; }
   registered() { return this.sessions.filter(s => s.registered()).length > 0; }
+  wait_listed() { return this.sessions.filter(s => s.wait_listed()).length > 0; }
 
   hasUpcomingSession(): boolean {
     for (const s of this.sessions) {

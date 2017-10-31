@@ -2,10 +2,10 @@
 
   <section class="header">
     <div class="circleborder">
-      <img class="instructor-big" src="{{session.firstInstructor().links.image}}">
+      <img class="instructor-big" src="{{workshop.instructor.image()}}">
     </div>
     <h2 class="mat-title">{{workshop.title}}</h2>
-    <span class="sub-title">with {{session.instructorsDisplay()}}</span>
+    <span class="sub-title">with {{workshop.instructor.display_name}}</span>
   </section>
 
   <section class="header">
@@ -24,8 +24,7 @@
   <mat-tab-group [selectedIndex]="selected_tab">
 
     <mat-tab label="Attendee List">
-      <p>There are currently {{session.total_attendees}} participants signed up for this session. </p>
-      <p> The maximum number of attendees is set to {{session.max_attendees}}.</p>
+      <p>There are currently {{session.total_participants}} out of {{session.max_attendees}} participants signed up for this session. There are {{session.waiting_participants}} participants waiting for open slots.</p>
       <ul class="list">
         <li *ngFor="let a of session.attendees">
           <img class="avatar" src="{{a.links.image}}" alt=""/>
@@ -33,10 +32,26 @@
             <p>
               <b>{{ a.display_name }}</b><br/>
               Signed up on {{ a.created | date: 'fullDate'}}<br/>
+              <br/>
             </p>
           </div>
         </li>
       </ul>
+
+      <h2>Wait List:</h2>
+      <ul class="list">
+        <li *ngFor="let a of session.waiting">
+          <img class="avatar" src="{{a.links.image}}" alt=""/>
+          <div class="list-text">
+            <p>
+              <b>{{ a.display_name }}</b><br/>
+              Signed up on {{ a.created | date: 'fullDate'}}<br/>
+              <br/>
+            </p>
+          </div>
+        </li>
+      </ul>
+
     </mat-tab>
 
     <mat-tab label="Email Attendees">

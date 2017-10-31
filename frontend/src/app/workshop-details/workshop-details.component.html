@@ -2,10 +2,10 @@
 
   <section class="header">
     <div class="circleborder">
-      <img class="instructor-big" src="{{workshop.nextSession().firstInstructor().links.image}}">
+      <img class="instructor-big" src="{{workshop.instructor.image()}}">
     </div>
     <h2 class="mat-title">{{workshop.title}}</h2>
-    <span class="sub-title">with {{workshop.nextSession().instructorsDisplay()}}</span>
+    <span class="sub-title">with {{workshop.instructor.display_name}}</span>
   </section>
 
   <section class="header">
@@ -17,11 +17,19 @@
       {{workshop.nextSession().date_time | date: 'EEE. MMMM d, y, h:mm-'}}{{workshop.nextSession().endTime() | date: 'h:mma'}}
       <br/>
       <span class="sub-title">Location: {{workshop.nextSession().location}}</span>
+      <br/>
+      <span class="sub-title">Attendees: {{workshop.nextSession().total_participants}} of {{workshop.nextSession().max_attendees}}, with {{workshop.nextSession().waiting_participants}} waiting.</span>
+
     </div>
     <span class="spacer"></span>
-    <button *ngIf="!workshop.registered() && isLoggedIn()" mat-raised-button (click)="register()">Register</button>
-    <button *ngIf="!isLoggedIn()" mat-raised-button-disabled (click)="goLogin()">Log In To Register</button>
-    <button *ngIf="workshop.registered()" mat-raised-button (click)="unRegister()">Un-Register</button>
+    <button *ngIf="registerState() === 'instructing'" mat-raised-button (click)="goTeacher()">Teacher Dashboard</button>
+    <div *ngIf="registerState() === 'wait_listed'">You are on the waiting list.  We will notify you when a slot opens or a new session is scheduled.</div>
+    <button *ngIf="registerState() === 'awaiting'" mat-raised-button color="accent" (click)="goLogin()">Record Attendance</button>
+    <button *ngIf="registerState() === 'registered'" mat-raised-button color="accent" (click)="unRegister()">Cancel Registration</button>
+    <button *ngIf="registerState() === 'available'" mat-raised-button (click)="register()">Register</button>
+    <button *ngIf="registerState() === 'login'" mat-raised-button (click)="goLogin()">Log In To Register</button>
+    <button *ngIf="registerState() === 'full'" mat-raised-button  color="accent"  (click)="register()">Join Wait List</button>
+
   </section>
 
   <mat-tab-group class="tall-labels">

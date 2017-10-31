@@ -1,9 +1,9 @@
 <mat-card class="workshop">
   <mat-card-header *ngIf="workshop.hasUpcomingSession()" (click)="goWorkshop()">
-    <img mat-card-avatar src="{{workshop.nextSession().firstInstructor().image()}}">
+    <img mat-card-avatar src="{{workshop.instructor.image()}}">
     <mat-card-title>{{workshop.title}}</mat-card-title>
     <mat-card-subtitle>
-      with {{workshop.nextSession().instructorsDisplay()}}<br/>
+      with {{workshop.instructor.display_name}}<br/>
       {{workshop.nextSession().date_time | date: 'EEE. MMMM d, h:mm-'}}{{workshop.nextSession().endTime() | date: 'h:mma'}}
       <br/>
       Location: {{workshop.nextSession().location}}

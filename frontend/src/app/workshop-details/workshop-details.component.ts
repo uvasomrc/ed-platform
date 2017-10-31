@@ -62,6 +62,24 @@ export class WorkshopDetailsComponent implements OnInit {
     return this.code.workshops.filter(w => w.id !== this.workshop.id);
   }
 
+  registerState(): String {
+    if (this.workshop.instructing()) {
+      return 'instructing';
+    } else if (this.workshop.awaiting_review()) {
+      return 'awaiting';
+    } else if (this.workshop.registered()) {
+      return 'registered';
+    } else if (this.workshop.wait_listed()) {
+        return 'wait_listed';
+    } else if (this.workshop.nextSession().isFull()) {
+      return 'full';
+    } else if (this.isLoggedIn() && this.workshop.nextSession().isAvailable()) {
+      return 'available';
+    } else if (!this.isLoggedIn() && this.workshop.nextSession().isAvailable()) {
+      return 'login';
+    }
+  }
+
   isLoggedIn() {
     return this.accountService.isLoggedIn();
   }
@@ -70,6 +88,11 @@ export class WorkshopDetailsComponent implements OnInit {
     const current_url = this.router.routerState.snapshot.url;
     this.accountService.goLogin(current_url);
   }
+
+  goTeacher() {
+    this.router.navigate(['teacherDashboard', this.workshop.nextSession().id]);
+  }
+
 
   register() {
     const session = this.workshop.nextSession();

@@ -1,7 +1,7 @@
 import {Participant} from './participant';
 export class Attendee extends Participant {
 
-  constructor(values: Object = {}, private attended: boolean, private created: Date) {
+  constructor(values: Object = {}, public attended: boolean, public created: Date, public wait_listed: Boolean) {
     super(values);
   }
 }

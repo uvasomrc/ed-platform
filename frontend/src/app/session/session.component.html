@@ -1,8 +1,6 @@
 <mat-card class="session">
   <mat-card-header>
-    <img mat-card-avatar src="{{session.firstInstructor().links.image}}">
     <mat-card-subtitle>
-      with {{session.instructorsDisplay()}}<br/>
       {{session.date_time | date: 'EEE. MMMM d, y, h:mm-'}}{{session.endTime() | date: 'h:mma'}}
       <br/>
       Location: {{session.location}}
