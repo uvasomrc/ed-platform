@@ -23,7 +23,7 @@
     </div>
     <span class="spacer"></span>
     <button *ngIf="registerState() === 'instructing'" mat-raised-button (click)="goTeacher()">Teacher Dashboard</button>
-    <div *ngIf="registerState() === 'wait_listed'">You are on the waiting list.  We will notify you when a slot opens or a new session is scheduled.</div>
+    <div class="notification" *ngIf="registerState() === 'wait_listed'">You are on the waiting list.  We will notify you when a slot opens or a new session is scheduled.</div>
     <button *ngIf="registerState() === 'awaiting'" mat-raised-button color="accent" (click)="goLogin()">Record Attendance</button>
     <button *ngIf="registerState() === 'registered'" mat-raised-button color="accent" (click)="unRegister()">Cancel Registration</button>
     <button *ngIf="registerState() === 'available'" mat-raised-button (click)="register()">Register</button>

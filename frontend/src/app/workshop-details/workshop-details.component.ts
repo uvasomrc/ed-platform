@@ -23,11 +23,13 @@ export class WorkshopDetailsComponent implements OnInit {
               private accountService: AccountService,
               private router: Router,
               private route: ActivatedRoute) {
-    this.route.params.subscribe( params =>
-      this.workshop_id = params['id']);
+    this.route.params.subscribe( params => {
+      this.workshop_id = params['id'];
+      this.load_workshop();
+    });
   }
 
-  ngOnInit() {
+  load_workshop() {
     this.workshopService.getWorkshop(this.workshop_id).subscribe(
       (workshop) => {
         this.workshop = workshop;
@@ -50,6 +52,9 @@ export class WorkshopDetailsComponent implements OnInit {
         }
       }
     );
+  }
+
+  ngOnInit() {
   }
 
   updatedLoaded() {
