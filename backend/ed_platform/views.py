@@ -121,7 +121,7 @@ def create_code():
 @app.route('/api/code', methods=['GET'])
 @auth.login_required
 def get_codes():
-    codes = list(map(lambda c: models.CodeDBSchema().dump(c).data, models.Code.query.all()))
+    codes = list(map(lambda c: models.CodeApiSchema().dump(c).data, models.Code.query.all()))
     return jsonify(codes)
 
 @app.route('/api/code/<string:code>')
@@ -133,13 +133,28 @@ def get_code(code):
 # Tracks
 # *****************************
 
+def set_track_codes(track, codes_as_json):
+    track_codes = []
+    order = 0
+    for code in codes_as_json:
+        db_code = models.Code.query.filter_by(id=code['id']).first()
+        if(db_code == None):
+            raise RestException(RestException.NO_SUCH_CODE)
+        track_codes.append(models.TrackCode(track_id=track.id, code_id=code["id"],
+                                             prereq=code["prereq"], order=order))
+        order += 1
+    track.codes = track_codes
+    return track
 
 @app.route('/api/track', methods=['POST'])
 @auth.login_required
 @requires_roles('ADMIN')
 def create_track():
     request_data = request.get_json()
+    codes_as_json = request_data["codes"]
+    request_data["codes"] = []
     new_track = track_db_schema.load(request_data).data
+    set_track_codes(new_track, codes_as_json)
     db.session.add(new_track)
     db.session.commit()
     return track_schema.jsonify(new_track)
@@ -171,27 +186,21 @@ def remove_track(track_id):
     track = models.Track.query.filter_by(id=track_id).first()
     if(track is None):
         return jsonify(error=404, text=str("no such track.")), 404
+
     db.session.delete(track)
     return ""
 
 @app.route('/api/track/<int:id>/codes', methods=['PATCH'])
 @auth.login_required
 @requires_roles('ADMIN')
-def set_track_codes(id):
+def update_track_codes(id):
     request_data = request.get_json()
+    # Clear existing track codes.
+#    models.TrackCode.query.filter_by(track_id = id).delete()
     track = models.Track.query.filter_by(id=id).first()
-    track_codes = []
-    order = 0
-    for code in request_data:
-        db_code = models.Code.query.filter_by(id=code['id']).first()
-        if(db_code == None):
-            raise RestException(RestException.NO_SUCH_CODE)
-        track_codes.append(models.TrackCode(track_id=track.id, code_id=code["id"],
-                                             prereq=code["prereq"], order=order))
-        order += 1
-    track.codes = track_codes
+    set_track_codes(track, request_data)
+    db.session.add(track)
     db.session.commit()
-    track = models.Track.query.filter_by(id=id).first()
     return jsonify(track_schema.dump(track))
 
 

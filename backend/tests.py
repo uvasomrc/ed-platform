@@ -50,9 +50,18 @@ class TestCase(unittest.TestCase):
         assert b'ED Platform API' in rv.data
 
     def add_test_track(self):
+        self.add_codes()
         data = {'image_file': 'track_one.jpg',
                 'title': 'This is the title',
-                'description': 'This is the description'}
+                'description': 'This is the description',
+                'codes':
+                    [{'id': self.test_code_1,
+                      'prereq': True},
+                     {'id': self.test_code_2,
+                      'prereq': False},
+                     {'id': self.test_code_3,
+                      'prereq': False}
+                     ]}
 
         rv = self.app.post('/api/track', data=json.dumps(data), follow_redirects=True,
                            content_type="application/json", headers=self.logged_in_headers_admin())
@@ -216,6 +225,8 @@ class TestCase(unittest.TestCase):
         assert rd['title'] == "This is the title"
         assert rd['description'] == "This is the description"
         assert rd["id"] is not None
+        assert rd["codes"] is not None
+        self.assertEqual(3, len(rd["codes"]))
 
         rv2 = self.app.get('/api/track/' + str(rd["id"]))
         assert b'This is the title' in rv2.data

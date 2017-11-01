@@ -5,6 +5,7 @@
       "data": {
         "image_file": "images/python_track.png",
         "title": "Python for Data Analysis",
+        "sub_title": "From Introduction to Modeling",
         "description": "Intro Python > Python Data Manipulation > Python Data Visualization > Advanced Topics Python > Python Modeling"
       }
     }

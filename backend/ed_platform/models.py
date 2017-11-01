@@ -77,17 +77,14 @@ class Track(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     image_file = db.Column(db.String())
     title = db.Column(db.TEXT())
+    sub_title = db.Column(db.TEXT())
     description = db.Column(db.TEXT())
-    codes = db.relationship(lambda : TrackCode, order_by=TrackCode.order,
-        backref=db.backref('track', lazy=True, cascade="all, delete-orphan", single_parent=True))
-
-    def __init__(self, image_file, title, description):
-        self.image_file = image_file
-        self.title = title
-        self.description = description
+    codes = db.relationship(lambda : TrackCode, order_by=TrackCode.order,  cascade="all, delete-orphan",
+        backref=db.backref('track', lazy=True, single_parent=True))
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
+
 
 class Workshop(db.Model):
     __tablename__ = 'workshop'
@@ -348,6 +345,8 @@ class UserSchema(ma.Schema):
         ordered = True
 
 
+
+
 class TrackAPISchema(ma.Schema):
 
     class TrackCodeSchema(ma.Schema):
@@ -375,7 +374,7 @@ class TrackAPISchema(ma.Schema):
 
     class Meta:
         # Fields to expose
-        fields = ('id','title', 'description', '_links', 'codes')
+        fields = ('id','title', 'sub_title', 'description', '_links', 'codes')
         ordered = True
 
     codes = ma.List(ma.Nested(TrackCodeSchema))
@@ -473,7 +472,7 @@ class CodeApiSchema(ma.Schema):
     class Meta:
         fields = ('id','desc','workshops')
         ordered = True
-    workshops = ma.List(ma.Nested(WorkshopAPISchema))
+    workshops = ma.List(ma.Nested(WorkshopAPISchema(only=['id','_links','title'])))
 
 
 class EmailMessageAPISchema(ma.Schema):
