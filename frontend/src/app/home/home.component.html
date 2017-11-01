@@ -32,7 +32,13 @@
 </p>
 </section>
 
-<h2>Popular Tracks</h2>
+<h2 class="header">
+  Popular Tracks
+  <div class="spacer"></div>
+  <button (click)="goNewTrack()" mat-icon-button>
+    <mat-icon color="primary">add_circle</mat-icon>
+  </button>
+</h2>
 <app-track-list [tracks]="tracks"></app-track-list>
 
 <h2>Popular Workshops</h2>

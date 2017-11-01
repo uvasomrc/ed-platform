@@ -1,0 +1,74 @@
+<!--
+<pre>{{track_form.value | json}}</pre>
+<pre>Dirty? {{ title.dirty }}</pre>
+<pre>Pristine? {{ title.pristine }}</pre>
+<pre>In Valid Description? {{ description.invalid }}</pre>
+<pre>Title  {{ title}}</pre>
+-->
+
+<form [formGroup]="track_form" novalidate (ngSubmit)="onSubmit()">
+
+  <div
+    class="container"
+    fxLayout="row"
+    fxLayoutWrap
+    fxLayout.xs="column"
+    fxLayoutAlign="center"
+    fxLayoutGap="10px"
+    fxLayoutGap.xs="0">
+
+    <div>
+      <h2>Edit the track here:</h2>
+      <div>
+        <mat-form-field>
+          <input matInput formControlName="title" placeholder="Title" value="" class="form-control">
+          <mat-error>
+            Title is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <input matInput formControlName="sub_title" placeholder="Sub Title" value="" class="form-control">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+    <textarea matInput formControlName="description" placeholder="Description" value="" class="form-control">
+    </textarea>
+          <mat-error>
+            This description is too short.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <h2>Specify Codes:</h2>
+      <ul class="list-group" dnd-sortable-container [sortableData]="track.codes">
+        <li *ngFor="let code of track.codes; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">
+          {{code.id}}
+          <input type="checkbox" (click)="setPrereq(i)">prerequisite?
+        </li>
+      </ul>
+      <mat-form-field>
+        <mat-select matInput formControlName="code">
+          <mat-option *ngFor="let code of codeOptions" [value]="code.id">{{ code.id }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-button (click)="addCode()" type='button' mat-raised-button  color="accent">Add Code</button>
+    </div>
+    <!--
+    <div>
+      <input id="fileInput" name="file" type="file" class="ng-hide" multiple>
+    </div>
+    -->
+
+    <div class="display">
+      <h2>How your Track will appear:</h2>
+      <app-track [track]="track"></app-track>
+      <div class="button">
+        <button type="submit" mat-raised-button>Create This Track</button>
+      </div>
+    </div>
+  </div>
+
+
+</form>

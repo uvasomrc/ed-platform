@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {MatIconRegistry} from "@angular/material";
-import {DomSanitizer} from "@angular/platform-browser";
-import {Track} from "../track";
+import {MatIconRegistry} from '@angular/material';
+import {DomSanitizer} from '@angular/platform-browser';
+import {Track} from '../track';
 
 @Component({
   selector: 'app-track-progress',
@@ -23,6 +23,8 @@ export class TrackProgressComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('/assets/track/tiny_arrow.svg'));
     iconRegistry.addSvgIcon('connector',
       sanitizer.bypassSecurityTrustResourceUrl('/assets/track/connector.svg'));
+    iconRegistry.addSvgIcon('connector-blank',
+      sanitizer.bypassSecurityTrustResourceUrl('/assets/track/connector_blank.svg'));
     iconRegistry.addSvgIcon('circle-open',
       sanitizer.bypassSecurityTrustResourceUrl('/assets/track/circle_open.svg'));
     iconRegistry.addSvgIcon('circle-full',

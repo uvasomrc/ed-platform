@@ -5,6 +5,7 @@ export class Track {
   title: string;
   description: string;
   image_url: string;
+  sub_title: string;
   id: number;
   links = new Links();
   codes = Array<Code>();

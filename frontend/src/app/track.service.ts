@@ -23,5 +23,11 @@ export class TrackService {
     return this.api.getCode(code);
   }
 
+  addTrack(track: Track): Observable<Track> {
+    return this.api.addTrack(track);
+  }
 
+  getAllCodes(): Observable<Code[]> {
+    return this.api.getAllCodes();
+  }
 }

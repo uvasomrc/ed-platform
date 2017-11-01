@@ -123,6 +123,16 @@ export class ApiService {
         });
   }
 
+  addTrack(track: Track): Observable<Track> {
+    console.log("Adding Track with Codes:" + JSON.stringify(track.codes))
+    return this.http
+      .post(this.track_url, track, this.getOptions())
+      .map(response => {
+        return new Track(response.json());
+      })
+      .catch(this.handleError);
+  }
+
   getCode(code: Code): Observable<Code> {
     return this.http.get(code.links.self, this.getOptions())
       .map(res => {
@@ -136,6 +146,16 @@ export class ApiService {
         return(new Code(res.json()));
       });
   }
+
+  getAllCodes(): Observable<Code[]> {
+    return this.http.get(this.code_url, this.getOptions())
+      .map(res => {
+        return res.json().map(item => {
+          return(new Code(item));
+        });
+      });
+  }
+
 
   getAllWorkshops(): Observable<Workshop[]> {
     return this.http.get(this.workshop_url, this.getOptions())

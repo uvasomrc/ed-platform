@@ -36,6 +36,9 @@ import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard
 import { SearchComponent } from './search/search.component';
 import { TrackProgressComponent } from './track-progress/track-progress.component';
 import {AccountFormComponent} from './account-form/account-form.component';
+import { TrackFormComponent } from './track-form/track-form.component';
+import { CodeFormComponent } from './code-form/code-form.component';
+import {DndModule} from "ng2-dnd";
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -43,6 +46,7 @@ const routes: Routes = [
   {path: 'home', component: HomeComponent, data: {title: 'Home'}},
   {path: 'search', component: SearchComponent, data: {title: 'Search'}},
   {path: 'track/:id', component: TrackDetailsComponent, data: {title: 'Track'}},
+  {path: 'track-form/:id', component: TrackFormComponent, data: {title: 'Create/Edit Track'}},
   {path: 'workshop/:id', component: WorkshopDetailsComponent, data: {title: 'Workshop'}},
   {path: 'account/:token', component: AccountRedirectComponent, data: {title: 'Account Details'}},
   {path: 'accountDetails', component: AccountDetailsComponent, data: {title: 'Your Account'},
@@ -72,7 +76,9 @@ const routes: Routes = [
     TeacherDashboardComponent,
     SearchComponent,
     TrackProgressComponent,
-    AccountFormComponent
+    AccountFormComponent,
+    TrackFormComponent,
+    CodeFormComponent
   ],
   imports: [
     BrowserModule,
@@ -96,6 +102,7 @@ const routes: Routes = [
     MatListModule,
     MatRadioModule,
     MatStepperModule,
+    DndModule.forRoot(),
     RouterModule.forRoot(routes, {useHash: true})
   ],
   providers: [TrackService, WorkshopService, ApiService, AccountService, AuthGuard],

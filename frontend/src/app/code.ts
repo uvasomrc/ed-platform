@@ -3,10 +3,11 @@ import {Workshop} from './workshop';
 
 export class Code {
   id: String;
-  prereq: boolean;
+  prereq = false;
   status: String;
   links = new Links();
   workshops = Array<Workshop>();
+  workshop_ids = Array<Number>();
 
   constructor(values: Object = {}) {
     Object.assign(this, values);
@@ -38,7 +39,7 @@ export class Code {
 
   progress_icon() {
     if (this.prereq) { return 'connector'; }
-    return 'connector_blank';
+    return 'connector-blank';
   }
 
 

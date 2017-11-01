@@ -6,6 +6,8 @@ import {Workshop} from '../workshop';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import { trigger, state, style, transition, animate, keyframes, query, stagger } from '@angular/animations';
+import {Participant} from "../participant";
+import {AccountService} from "../account.service";
 
 @Component({
   selector: 'app-home',
@@ -39,10 +41,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   showControls = false;
   sponsor_index = 1;
   sponsor_state = '1';
+  account: Participant;
 
   constructor(private workshopService: WorkshopService,
               private trackService: TrackService,
-              private router: Router) {}
+              private router: Router,
+              private accountService: AccountService) {}
 
   public ngOnInit() {
     this.workshopSub = this.workshopService.getAllWorkshops().subscribe(
@@ -50,13 +54,14 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.workshops = workshops;
       }
     );
-
     this.trackSub = this.trackService.getTracks().subscribe(
       (tracks) => {
         this.tracks = tracks;
       }
     );
-
+    this.accountService.getAccount().subscribe(acct => {
+      this.account = acct;
+    });
     this.setSponsors();
     this.showControls = true;
   }
@@ -73,7 +78,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.workshopSub.unsubscribe();
     this.trackSub.unsubscribe();
   }
-  
 
   left() {
     if (this.sponsor_index <= 1) { return; }
@@ -85,6 +89,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.sponsor_index >= 5) { return; }
     this.sponsor_index = this.sponsor_index + 1;
     this.sponsor_state = this.sponsor_index.toString();
+  }
+
+  goNewTrack() {
+    this.router.navigate(['track-form', 0]);
   }
 }
 
