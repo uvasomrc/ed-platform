@@ -124,7 +124,7 @@ export class ApiService {
   }
 
   addTrack(track: Track): Observable<Track> {
-    console.log("Adding Track with Codes:" + JSON.stringify(track.codes))
+    console.log('Adding Track with Codes:' + JSON.stringify(track.codes));
     return this.http
       .post(this.track_url, track, this.getOptions())
       .map(response => {
@@ -138,6 +138,15 @@ export class ApiService {
       .map(res => {
           return(new Code(res.json()));
       });
+  }
+
+  addCode(code: Code): Observable<Code> {
+    return this.http
+      .post(this.code_url, code, this.getOptions())
+      .map(response => {
+        return new Code(response.json());
+      })
+      .catch(this.handleError);
   }
 
   getCodeByString(code: String): Observable<Code> {

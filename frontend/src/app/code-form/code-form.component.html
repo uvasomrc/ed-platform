@@ -1,3 +1,20 @@
-<p>
-  code-form works!
-</p>
+<form [formGroup]="codeForm" novalidate (ngSubmit)="onSubmit()">
+  <div>
+    <mat-form-field>
+      <input matInput formControlName="name" placeholder="Code Name" value="" class="form-control">
+      <mat-error>
+        Code is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+    <textarea matInput formControlName="description" placeholder="Description" value="" class="form-control">
+    </textarea>
+      <mat-error>
+        This description is too short.
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <button type="submit" mat-raised-button>Add This Code</button>
+</form>

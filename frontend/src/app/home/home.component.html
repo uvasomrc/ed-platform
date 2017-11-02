@@ -35,7 +35,7 @@
 <h2 class="header">
   Popular Tracks
   <div class="spacer"></div>
-  <button (click)="goNewTrack()" mat-icon-button>
+  <button (click)="goNewTrack()" mat-icon-button *ngIf="account && account.isAdmin()">
     <mat-icon color="primary">add_circle</mat-icon>
   </button>
 </h2>

@@ -3,6 +3,7 @@ import {Workshop} from './workshop';
 
 export class Code {
   id: String;
+  description: String;
   prereq = false;
   status: String;
   links = new Links();

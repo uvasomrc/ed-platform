@@ -5,10 +5,12 @@ export class Participant {
   id: number;
   display_name = '';
   bio = '';
+  role = '';
   links = new Links();
   new_account = true;
   use_gravatar = true;
   gravatar = '';
+
 
   constructor(values: Object = {}) {
     if (values === null) { return; }
@@ -16,6 +18,10 @@ export class Participant {
     if ('_links' in values) {
       this.links = new Links(values['_links']);
     }
+  }
+
+  isAdmin() {
+    return this.role === 'ADMIN';
   }
 
   image() {

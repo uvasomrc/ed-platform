@@ -4,3 +4,35 @@
 @import '../../uva_material.scss';
 // Load the UVA Theme
 @include uva-theme($uva-theme);
+
+mat-sidenav {
+  padding: 20px;
+  width: 300px;
+}
+
+h2 {
+  background:transparent;
+}
+
+.content {
+  padding: 20px;
+}
+
+/* class repeated for increased specificity */
+.mat-form-field.mat-form-field {
+  width: 100%;
+}
+
+.list-group {
+  padding-left: 0;
+  margin-bottom: 20px;
+}
+
+.drop-panel {
+  background-color: #fff;
+}
+
+.button {
+  margin: auto;
+  padding: 10px;
+}

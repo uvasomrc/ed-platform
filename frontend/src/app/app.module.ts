@@ -10,7 +10,7 @@ import { TrackListComponent } from './track-list/track-list.component';
 import {
   MatButtonModule, MatIconModule, MatMenuModule, MatToolbarModule, MatCardModule,
   MatInputModule, MatCheckboxModule, MatFormFieldModule, MatTabsModule, MatProgressSpinnerModule,
-  MatExpansionModule, MatSelectModule, MatListModule, MatRadioModule, MatStepperModule
+  MatExpansionModule, MatSelectModule, MatListModule, MatRadioModule, MatStepperModule, MatSidenavModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {WorkshopService} from './workshop.service';
@@ -102,6 +102,7 @@ const routes: Routes = [
     MatListModule,
     MatRadioModule,
     MatStepperModule,
+    MatSidenavModule,
     DndModule.forRoot(),
     RouterModule.forRoot(routes, {useHash: true})
   ],

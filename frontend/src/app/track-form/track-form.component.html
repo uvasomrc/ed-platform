@@ -6,69 +6,87 @@
 <pre>Title  {{ title}}</pre>
 -->
 
-<form [formGroup]="track_form" novalidate (ngSubmit)="onSubmit()">
+<mat-sidenav-container>
+  <mat-sidenav mode="side" opened="true" dnd-droppable>
+    <h2>Available Codes</h2>
+    <em>You can drag these into the list of codes for the track.</em>
+    <ul class="list-group" dnd-sortable-container [sortableData]="codeOptions">
+      <li *ngFor="let code of codeOptions; let i = index" class="list-group-item"
+          dnd-draggable dnd-sortable [dragData]="code" [sortableIndex]="i">
+        <mat-icon>reorder</mat-icon>
+        {{code.id}}
+      </li>
+    </ul>
 
-  <div
-    class="container"
-    fxLayout="row"
-    fxLayoutWrap
-    fxLayout.xs="column"
-    fxLayoutAlign="center"
-    fxLayoutGap="10px"
-    fxLayoutGap.xs="0">
+    <h2>Create a new Code</h2>
+    <app-code-form (add)="addCodeOption($event)"></app-code-form>
+  </mat-sidenav>
 
-    <div>
-      <h2>Edit the track here:</h2>
-      <div>
-        <mat-form-field>
-          <input matInput formControlName="title" placeholder="Title" value="" class="form-control">
-          <mat-error>
-            Title is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div>
-        <mat-form-field>
-          <input matInput formControlName="sub_title" placeholder="Sub Title" value="" class="form-control">
-        </mat-form-field>
-      </div>
-      <div>
-        <mat-form-field>
+  <div class="content">
+
+    <form [formGroup]="track_form" novalidate (ngSubmit)="onSubmit()">
+
+      <div
+        class="container"
+        fxLayout="row"
+        fxLayoutWrap
+        fxLayout.xs="column"
+        fxLayoutAlign="start"
+        fxLayoutGap="10px"
+        fxLayoutGap.xs="0">
+
+        <div fxFlex="50%">
+          <h2>Track Details</h2>
+          <div>
+            <mat-form-field>
+              <input matInput formControlName="title" placeholder="Title" value="" class="form-control">
+              <mat-error>
+                Title is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <input matInput formControlName="sub_title" placeholder="Sub Title" value="" class="form-control">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
     <textarea matInput formControlName="description" placeholder="Description" value="" class="form-control">
     </textarea>
-          <mat-error>
-            This description is too short.
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <h2>Specify Codes:</h2>
-      <mat-list class="list-group" dnd-sortable-container [sortableData]="track.codes">
-        <mat-list-item *ngFor="let code of track.codes; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">
-          <mat-icon>reorder</mat-icon>{{code.id}}
-          <input type="checkbox" (click)="setPrereq(i)">prerequisite?
-        </mat-list-item>
-      </mat-list>
-      <mat-form-field>
-        <mat-select matInput formControlName="code">
-          <mat-option *ngFor="let code of codeOptions" [value]="code.id">{{ code.id }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <button mat-button (click)="addCode()" type='button' mat-raised-button  color="accent">Add Code</button>
-    </div>
-    <!--
-    <div>
-      <input id="fileInput" name="file" type="file" class="ng-hide" multiple>
-    </div>
-    -->
+              <mat-error>
+                This description is too short.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="display">
+          <h2>How your Track will appear:</h2>
+          <app-track [track]="track"></app-track>
+          <div class="button">
+            <button type="submit" mat-raised-button>Create This Track</button>
+          </div>
+        </div>
 
-    <div class="display">
-      <h2>How your Track will appear:</h2>
-      <app-track [track]="track"></app-track>
-      <div class="button">
-        <button type="submit" mat-raised-button>Create This Track</button>
+        <div>
+          <h2>Workshop Codes:</h2>
+          <div class="drop-panel" dnd-sortable-container [sortableData]="track.codes">
+            <em>Drop codes here from the list of available codes on the left. You can reorder these codes by dragging
+              them.</em>
+            <ul class="list-group">
+              <li *ngFor="let code of track.codes; let i = index" class="list-group-item" dnd-sortable
+                  [sortableIndex]="i" [dragData]="code">
+                <mat-icon>reorder</mat-icon>
+                {{code.id}}
+                <input type="checkbox" (click)="setPrereq(i)">prerequisite?
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
+    </form>
+
   </div>
+  <!-- primary content -->
+</mat-sidenav-container>
 
-
-</form>
