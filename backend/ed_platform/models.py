@@ -103,7 +103,7 @@ class Workshop(db.Model):
 class Code(db.Model):
     __tablename__ = 'code'
     id = db.Column(db.String(), primary_key=True)
-    desc = db.Column(db.TEXT)
+    description = db.Column(db.TEXT)
     workshops = db.relationship('Workshop', backref=db.backref('code', lazy=True))
     track_codes = db.relationship('TrackCode', backref=db.backref('code', lazy=True))
 
@@ -394,7 +394,7 @@ class ParticipantAPISchema(ma.Schema):
     class Meta:
         # Note that we don't surface the phone number or email address of any participants.
         fields = ('id', 'uid', 'display_name', 'bio', 'created', 'new_account',
-                 'gravatar', 'use_gravatar', '_links')
+                 'gravatar', 'use_gravatar', 'role', '_links')
         ordered = True
 
     _links = ma.Hyperlinks({
@@ -470,7 +470,7 @@ class WorkshopAPISchema(ma.Schema):
 
 class CodeApiSchema(ma.Schema):
     class Meta:
-        fields = ('id','desc','workshops')
+        fields = ('id','description','workshops')
         ordered = True
     workshops = ma.List(ma.Nested(WorkshopAPISchema(only=['id','_links','title'])))
 
