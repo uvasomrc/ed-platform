@@ -472,7 +472,7 @@ class CodeApiSchema(ma.Schema):
     class Meta:
         fields = ('id','description','workshops')
         ordered = True
-    workshops = ma.List(ma.Nested(WorkshopAPISchema(only=['id','_links','title'])))
+    workshops = ma.List(ma.Nested(WorkshopAPISchema()))
 
 
 class EmailMessageAPISchema(ma.Schema):
