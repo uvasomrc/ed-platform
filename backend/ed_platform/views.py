@@ -188,6 +188,7 @@ def remove_track(track_id):
         return jsonify(error=404, text=str("no such track.")), 404
 
     db.session.delete(track)
+    db.session.commit()
     return ""
 
 @app.route('/api/track/<int:id>/codes', methods=['PATCH'])
