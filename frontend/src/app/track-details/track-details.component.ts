@@ -82,6 +82,10 @@ export class TrackDetailsComponent implements OnInit {
     });
   }
 
+  editTrack() {
+    this.router.navigate(['track-form', this.track.id]);
+  }
+
   getCode(code: Code) {
     this.trackService.getCode(code).subscribe(
       (fullCode) => {

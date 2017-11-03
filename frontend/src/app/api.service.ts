@@ -124,7 +124,15 @@ export class ApiService {
   }
 
   addTrack(track: Track): Observable<Track> {
-    console.log('Adding Track with Codes:' + JSON.stringify(track.codes));
+    return this.http
+      .post(this.track_url, track, this.getOptions())
+      .map(response => {
+        return new Track(response.json());
+      })
+      .catch(this.handleError);
+  }
+
+  updateTrack(track: Track): Observable<Track> {
     return this.http
       .post(this.track_url, track, this.getOptions())
       .map(response => {

@@ -10,6 +10,9 @@
     <button mat-fab (click)="confirmDelete()" aria-label="Delete Track" *ngIf="account && account.isAdmin()">
       <mat-icon>delete_forever</mat-icon>
     </button>
+    <button mat-fab (click)="editTrack()" aria-label="Edit Track" *ngIf="account && account.isAdmin()">
+      <mat-icon>edit</mat-icon>
+    </button>
   </section>
   <section class="header">
     <p>{{track.description}}</p>

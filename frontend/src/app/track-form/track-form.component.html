@@ -6,7 +6,7 @@
 <pre>Title  {{ title}}</pre>
 -->
 
-<mat-sidenav-container>
+<mat-sidenav-container *ngIf="isDataLoaded">
   <mat-sidenav mode="side" opened="true" dnd-droppable>
     <h2>Available Codes</h2>
     <em>You can drag these into the list of codes for the track.</em>
@@ -39,7 +39,7 @@
           <h2>Track Details</h2>
           <div>
             <mat-form-field>
-              <input matInput formControlName="title" placeholder="Title" value="" class="form-control">
+              <input matInput formControlName="title" placeholder="Title" value="{{track.title}}" class="form-control">
               <mat-error>
                 Title is <strong>required</strong>
               </mat-error>
@@ -47,12 +47,12 @@
           </div>
           <div>
             <mat-form-field>
-              <input matInput formControlName="sub_title" placeholder="Sub Title" value="" class="form-control">
+              <input matInput formControlName="sub_title" placeholder="Sub Title" value="{{track.sub_title}}" class="form-control">
             </mat-form-field>
           </div>
           <div>
             <mat-form-field>
-    <textarea matInput formControlName="description" placeholder="Description" value="" class="form-control">
+    <textarea matInput formControlName="description" placeholder="Description" value="{{track.description}}" class="form-control">
     </textarea>
               <mat-error>
                 This description is too short.
@@ -64,7 +64,7 @@
           <h2>How your Track will appear:</h2>
           <app-track [track]="track"></app-track>
           <div class="button">
-            <button type="submit" mat-raised-button>Create This Track</button>
+            <button type="submit" mat-raised-button>Save This Track</button>
           </div>
         </div>
 
@@ -78,7 +78,7 @@
                   [sortableIndex]="i" [dragData]="code">
                 <mat-icon>reorder</mat-icon>
                 {{code.id}}
-                <input type="checkbox" (click)="setPrereq(i)">prerequisite?
+                <label><input type="checkbox" (click)="setPrereq(i)" [checked]="code.prereq">prerequisite?</label>
               </li>
             </ul>
           </div>
