@@ -252,7 +252,7 @@ def search_workshops():
 @requires_roles('ADMIN')
 def create_workshop():
     request_data = request.get_json()
-    if(request_data['code'] != None and request_data['code'] != ''):
+    if('code' in request_data and request_data['code'] != ''):
         db_code = models.Code.query.filter_by(id=request_data['code']).first()
         if (db_code == None): raise RestException(RestException.NO_SUCH_CODE)
 
