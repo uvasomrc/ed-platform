@@ -1,0 +1,20 @@
+// Import theming functions
+@import '~@angular/material/theming';
+// Import your custom theme
+@import '../../uva_material.scss';
+// Load the UVA Theme
+@include uva-theme($uva-theme);
+
+h2 {
+  background:transparent;
+}
+
+/* class repeated for increased specificity */
+.mat-form-field.mat-form-field {
+  width: 100%;
+}
+
+.button {
+  margin: auto;
+  padding: 10px;
+}

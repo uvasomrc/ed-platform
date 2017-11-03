@@ -8,18 +8,21 @@
     <span class="sub-title">with {{workshop.instructor.display_name}}</span>
   </section>
 
-  <section class="header">
+  <section class="header flex">
     <p>{{workshop.description}}</p>
+    <div class="spacer"></div>
+    <button mat-fab (click)="goEdit()" aria-label="Edit Track" *ngIf="account && account.isAdmin()">
+      <mat-icon>edit</mat-icon>
+    </button>
   </section>
 
   <section class="header flex">
-    <div>
+    <div *ngIf="workshop.hasUpcomingSession()">
       {{workshop.nextSession().date_time | date: 'EEE. MMMM d, y, h:mm-'}}{{workshop.nextSession().endTime() | date: 'h:mma'}}
       <br/>
       <span class="sub-title">Location: {{workshop.nextSession().location}}</span>
       <br/>
       <span class="sub-title">Attendees: {{workshop.nextSession().total_participants}} of {{workshop.nextSession().max_attendees}}, with {{workshop.nextSession().waiting_participants}} waiting.</span>
-
     </div>
     <span class="spacer"></span>
     <button *ngIf="registerState() === 'instructing'" mat-raised-button (click)="goTeacher()">Teacher Dashboard</button>

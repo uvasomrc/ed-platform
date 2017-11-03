@@ -94,6 +94,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   goNewTrack() {
     this.router.navigate(['track-form', 0]);
   }
+
+  goNewWorkshop() {
+    this.router.navigate(['workshop-form', 0]);
+  }
+
 }
 
 class Sponsor {

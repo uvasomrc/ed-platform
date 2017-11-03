@@ -5,6 +5,7 @@ import {Workshop} from '../workshop';
 import {AccountService} from "../account.service";
 import {Track} from "../track";
 import {Code} from "../code";
+import {Participant} from "../participant";
 
 @Component({
   selector: 'app-workshop-details',
@@ -18,6 +19,7 @@ export class WorkshopDetailsComponent implements OnInit {
   tracks: Track[];
   isDataLoaded = false;
   code: Code;
+  account: Participant;
 
   constructor(private workshopService: WorkshopService,
               private accountService: AccountService,
@@ -27,6 +29,7 @@ export class WorkshopDetailsComponent implements OnInit {
       this.workshop_id = params['id'];
       this.load_workshop();
     });
+    accountService.getAccount().subscribe(a => this.account = a);
   }
 
   load_workshop() {
@@ -75,13 +78,15 @@ export class WorkshopDetailsComponent implements OnInit {
     } else if (this.workshop.registered()) {
       return 'registered';
     } else if (this.workshop.wait_listed()) {
-        return 'wait_listed';
-    } else if (this.workshop.nextSession().isFull()) {
-      return 'full';
-    } else if (this.isLoggedIn() && this.workshop.nextSession().isAvailable()) {
-      return 'available';
-    } else if (!this.isLoggedIn() && this.workshop.nextSession().isAvailable()) {
-      return 'login';
+      return 'wait_listed';
+    } else if (this.workshop.hasUpcomingSession()) {
+      if (this.workshop.sessions.length > 0 && this.workshop.nextSession().isFull()) {
+        return 'full';
+      } else if (this.isLoggedIn() && this.workshop.nextSession().isAvailable()) {
+        return 'available';
+      } else if (!this.isLoggedIn() && this.workshop.nextSession().isAvailable()) {
+        return 'login';
+      }
     }
   }
 
@@ -98,6 +103,9 @@ export class WorkshopDetailsComponent implements OnInit {
     this.router.navigate(['teacherDashboard', this.workshop.nextSession().id]);
   }
 
+  goEdit() {
+    this.router.navigate(['workshop-form', this.workshop.id]);
+  }
 
   register() {
     const session = this.workshop.nextSession();

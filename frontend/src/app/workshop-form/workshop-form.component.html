@@ -1,29 +1,51 @@
-
-<pre>{{workshop_form.value | json}}</pre>
+<!--
+<pre>{{workshopForm.value | json}}</pre>
 <pre>Dirty? {{ title.dirty }}</pre>
 <pre>Pristine? {{ title.pristine }}</pre>
 <pre>In Valid Description? {{ description.invalid }}</pre>
 <pre>Title  {{ title}}</pre>
+-->
 
-<form [formGroup]="workshop_form" novalidate (ngSubmit)="onSubmit()">
-  <div>
-  <mat-form-field class="example-full-width">
-    <input mdInput formControlName="title" placeholder="Title" value="" class="form-control" >
-    <mat-error>
-      Title is <strong>required</strong>
-    </mat-error>
-  </mat-form-field>
+<form *ngIf="isDataLoaded" [formGroup]="workshopForm" novalidate (ngSubmit)="onSubmit()">
+  <div
+    class="container"
+    fxLayout="row"
+    fxLayoutWrap
+    fxLayout.xs="column"
+    fxLayoutAlign="start"
+    fxLayoutGap="10px"
+    fxLayoutGap.xs="0">
+    <div fxFlex="50%">
+      <h2>Workshop Details</h2>
+      <mat-form-field class="example-full-width">
+        <input matInput formControlName="title" placeholder="Title" value="{{workshop.title}}" class="form-control">
+        <mat-error>
+          Title is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <textarea rows="4" matInput formControlName="description" placeholder="Description" value="{{workshop.description}}" class="form-control"></textarea>
+        <mat-error>
+          This description is too short.
+        </mat-error>
+      </mat-form-field>
+      <!--
+      <mat-form-field class="example-full-width">
+        <select mdInput formControlName="code" placehoder="Track Code" value="{{workshop.code_id}}">
+          <option *ngFor="let code of codeOptions">{{code.id}} {{code.description}}</option>
+        </select>
+      </mat-form-field>
+      -->
+    </div>
+    <div class="display">
+      <h2>How your Workshop will appear:</h2>
+      <app-workshop [workshop]="workshop"></app-workshop>
+      <div class="button">
+        <button type="submit" mat-raised-button>Save this workshop</button>
+      </div>
+    </div>
   </div>
-  <div>
-  <mat-form-field class="example-full-width">
-    <textarea mdInput formControlName="description" placeholder="Description" value="" class="form-control">
-    </textarea>
-    <mat-error>
-      This description is too short.
-    </mat-error>
-  </mat-form-field>
-  </div>
-  <button type="submit" mat-button>Create Workshop</button>
   <!--
   <div>
     <input id="fileInput" name="file" type="file" class="ng-hide" multiple>

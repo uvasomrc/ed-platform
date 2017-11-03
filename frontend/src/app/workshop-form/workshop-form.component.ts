@@ -2,49 +2,67 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {WorkshopService} from '../workshop.service';
 import {Workshop} from '../workshop';
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-workshop-form',
   templateUrl: './workshop-form.component.html',
-  styleUrls: ['./workshop-form.component.css']
+  styleUrls: ['./workshop-form.component.scss']
 })
 export class WorkshopFormComponent implements OnInit {
 
-  workshop_form: FormGroup;
+  workshopId = 0;
+  workshop: Workshop;
+  workshopForm: FormGroup;
   title: FormControl;
   description: FormControl;
-  workshopService: WorkshopService;
+  code: FormControl;
+  isDataLoaded = false;
 
   @Output()
   add: EventEmitter<Workshop> = new EventEmitter();
 
-  constructor(workshopService: WorkshopService) {
-    this.workshopService = workshopService;
+  constructor(private workshopService: WorkshopService,
+              private route: ActivatedRoute,
+              private router: Router) {
+    this.route.params.subscribe( params =>
+      this.workshopId = params['id']);
   }
 
   ngOnInit() {
-    this.createFormControls();
-    this.createForm();
+    if (this.workshopId > 0){
+      this.workshopService.getWorkshop(this.workshopId).subscribe(
+        w => {
+          this.workshop = w;
+          this.loadForm();
+       });
+    } else {
+      this.workshop = new Workshop();
+      this.loadForm();
+    }
   }
 
-  createFormControls() {
-    this.title = new FormControl('', [Validators.required, Validators.maxLength(256)]);
-    this.description = new FormControl('', [Validators.required, Validators.minLength(20)])
-  }
+  loadForm() {
+    this.title = new FormControl(this.workshop.title, [Validators.required, Validators.maxLength(256)]);
+    this.description = new FormControl(this.workshop.description, [Validators.required, Validators.minLength(20)]);
 
-  createForm() {
-    this.workshop_form = new FormGroup({
+    this.workshopForm = new FormGroup({
       title: this.title,
       description: this.description
     });
+
+    this.title.valueChanges.subscribe(t => this.workshop.title = t);
+    this.description.valueChanges.subscribe(d => this.workshop.description = d);
+
+    this.isDataLoaded = true;
   }
 
   onSubmit() {
-    if (this.workshop_form.valid) {
-      const workshop = new Workshop();
-      workshop.title = this.title.value;
-      workshop.description = this.description.value;
-      this.add.emit(workshop);
+    if (this.workshopForm.valid) {
+      this.workshopService.addWorkshop(this.workshop).subscribe(newW => {
+        this.add.emit(newW);
+        this.router.navigate(['workshop', newW.id]);
+      });
     }
   }
 }

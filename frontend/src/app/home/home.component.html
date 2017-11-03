@@ -41,7 +41,13 @@
 </h2>
 <app-track-list [tracks]="tracks"></app-track-list>
 
-<h2>Popular Workshops</h2>
+<h2 class="header">
+  Workshops
+  <div class="spacer"></div>
+  <button (click)="goNewWorkshop()" mat-icon-button *ngIf="account && account.isAdmin()">
+    <mat-icon color="primary">add_circle</mat-icon>
+  </button>
+</h2>
 <app-workshop-list [workshops]="workshops"></app-workshop-list>
 
 <!--

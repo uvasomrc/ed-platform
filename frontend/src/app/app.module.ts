@@ -48,6 +48,7 @@ const routes: Routes = [
   {path: 'search', component: SearchComponent, data: {title: 'Search'}},
   {path: 'track/:id', component: TrackDetailsComponent, data: {title: 'Track'}},
   {path: 'track-form/:id', component: TrackFormComponent, data: {title: 'Create/Edit Track'}},
+  {path: 'workshop-form/:id', component: WorkshopFormComponent, data: {title: 'Create/Edit Workshop'}},
   {path: 'workshop/:id', component: WorkshopDetailsComponent, data: {title: 'Workshop'}},
   {path: 'account/:token', component: AccountRedirectComponent, data: {title: 'Account Details'}},
   {path: 'accountDetails', component: AccountDetailsComponent, data: {title: 'Your Account'},
