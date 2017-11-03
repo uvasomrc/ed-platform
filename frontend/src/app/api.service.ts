@@ -133,6 +133,15 @@ export class ApiService {
       .catch(this.handleError);
   }
 
+  deleteTrack(track: Track): Observable<Track> {
+    return this.http.delete(track.links.self, this.getOptions())
+      .map(response => {
+        return track;
+      })
+      .catch(this.handleError);
+
+  }
+
   getCode(code: Code): Observable<Code> {
     return this.http.get(code.links.self, this.getOptions())
       .map(res => {

@@ -7,11 +7,15 @@
     </div>
     <div class="spacer"></div>
     <button mat-raised-button>Follow</button>
+    <button mat-fab (click)="confirmDelete()" aria-label="Delete Track" *ngIf="account && account.isAdmin()">
+      <mat-icon>delete_forever</mat-icon>
+    </button>
   </section>
   <section class="header">
     <p>{{track.description}}</p>
     <app-track-progress [track]="track" [codeIndex]="codeIndex"></app-track-progress>
   </section>
+
 
   <div class="course-nav">
     <button mat-button (click)="prevCode()">

@@ -1,9 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {Track} from '../track';
 import {Workshop} from '../workshop';
 import {TrackService} from '../track.service';
-import {ActivatedRoute} from '@angular/router';
-import {Code} from "../code";
+import {ActivatedRoute, Router} from '@angular/router';
+import {Code} from '../code';
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material';
+import {Participant} from "../participant";
+import {AccountService} from "../account.service";
 
 @Component({
   selector: 'app-track-details',
@@ -18,18 +21,27 @@ export class TrackDetailsComponent implements OnInit {
   isDataLoaded = false;
   codeIndex = 0;
   code: Code;
+  account: Participant;
 
   constructor(private trackService: TrackService,
-              private route: ActivatedRoute) {
+              private accountService: AccountService,
+              private route: ActivatedRoute,
+              private router: Router,
+              private dialog: MatDialog) {
     this.route.params.subscribe( params =>
           this.track_id = params['id']);
+    this.accountService.getAccount().subscribe( a => this.account = a);
   }
 
   ngOnInit() {
     this.trackService.getTrack(this.track_id).subscribe(
       (track) => {
         this.track = track;
-        this.getCode(track.codes[this.codeIndex]);
+        if(this.track.codes.length > 0) {
+          this.getCode(track.codes[this.codeIndex]);
+        } else {
+          this.isDataLoaded = true;
+        }
       }
     );
   }
@@ -53,11 +65,35 @@ export class TrackDetailsComponent implements OnInit {
     }
   }
 
-  getCode(code: Code) {
-    this.trackService.getCode(code).subscribe(
-      (fullCode) => {this.code = fullCode; }
-    );
-    this.isDataLoaded = true;
+  confirmDelete() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      height: '200px',
+      width: '300px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.trackService.deleteTrack(this.track).subscribe(track => {
+            this.router.navigate(['home']);
+        });
+      }
+    });
   }
 
+  getCode(code: Code) {
+    this.trackService.getCode(code).subscribe(
+      (fullCode) => {
+        this.code = fullCode;
+        this.isDataLoaded = true;
+      }
+    );
+  }
+
+}
+
+@Component({
+  selector: 'app-confirm-dialog',
+  templateUrl: 'confirm-dialog.html',
+})
+export class ConfirmDialogComponent {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
 }

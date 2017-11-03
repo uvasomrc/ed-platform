@@ -27,6 +27,10 @@ export class TrackService {
     return this.api.addTrack(track);
   }
 
+  deleteTrack(track: Track): Observable<Track>{
+    return this.api.deleteTrack(track);
+  }
+
   addCode(code: Code): Observable<Code> {
     return this.api.addCode(code);
   }

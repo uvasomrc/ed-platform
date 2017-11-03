@@ -10,7 +10,8 @@ import { TrackListComponent } from './track-list/track-list.component';
 import {
   MatButtonModule, MatIconModule, MatMenuModule, MatToolbarModule, MatCardModule,
   MatInputModule, MatCheckboxModule, MatFormFieldModule, MatTabsModule, MatProgressSpinnerModule,
-  MatExpansionModule, MatSelectModule, MatListModule, MatRadioModule, MatStepperModule, MatSidenavModule
+  MatExpansionModule, MatSelectModule, MatListModule, MatRadioModule, MatStepperModule, MatSidenavModule,
+  MatDialogModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {WorkshopService} from './workshop.service';
@@ -21,7 +22,7 @@ import { WorkshopFormComponent } from './workshop-form/workshop-form.component';
 import {ApiService} from './api.service';
 import {RouterModule, Routes} from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { TrackDetailsComponent } from './track-details/track-details.component';
+import {ConfirmDialogComponent, TrackDetailsComponent} from './track-details/track-details.component';
 import { WorkshopDetailsComponent } from './workshop-details/workshop-details.component';
 import { SessionComponent } from './session/session.component';
 import { ParticipantBriefComponent } from './participant-brief/participant-brief.component';
@@ -38,7 +39,7 @@ import { TrackProgressComponent } from './track-progress/track-progress.componen
 import {AccountFormComponent} from './account-form/account-form.component';
 import { TrackFormComponent } from './track-form/track-form.component';
 import { CodeFormComponent } from './code-form/code-form.component';
-import {DndModule} from "ng2-dnd";
+import {DndModule} from 'ng2-dnd';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -78,7 +79,8 @@ const routes: Routes = [
     TrackProgressComponent,
     AccountFormComponent,
     TrackFormComponent,
-    CodeFormComponent
+    CodeFormComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -103,9 +105,11 @@ const routes: Routes = [
     MatRadioModule,
     MatStepperModule,
     MatSidenavModule,
+    MatDialogModule,
     DndModule.forRoot(),
     RouterModule.forRoot(routes, {useHash: true})
   ],
+  entryComponents: [ConfirmDialogComponent],
   providers: [TrackService, WorkshopService, ApiService, AccountService, AuthGuard],
   bootstrap: [AppComponent]
 })
