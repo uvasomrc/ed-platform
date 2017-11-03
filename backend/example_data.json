@@ -263,6 +263,21 @@
         "created": "2017-08-25T10:30:00.000Z",
         "bio": "Joe Cool, aka Manfred Albrecht Freiherr von Richthofen (2 May 1892 – 21 April 1918), also known as the 'Red Baron', was a fighter pilot with the German Air Force during World War I. He is considered the ace-of-aces of the war, being officially credited with 80 air combat victories."
       }
+    },
+    {
+      "name": "cag3fr",
+      "data": {
+        "role": "ADMIN",
+        "uid": "cag3fr",
+        "display_name": "Christina Gancayco",
+        "title": "Research Computing Associate",
+        "email_address": "cag3fr@virginia.edu",
+        "phone_number": "",
+        "image_file": "images/profile/christina.jpg",
+        "use_gravatar": false,
+        "created": "2017-08-25T10:30:00.000Z",
+        "bio": "Christina recently joined SOM research computing and brings with her expertise in image analysis and Matlab. Prior to joining the team, Christina performed brain imaging research in the University of Virginia Department of Radiology and Medical Imaging. She takes great pride in developing computational solutions for expediting long or repetitive processes and looks forward to collaborating on more image analysis projects."
+      }
     }
   ],
   "Workshop": [
@@ -337,7 +352,7 @@
         "image_file": "images/ml_intro_workshop.png",
         "title": "Introduction to Machine Learning",
         "description": "In this introduction to R, you will master the basics of this beautiful open source language, including factors, lists and data frames. With the knowledge gained in this course, you will be ready to undertake your first very own data analysis. With over 2 million users worldwide R is rapidly becoming the leading programming language in statistics and data science. Every year, the number of R users grows by 40% and an increasing number of organizations are using it in their day-to-day activities. Leverage the power of R by completing this free R online course today!",
-        "instructor": "vpn7n"      }
+        "instructor": "cag3fr"      }
     },
     {
       "name": "unix_into_workshop",
@@ -562,7 +577,7 @@
       "name": "ml_intro_workshop_1",
       "data": {
         "workshop": "ml_intro_workshop",
-        "date_time":"2017-07-12T10:30:00.000Z",
+        "date_time":"2017-12-12T10:30:00.000Z",
         "duration_minutes":"120",
         "max_attendees":20,
         "instructor_notes": "Please see uploaded resources.",
