@@ -13,7 +13,7 @@
   </section>
   <section class="header">
     <p>{{track.description}}</p>
-    <app-track-progress [track]="track" [codeIndex]="codeIndex"></app-track-progress>
+    <app-track-progress (selectedIndex)="gotoCode($event)" [track]="track" [codeIndex]="codeIndex"></app-track-progress>
   </section>
 
 

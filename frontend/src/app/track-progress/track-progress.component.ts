@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MatIconRegistry} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
 import {Track} from '../track';
@@ -16,6 +16,8 @@ export class TrackProgressComponent implements OnInit {
   @Input('codeIndex')
   codeIndex = -1;
 
+  @Output()
+  selectedIndex = new EventEmitter<number>();
 
   constructor(private iconRegistry: MatIconRegistry,
               private sanitizer: DomSanitizer) {
@@ -34,6 +36,11 @@ export class TrackProgressComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  select(index) {
+    this.selectedIndex.next(index);
+    this.codeIndex = index;
   }
 
 }

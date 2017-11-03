@@ -3,8 +3,8 @@
   <span *ngFor="let code of track.codes; let i = index">
     <mat-icon color="{{code.color()}}"
             svgIcon="{{code.icon()}}"
-              [ngClass]="{'active': codeIndex == i}"></mat-icon>
-    <mat-icon color="primary" svgIcon="{{code.progress_icon()}}"></mat-icon>
+              [ngClass]="{'active': codeIndex == i}" (click)="select(i)"></mat-icon>
+    <mat-icon color="primary" svgIcon="{{code.progress_icon()}}" ></mat-icon>
   </span>
   <div class="spacer"></div>
 

@@ -5,8 +5,8 @@ import {TrackService} from '../track.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Code} from '../code';
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material';
-import {Participant} from "../participant";
-import {AccountService} from "../account.service";
+import {Participant} from '../participant';
+import {AccountService} from '../account.service';
 
 @Component({
   selector: 'app-track-details',
@@ -37,7 +37,7 @@ export class TrackDetailsComponent implements OnInit {
     this.trackService.getTrack(this.track_id).subscribe(
       (track) => {
         this.track = track;
-        if(this.track.codes.length > 0) {
+        if (this.track.codes.length > 0) {
           this.getCode(track.codes[this.codeIndex]);
         } else {
           this.isDataLoaded = true;
@@ -55,7 +55,6 @@ export class TrackDetailsComponent implements OnInit {
     }
   }
 
-
   nextCode() {
     if (this.codeIndex === this.track.codes.length - 1) {
       return;
@@ -63,6 +62,10 @@ export class TrackDetailsComponent implements OnInit {
       this.codeIndex++;
       this.getCode(this.track.codes[this.codeIndex]);
     }
+  }
+
+  gotoCode(index) {
+    this.getCode(this.track.codes[index]);
   }
 
   confirmDelete() {
