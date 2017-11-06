@@ -118,6 +118,7 @@ class Participant(db.Model):
     id  = db.Column(db.Integer, primary_key=True)
     uid = db.Column(db.String())
     display_name = db.Column(db.String())
+    title = db.Column(db.String())
     email_address = db.Column(db.String())
     phone_number = db.Column(db.String())
     bio = db.Column(db.TEXT())
@@ -393,7 +394,7 @@ class ParticipantAPISchema(ma.Schema):
 
     class Meta:
         # Note that we don't surface the phone number or email address of any participants.
-        fields = ('id', 'uid', 'display_name', 'bio', 'created', 'new_account',
+        fields = ('id', 'uid','display_name', 'title',  'bio', 'created', 'new_account',
                  'gravatar', 'use_gravatar', 'role', '_links')
         ordered = True
 

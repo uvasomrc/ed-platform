@@ -68,4 +68,6 @@ class DataLoader():
         '''Take all the data in the database and reindex it.'''
         index.clear()
         workshops = models.Workshop.query.all()
-        index.load_all(workshops)
+        participants = models.Participant.query.all()
+        index.load_workshops(workshops)
+        index.load_participants(participants)

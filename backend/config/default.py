@@ -36,7 +36,7 @@ MAIL_DEFAULT_SENDER='daniel.h.funk@gmail.com'
 
 # Elastic Search
 ELASTIC_SEARCH = {
-    "index_name": "workshops",
+    "index_prefix": "cadre",
     "hosts": ["localhost"],
     "port": 9200,
     "timeout": 20,

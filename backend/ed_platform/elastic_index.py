@@ -17,9 +17,15 @@ class ElasticIndex:
     def __init__(self, app):
         self.logger.debug("Initializing Elastic Idnex")
         self.establish_connection(app.config['ELASTIC_SEARCH'])
-        self.index_name = app.config['ELASTIC_SEARCH']["index_name"]
-        self.index = Index(self.index_name)
-        self.index.doc_type(ElasticWorkshop)
+        self.index_prefix = app.config['ELASTIC_SEARCH']["index_prefix"]
+
+        self.workshop_index = Index('%s_workshops' % self.index_prefix)
+        self.workshop_index.doc_type(ElasticWorkshop)
+
+        self.participant_index = Index('%s_participant' % self.index_prefix)
+        self.participant_index.doc_type(ElasticParticipant)
+
+
         try:
             ElasticWorkshop.init()
         except:
@@ -47,13 +53,14 @@ class ElasticIndex:
     def clear(self):
         try:
             self.logger.info("Clearing the index.")
-            self.index.delete(ignore=404)
+            self.workshop_index.delete(ignore=404)
+            self.participant_index.delete(ignore=404)
             ElasticWorkshop.init()
         except:
-            self.logger.error("Failed to delete the workshop index.  It night not exist.")
+            self.logger.error("Failed to delete the indices.  They night not exist.")
 
-    def load_all(self, workshops):
-        print ("Loading workings into " + str(self.index_name))
+    def load_workshops(self, workshops):
+        print ("Loading workshops into %s" % self.index_prefix)
         for w in workshops:
             ew = ElasticWorkshop(meta={'id': 'workshop_' + str(w.id)},
                                  id=w.id,
@@ -80,15 +87,40 @@ class ElasticIndex:
                     ew.messages.append(email.content)
                     ew.messages.append(email.subject)
             ElasticWorkshop.save(ew)
-        self.index.flush()
+        self.workshop_index.flush()
 
-    def search(self, search):
-        # when using:
-        #        workshop_search = BlogSearch("web framework", filters={"category": "python"})
+    def load_participants(self, participants):
+        print("Loading participants into the Elastic Index... ")
+        for p in participants:
+            ep = ElasticParticipant(meta={'id': 'participant_' + str(p.id)},
+                                    id=p.id,
+                                    uid=p.uid,
+                                    title=p.title,
+                                    display_name=p.display_name,
+                                    bio=p.bio,
+                                    created=p.created
+                                   )
+            ElasticParticipant.save(ep)
+            self.participant_index.flush()
+
+    def search_workshops(self, search):
         workshop_search = WorkshopSearch(search.query, search.jsonFilters(),
-                                         date_restriction=search.date_restriction, index=self.index_name)
-        #workshop_search = WorkshopSearch(search.query, index=self.index_name)
+                                         date_restriction=search.date_restriction, index=self.workshop_index)
         return workshop_search.execute()
+
+    def search_participants(self, search):
+        fields = ['uid^10', 'display_name^5', 'bio']
+        q = Q("multi_match", query=search.query, fields=fields)
+        s = Search().query(q)
+        return s.execute()
+
+class ElasticParticipant(DocType):
+    id = Integer()
+    title = Text()
+    uid = Keyword()
+    display_name = Text()
+    bio = Text()
+    created = Date()
 
 
 class ElasticWorkshop(DocType):

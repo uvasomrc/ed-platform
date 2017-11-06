@@ -20,7 +20,7 @@ SSO_ATTRIBUTE_MAP = {
 }
 
 ELASTIC_SEARCH = {
-    "index_name": "workshops_test",
+    "index_prefix": "test",
     "hosts": ["localhost"],
     "port": 9200,
     "timeout": 20,

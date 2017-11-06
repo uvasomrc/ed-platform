@@ -14,7 +14,6 @@ from ed_platform.emails import TEST_MESSAGES
 
 
 class TestCase(unittest.TestCase):
-
     test_uid = "dhf8rtest"
     admin_uid = "dhf8admin"
     test_code_1 = "TEST-101"
@@ -86,17 +85,16 @@ class TestCase(unittest.TestCase):
     def assign_codes_to_track(self, track_id):
         self.add_codes()
         data = [{'id': self.test_code_1,
-                'prereq': True},
+                 'prereq': True},
                 {'id': self.test_code_2,
                  'prereq': False},
                 {'id': self.test_code_3,
                  'prereq': False}
                 ]
         rv = self.app.patch('/api/track/%i/codes' % track_id, data=json.dumps(data), follow_redirects=True,
-                           content_type="application/json", headers=self.logged_in_headers_admin())
+                            content_type="application/json", headers=self.logged_in_headers_admin())
         self.assert_success(rv)
         return rv
-
 
     def add_test_workshop(self):
         self.add_code(self.test_code_1, "Some description.")
@@ -136,8 +134,8 @@ class TestCase(unittest.TestCase):
         self.assert_success(rv)
         return json.loads(rv.get_data(as_text=True))
 
-    def logged_in_headers(self, participant = None):
-        if(participant == None):
+    def logged_in_headers(self, participant=None):
+        if (participant == None):
             uid = self.test_uid
             headers = {'uid': self.test_uid, 'givenName': 'Daniel', 'mail': 'dhf8r@virginia.edu'}
         else:
@@ -161,7 +159,6 @@ class TestCase(unittest.TestCase):
 
         return dict(Authorization='Bearer ' + participant.encode_auth_token().decode())
 
-
     def review(self, session):
         rv = self.app.get("/api/session/%i/register" % session["id"], headers=self.logged_in_headers())
         self.assert_success(rv)
@@ -178,22 +175,21 @@ class TestCase(unittest.TestCase):
         # Create the user
         headers = {'uid': self.test_uid, 'givenName': 'Daniel', 'mail': 'dhf8r@virginia.edu'}
         rv = self.app.get("/api/login", headers=headers, follow_redirects=True,
-                      content_type="application/json")
+                          content_type="application/json")
         # Don't check success, login does a redirect to the front end that might not be running.
         # self.assert_success(rv)
 
         participant = models.Participant.query.filter_by(uid=self.test_uid).first()
 
         # Now get the user back.
-        response = self.app.get('/api/user',headers=dict(
-                       Authorization='Bearer ' +
-                        participant.encode_auth_token().decode()
-            )
+        response = self.app.get('/api/user', headers=dict(
+            Authorization='Bearer ' +
+                          participant.encode_auth_token().decode()
         )
+                                )
         self.assert_success(response)
 
         return json.loads(response.data.decode())
-
 
     def assert_success(self, rv):
         self.assertTrue(rv.status_code >= 200 and rv.status_code < 300,
@@ -201,25 +197,24 @@ class TestCase(unittest.TestCase):
 
     def assert_failure(self, rv, code=""):
         self.assertFalse(rv.status_code >= 200 and rv.status_code < 300,
-                        "Incorrect Valid Response:" + rv.status + ".")
-        if(code != ""):
+                         "Incorrect Valid Response:" + rv.status + ".")
+        if (code != ""):
             print(rv.get_data(as_text=True))
             errors = json.loads(rv.get_data(as_text=True))
-            self.assertEqual(errors["code"],code)
+            self.assertEqual(errors["code"], code)
 
     def get_workshop(self, id):
-        rv = self.app.get('/api/workshop/%i' %id,
-                           follow_redirects=True,
-                           content_type="application/json")
+        rv = self.app.get('/api/workshop/%i' % id,
+                          follow_redirects=True,
+                          content_type="application/json")
         return json.loads(rv.get_data(as_text=True))
-
 
     def test_add_track(self):
 
         rv = self.app.post('/api/track')
-        self.assert_failure(rv,'permission_denied')
+        self.assert_failure(rv, 'permission_denied')
         rv = self.app.post('/api/track', headers=self.logged_in_headers())
-        self.assert_failure(rv,'permission_denied')
+        self.assert_failure(rv, 'permission_denied')
 
         rd = self.add_test_track()
         assert rd['title'] == "This is the title"
@@ -235,8 +230,8 @@ class TestCase(unittest.TestCase):
     def test_add_code(self):
         rv = self.add_codes()
         rv = self.app.get('/api/code',
-                           follow_redirects=True,
-                           content_type="application/json")
+                          follow_redirects=True,
+                          content_type="application/json")
         self.assert_success(rv)
         data = json.loads(rv.get_data(as_text=True))
         self.assertEqual(3, len(data))
@@ -244,7 +239,6 @@ class TestCase(unittest.TestCase):
         self.assertEquals(self.test_code_1, data[0]["id"])
         self.assertEquals(self.test_code_2, data[1]["id"])
         self.assertEquals(self.test_code_3, data[2]["id"])
-
 
     def test_add_workshop_with_invalid_code(self):
         data = {'image_file': 'workshop_one.jpg',
@@ -261,8 +255,8 @@ class TestCase(unittest.TestCase):
         self.add_codes()
         self.add_test_workshop()
         rv = self.app.get('/api/code/%s' % self.test_code_1,
-                           follow_redirects=True,
-                           content_type="application/json")
+                          follow_redirects=True,
+                          content_type="application/json")
         self.assert_success(rv)
         data = json.loads(rv.get_data(as_text=True))
         self.assertEquals(self.test_code_1, data["id"])
@@ -330,14 +324,12 @@ class TestCase(unittest.TestCase):
         code1 = all_tracks["tracks"][0]["codes"][0]
         self.assertEquals("ATTENDED", code1["status"])
 
-
-
     def test_assign_bad_codes_to_track(self):
         rd = self.add_test_track()
         data = [{'id': "no_such_id",
-                'prereq': True}]
+                 'prereq': True}]
         rv = self.app.patch('/api/track/%i/codes' % rd["id"], data=json.dumps(data), follow_redirects=True,
-                           content_type="application/json", headers=self.logged_in_headers_admin())
+                            content_type="application/json", headers=self.logged_in_headers_admin())
         self.assert_failure(rv, "no_such_code")
 
     def test_assign_codes_to_track(self):
@@ -354,7 +346,6 @@ class TestCase(unittest.TestCase):
         self.assertFalse(track["codes"][1]["prereq"])
         self.assertFalse(track["codes"][2]["prereq"])
 
-
     def test_sample_data_load(self):
         self.load_sample_data()
         track = models.Track.query.filter_by(id=1).first()
@@ -365,18 +356,18 @@ class TestCase(unittest.TestCase):
         self.assertEqual("This is a test workshop", workshop["title"])
 
     def test_remove_track(self):
-        track    = self.add_test_track()
+        track = self.add_test_track()
 
         response = self.app.get('/api/track')
         all_tracks = json.loads(response.get_data(as_text=True))
-        self.assertEqual(1,len(all_tracks["tracks"]))
+        self.assertEqual(1, len(all_tracks["tracks"]))
 
         rv = self.app.delete(track["_links"]["self"], follow_redirects=True, headers=self.logged_in_headers_admin())
         self.assert_success(rv)
 
         response = self.app.get('/api/track')
         all_tracks = json.loads(response.get_data(as_text=True))
-        self.assertEqual(0,len(all_tracks["tracks"]))
+        self.assertEqual(0, len(all_tracks["tracks"]))
 
     def test_add_session(self):
         workshop = self.add_test_workshop()
@@ -394,7 +385,7 @@ class TestCase(unittest.TestCase):
     def test_get_session(self):
         workshop = self.add_test_workshop()
         session = self.add_test_session(workshop["id"])
-        url = '/api/session/%i' %session["id"]
+        url = '/api/session/%i' % session["id"]
         print("The url is " + url)
         rv = self.app.get(url, follow_redirects=True)
         self.assert_success(rv)
@@ -450,7 +441,7 @@ class TestCase(unittest.TestCase):
         pData['bio'] = 'my brand new bio.'
 
         rv = self.app.put(participant["_links"]["self"], data=json.dumps(pData), follow_redirects=True,
-                           content_type="application/json", headers=self.logged_in_headers())
+                          content_type="application/json", headers=self.logged_in_headers())
         self.assert_success(rv)
         pData = json.loads(rv.get_data(as_text=True))
         self.assertEqual("new_test_name", pData['display_name'])
@@ -466,9 +457,8 @@ class TestCase(unittest.TestCase):
         self.assert_success(rv)
         pData = json.loads(rv.get_data(as_text=True))
         rv = self.app.put(participant["_links"]["self"], data=json.dumps(pData), follow_redirects=True,
-                           content_type="application/json")
+                          content_type="application/json")
         self.assert_failure(rv, 'permission_denied')
-
 
     def test_delete_participant(self):
         participant = self.add_test_participant()
@@ -476,10 +466,11 @@ class TestCase(unittest.TestCase):
         self.assert_failure(rv, 'permission_denied')
 
         participant = self.add_test_participant()
-        rv = self.app.delete(participant["_links"]["self"], follow_redirects=True,headers=self.logged_in_headers())
+        rv = self.app.delete(participant["_links"]["self"], follow_redirects=True, headers=self.logged_in_headers())
         self.assert_failure(rv, 'permission_denied')
 
-        rv = self.app.delete(participant["_links"]["self"], follow_redirects=True, headers=self.logged_in_headers_admin())
+        rv = self.app.delete(participant["_links"]["self"], follow_redirects=True,
+                             headers=self.logged_in_headers_admin())
         self.assert_success(rv)
         rv = self.app.get(participant["_links"]["self"], follow_redirects=True)
         self.assertEqual(404, rv.status_code)
@@ -535,7 +526,7 @@ class TestCase(unittest.TestCase):
         sessionJson = json.loads(rv.get_data(as_text=True))
         self.assertEquals(2, sessionJson['total_participants'])
         self.assertEquals(1, sessionJson['waiting_participants'])
-        self.assertEquals('WAIT_LISTED',sessionJson['status'])
+        self.assertEquals('WAIT_LISTED', sessionJson['status'])
 
         sessionModel = models.Session.query.filter_by(id=session['id']).first()
         self.assertEquals(3, len(sessionModel.participant_sessions))
@@ -546,7 +537,6 @@ class TestCase(unittest.TestCase):
                 participantSession = ps
         self.assertIsNotNone(participantSession)
         self.assertTrue(participantSession.wait_listed)
-
 
     def test_unregister(self):
         participant = self.add_test_participant()
@@ -563,7 +553,7 @@ class TestCase(unittest.TestCase):
 
         participant = json.loads(rv.get_data(as_text=True))
         print("The participant is:" + str(participant))
-        rv = self.app.get(participant["_links"]["workshops"],headers=self.logged_in_headers(), follow_redirects=True)
+        rv = self.app.get(participant["_links"]["workshops"], headers=self.logged_in_headers(), follow_redirects=True)
         self.assert_success(rv)
         workshops = json.loads(rv.get_data(as_text=True))
         self.assertEqual(0, len(workshops))
@@ -578,10 +568,10 @@ class TestCase(unittest.TestCase):
         reg = json.loads(rv.get_data(as_text=True))
         reg["review_score"] = 5
         reg["review_comment"] = "An excellent class"
-        rv = self.app.put('/api/session/%i/register' %  session["id"],
-                            headers = self.logged_in_headers(),
-                            data=json.dumps(reg), follow_redirects=True,
-                            content_type="application/json")
+        rv = self.app.put('/api/session/%i/register' % session["id"],
+                          headers=self.logged_in_headers(),
+                          data=json.dumps(reg), follow_redirects=True,
+                          content_type="application/json")
         reg2 = json.loads(rv.get_data(as_text=True))
         self.assertEqual(5, reg2["review_score"])
         self.assertEqual("An excellent class", reg2["review_comment"])
@@ -589,7 +579,7 @@ class TestCase(unittest.TestCase):
     # Authentication
     # ---------------------------------------
     def test_auth_token(self):
-        participant = models.Participant (
+        participant = models.Participant(
             uid="dhf8r"
         )
         auth_token = participant.encode_auth_token()
@@ -603,21 +593,19 @@ class TestCase(unittest.TestCase):
         auth_token = participant.encode_auth_token()
         self.assertTrue(isinstance(auth_token, bytes))
 
-
     def test_auth_creates_participant(self):
         participant = models.Participant.query.filter_by(uid=self.test_uid).first()
         self.assertIsNone(participant)
 
-        headers={'uid':self.test_uid,'givenName':'Daniel','mail':'dhf8r@virginia.edu'}
-        rv = self.app.get("/api/login",  headers=headers, follow_redirects=True,
-                           content_type="application/json")
+        headers = {'uid': self.test_uid, 'givenName': 'Daniel', 'mail': 'dhf8r@virginia.edu'}
+        rv = self.app.get("/api/login", headers=headers, follow_redirects=True,
+                          content_type="application/json")
         participant = models.Participant.query.filter_by(uid=self.test_uid).first()
         self.assertIsNotNone(participant)
         self.assertIsNotNone(participant.display_name)
         self.assertIsNotNone(participant.email_address)
         self.assertIsNotNone(participant.created)
         self.assertTrue(participant.new_account)
-
 
     def test_current_participant_status(self):
         rv = self.app.get('/api/user')
@@ -627,7 +615,6 @@ class TestCase(unittest.TestCase):
         self.assertTrue("id" in data)
         self.assertTrue(data['uid'] == self.test_uid)
         self.assertTrue(data['display_name'] == 'Daniel')
-
 
     def test_get_workshops_for_current_user(self):
         self.test_add_session()
@@ -652,7 +639,6 @@ class TestCase(unittest.TestCase):
         # Should be two workshops, one being attended, the other being instructed.
         self.assertEqual(2, len(workshops))
 
-
     def test_workshop_knows_instructor(self):
         ws = self.add_test_workshop()
         participant = self.add_test_participant()
@@ -668,7 +654,7 @@ class TestCase(unittest.TestCase):
         self.test_add_session()
         session = models.Session.query.first()
         rv = self.app.post("/api/session/%i/email" % session.id, follow_redirects=True,
-                          content_type="application/json")
+                           content_type="application/json")
         self.assert_failure(rv, "not_the_instructor")
 
         rv = self.app.post("/api/session/%i/email" % session.id, headers=self.logged_in_headers())
@@ -680,13 +666,13 @@ class TestCase(unittest.TestCase):
         instructor = session.workshop.instructor
         headers = self.logged_in_headers(instructor)
 
-        data = {'subject':'Test Subject', 'content': 'Test Content'}
+        data = {'subject': 'Test Subject', 'content': 'Test Content'}
         orig_log_count = len(models.EmailLog.query.all())
         rv = self.app.post("/api/session/%i/email" % session.id, headers=headers,
-                           data=json.dumps(data),  content_type="application/json")
+                           data=json.dumps(data), content_type="application/json")
         self.assert_success(rv)
 
-        self.assertGreater(len(TEST_MESSAGES),2)
+        self.assertGreater(len(TEST_MESSAGES), 2)
         self.assertEqual("[edplatform] Test Subject", TEST_MESSAGES[0]['subject'])
         logs = models.EmailLog.query.all()
         self.assertEqual(len(logs), orig_log_count + 3)
@@ -695,7 +681,7 @@ class TestCase(unittest.TestCase):
         return session
 
     def test_get_messages(self):
-        session = self.test_email_sends_to_recipient() # Generate some messages.
+        session = self.test_email_sends_to_recipient()  # Generate some messages.
 
         rv = self.app.get("/api/session/%i" % session.id, headers=self.logged_in_headers())
         self.assert_success(rv)
@@ -733,13 +719,11 @@ class TestCase(unittest.TestCase):
         self.assert_success(rv)
         return json.loads(rv.get_data(as_text=True))
 
-
     def test_search_title(self):
         self.load_sample_data()
         data = {'query': 'python', 'filters': []}
         search_results = self.search(data)
         self.assertEqual(8, len(search_results["hits"]))
-
 
     def test_search_description(self):
         self.load_sample_data()
@@ -756,7 +740,7 @@ class TestCase(unittest.TestCase):
         self.assertEqual(18, search_results["total"])
         self.assertEqual(10, len(search_results["hits"]))
         for w in search_results["hits"]:
-            self.assertEqual(w['sessions'][0]['location'],'Brown 133')
+            self.assertEqual(w['sessions'][0]['location'], 'Brown 133')
 
     def test_search_instructor(self):
         self.load_sample_data()
@@ -784,7 +768,7 @@ class TestCase(unittest.TestCase):
 
     def test_filter_on_instructor(self):
         self.load_sample_data()
-        data = {'query': '', 'filters': [{'field':'instructor','value':'VP Nagraj (Pete)'}]}
+        data = {'query': '', 'filters': [{'field': 'instructor', 'value': 'VP Nagraj (Pete)'}]}
         results = self.search(data)
         self.assertEquals(5, len(results["hits"]))
         self.assertEquals(5, results["total"])
@@ -793,29 +777,56 @@ class TestCase(unittest.TestCase):
 
     def test_search_by_date_past(self):
         self.load_sample_data()
-        data = {'query': '', 'date_restriction':'past'}
+        data = {'query': '', 'date_restriction': 'past'}
         results = self.search(data)
         for hit in results["hits"]:
             match = False
             for session in hit["sessions"]:
                 date = dateutil.parser.parse(session['date_time'])
                 present = datetime.datetime.now(datetime.timezone.utc)
-                if(date < present): match=True;
+                if (date < present): match = True;
             self.assertTrue(match, "Every hit should now have a session in the past.")
 
     def test_search_by_date_future(self):
         self.load_sample_data()
-        data = {'query': '', 'date_restriction':'future'}
+        data = {'query': '', 'date_restriction': 'future'}
         results = self.search(data)
         for hit in results["hits"]:
             match = False
             for session in hit["sessions"]:
                 date = dateutil.parser.parse(session['date_time'])
                 present = datetime.datetime.now(datetime.timezone.utc)
-                if(date >= present): match=True;
+                if (date >= present): match = True;
             self.assertTrue(match, "Every hit should now have a session in the future.")
 
 
+    def search_participant(self, query):
+        self.load_sample_data()
+        '''Executes a query, returning the resulting search results object.'''
+        rv = self.app.post('/api/participant/search', data=json.dumps(query), follow_redirects=True,
+                       content_type="application/json")
+        self.assert_success(rv)
+        return json.loads(rv.get_data(as_text=True))
+
+    def test_search_participant_last_name(self):
+        self.load_sample_data()
+        data = {'query': 'DeFreitas'}
+        search_results = self.search_participant(data)
+        self.assertEqual(1, len(search_results["hits"]))
+        p = search_results["hits"][0]
+        self.assertEqual("CRD2JG", p["uid"])
+        self.assertEqual("Cory DeFreitas", p["display_name"])
+
+    def test_search_participant_first_name(self):
+        self.load_sample_data()
+        data = {'query': 'Pete'}
+        search_results = self.search_participant(data)
+        self.assertEqual(2, len(search_results["hits"]))
+        vp = search_results["hits"][0]
+        alonzi = search_results["hits"][1]
+
+        self.assertEqual("alonzi", alonzi["uid"])
+        self.assertEqual("vpn7n", vp["uid"])
 
 
 if __name__ == '__main__':

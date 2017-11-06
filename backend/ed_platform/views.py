@@ -228,7 +228,7 @@ def search_workshops():
     request_data = request.get_json()
     search = models.SearchSchema().load(request_data).data
     try:
-        results = elastic_index.search(search)
+        results = elastic_index.search_workshops(search)
     except elasticsearch.ElasticsearchException as e:
         raise RestException(RestException.ELASTIC_ERROR)
     search.total = results.hits.total
@@ -578,5 +578,20 @@ def get_registration(participant_id, session_id):
 
     return(jsonify(participant_session_db_schema.dump(participant_session).data))
 
-
+@app.route('/api/participant/search', methods=['POST'])
+@auth.login_required
+def search_participant():
+    request_data = request.get_json()
+    search = models.SearchSchema().load(request_data).data
+    try:
+        results = elastic_index.search_participants(search)
+    except elasticsearch.ElasticsearchException as e:
+        raise RestException(RestException.ELASTIC_ERROR)
+    search.total = results.hits.total
+    participants = []
+    for hit in results:
+        participant = models.Participant.query.filter_by(id=hit.id).first()
+        participants.append(participant)
+    search.hits = participant_schema.dump(participants, many=True).data
+    return models.SearchSchema().jsonify(search)
 
