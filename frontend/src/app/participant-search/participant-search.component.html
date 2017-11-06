@@ -1,0 +1,23 @@
+  <form class="search-box">
+    <div>Search:</div>
+    <input #query type="search">
+    <button (click)="updateQuery(query.value)">
+      <mat-icon>search</mat-icon>
+    </button>
+    <button (click)="toggleFilter()">
+      <i class="material-icons">filter_list</i>
+    </button>
+  </form>
+
+  <ul class="list">
+    <li *ngFor="let p of search.participants" (click)="select(p)">
+      <span></span>
+      <img class="avatar" src="{{p.links.image}}" alt=""/>
+      <div class="list-text">
+       <p>
+          <b>{{ p.display_name }}</b><br/>
+          <em>{{ p.title }}</em>
+        </p>
+      </div>
+    </li>
+  </ul>

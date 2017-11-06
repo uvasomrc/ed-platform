@@ -25,7 +25,6 @@ import { HomeComponent } from './home/home.component';
 import {ConfirmDialogComponent, TrackDetailsComponent} from './track-details/track-details.component';
 import { WorkshopDetailsComponent } from './workshop-details/workshop-details.component';
 import { SessionComponent } from './session/session.component';
-import { ParticipantBriefComponent } from './participant-brief/participant-brief.component';
 import { ReviewComponent } from './review/review.component';
 import { ReviewStarsComponent } from './review-stars/review-stars.component';
 import { TimesPipe } from './times.pipe';
@@ -40,6 +39,7 @@ import {AccountFormComponent} from './account-form/account-form.component';
 import { TrackFormComponent } from './track-form/track-form.component';
 import { CodeFormComponent } from './code-form/code-form.component';
 import {DndModule} from 'ng2-dnd';
+import { ParticipantSearchComponent } from './participant-search/participant-search.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -69,7 +69,6 @@ const routes: Routes = [
     TrackDetailsComponent,
     WorkshopDetailsComponent,
     SessionComponent,
-    ParticipantBriefComponent,
     ReviewComponent,
     ReviewStarsComponent,
     TimesPipe,
@@ -81,7 +80,8 @@ const routes: Routes = [
     AccountFormComponent,
     TrackFormComponent,
     CodeFormComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    ParticipantSearchComponent
   ],
   imports: [
     BrowserModule,

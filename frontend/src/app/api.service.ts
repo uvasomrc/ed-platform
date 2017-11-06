@@ -19,6 +19,7 @@ export class ApiService {
   apiRoot = environment.api;
   workshop_url = `${this.apiRoot}/api/workshop`;
   search_url = `${this.apiRoot}/api/workshop/search`;
+  participant_search_url = `${this.apiRoot}/api/participant/search`;
   track_url = `${this.apiRoot}/api/track`;
   session_url = `${this.apiRoot}/api/session`;
   account_url = `${this.apiRoot}/api/user`;
@@ -68,6 +69,15 @@ export class ApiService {
     formData.append('image', file, file.name);
     return this.http
       .post(participant.links.image, formData, this.getOptions())
+      .catch(this.handleError);
+  }
+
+  searchParticipants(search: Search): Observable<Search> {
+    return this.http
+      .post(this.participant_search_url, search, this.getOptions())
+      .map(response => {
+        return new Search(response.json());
+      })
       .catch(this.handleError);
   }
 

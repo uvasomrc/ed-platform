@@ -4,11 +4,12 @@ import {Participant} from './participant';
 import {Subscription} from 'rxjs/Subscription';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
-import {Session} from "./session";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {Workshop} from "./workshop";
-import {environment} from "../environments/environment";
-import {RequestOptions} from "@angular/http";
+import {Session} from './session';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Workshop} from './workshop';
+import {environment} from '../environments/environment';
+import {RequestOptions} from '@angular/http';
+import {Search} from './search';
 
 @Injectable()
 export class AccountService implements OnDestroy {
@@ -75,6 +76,10 @@ export class AccountService implements OnDestroy {
 
   getWorkshopsForParticipant(participant: Participant): Observable<Workshop[]> {
     return (this.api.getWorkshopsForParticipant(participant));
+  }
+
+  search(search: Search): Observable<Search> {
+    return (this.api.searchParticipants(search));
   }
 
   login(token: string): Observable<Participant> {

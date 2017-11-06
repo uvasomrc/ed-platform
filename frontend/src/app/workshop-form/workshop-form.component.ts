@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {WorkshopService} from '../workshop.service';
 import {Workshop} from '../workshop';
 import {ActivatedRoute, Router} from "@angular/router";
+import {Participant} from "../participant";
 
 @Component({
   selector: 'app-workshop-form',
@@ -40,6 +41,11 @@ export class WorkshopFormComponent implements OnInit {
       this.workshop = new Workshop();
       this.loadForm();
     }
+  }
+
+  setInstructor(p: Participant) {
+    console.log(`Setting instructor to ${p.display_name}`);
+    this.workshop.instructor = p;
   }
 
   loadForm() {

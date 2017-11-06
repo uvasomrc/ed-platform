@@ -6,49 +6,58 @@
 <pre>Title  {{ title}}</pre>
 -->
 
-<form *ngIf="isDataLoaded" [formGroup]="workshopForm" novalidate (ngSubmit)="onSubmit()">
-  <div
-    class="container"
-    fxLayout="row"
-    fxLayoutWrap
-    fxLayout.xs="column"
-    fxLayoutAlign="start"
-    fxLayoutGap="10px"
-    fxLayoutGap.xs="0">
-    <div fxFlex="50%">
-      <h2>Workshop Details</h2>
-      <mat-form-field class="example-full-width">
-        <input matInput formControlName="title" placeholder="Title" value="{{workshop.title}}" class="form-control">
-        <mat-error>
-          Title is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
+<mat-sidenav-container *ngIf="isDataLoaded">
+  <mat-sidenav mode="side" opened="true">
+  <h1>Participant Search</h1>
+  <app-participant-search (selected)="setInstructor($event)"></app-participant-search>
+  </mat-sidenav>
 
-      <mat-form-field class="example-full-width">
-        <textarea rows="4" matInput formControlName="description" placeholder="Description" value="{{workshop.description}}" class="form-control"></textarea>
-        <mat-error>
-          This description is too short.
-        </mat-error>
-      </mat-form-field>
-      <!--
-      <mat-form-field class="example-full-width">
-        <select mdInput formControlName="code" placehoder="Track Code" value="{{workshop.code_id}}">
-          <option *ngFor="let code of codeOptions">{{code.id}} {{code.description}}</option>
-        </select>
-      </mat-form-field>
-      -->
-    </div>
-    <div class="display">
-      <h2>How your Workshop will appear:</h2>
-      <app-workshop [workshop]="workshop"></app-workshop>
-      <div class="button">
-        <button type="submit" mat-raised-button>Save this workshop</button>
+  <form *ngIf="isDataLoaded" [formGroup]="workshopForm" novalidate (ngSubmit)="onSubmit()">
+    <div
+      class="container"
+      fxLayout="row"
+      fxLayoutWrap
+      fxLayout.xs="column"
+      fxLayoutAlign="start"
+      fxLayoutGap="10px"
+      fxLayoutGap.xs="0">
+      <div fxFlex="50%">
+        <h2>Workshop Details</h2>
+        <mat-form-field class="example-full-width">
+          <input matInput formControlName="title" placeholder="Title" value="{{workshop.title}}" class="form-control">
+          <mat-error>
+            Title is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <textarea rows="4" matInput formControlName="description" placeholder="Description"
+                    value="{{workshop.description}}" class="form-control"></textarea>
+          <mat-error>
+            This description is too short.
+          </mat-error>
+        </mat-form-field>
+        <!--
+        <mat-form-field class="example-full-width">
+          <select mdInput formControlName="code" placehoder="Track Code" value="{{workshop.code_id}}">
+            <option *ngFor="let code of codeOptions">{{code.id}} {{code.description}}</option>
+          </select>
+        </mat-form-field>
+        -->
+      </div>
+      <div class="display">
+        <h2>How your Workshop will appear:</h2>
+        <app-workshop [workshop]="workshop"></app-workshop>
+        <div class="button">
+          <button type="submit" mat-raised-button>Save this workshop</button>
+        </div>
       </div>
     </div>
-  </div>
-  <!--
-  <div>
-    <input id="fileInput" name="file" type="file" class="ng-hide" multiple>
-  </div>
-  -->
-</form>
+    <!--
+    <div>
+      <input id="fileInput" name="file" type="file" class="ng-hide" multiple>
+    </div>
+    -->
+  </form>
+
+</mat-sidenav-container>

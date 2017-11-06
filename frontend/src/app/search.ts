@@ -1,18 +1,26 @@
 import {Workshop} from './workshop';
+import {Participant} from './participant';
 export class Search {
  query: string;
  filters: Array<Filter>;
  total = 0;
- hits: Array<Workshop>;
+ workshops: Array<Workshop>;
+ participants: Array<Participant>;
  facets: Array<Facet>;
  date_restriction: string;
 
  constructor(values: Object= {}) {
    Object.assign(this, values);
-   this.hits = new Array<Workshop>();
-   if ('hits' in values) {
-     for (const w of values['hits']) {
-       this.hits.push(new Workshop(w));
+   this.workshops = new Array<Workshop>();
+   if ('workshops' in values) {
+     for (const w of values['workshops']) {
+       this.workshops.push(new Workshop(w));
+     }
+   }
+   this.participants = new Array<Participant>();
+   if ('participants' in values) {
+     for (const p of values['participants']) {
+       this.participants.push(new Participant(p));
      }
    }
    this.facets = new Array<Facet>();
