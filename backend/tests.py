@@ -712,7 +712,6 @@ class TestCase(unittest.TestCase):
         self.assertIsNotNone(updated.date_opened)
 
     def search(self, query):
-        self.load_sample_data()
         '''Executes a query, returning the resulting search results object.'''
         rv = self.app.post('/api/workshop/search', data=json.dumps(query), follow_redirects=True,
                            content_type="application/json")
@@ -723,32 +722,32 @@ class TestCase(unittest.TestCase):
         self.load_sample_data()
         data = {'query': 'python', 'filters': []}
         search_results = self.search(data)
-        self.assertEqual(8, len(search_results["hits"]))
+        self.assertEqual(8, len(search_results["workshops"]))
 
     def test_search_description(self):
         self.load_sample_data()
         data = {'query': 'amazon web services', 'filters': []}
         search_results = self.search(data)
-        self.assertEqual(8, len(search_results["hits"]))
+        self.assertEqual(8, len(search_results["workshops"]))
         self.assertEqual("Introduction to Cloud Computing with AWS",
-                         search_results["hits"][0]['title'])
+                         search_results["workshops"][0]['title'])
 
     def test_search_location(self):
         self.load_sample_data()
         data = {'query': 'Brown', 'filters': []}
         search_results = self.search(data)
         self.assertEqual(18, search_results["total"])
-        self.assertEqual(10, len(search_results["hits"]))
-        for w in search_results["hits"]:
+        self.assertEqual(10, len(search_results["workshops"]))
+        for w in search_results["workshops"]:
             self.assertEqual(w['sessions'][0]['location'], 'Brown 133')
 
     def test_search_instructor(self):
         self.load_sample_data()
         data = {'query': 'Nagraj', 'filters': []}
         search_results = self.search(data)
-        self.assertEqual(5, search_results["total"])
-        self.assertEqual(5, len(search_results["hits"]))
-        for w in search_results["hits"]:
+        self.assertEqual(4, search_results["total"])
+        self.assertEqual(4, len(search_results["workshops"]))
+        for w in search_results["workshops"]:
             self.assertEquals('VP Nagraj (Pete)', w['instructor']['display_name'])
 
     def test_search_meta(self):
@@ -757,7 +756,7 @@ class TestCase(unittest.TestCase):
         results = self.search(data)
         self.assertIn('total', results)
         self.assertEqual(22, results["total"])
-        self.assertEqual(10, len(results["hits"]))
+        self.assertEqual(10, len(results["workshops"]))
 
     def test_view_instructor_aggregations(self):
         self.load_sample_data()
@@ -770,16 +769,16 @@ class TestCase(unittest.TestCase):
         self.load_sample_data()
         data = {'query': '', 'filters': [{'field': 'instructor', 'value': 'VP Nagraj (Pete)'}]}
         results = self.search(data)
-        self.assertEquals(5, len(results["hits"]))
-        self.assertEquals(5, results["total"])
-        for hit in results["hits"]:
+        self.assertEquals(4, len(results["workshops"]))
+        self.assertEquals(4, results["total"])
+        for hit in results["workshops"]:
             self.assertEquals('VP Nagraj (Pete)', hit['instructor']['display_name'])
 
     def test_search_by_date_past(self):
         self.load_sample_data()
         data = {'query': '', 'date_restriction': 'past'}
         results = self.search(data)
-        for hit in results["hits"]:
+        for hit in results["workshops"]:
             match = False
             for session in hit["sessions"]:
                 date = dateutil.parser.parse(session['date_time'])
@@ -791,7 +790,7 @@ class TestCase(unittest.TestCase):
         self.load_sample_data()
         data = {'query': '', 'date_restriction': 'future'}
         results = self.search(data)
-        for hit in results["hits"]:
+        for hit in results["workshops"]:
             match = False
             for session in hit["sessions"]:
                 date = dateutil.parser.parse(session['date_time'])
@@ -812,8 +811,8 @@ class TestCase(unittest.TestCase):
         self.load_sample_data()
         data = {'query': 'DeFreitas'}
         search_results = self.search_participant(data)
-        self.assertEqual(1, len(search_results["hits"]))
-        p = search_results["hits"][0]
+        self.assertEqual(1, len(search_results["participants"]))
+        p = search_results["participants"][0]
         self.assertEqual("CRD2JG", p["uid"])
         self.assertEqual("Cory DeFreitas", p["display_name"])
 
@@ -821,9 +820,9 @@ class TestCase(unittest.TestCase):
         self.load_sample_data()
         data = {'query': 'Pete'}
         search_results = self.search_participant(data)
-        self.assertEqual(2, len(search_results["hits"]))
-        vp = search_results["hits"][0]
-        alonzi = search_results["hits"][1]
+        self.assertEqual(2, len(search_results["participants"]))
+        vp = search_results["participants"][0]
+        alonzi = search_results["participants"][1]
 
         self.assertEqual("alonzi", alonzi["uid"])
         self.assertEqual("vpn7n", vp["uid"])

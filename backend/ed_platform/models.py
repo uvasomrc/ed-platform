@@ -36,7 +36,8 @@ class Search():
     query = ""
     filters = []
     total = 0
-    hits = []
+    participants = []
+    workshops = []
     facets = []
     date_restriction = ""
 
@@ -330,7 +331,8 @@ class SearchSchema(ma.Schema):
     date_restriction = fields.Str()
     filters = ma.List(ma.Nested(FilterSchema))
     total = fields.Integer(dump_only=True)
-    hits = fields.List(fields.Dict(), dump_only=True)
+    workshops = fields.List(fields.Dict(), dump_only=True)
+    participants = fields.List(fields.Dict(), dump_only=True)
     facets = fields.Dict(dump_only=True)
     ordered = True
 

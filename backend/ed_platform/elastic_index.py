@@ -19,10 +19,12 @@ class ElasticIndex:
         self.establish_connection(app.config['ELASTIC_SEARCH'])
         self.index_prefix = app.config['ELASTIC_SEARCH']["index_prefix"]
 
-        self.workshop_index = Index('%s_workshops' % self.index_prefix)
+        self.workshop_index_name = '%s_workshops' % self.index_prefix
+        self.workshop_index = Index(self.workshop_index_name)
         self.workshop_index.doc_type(ElasticWorkshop)
 
-        self.participant_index = Index('%s_participant' % self.index_prefix)
+        self.participant_index_name = '%s_participants' % self.index_prefix
+        self.participant_index = Index(self.participant_index_name)
         self.participant_index.doc_type(ElasticParticipant)
 
 
@@ -105,13 +107,13 @@ class ElasticIndex:
 
     def search_workshops(self, search):
         workshop_search = WorkshopSearch(search.query, search.jsonFilters(),
-                                         date_restriction=search.date_restriction, index=self.workshop_index)
+                                         date_restriction=search.date_restriction, index=self.workshop_index_name)
         return workshop_search.execute()
 
     def search_participants(self, search):
         fields = ['uid^10', 'display_name^5', 'bio']
         q = Q("multi_match", query=search.query, fields=fields)
-        s = Search().query(q)
+        s = Search(index=self.participant_index_name).query(q)
         return s.execute()
 
 class ElasticParticipant(DocType):

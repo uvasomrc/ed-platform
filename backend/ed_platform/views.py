@@ -244,7 +244,7 @@ def search_workshops():
     for hit in results:
         workshop = models.Workshop.query.filter_by(id=hit.id).first()
         workshops.append(workshop)
-    search.hits = workshop_schema.dump(workshops, many=True).data
+    search.workshops = workshop_schema.dump(workshops, many=True).data
     return models.SearchSchema().jsonify(search)
 
 @app.route('/api/workshop', methods=['POST'])
@@ -592,6 +592,6 @@ def search_participant():
     for hit in results:
         participant = models.Participant.query.filter_by(id=hit.id).first()
         participants.append(participant)
-    search.hits = participant_schema.dump(participants, many=True).data
+    search.participants = participant_schema.dump(participants, many=True).data
     return models.SearchSchema().jsonify(search)
 
