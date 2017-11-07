@@ -7,28 +7,10 @@
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <div *ngIf="session.instructing()">You are Teaching this session.</div>
-    <p>Notes: {{session.instructor_notes}}</p>
+    Attendees: {{session.total_participants}} of {{session.max_attendees}}, with {{session.waiting_participants}}
+    wait-listed.
+    <p>{{session.instructor_notes}}</p>
   </mat-card-content>
-
-  <mat-card-actions *ngIf="session.instructing()">
-    <button mat-button (click)="teacherDashboard()">Teacher Dashboard</button>
-  </mat-card-actions>
-
-  <mat-card-actions *ngIf="session.registered()">
-    <p>You are Registered for this session.</p>
-    <button mat-button (click)="removeSession()">Un-Register</button>
-  </mat-card-actions>
-
-  <mat-card-actions *ngIf="removed">
-    <button mat-button (click)="addSession()">Undo</button>
-  </mat-card-actions>
-
-  <mat-card-actions *ngIf="available && !session.registered()">
-    <button mat-button (click)="addSession()">Register Now!</button>
-  </mat-card-actions>
-
-
 </mat-card>
 
 

@@ -1,0 +1,29 @@
+<form [formGroup]="sessionForm" novalidate (ngSubmit)="onSubmit()">
+
+
+  <date-picker matInput formControlName="date" mode="datetime"  ></date-picker>
+
+  <mat-form-field>
+    <input type="number" matInput formControlName="duration_minutes" placeholder="Duration (Minutes)">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input type="number" matInput formControlName="max_attendees" placeholder="Max Attendees" >
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput formControlName="location" placeholder="Location" >
+  </mat-form-field>
+
+  <mat-form-field>
+          <textarea rows="4" matInput formControlName="instructor_notes" placeholder="Notes from Instructor (optional)"
+                     class="form-control"></textarea>
+  </mat-form-field>
+
+  <div class="button">
+    <button type="submit" *ngIf="!session.id" mat-raised-button>Add Session</button>
+    <button type="submit" *ngIf="session.id > 0" mat-raised-button>Update Session</button>
+    <button type="reset" *ngIf="session.id > 0" mat-raised-button >Cancel</button>
+  </div>
+
+</form>

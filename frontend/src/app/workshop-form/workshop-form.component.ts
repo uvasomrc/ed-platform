@@ -1,9 +1,11 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {WorkshopService} from '../workshop.service';
 import {Workshop} from '../workshop';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Participant} from "../participant";
+import {Session} from "../session";
+import {SessionFormComponent} from "../session-form/session-form.component";
 
 @Component({
   selector: 'app-workshop-form',
@@ -22,6 +24,8 @@ export class WorkshopFormComponent implements OnInit {
 
   @Output()
   add: EventEmitter<Workshop> = new EventEmitter();
+
+  @ViewChild(SessionFormComponent) sessionForm: SessionFormComponent;
 
   constructor(private workshopService: WorkshopService,
               private route: ActivatedRoute,
@@ -61,6 +65,20 @@ export class WorkshopFormComponent implements OnInit {
     this.description.valueChanges.subscribe(d => this.workshop.description = d);
 
     this.isDataLoaded = true;
+  }
+
+  addSession(s: Session) {
+    console.log(`Adding Session ${s.id}`)
+    let index = this.workshop.sessions.findIndex(es => es.id === s.id);
+    if (index >= 0) {
+      this.workshop.sessions[index] = s;
+    } else {
+      this.workshop.sessions.push(s);
+    }
+  }
+
+  editSession(s: Session) {
+    this.sessionForm.editSession(s);
   }
 
   onSubmit() {

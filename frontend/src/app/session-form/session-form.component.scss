@@ -1,4 +1,3 @@
-
 // Import theming functions
 @import '~@angular/material/theming';
 // Import your custom theme
@@ -6,14 +5,7 @@
 // Load the UVA Theme
 @include uva-theme($uva-theme);
 
-.session {
-  border-top: 4px solid mat-color($uva-accent, 500)
-}
-
-.removed {
-  background-color: gray;
-}
-
-mat-card .session {
-  height: auto;
+/* class repeated for increased specificity */
+.mat-form-field.mat-form-field {
+  width: 100%;
 }

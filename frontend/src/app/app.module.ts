@@ -11,7 +11,7 @@ import {
   MatButtonModule, MatIconModule, MatMenuModule, MatToolbarModule, MatCardModule,
   MatInputModule, MatCheckboxModule, MatFormFieldModule, MatTabsModule, MatProgressSpinnerModule,
   MatExpansionModule, MatSelectModule, MatListModule, MatRadioModule, MatStepperModule, MatSidenavModule,
-  MatDialogModule
+  MatDialogModule, MatDatepickerModule, MatNativeDateModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {WorkshopService} from './workshop.service';
@@ -40,6 +40,9 @@ import { TrackFormComponent } from './track-form/track-form.component';
 import { CodeFormComponent } from './code-form/code-form.component';
 import {DndModule} from 'ng2-dnd';
 import { ParticipantSearchComponent } from './participant-search/participant-search.component';
+import { SessionFormComponent } from './session-form/session-form.component';
+import {DatePickerModule} from "angular-io-datepicker";
+import {OverlayModule} from "@angular/cdk/overlay";
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -81,7 +84,8 @@ const routes: Routes = [
     TrackFormComponent,
     CodeFormComponent,
     ConfirmDialogComponent,
-    ParticipantSearchComponent
+    ParticipantSearchComponent,
+    SessionFormComponent
   ],
   imports: [
     BrowserModule,
@@ -107,6 +111,9 @@ const routes: Routes = [
     MatStepperModule,
     MatSidenavModule,
     MatDialogModule,
+    DatePickerModule,
+    OverlayModule,
+    MatNativeDateModule,
     DndModule.forRoot(),
     RouterModule.forRoot(routes, {useHash: true})
   ],

@@ -22,7 +22,11 @@ export class Session {
 
   constructor(values: Object = {}, parent = null) {
     Object.assign(this, values);
-    this.date_time = new Date(values['date_time']);
+    if(values['date_time']) {
+      this.date_time = new Date(values['date_time']);
+    } else {
+      this.date_time = new Date();
+    }
     this.links = new Links(values['_links']);
     if ('participant_sessions' in values) {
       for (const ps of values['participant_sessions']) {
