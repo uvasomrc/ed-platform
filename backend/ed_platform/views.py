@@ -256,7 +256,21 @@ def create_workshop():
         db_code = models.Code.query.filter_by(id=request_data['code']).first()
         if (db_code == None): raise RestException(RestException.NO_SUCH_CODE)
 
+    new_sessions = []
+    for session in request_data['sessions']:
+        if('id' in session):
+            new_session = models.Session.query.filter_by(id=session['id']).first()
+        else :
+            new_session = models.Session()
+        fields = ['date_time', 'duration_minutes', 'location', 'instructor_notes', 'max_attendees']
+        for field in fields:
+            if(field in session):
+                setattr(new_session, field, session[field])
+        new_sessions.append(new_session)
+
+    request_data['sessions'] = []
     new_workshop = workshop_db_schema.load(request_data).data
+    new_workshop.sessions = new_sessions
     db.session.add(new_workshop)
     db.session.commit()
     return workshop_schema.jsonify(new_workshop)
