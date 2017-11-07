@@ -1,7 +1,7 @@
 from flask import logging
 
 from elasticsearch_dsl import DocType, Date, Float, Keyword, Text, \
-    Index, Search, analyzer, Nested, Integer, analysis, Q
+    Index, Search, analyzer, Nested, Integer, analysis, Q, tokenizer
 from elasticsearch import Elasticsearch
 import elasticsearch
 import elasticsearch_dsl
@@ -27,9 +27,9 @@ class ElasticIndex:
         self.participant_index = Index(self.participant_index_name)
         self.participant_index.doc_type(ElasticParticipant)
 
-
         try:
             ElasticWorkshop.init()
+            ElasticParticipant.init()
         except:
             self.logger.info("Failed to create the workshop index.  It may already exist.")
 
@@ -58,6 +58,7 @@ class ElasticIndex:
             self.workshop_index.delete(ignore=404)
             self.participant_index.delete(ignore=404)
             ElasticWorkshop.init()
+            ElasticParticipant.init()
         except:
             self.logger.error("Failed to delete the indices.  They night not exist.")
 
@@ -112,15 +113,26 @@ class ElasticIndex:
 
     def search_participants(self, search):
         fields = ['uid^10', 'display_name^5', 'bio']
-        q = Q("multi_match", query=search.query, fields=fields)
+        if search.query == "":
+            q = Q("match_all")
+        else:
+            q = Q("multi_match", query=search.query, fields=fields)
         s = Search(index=self.participant_index_name).query(q)
         return s.execute()
+
+autocomplete = analyzer('autocomplete',
+    tokenizer=tokenizer('ngram', 'edge_ngram', min_gram=2, max_gram=15, token_chars=["letter","digit"]),
+    filter=['lowercase']
+)
+autocomplete_search = analyzer('autocomplete_search',
+    tokenizer=tokenizer('lowercase')
+)
 
 class ElasticParticipant(DocType):
     id = Integer()
     title = Text()
     uid = Keyword()
-    display_name = Text()
+    display_name = Text(analyzer=autocomplete, search_analyzer=autocomplete_search)
     bio = Text()
     created = Date()
 

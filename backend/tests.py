@@ -808,7 +808,6 @@ class TestCase(unittest.TestCase):
         return json.loads(rv.get_data(as_text=True))
 
     def test_search_participant_last_name(self):
-        self.load_sample_data()
         data = {'query': 'DeFreitas'}
         search_results = self.search_participant(data)
         self.assertEqual(1, len(search_results["participants"]))
@@ -817,7 +816,6 @@ class TestCase(unittest.TestCase):
         self.assertEqual("Cory DeFreitas", p["display_name"])
 
     def test_search_participant_first_name(self):
-        self.load_sample_data()
         data = {'query': 'Pete'}
         search_results = self.search_participant(data)
         self.assertEqual(2, len(search_results["participants"]))
@@ -826,6 +824,11 @@ class TestCase(unittest.TestCase):
 
         self.assertEqual("alonzi", alonzi["uid"])
         self.assertEqual("vpn7n", vp["uid"])
+
+    def test_search_ngram_participant(self):
+        data = {'query': 'Pe'}
+        search_results = self.search_participant(data)
+        self.assertEqual(2, len(search_results["participants"]))
 
 
 if __name__ == '__main__':
