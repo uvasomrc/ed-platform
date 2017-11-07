@@ -1,6 +1,7 @@
-  <form class="search-box">
+<div class="participant-search">
+  <form [formGroup]="searchForm" class="search-box" novalidate (ngSubmit)="doSearch()">
     <div>Search:</div>
-    <input #query type="search">
+    <input #query formControlName="searchBox" type="search">
     <button (click)="updateQuery(query.value)">
       <mat-icon>search</mat-icon>
     </button>
@@ -9,7 +10,7 @@
   <ul class="list">
     <li *ngFor="let p of search.participants" (click)="select(p)">
       <span></span>
-      <img class="avatar" src="{{p.links.image}}" alt=""/>
+      <img class="avatar" src="{{p.image()}}" alt=""/>
       <div class="list-text">
        <p>
           <b>{{ p.display_name }}</b><br/>
@@ -18,3 +19,4 @@
       </div>
     </li>
   </ul>
+</div>

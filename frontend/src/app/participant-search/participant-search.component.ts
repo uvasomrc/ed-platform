@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AccountService} from '../account.service';
 import {Participant} from '../participant';
 import {Search} from '../search';
+import {FormControl, FormGroup} from "@angular/forms";
 
 
 @Component({
@@ -17,9 +18,21 @@ export class ParticipantSearchComponent implements OnInit {
   @Output()
   selected: EventEmitter<Participant> = new EventEmitter();
 
+  searchForm: FormGroup;
+  searchBox: FormControl;
+
   constructor(private accountService: AccountService) { }
 
   ngOnInit() {
+    this.searchBox = new FormControl();
+    this.searchForm = new FormGroup({
+      searchBox: this.searchBox
+    });
+
+    this.searchBox.valueChanges.subscribe(query => {
+      this.search.query = query;
+      this.doSearch();
+    });
   }
 
   updateQuery(query) {

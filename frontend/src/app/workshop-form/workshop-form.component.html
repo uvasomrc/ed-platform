@@ -8,7 +8,8 @@
 
 <mat-sidenav-container *ngIf="isDataLoaded">
   <mat-sidenav mode="side" opened="true">
-    <h1>Participant Search</h1>
+    <h1>User Search</h1>
+    <em>Click anyone from the list to make them the instructor for this workshop.</em>
     <app-participant-search (selected)="setInstructor($event)"></app-participant-search>
   </mat-sidenav>
 
