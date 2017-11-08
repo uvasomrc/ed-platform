@@ -9,3 +9,7 @@
 .mat-form-field.mat-form-field {
   width: 100%;
 }
+
+button.mat-raised-button {
+  background-color: mat-color($uva-accent, 500);
+}

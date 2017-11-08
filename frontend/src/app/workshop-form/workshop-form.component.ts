@@ -77,6 +77,14 @@ export class WorkshopFormComponent implements OnInit {
     }
   }
 
+  deleteSession(s: Session) {
+    console.log(`Removing Session ${s.id}`)
+    let index = this.workshop.sessions.findIndex(es => es.id === s.id);
+    if (index >= 0) {
+      this.workshop.sessions.splice(index, 1);
+    }
+  }
+
   editSession(s: Session) {
     this.sessionForm.editSession(s);
   }

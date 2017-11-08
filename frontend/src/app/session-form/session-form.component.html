@@ -23,7 +23,8 @@
   <div class="button">
     <button type="submit" *ngIf="!session.id" mat-raised-button>Add Session</button>
     <button type="submit" *ngIf="session.id > 0" mat-raised-button>Update Session</button>
-    <button type="reset" *ngIf="session.id > 0" mat-raised-button >Cancel</button>
+    <button type="button" *ngIf="session.id > 0" mat-raised-button (click)="onDelete()">Delete Session</button>
+    <button type="button" mat-raised-button (click)="onReset()" >Reset</button>
   </div>
 
 </form>

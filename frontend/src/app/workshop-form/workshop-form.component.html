@@ -74,13 +74,16 @@
         <em *ngIf="workshop.sessions.length === 0">
           There are no sessions for this workshop.
         </em>
+        <em *ngIf="workshop.sessions.length > 0">
+          Click a session to edit or remove it.
+        </em>
         <app-session *ngFor="let session of workshop.sessions" [session]="session"
                      (click)="editSession(session)"></app-session>
       </div>
 
       <div fxFlex="50%">
         <h2>Add/Edit A Session:</h2>
-        <app-session-form (newSession)="addSession($event)"></app-session-form>
+        <app-session-form (newSession)="addSession($event)" (deleteSession)="deleteSession($event)"></app-session-form>
       </div>
 
     </div>

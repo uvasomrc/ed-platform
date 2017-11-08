@@ -24,6 +24,9 @@ export class SessionFormComponent implements OnInit {
   @Output()
   newSession: EventEmitter<Session> = new EventEmitter();
 
+  @Output()
+  deleteSession: EventEmitter<Session> = new EventEmitter();
+
   constructor() {
     this.session = new Session();
   }
@@ -82,6 +85,16 @@ export class SessionFormComponent implements OnInit {
       // Fixme: This should just be a reset, but that doesn't work.
       this.sessionForm.reset();
     }
+  }
+
+  onDelete() {
+    this.deleteSession.emit(this.session);
+    this.session = new Session();
+  }
+
+  onReset() {
+    this.sessionForm.reset();
+    this.session = new Session();
   }
 
 }
