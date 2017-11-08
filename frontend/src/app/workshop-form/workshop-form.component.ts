@@ -35,12 +35,16 @@ export class WorkshopFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loadWorkshop();
+  }
+
+  loadWorkshop() {
     if (this.workshopId > 0){
       this.workshopService.getWorkshop(this.workshopId).subscribe(
         w => {
           this.workshop = w;
           this.loadForm();
-       });
+        });
     } else {
       this.workshop = new Workshop();
       this.loadForm();
@@ -97,4 +101,9 @@ export class WorkshopFormComponent implements OnInit {
       });
     }
   }
+
+  onReset() {
+    this.loadWorkshop();
+  }
+
 }
