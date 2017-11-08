@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Filter, Search} from '../search';
 import {WorkshopService} from '../workshop.service';
+import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-search',
@@ -16,12 +17,26 @@ export class SearchComponent implements OnInit {
 
   showFilters = false;
 
+  searchForm: FormGroup;
+  searchBox: FormControl;
+
   constructor(private workshopService: WorkshopService) { }
 
   ngOnInit() {
     this.search = new Search();
     this.setDateRange('future', 'Upcoming');
     this.doSearch();
+
+    this.searchBox = new FormControl();
+    this.searchForm = new FormGroup({
+      searchBox: this.searchBox
+    });
+
+    this.searchBox.valueChanges.subscribe(query => {
+      this.search.query = query;
+      this.doSearch();
+    });
+
   }
 
   updateQuery(query) {

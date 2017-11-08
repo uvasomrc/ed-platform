@@ -1,6 +1,6 @@
-<form class="search-box">
+<form class="search-box" [formGroup]="searchForm">
   <div>Search:</div>
-  <input #query type="search">
+  <input #query type="search" formControlName="searchBox">
   <button (click)="updateQuery(query.value)">
     <mat-icon>search</mat-icon>
   </button>

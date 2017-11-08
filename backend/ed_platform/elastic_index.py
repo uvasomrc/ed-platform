@@ -140,7 +140,7 @@ class ElasticParticipant(DocType):
 class ElasticWorkshop(DocType):
     """A flattened version of the index where Title, SelfText, and Comment Text are all top level documents"""
     id = Integer()
-    title = Text()
+    title = Text(analyzer=autocomplete, search_analyzer=autocomplete_search)
     description = Text()
     code = Text()
     date = Date(multi=True)
