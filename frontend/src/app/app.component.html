@@ -36,6 +36,19 @@
     <mat-icon> exit_to_app </mat-icon>
     <span> Log out </span>
   </button>
+  <button *ngIf="account && account.isAdmin()" mat-menu-item (click)="goParticipantEditor()">
+    <mat-icon> add_circle </mat-icon>
+    <span> Add User </span>
+  </button>
+  <button *ngIf="account && account.isAdmin()" mat-menu-item (click)="goWorkshopEditor()">
+    <mat-icon> add_circle </mat-icon>
+    <span> Add Workshop </span>
+  </button>
+  <button *ngIf="account && account.isAdmin()" mat-menu-item (click)="goTrackEditor()">
+    <mat-icon> add_circle </mat-icon>
+    <span> Add Track </span>
+  </button>
+
 </mat-menu>
 
 <div class="content">

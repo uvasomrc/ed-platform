@@ -1,0 +1,93 @@
+<!--
+<pre>{{track_form.value | json}}</pre>
+<pre>Dirty? {{ title.dirty }}</pre>
+<pre>Pristine? {{ title.pristine }}</pre>
+<pre>In Valid Description? {{ description.invalid }}</pre>
+<pre>Title  {{ title}}</pre>
+-->
+
+<mat-sidenav-container>
+  <mat-sidenav mode="side" opened="true">
+    <h2>Existing Participants</h2>
+    <em>Select a participant to edit them.</em>
+    <app-participant-search></app-participant-search>
+  </mat-sidenav>
+
+
+  <h1>Form will go here.</h1>
+
+  <!--
+<form [formGroup]="accountForm" novalidate (ngSubmit)="onSubmit()">
+
+  <mat-form-field>
+    <input matInput formControlName="uid" placeholder="UVa computing ID" class="form-control">
+    <mat-error>
+      A Valid UVA ID is <strong>required</strong>.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput formControlName="displayName" placeholder="Display Name" class="form-control">
+    <mat-error>
+      Name is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput formControlName="title" placeholder="Title" class="form-control">
+  </mat-form-field>
+
+  <mat-form-field>
+  <textarea matInput formControlName="bio" placeholder="Brief Biography" class="form-control" rows="4">
+  </textarea>
+    <mat-error>
+      Some biographical information is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+  <textarea matInput formControlName="phone_number" placeholder="Phone Number" class="form-control" rows="4">
+  </textarea>
+    <mat-error>
+      Provide a phone number for text notifications.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+  <textarea matInput formControlName="email_address" placeholder="Email Address" class="form-control" rows="4">
+  </textarea>
+    <mat-error>
+      Provide a email address for notifications.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <select matInput formControlName="role" placeholder="Role" class="form-control" rows="4">
+      <option>USER</option>
+      <option>ADMIN</option>
+    </select>
+  </mat-form-field>
+
+  <h2>Choose an Avatar</h2>
+  <div class="image-selector">
+    <img class="participant-big" src="{{selectedImage}}"/>
+    <mat-radio-group formControlName="imageType" (change)="toggleImage()">
+      <mat-radio-button value="uploaded">Use an uploaded image:
+        <br/>
+        <input type="file" (change)="newImage($event)" #fileInput>
+      </mat-radio-button>
+      <mat-radio-button value="gravatar">Use the <a href="https://gravatar.com" target="gravatar">Gravatar</a> image
+        connected to their email address.
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+
+  <button type="submit" mat-button>Update</button>
+</form>
+-->
+
+  <!-- primary content -->
+</mat-sidenav-container>
+
+

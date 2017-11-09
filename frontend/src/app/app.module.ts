@@ -43,6 +43,7 @@ import { ParticipantSearchComponent } from './participant-search/participant-sea
 import { SessionFormComponent } from './session-form/session-form.component';
 import {DatePickerModule} from "angular-io-datepicker";
 import {OverlayModule} from "@angular/cdk/overlay";
+import { ParticipantFormComponent } from './participant-form/participant-form.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -52,6 +53,7 @@ const routes: Routes = [
   {path: 'track/:id', component: TrackDetailsComponent, data: {title: 'Track'}},
   {path: 'track-form/:id', component: TrackFormComponent, data: {title: 'Create/Edit Track'}},
   {path: 'workshop-form/:id', component: WorkshopFormComponent, data: {title: 'Create/Edit Workshop'}},
+  {path: 'participant-form/:id', component: ParticipantFormComponent, data: {title: 'Create/Edit Participants'}},
   {path: 'workshop/:id', component: WorkshopDetailsComponent, data: {title: 'Workshop'}},
   {path: 'account/:token', component: AccountRedirectComponent, data: {title: 'Account Details'}},
   {path: 'accountDetails', component: AccountDetailsComponent, data: {title: 'Your Account'},
@@ -85,7 +87,8 @@ const routes: Routes = [
     CodeFormComponent,
     ConfirmDialogComponent,
     ParticipantSearchComponent,
-    SessionFormComponent
+    SessionFormComponent,
+    ParticipantFormComponent
   ],
   imports: [
     BrowserModule,

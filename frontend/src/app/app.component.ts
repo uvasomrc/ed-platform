@@ -35,6 +35,19 @@ export class AppComponent implements OnInit {
     this.router.navigate(['search']);
   }
 
+  goParticipantEditor() {
+    this.router.navigate(['participant-form', 0 ]);
+  }
+
+  goWorkshopEditor() {
+    this.router.navigate(['workshop-form', 0 ]);
+  }
+
+  goTrackEditor() {
+    this.router.navigate(['track-form', 0 ]);
+  }
+
+
   goLogin() {
     const current_url = this.router.routerState.snapshot.url;
     this.accountService.goLogin(current_url);

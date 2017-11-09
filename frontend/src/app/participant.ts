@@ -3,13 +3,19 @@ import {Links} from './links';
 export class Participant {
 
   id: number;
+  uid = '';
   display_name = '';
   bio = '';
+  title = '';
+  email_address = '';
+  phone_number = '';
   role = '';
   links = new Links();
   new_account = true;
   use_gravatar = true;
   gravatar = '';
+
+
 
 
   constructor(values: Object = {}) {
