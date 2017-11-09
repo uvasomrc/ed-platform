@@ -7,10 +7,11 @@
 -->
 
 <mat-sidenav-container *ngIf="isDataLoaded">
-  <mat-sidenav mode="side" opened="true" dnd-droppable>
+  <mat-sidenav mode="side" opened="true" dnd-droppable dnd-sortable-container [sortableData]="codeOptions">
     <h2>Available Codes</h2>
-    <em>You can drag these into the list of codes for the track.</em>
-    <ul class="list-group" dnd-sortable-container [sortableData]="codeOptions">
+    <em>You can drag these codes into the list of codes for the track.  To remove a code, drag it from
+    the track, back into here.</em>
+    <ul class="list-group" >
       <li *ngFor="let code of codeOptions; let i = index" class="list-group-item"
           dnd-draggable dnd-sortable [dragData]="code" [sortableIndex]="i">
         <mat-icon>reorder</mat-icon>

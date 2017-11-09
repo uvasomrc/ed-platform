@@ -28,6 +28,14 @@ h2 {
   margin-bottom: 20px;
 }
 
+.list-group li {
+  display: flex;
+  list-style-type: none;
+  line-height: 30px;
+  height: 30px;
+  vertical-align: middle;
+}
+
 .drop-panel {
   background-color: #fff;
 }
