@@ -1,7 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Session} from '../session';
 import * as moment from 'moment';
+import {MatDatepicker} from "@angular/material";
 
 @Component({
   selector: 'app-session-form',
@@ -12,11 +13,16 @@ export class SessionFormComponent implements OnInit {
 
   sessionForm: FormGroup;
   date: FormControl;
+  time: FormGroup;
+  hour: FormControl;
+  minute: FormControl;
+  ampm: FormControl;
   instructor_notes: FormControl;
   duration_minutes: FormControl;
   location: FormControl;
   max_attendees: FormControl;
-  minDate = new Date();
+  hour_values = new Array(12);
+  minute_values = new Array(60);
 
   @Input()
   session: Session = new Session();
@@ -27,6 +33,8 @@ export class SessionFormComponent implements OnInit {
   @Output()
   deleteSession: EventEmitter<Session> = new EventEmitter();
 
+  @ViewChild(MatDatepicker) picker: MatDatepicker<Date>;
+
   constructor() {
     this.session = new Session();
   }
@@ -36,37 +44,48 @@ export class SessionFormComponent implements OnInit {
   }
 
   loadForm() {
-    let momentDate = moment(this.session.date_time);
-    console.log(`Moment Time is ${momentDate.toJSON()}`);
     this.date = new FormControl(this.session.date_time, [Validators.required]);
+    this.hour = new FormControl([Validators.required]);
+    this.minute = new FormControl([Validators.required]);
+    this.ampm = new FormControl([Validators.required]);
     this.instructor_notes = new FormControl(this.session.instructor_notes);
     this.duration_minutes = new FormControl(this.session.duration_minutes, [Validators.required]);
     this.location = new FormControl(this.session.location, [Validators.required]);
     this.max_attendees = new FormControl(this.session.max_attendees, [Validators.required]);
 
+    this.time = new FormGroup({
+      hour: this.hour,
+      minute: this.minute,
+      ampm: this.ampm
+    });
+
     this.sessionForm = new FormGroup({
       date: this.date,
+      time: this.time,
       instructor_notes: this.instructor_notes,
       duration_minutes: this.duration_minutes,
       location: this.location,
       max_attendees: this.max_attendees
     });
 
-    /*
-    this.date.valueChanges.subscribe(d => { this.session.date_time = d.toDate(); });
-    this.instructor_notes.valueChanges.subscribe(i => this.session.instructor_notes = i);
-    this.duration_minutes.valueChanges.subscribe(d => this.session.duration_minutes = d);
-    this.location.valueChanges.subscribe(l => this.session.location = l);
-    this.max_attendees.valueChanges.subscribe(m => this.session.max_attendees = m);
-    */
+
     this.editSession(this.session);
+  }
+
+  minDate() {
+    return new Date();
   }
 
   editSession(session: Session) {
     this.session = session;
-    if(this.session.date_time) {
-      console.log(`setting the date to ${this.session.date_time}`)
+    if (this.session.date_time) {
+      console.log(`setting the date to ${this.session.date_time}`);
       this.date.patchValue(this.session.date_time);
+      let hours = this.session.date_time.getHours() % 12;
+      hours = hours ? hours : 12;
+      this.hour.patchValue(hours);
+      this.minute.patchValue(session.date_time.getMinutes());
+      this.ampm.patchValue(session.date_time.getHours() >= 12 ? 'PM' : 'AM');
     }
     this.instructor_notes.patchValue(this.session.instructor_notes);
     this.duration_minutes.patchValue(this.session.duration_minutes);
@@ -76,13 +95,25 @@ export class SessionFormComponent implements OnInit {
 
   onSubmit() {
     if (this.sessionForm.valid) {
-      this.session.date_time = this.date.value.toDate();
+      console.log("The Date is a " + this.date.value.className);
+      const date = this.date.value;
+      let hours = this.hour.value;
+      if (this.hour.value === 12) {
+        if (this.ampm.value === 'AM') hours = 0;
+      } else {
+        if (this.ampm.value === 'PM') hours += 12;
+      }
+
+      date.setHours(hours);
+      date.setMinutes(this.minute.value);
+      this.session.date_time = date;
       this.session.instructor_notes = this.instructor_notes.value;
       this.session.duration_minutes = this.duration_minutes.value;
       this.session.location = this.location.value;
       this.session.max_attendees = this.max_attendees.value;
       this.newSession.emit(this.session);
       // Fixme: This should just be a reset, but that doesn't work.
+      this.session = new Session();
       this.sessionForm.reset();
     }
   }
@@ -93,8 +124,8 @@ export class SessionFormComponent implements OnInit {
   }
 
   onReset() {
-    this.sessionForm.reset();
     this.session = new Session();
+    this.sessionForm.reset();
   }
 
 }

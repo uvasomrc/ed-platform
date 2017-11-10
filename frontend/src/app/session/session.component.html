@@ -1,7 +1,7 @@
 <mat-card class="session">
   <mat-card-header>
     <mat-card-subtitle>
-      {{session.date_time | date: 'EEE. MMMM d, y, h:mm-'}}{{session.endTime() | date: 'h:mma'}}
+      {{dateAsString()}}{{session.endTime() | date: 'h:mma'}}
       <br/>
       Location: {{session.location}}
     </mat-card-subtitle>

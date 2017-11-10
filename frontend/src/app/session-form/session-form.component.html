@@ -1,7 +1,45 @@
 <form [formGroup]="sessionForm" novalidate (ngSubmit)="onSubmit()">
 
 
-  <date-picker matInput formControlName="date" mode="datetime"  ></date-picker>
+    <mat-form-field>
+      <input matInput formControlName="date" [matDatepicker]="picker" placeholder="Choose a date" [min]="minDate()">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+  <div class="time" formGroupName="time"
+            fxLayout="row"
+            fxLayoutWrap
+            fxLayoutAlign="start"
+            fxLayoutGap="10px"
+            fxLayoutGap.xs="0">
+    <div fxFlex="30%">
+    <mat-form-field >
+      <mat-select matInput formControlName="hour" placeholder="Hour">
+        <mat-option *ngFor=" let h of hour_values; let i = index" [value]="i+1">{{i + 1}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    </div>
+
+    <div fxFlex="30%">
+    <mat-form-field>
+      <mat-select matInput formControlName="minute" placeholder="Minute">
+        <mat-option *ngFor=" let m of minute_values; let i = index" [value]="i">{{i}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    </div>
+
+    <div fxFlex="30%">
+    <mat-form-field>
+      <mat-select matInput formControlName="ampm" placeholder="AM/PM">
+        <mat-option value="AM">AM</mat-option>
+        <mat-option value="PM">PM</mat-option>
+      </mat-select>
+    </mat-form-field>
+    </div>
+  </div>
+
+
 
   <mat-form-field>
     <input type="number" matInput formControlName="duration_minutes" placeholder="Duration (Minutes)">
@@ -22,8 +60,8 @@
 
   <div class="button">
     <button type="submit" *ngIf="!session.id" mat-raised-button>Add Session</button>
-    <button type="submit" *ngIf="session.id > 0" mat-raised-button>Update Session</button>
-    <button type="button" *ngIf="session.id > 0" mat-raised-button (click)="onDelete()">Delete Session</button>
+    <button type="submit" *ngIf="session.id" mat-raised-button>Update Session</button>
+    <button type="button" *ngIf="session.id" mat-raised-button (click)="onDelete()">Delete Session</button>
     <button type="button" mat-raised-button (click)="onReset()" >Reset</button>
   </div>
 

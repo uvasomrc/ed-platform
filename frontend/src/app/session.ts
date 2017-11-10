@@ -12,8 +12,8 @@ export class Session {
   location: string;
   max_attendees: number;
   status: string;
-  total_participants: number;
-  waiting_participants: number;
+  total_participants = 0;
+  waiting_participants = 0;
   reviews = Array<Review>();
   attendees = Array<Participant>();
   waiting = Array<Participant>();

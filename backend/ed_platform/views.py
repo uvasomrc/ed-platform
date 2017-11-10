@@ -258,7 +258,7 @@ def create_workshop():
 
     new_sessions = []
     for session in request_data['sessions']:
-        if('id' in session):
+        if('id' in session and session['id'] > 0):
             new_session = models.Session.query.filter_by(id=session['id']).first()
         else :
             new_session = models.Session()

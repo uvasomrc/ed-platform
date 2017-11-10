@@ -41,9 +41,9 @@ import { CodeFormComponent } from './code-form/code-form.component';
 import {DndModule} from 'ng2-dnd';
 import { ParticipantSearchComponent } from './participant-search/participant-search.component';
 import { SessionFormComponent } from './session-form/session-form.component';
-import {DatePickerModule} from "angular-io-datepicker";
-import {OverlayModule} from "@angular/cdk/overlay";
+import {OverlayModule} from '@angular/cdk/overlay';
 import { ParticipantFormComponent } from './participant-form/participant-form.component';
+import {DatePipe} from "@angular/common";
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -114,14 +114,14 @@ const routes: Routes = [
     MatStepperModule,
     MatSidenavModule,
     MatDialogModule,
-    DatePickerModule,
+    MatDatepickerModule,
     OverlayModule,
     MatNativeDateModule,
     DndModule.forRoot(),
     RouterModule.forRoot(routes, {useHash: true})
   ],
   entryComponents: [ConfirmDialogComponent],
-  providers: [TrackService, WorkshopService, ApiService, AccountService, AuthGuard],
+  providers: [TrackService, WorkshopService, ApiService, AccountService, AuthGuard, DatePipe],
   bootstrap: [AppComponent]
 })
 

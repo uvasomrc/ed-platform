@@ -74,6 +74,9 @@ export class WorkshopFormComponent implements OnInit {
   addSession(s: Session) {
     console.log(`Adding Session ${s.id}`)
     let index = this.workshop.sessions.findIndex(es => es.id === s.id);
+    if(!s.id) {
+      s.id = 0 - this.workshop.sessions.length;
+    }
     if (index >= 0) {
       this.workshop.sessions[index] = s;
     } else {
@@ -90,6 +93,8 @@ export class WorkshopFormComponent implements OnInit {
   }
 
   editSession(s: Session) {
+    // If the id is 0, give it a negative number, so we know what it is
+    // when it comes back.
     this.sessionForm.editSession(s);
   }
 

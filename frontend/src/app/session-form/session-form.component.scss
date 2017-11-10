@@ -10,6 +10,10 @@
   width: 100%;
 }
 
+fieldset > div {
+  display: inline;
+}
+
 button.mat-raised-button {
   background-color: mat-color($uva-accent, 500);
 }

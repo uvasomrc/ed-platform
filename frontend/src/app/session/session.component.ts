@@ -3,6 +3,7 @@ import {Session} from '../session';
 import {AccountService} from '../account.service';
 import {Participant} from '../participant';
 import {Router} from "@angular/router";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-session',
@@ -26,7 +27,8 @@ export class SessionComponent implements OnInit {
   removed = false;
 
   constructor(private accountService: AccountService,
-              private router: Router) {}
+              private router: Router,
+              private datePipe: DatePipe) {}
 
   ngOnInit() {
     this.available = this.session.isAvailable();
@@ -56,6 +58,12 @@ export class SessionComponent implements OnInit {
       this.register.emit(this.session);
     });
   }
+
+  // The date pipe wasn't updating when used in the template, so moved it here.
+  dateAsString() {
+    return this.datePipe.transform(this.session.date_time, 'EEE. MMMM d, y, h:mm-');
+  }
+
 
   teacherDashboard() {
     this.router.navigate(['teacherDashboard', this.session.id]);
