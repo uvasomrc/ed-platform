@@ -62,7 +62,7 @@ export class TrackFormComponent implements OnInit {
     });
     this.trackService.getAllCodes().subscribe(codes => {
       this.codeOptions = codes;
-      this.codeOptions = this.codeOptions.filter(c => this.track.codes.indexOf(c) >= 0);
+      this.codeOptions = this.codeOptions.filter(c => !this.track.codes.find(tc => tc.id === c.id));
     });
 
     this.title.valueChanges.subscribe(t => this.track.title = t);
