@@ -6,6 +6,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Participant} from "../participant";
 import {Session} from "../session";
 import {SessionFormComponent} from "../session-form/session-form.component";
+import {Code} from "../code";
+import {TrackService} from "../track.service";
 
 @Component({
   selector: 'app-workshop-form',
@@ -21,6 +23,7 @@ export class WorkshopFormComponent implements OnInit {
   description: FormControl;
   code: FormControl;
   isDataLoaded = false;
+  codeList = new Array<Code>();
 
   @Output()
   add: EventEmitter<Workshop> = new EventEmitter();
@@ -28,6 +31,7 @@ export class WorkshopFormComponent implements OnInit {
   @ViewChild(SessionFormComponent) sessionForm: SessionFormComponent;
 
   constructor(private workshopService: WorkshopService,
+              private trackService: TrackService,
               private route: ActivatedRoute,
               private router: Router) {
     this.route.params.subscribe( params =>
@@ -36,6 +40,11 @@ export class WorkshopFormComponent implements OnInit {
 
   ngOnInit() {
     this.loadWorkshop();
+    this.loadCodes();
+  }
+
+  loadCodes() {
+    this.trackService.getAllCodes().subscribe( codes => this.codeList = codes);
   }
 
   loadWorkshop() {
@@ -57,17 +66,21 @@ export class WorkshopFormComponent implements OnInit {
   }
 
   loadForm() {
-    this.title = new FormControl(this.workshop.title, [Validators.required, Validators.maxLength(256)]);
-    this.description = new FormControl(this.workshop.description, [Validators.required, Validators.minLength(20)]);
+    this.title = new FormControl([Validators.required, Validators.maxLength(256)]);
+    this.description = new FormControl([Validators.required, Validators.minLength(20)]);
+    this.code = new FormControl();
 
     this.workshopForm = new FormGroup({
       title: this.title,
-      description: this.description
+      description: this.description,
+      code: this.code
     });
+
+    this.code.patchValue(this.workshop.code_id)
 
     this.title.valueChanges.subscribe(t => this.workshop.title = t);
     this.description.valueChanges.subscribe(d => this.workshop.description = d);
-
+    this.code.valueChanges.subscribe(code_id => this.workshop.code_id = code_id);
     this.isDataLoaded = true;
   }
 

@@ -39,13 +39,11 @@
               This description is too short.
             </mat-error>
           </mat-form-field>
-          <!--
-          <mat-form-field class="example-full-width">
-            <select mdInput formControlName="code" placehoder="Track Code" value="{{workshop.code_id}}">
-              <option *ngFor="let code of codeOptions">{{code.id}} {{code.description}}</option>
-            </select>
+          <mat-form-field>
+            <mat-select mdInput formControlName="code" placeholder="Track Code" [value]="workshop.code_id">
+              <mat-option *ngFor="let code of codeList" [value]="code.id">{{code.id}}</mat-option>
+            </mat-select>
           </mat-form-field>
-          -->
         </div>
 
         <div class="display">

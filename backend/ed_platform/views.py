@@ -252,8 +252,9 @@ def search_workshops():
 @requires_roles('ADMIN')
 def create_workshop():
     request_data = request.get_json()
-    if('code' in request_data and request_data['code'] != ''):
-        db_code = models.Code.query.filter_by(id=request_data['code']).first()
+    db_code = None
+    if('code_id' in request_data and request_data['code_id'] != ''):
+        db_code = models.Code.query.filter_by(id=request_data['code_id']).first()
         if (db_code == None): raise RestException(RestException.NO_SUCH_CODE)
 
     new_sessions = []
@@ -270,6 +271,7 @@ def create_workshop():
 
     request_data['sessions'] = []
     new_workshop = workshop_db_schema.load(request_data).data
+    if(db_code): new_workshop.code = db_code;
     new_workshop.sessions = new_sessions
     db.session.add(new_workshop)
     db.session.commit()
