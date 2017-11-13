@@ -101,7 +101,7 @@ class TestCase(unittest.TestCase):
         data = {'image_file': 'workshop_one.jpg',
                 'title': 'This is a test workshop',
                 'description': 'This is the test description',
-                'code': self.test_code_1,
+                'code_id': self.test_code_1,
                 'sessions': []
                 }
         rv = self.app.post('/api/workshop', data=json.dumps(data), follow_redirects=True,
@@ -357,6 +357,21 @@ class TestCase(unittest.TestCase):
     def test_add_workshop(self):
         workshop = self.add_test_workshop()
         self.assertEqual("This is a test workshop", workshop["title"])
+
+    def test_remove_code_from_workshop(self):
+        workshop = self.add_test_workshop()
+        self.assertEquals(self.test_code_1, workshop["code_id"])
+        data = {'image_file': 'workshop_one.jpg',
+                'title': 'This is a test workshop',
+                'description': 'This is the test description',
+                'code_id': '',
+                'sessions': []
+                }
+        rv = self.app.post('/api/workshop', data=json.dumps(data), follow_redirects=True,
+                           content_type="application/json", headers=self.logged_in_headers_admin())
+        self.assert_success(rv)
+        workshop = json.loads(rv.get_data(as_text=True))
+        self.assertIsNone(workshop["code_id"])
 
     def test_remove_track(self):
         track = self.add_test_track()
