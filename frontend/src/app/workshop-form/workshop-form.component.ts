@@ -48,7 +48,7 @@ export class WorkshopFormComponent implements OnInit {
   }
 
   loadWorkshop() {
-    if (this.workshopId > 0){
+    if (this.workshopId > 0) {
       this.workshopService.getWorkshop(this.workshopId).subscribe(
         w => {
           this.workshop = w;
@@ -76,7 +76,9 @@ export class WorkshopFormComponent implements OnInit {
       code: this.code
     });
 
-    this.code.patchValue(this.workshop.code_id)
+    this.code.patchValue(this.workshop.code_id);
+    this.title.patchValue(this.workshop.title);
+    this.description.patchValue(this.workshop.description);
 
     this.title.valueChanges.subscribe(t => this.workshop.title = t);
     this.description.valueChanges.subscribe(d => this.workshop.description = d);

@@ -26,7 +26,7 @@
         <div fxFlex="50%">
           <h2>Workshop Details</h2>
           <mat-form-field>
-            <input matInput formControlName="title" placeholder="Title" value="{{workshop.title}}" class="form-control">
+            <input matInput formControlName="title" placeholder="Title" class="form-control">
             <mat-error>
               Title is <strong>required</strong>
             </mat-error>
@@ -34,13 +34,13 @@
 
           <mat-form-field>
           <textarea rows="4" matInput formControlName="description" placeholder="Description"
-                    value="{{workshop.description}}" class="form-control"></textarea>
+                     class="form-control"></textarea>
             <mat-error>
               This description is too short.
             </mat-error>
           </mat-form-field>
           <mat-form-field>
-            <mat-select mdInput formControlName="code" placeholder="Track Code" [value]="workshop.code_id">
+            <mat-select mdInput formControlName="code" placeholder="Track Code" >
               <mat-option *ngFor="let code of codeList" [value]="code.id">{{code.id}}</mat-option>
             </mat-select>
           </mat-form-field>
