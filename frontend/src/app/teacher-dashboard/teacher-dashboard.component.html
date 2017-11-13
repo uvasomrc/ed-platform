@@ -87,7 +87,7 @@
       <p>The following messages were sent to attendees:</p>
       <ul class="list">
         <li *ngFor="let m of messages">
-          <img class="avatar" src="{{session.getInstructor(m.author_id).links.image}}" alt=""/>
+          <img class="avatar" src="{{workshop.instructor.image()}}" alt=""/>
           <div class="list_subject">
             <b>Subject:</b> {{m.subject}}<br/>
             <b>Date:</b> {{m.sent_date | date: 'fullDate'}}

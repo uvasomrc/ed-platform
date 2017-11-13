@@ -857,13 +857,74 @@
         "review_score": 4,
         "review_comment": "Pete is an excellent instructor, I learned a great deal about latest techniques of machine learning."
       }
-    },
-        {
+    }, {
       "name":"vpnagraj_python_intro_workshop_1",
       "data": {
         "participant": "vpn7n",
         "session": "python_intro_workshop_s1",
         "created": "2017-07-05T11:11:12.000Z",
+        "attended": false,
+        "is_instructor": false
+      }
+    },
+    {
+      "name":"vpnagraj_python_dedoose",
+      "data": {
+        "participant": "vpn7n",
+        "session": "intro_dedoose_1",
+        "created": "2017-07-05T11:11:12.000Z",
+        "attended": false,
+        "is_instructor": false
+      }
+    },
+        {
+      "name":"bk7k_ml_intro_dedoose",
+      "data": {
+        "participant": "bk7k",
+        "session": "intro_dedoose_1",
+        "created": "2017-08-01T11:02:00.000Z",
+        "attended": true,
+        "is_instructor": false,
+        "review_score": 5,
+        "review_comment": "Excellent overview of latest trends, and learned a little Python in the process!"
+      }
+    },
+    {
+      "name":"nem2p_python_intro_dedoose",
+      "data": {
+        "participant": "nem2p",
+        "session": "intro_dedoose_1",
+        "created": "2017-07-22T20:02:00.000Z",
+        "attended": false,
+        "is_instructor": false
+      }
+    },
+    {
+      "name":"jimg_python_intro_dedoose",
+      "data": {
+        "participant": "chrisg",
+        "session": "intro_dedoose_1",
+        "created": "2017-07-22T20:02:00.000Z",
+        "attended": false,
+        "is_instructor": false
+      }
+    },
+    {
+      "name":"jimg_python_intro_dedoose",
+      "data": {
+        "participant": "jimg",
+        "session": "intro_dedoose_1",
+        "created": "2017-07-22T20:02:00.000Z",
+        "attended": false,
+        "is_instructor": false
+      }
+    },
+    {
+      "name":"cag3fr_ython_intro_dedoose",
+      "data": {
+        "participant": "cag3fr",
+        "session": "intro_dedoose_1",
+        "created": "2017-07-22T20:02:00.000Z",
         "attended": false,
         "is_instructor": false
       }
