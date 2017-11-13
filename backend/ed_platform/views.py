@@ -258,16 +258,17 @@ def create_workshop():
         if (db_code == None): raise RestException(RestException.NO_SUCH_CODE)
 
     new_sessions = []
-    for session in request_data['sessions']:
-        if('id' in session and session['id'] > 0):
-            new_session = models.Session.query.filter_by(id=session['id']).first()
-        else :
-            new_session = models.Session()
-        fields = ['date_time', 'duration_minutes', 'location', 'instructor_notes', 'max_attendees']
-        for field in fields:
-            if(field in session):
-                setattr(new_session, field, session[field])
-        new_sessions.append(new_session)
+    if('sessions' in request_data):
+        for session in request_data['sessions']:
+            if('id' in session and session['id'] > 0):
+                new_session = models.Session.query.filter_by(id=session['id']).first()
+            else :
+                new_session = models.Session()
+            fields = ['date_time', 'duration_minutes', 'location', 'instructor_notes', 'max_attendees']
+            for field in fields:
+                if(field in session):
+                    setattr(new_session, field, session[field])
+            new_sessions.append(new_session)
 
     request_data['sessions'] = []
     new_workshop = workshop_db_schema.load(request_data).data

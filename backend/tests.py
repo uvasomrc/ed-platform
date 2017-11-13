@@ -101,7 +101,8 @@ class TestCase(unittest.TestCase):
         data = {'image_file': 'workshop_one.jpg',
                 'title': 'This is a test workshop',
                 'description': 'This is the test description',
-                'code': self.test_code_1
+                'code': self.test_code_1,
+                'sessions': []
                 }
         rv = self.app.post('/api/workshop', data=json.dumps(data), follow_redirects=True,
                            content_type="application/json", headers=self.logged_in_headers_admin())
@@ -109,9 +110,11 @@ class TestCase(unittest.TestCase):
         return json.loads(rv.get_data(as_text=True))
 
     def add_test_session(self, workshop_id):
+        # Make sure the workshop occurs 10 days from now.
+        session_date = datetime.datetime.now() + datetime.timedelta(days=10)
         data = {
             "workshop": workshop_id,
-            "date_time": "2017-11-11T18:30:00.000Z",
+            "date_time": session_date.isoformat(),
             "duration_minutes": "60",
             "instructor_notes": "This is a note from the instructor",
             "max_attendees": 2
@@ -244,7 +247,7 @@ class TestCase(unittest.TestCase):
         data = {'image_file': 'workshop_one.jpg',
                 'title': 'This is a test workshop',
                 'description': 'This is the test description',
-                'code': 'there is no code like this.'
+                'code_id': 'there is no code like this.',
                 }
         rv = self.app.post('/api/workshop', data=json.dumps(data), follow_redirects=True,
                            content_type="application/json", headers=self.logged_in_headers_admin())
