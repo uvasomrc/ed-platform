@@ -4,7 +4,7 @@ import elasticsearch
 import magic
 import os
 from flask import jsonify, request, send_file, session, redirect, g, render_template, json
-from ed_platform import app, db, models, sso, RestException, emails, elastic_index, profile_photos
+from ed_platform import app, db, models, sso, RestException, emails, elastic_index, profile_photos, discourse
 from flask_httpauth import HTTPTokenAuth
 
 from ed_platform.wrappers import requires_roles
@@ -280,6 +280,17 @@ def create_workshop():
     db.session.add(new_workshop)
     db.session.commit()
     return workshop_schema.jsonify(new_workshop)
+
+@app.route('/api/workshop/<int:id>/discourse', methods=['POST'])
+@auth.login_required
+@requires_roles('ADMIN')
+def add_discourse_topic(id):
+    workshop = models.Workshop.query.filter_by(id=id).first()
+    if(workshop.discourse_topic_id is None):
+        topic = discourse.create_topic(workshop)
+        workshop.discourse_topic_id = topic.id
+    return (jsonify(workshop_schema.dump(workshop)))
+
 
 @app.route('/api/workshop/<int:id>/instructor/<int:instructor_id>', methods=['POST'])
 @auth.login_required

@@ -49,3 +49,10 @@ ELASTIC_SEARCH = {
 # Directory where uploaded images should be placed.
 UPLOADS_DEFAULT_DEST = "/tmp/"
 
+# Discourse Connection
+DISCOURSE= {
+    "url": "http://localhost:8080/disourse",
+    "key": "mysupersecretkey",
+    "user": "test"
+}
+

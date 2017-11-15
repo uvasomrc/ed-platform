@@ -10,6 +10,8 @@ from flask_uploads import UploadSet, configure_uploads
 
 from ed_platform.elastic_index import ElasticIndex
 from ed_platform.rest_exception import RestException
+from ed_platform.discourse import Discourse
+
 
 app = Flask(__name__, instance_relative_config=True)
 
@@ -47,6 +49,9 @@ mail = Mail(app)
 
 # Search System
 elastic_index = ElasticIndex(app)
+
+# Discourse Connection
+discourse = Discourse(app)
 
 # Uploaded Files
 profile_photos = UploadSet('photos')

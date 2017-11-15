@@ -2,14 +2,16 @@ import datetime
 import unittest
 
 import dateutil
+import requests
 from flask import json, request
 from flask_mail import Mail
 import os
+import time
 
 # Set enivoronment variable to testing before loading.
 os.environ["APP_CONFIG_FILE"] = '../config/testing.py'
 
-from ed_platform import app, db, data_loader, models, elastic_index
+from ed_platform import app, db, data_loader, models, elastic_index, discourse
 from ed_platform.emails import TEST_MESSAGES
 
 
@@ -847,6 +849,27 @@ class TestCase(unittest.TestCase):
         data = {'query': 'Pe'}
         search_results = self.search_participant(data)
         self.assertEqual(2, len(search_results["participants"]))
+
+    def test_workshop_discourse_link(self):
+        ws_json = self.add_test_workshop()
+        self.assertIsNone(ws_json["discourse_url"])
+        rv = self.app.post('/api/workshop/%s/discourse' % ws_json["id"], headers = self.logged_in_headers_admin())
+        self.assert_success(rv)
+        # Remove the discourse discussion, after adding, so we don't polute the server, and run
+        # into duplicate title errors.
+        workshop = models.Workshop.query.filter_by(id=ws_json["id"]).first()
+        discourse.delete_topic(workshop.discourse_topic_id)
+        ws_json = self.get_workshop(ws_json["id"])
+        self.assertIsNotNone(ws_json["discourse_url"])
+        response = requests.get(ws_json["discourse_url"])
+        self.assertEquals(200, response.status_code)
+
+
+    def test_get_discourse_posts(self):
+        ws_json = self.add_test_workshop()
+        self.assertIsNone(ws_json["discourse_url"])
+        rv = self.app.post('/api/workshop/%s/discourse' % ws_json["id"], headers = self.logged_in_headers_admin())
+        self.assert_failure(rv, Exception)
 
 
 if __name__ == '__main__':
