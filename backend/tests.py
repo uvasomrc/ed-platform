@@ -374,7 +374,7 @@ class TestCase(unittest.TestCase):
 
     def test_add_workshop(self):
         workshop = self.add_test_workshop()
-        self.assertEqual("This is a test workshop", workshop["title"])
+        self.assertTrue(workshop["title"].startswith("This is a test workshop"))
 
     def test_remove_code_from_workshop(self):
         workshop = self.add_test_workshop()
@@ -641,7 +641,6 @@ class TestCase(unittest.TestCase):
         self.assertIsNotNone(participant.display_name)
         self.assertIsNotNone(participant.email_address)
         self.assertIsNotNone(participant.created)
-        self.assertIsNotNone(discourse.getAccount(participant))
         self.assertTrue(participant.new_account)
 
     def test_current_participant_status(self):
@@ -898,7 +897,7 @@ class TestCase(unittest.TestCase):
         self.assertEqual(account.username, workshop.instructor.uid)
 
         # The topic is owned by the instructor
-        topic = discourse.getTopic(workshop.discourse_topic_id)
+        topic = discourse.getTopic(workshop)
         self.assertEqual(topic.user_id, account.id)
 
     def test_post_to_workshop_discourse(self):
