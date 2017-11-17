@@ -1,5 +1,8 @@
 import datetime
+import random
+import string
 import unittest
+import urllib
 
 import dateutil
 import requests
@@ -13,6 +16,7 @@ os.environ["APP_CONFIG_FILE"] = '../config/testing.py'
 
 from ed_platform import app, db, data_loader, models, elastic_index, discourse
 from ed_platform.emails import TEST_MESSAGES
+
 
 
 class TestCase(unittest.TestCase):
@@ -31,6 +35,10 @@ class TestCase(unittest.TestCase):
         # mail.init_app(app)
         # self.assertEqual(app.debug, False)
 
+    def randomString(self):
+        char_set = string.ascii_uppercase + string.digits
+        return ''.join(random.sample(char_set * 6, 6))
+
     def load_sample_data(self):
         db.drop_all()
         db.create_all()
@@ -43,7 +51,12 @@ class TestCase(unittest.TestCase):
         self.ctx.pop()
         db.drop_all()
         elastic_index.clear()
+        self.tearDownDiscourse()
         pass
+
+    def tearDownDiscourse(self):
+        discourse.deletePostsByGroup()
+
 
     def test_base(self):
         rv = self.app.get('/api')
@@ -100,11 +113,13 @@ class TestCase(unittest.TestCase):
 
     def add_test_workshop(self):
         self.add_code(self.test_code_1, "Some description.")
+        participant = self.add_test_participant()
         data = {'image_file': 'workshop_one.jpg',
-                'title': 'This is a test workshop',
-                'description': 'This is the test description',
+                'title': 'This is a test workshop ' + self.randomString(),
+                'description': 'This is the test description. ' + ' '.join([self.randomString()[:5]] * 2),
                 'code_id': self.test_code_1,
-                'sessions': []
+                'sessions': [],
+                'instructor': {'id': participant['id']}
                 }
         rv = self.app.post('/api/workshop', data=json.dumps(data), follow_redirects=True,
                            content_type="application/json", headers=self.logged_in_headers_admin())
@@ -129,6 +144,7 @@ class TestCase(unittest.TestCase):
     def add_test_participant(self):
         data = {
             "display_name": "Peter Dinklage",
+            "uid": "pad123",
             "email_address": "tyrion@got.com",
             "phone_number": "+15554570024",
             "created": "2017-08-28T16:09:00.000Z",
@@ -625,6 +641,7 @@ class TestCase(unittest.TestCase):
         self.assertIsNotNone(participant.display_name)
         self.assertIsNotNone(participant.email_address)
         self.assertIsNotNone(participant.created)
+        self.assertIsNotNone(discourse.getAccount(participant))
         self.assertTrue(participant.new_account)
 
     def test_current_participant_status(self):
@@ -853,24 +870,45 @@ class TestCase(unittest.TestCase):
     def test_workshop_discourse_link(self):
         ws_json = self.add_test_workshop()
         self.assertIsNone(ws_json["discourse_url"])
+
         rv = self.app.post('/api/workshop/%s/discourse' % ws_json["id"], headers = self.logged_in_headers_admin())
         self.assert_success(rv)
-        # Remove the discourse discussion, after adding, so we don't polute the server, and run
-        # into duplicate title errors.
-        workshop = models.Workshop.query.filter_by(id=ws_json["id"]).first()
-        discourse.delete_topic(workshop.discourse_topic_id)
-        ws_json = self.get_workshop(ws_json["id"])
-        self.assertIsNotNone(ws_json["discourse_url"])
-        response = requests.get(ws_json["discourse_url"])
-        self.assertEquals(200, response.status_code)
 
+        workshop = models.Workshop.query.filter_by(id=ws_json["id"]).first()
+        instructor = workshop.instructor
+        ws_json = self.get_workshop(ws_json["id"])  # refetch to get the correct data.
+
+        # The instructor has an account in the system.
+        account = discourse.getAccount(workshop.instructor)
+        self.assertEqual(account.username, workshop.instructor.uid)
+
+        # The topic is owned by the instructor
+        topic = discourse.get_topic(workshop.discourse_topic_id)
+        self.assertEqual(topic.user_id, account.id)
+
+    def test_create_discourse_account(self):
+        p_json = self.get_current_participant()
+        participant = models.Participant.query.filter_by(id = p_json["id"]).first()
+
+        self.assertIsNone(discourse.getAccount(participant))
+        discourse_id = discourse.createAccount(participant)
+        self.assertIsNotNone(discourse_id)
+        discourse_account = discourse.getAccount(participant)
+        self.assertIsNotNone(discourse_account)
+        self.assertEqual(participant.uid, discourse_account.username)
+        self.assertTrue(discourse_account.active)
+        self.assertFalse(discourse_account.admin)
+        self.assertFalse(discourse_account.moderator)
+        discourse.deleteAccount(discourse_account)
+
+    def test_post_to_topic(self):
+        pass
 
     def test_get_discourse_posts(self):
         ws_json = self.add_test_workshop()
         self.assertIsNone(ws_json["discourse_url"])
         rv = self.app.post('/api/workshop/%s/discourse' % ws_json["id"], headers = self.logged_in_headers_admin())
         self.assert_failure(rv, Exception)
-
 
 if __name__ == '__main__':
     unittest.main()

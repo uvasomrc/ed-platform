@@ -55,4 +55,6 @@ DISCOURSE= {
     "key": "mysupersecretkey",
     "user": "test"
 }
+DISCOURSE_CATEGORY = "workshops"
+DISCOURSE_USER_GROUP = "cadre_user"
 

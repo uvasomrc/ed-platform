@@ -29,3 +29,8 @@ ELASTIC_SEARCH = {
     "http_auth_user": "",
     "http_auth_pass": ""
 }
+
+# Use the isntance/config.py connection for now, but use
+# a category and user_group that we can use to clear out any created data.0
+DISCOURSE_CATEGORY = "test_posts"
+DISCOURSE_USER_GROUP = "test_users"
