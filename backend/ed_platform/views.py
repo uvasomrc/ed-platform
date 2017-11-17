@@ -52,6 +52,7 @@ def verify_token(token):
 def root():
     return "ED Platform API"
 
+
 # User Accounts
 # *****************************
 @sso.login_handler
@@ -287,9 +288,26 @@ def create_workshop():
 def add_discourse_topic(id):
     workshop = models.Workshop.query.filter_by(id=id).first()
     if(workshop.discourse_topic_id is None):
-        topic = discourse.create_topic(workshop)
+        topic = discourse.createTopic(workshop)
         workshop.discourse_topic_id = topic.id
     return (jsonify(workshop_schema.dump(workshop)))
+
+@app.route('/api/workshop/<int:id>/discourse', methods=['GET'])
+@auth.login_required
+def get_discourse_topic(id):
+    workshop = models.Workshop.query.filter_by(id=id).first()
+    topic = discourse.getTopic(workshop)
+    return(topic.toJSON())
+
+@app.route('/api/workshop/<int:id>/discourse/post', methods=['POST'])
+@auth.login_required
+@requires_roles('USER','ADMIN')
+def add_discourse_post(id):
+    workshop = models.Workshop.query.filter_by(id=id).first()
+    message = request.get_json()["raw"]
+    discourse.createPost(workshop, g.user, message)
+    topic = discourse.getTopic(workshop)
+    return(topic.toJSON())
 
 
 @app.route('/api/workshop/<int:id>/instructor/<int:instructor_id>', methods=['POST'])

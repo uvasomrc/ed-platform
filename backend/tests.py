@@ -55,7 +55,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def tearDownDiscourse(self):
-        discourse.deletePostsByGroup()
+        discourse.deleteUsersAndPostsByGroup()
 
 
     def test_base(self):
@@ -867,6 +867,21 @@ class TestCase(unittest.TestCase):
         search_results = self.search_participant(data)
         self.assertEqual(2, len(search_results["participants"]))
 
+    def test_create_discourse_account(self):
+        p_json = self.get_current_participant()
+        participant = models.Participant.query.filter_by(id = p_json["id"]).first()
+
+        self.assertIsNone(discourse.getAccount(participant))
+        discourse_id = discourse.createAccount(participant)
+        self.assertIsNotNone(discourse_id)
+        discourse_account = discourse.getAccount(participant)
+        self.assertIsNotNone(discourse_account)
+        self.assertEqual(participant.uid, discourse_account.username)
+        self.assertTrue(discourse_account.active)
+        self.assertFalse(discourse_account.admin)
+        self.assertFalse(discourse_account.moderator)
+        discourse.deleteAccount(discourse_account)
+
     def test_workshop_discourse_link(self):
         ws_json = self.add_test_workshop()
         self.assertIsNone(ws_json["discourse_url"])
@@ -883,32 +898,27 @@ class TestCase(unittest.TestCase):
         self.assertEqual(account.username, workshop.instructor.uid)
 
         # The topic is owned by the instructor
-        topic = discourse.get_topic(workshop.discourse_topic_id)
+        topic = discourse.getTopic(workshop.discourse_topic_id)
         self.assertEqual(topic.user_id, account.id)
 
-    def test_create_discourse_account(self):
-        p_json = self.get_current_participant()
-        participant = models.Participant.query.filter_by(id = p_json["id"]).first()
-
-        self.assertIsNone(discourse.getAccount(participant))
-        discourse_id = discourse.createAccount(participant)
-        self.assertIsNotNone(discourse_id)
-        discourse_account = discourse.getAccount(participant)
-        self.assertIsNotNone(discourse_account)
-        self.assertEqual(participant.uid, discourse_account.username)
-        self.assertTrue(discourse_account.active)
-        self.assertFalse(discourse_account.admin)
-        self.assertFalse(discourse_account.moderator)
-        discourse.deleteAccount(discourse_account)
-
-    def test_post_to_topic(self):
-        pass
-
-    def test_get_discourse_posts(self):
+    def test_post_to_workshop_discourse(self):
+        # Create a workshop with Discourse enabled.
         ws_json = self.add_test_workshop()
-        self.assertIsNone(ws_json["discourse_url"])
         rv = self.app.post('/api/workshop/%s/discourse' % ws_json["id"], headers = self.logged_in_headers_admin())
-        self.assert_failure(rv, Exception)
+
+        post_data = {'raw': 'Test Content Message that is long enough to pass discourse requirements ' + self.randomString()}
+        rv = self.app.post('/api/workshop/%s/discourse/post' % ws_json["id"], data=json.dumps(post_data),
+                           content_type="application/json", headers = self.logged_in_headers())
+        self.assert_success(rv)
+
+        rv = self.app.get('/api/workshop/%s/discourse' % ws_json["id"])
+        self.assert_success(rv)
+        data = json.loads(rv.get_data(as_text=True))
+
+        self.assertEqual(2, len(data['posts']))
+        post = data['posts'][1]
+        self.assertEqual("<p>" + post_data["raw"] + "</p>", post['cooked'])
+
 
 if __name__ == '__main__':
     unittest.main()

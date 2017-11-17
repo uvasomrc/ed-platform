@@ -1,3 +1,4 @@
+import json
 import logging
 
 import requests
@@ -20,16 +21,8 @@ class Discourse:
             "Content-Type": "application/json"
         }
 
-    def get_posts(self):
-        url = "%s/%s?api_key=%s&api_username=%s" % (self.url, "posts.json", self.key, self.user)
-        response = requests.get(url, headers=self.headers())
-        response.raise_for_status()
-        print(response.json())
 
-    def url_for_topic(self, topic_id):
-        return "%s/t/%i" % (self.url, topic_id)
-
-    def create_topic(self, workshop):
+    def createTopic(self, workshop):
         '''Creates a new topic, and makes it owned by the workshop instructor.'''
         discourse_account = self.getAccount(workshop.instructor)
         if(not discourse_account):
@@ -53,13 +46,34 @@ class Discourse:
         response.raise_for_status()
         return Topic(response.json())
 
-    def get_topic(self, id):
-        url = "%s/t/%i.json?api_key=%s&api_username=%s" % (self.url, id, self.key, self.user)
+    def createPost(self, workshop, participant, message):
+        discourse_account = self.getAccount(participant)
+        if(not discourse_account):
+            self.createAccount(participant)
+            discourse_account = self.getAccount(participant)
+        multipart_data = MultipartEncoder(
+            fields={
+                "api_key": self.key,
+                "api_username": discourse_account.username,
+                "topic_id": str(workshop.discourse_topic_id),
+                "raw": message
+            }
+        )
+        url = "%s/posts" % self.url
+        response = requests.post(url, data=multipart_data,
+                                 headers={'Content-Type': multipart_data.content_type})
+
+        print(response.json())
+        response.raise_for_status()
+        return Topic(response.json())
+
+    def getTopic(self, workshop):
+        url = "%s/t/%i.json?api_key=%s&api_username=%s" % (self.url, workshop.discourse_topic_id, self.key, self.user)
         response = requests.get(url)
         response.raise_for_status()
         return Topic(response.json())
 
-    def delete_topic(self, id):
+    def deleteTopic(self, id):
         multipart_data = MultipartEncoder(
             fields={
                 "api_key": self.key,
@@ -203,38 +217,26 @@ class Discourse:
         print("Create Group:" + str(response.json()))
         return Group(response.json()['basic_group'])
 
-    def deletePostsByGroup(self):
+    def deleteUsersAndPostsByGroup(self):
         """Deletes all the posts created by users in the default group, useful to cleaning up after testing.
            I wanted to Delete the users as well, but this just times out for some reason, so giving up on that."""
         url = "%s/groups/%s/members.json?api_key=%s&api_username=%s" % (self.url, self.group.name, self.key, self.user)
         response = requests.get(url)
         response.raise_for_status()
         members = response.json()["members"]
-        multipart_data = MultipartEncoder(
-            fields={
-                "api_key": self.key,
-                "api_username": self.user,
-            }
-        )
-
         for member in members:
-            url = "%s/admin/users/%i/delete_all_posts" % (self.url, member["id"])
-            response = requests.put(url, data=multipart_data,
-                                   headers={'Content-Type': multipart_data.content_type})
+            url = "%s/admin/users/%i/delete_all_posts?api_key=%s&api_username=%s" % (self.url, member["id"], self.key, self.user)
+            response = requests.put(url)
             response.raise_for_status()
-
-            # Be great to delete the users as well, but this request just times out, even though it seems
-            # to work fine when testing from the Discourse interface.
-            # -----------
-            # url = "%s/admin/users/%i.json" % (self.url, member["id"])
-            # response = requests.delete(url, data=multipart_data,
-            #                        headers={'Content-Type': multipart_data.content_type})
-            # response.raise_for_status()
+            url = "%s/admin/users/%i?api_key=%s&api_username=%s" % (self.url, member["id"], self.key, self.user)
+            response = requests.delete(url)
+            response.raise_for_status()
 
 
 class Topic:
 
     logger = logging.getLogger("Discourse.Topic")
+    cooked = ""
 
     def __init__(self,rv):
         self.id = rv["id"]
@@ -242,6 +244,18 @@ class Topic:
             self.id = rv["topic_id"]
         self.deleted = rv["deleted_at"] is not None
         self.user_id = rv["user_id"]
+        if "display_username" in rv: self.display_username = rv["display_username"]
+        if "cooked" in rv: self.cooked = rv["cooked"]
+        self.posts = []
+        if "post_stream" in rv:
+            for post in rv['post_stream']['posts']:
+                self.posts.append(Topic(post))
+
+    def toJSON(self):
+        topic_json = json.dumps(self, default=lambda o: o.__dict__,
+                            sort_keys=True, indent=4)
+
+        return topic_json
 
 class DiscourseAccount:
     logger = logging.getLogger("Discourse.Topic")
