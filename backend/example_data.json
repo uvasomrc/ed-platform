@@ -223,7 +223,7 @@
     {
       "name": "chrisg",
       "data": {
-        "role": "USER",
+        "role": "ADMIN",
         "uid": "chrisg",
         "display_name": "Christopher Gibson",
         "title": "Web Developer and UI Specialist at Gibson Design Associates",
@@ -238,7 +238,7 @@
     {
       "name": "jimg",
       "data": {
-        "role": "USER",
+        "role": "ADMIN",
         "uid": "jimg",
         "display_name": "Jim Gibson",
         "title": "Web Developer and UI Specialist at Gibson Design Associates",
