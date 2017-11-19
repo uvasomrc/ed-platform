@@ -111,7 +111,7 @@ class TestCase(unittest.TestCase):
         self.assert_success(rv)
         return rv
 
-    def add_test_workshop(self):
+    def add_test_workshop(self, discourse_enabled=False):
         self.add_code(self.test_code_1, "Some description.")
         participant = self.add_test_participant()
         data = {'image_file': 'workshop_one.jpg',
@@ -119,7 +119,8 @@ class TestCase(unittest.TestCase):
                 'description': 'This is the test description. ' + ' '.join([self.randomString()[:5]] * 2),
                 'code_id': self.test_code_1,
                 'sessions': [],
-                'instructor': {'id': participant['id']}
+                'instructor': {'id': participant['id']},
+                'discourse_enabled': discourse_enabled
                 }
         rv = self.app.post('/api/workshop', data=json.dumps(data), follow_redirects=True,
                            content_type="application/json", headers=self.logged_in_headers_admin())
@@ -866,6 +867,10 @@ class TestCase(unittest.TestCase):
         search_results = self.search_participant(data)
         self.assertEqual(2, len(search_results["participants"]))
 
+
+    # Discourse
+    # ----------------------------------------
+
     def test_create_discourse_account(self):
         p_json = self.get_current_participant()
         participant = models.Participant.query.filter_by(id = p_json["id"]).first()
@@ -884,6 +889,7 @@ class TestCase(unittest.TestCase):
     def test_workshop_discourse_link(self):
         ws_json = self.add_test_workshop()
         self.assertIsNone(ws_json["discourse_url"])
+        self.assertFalse(ws_json["discourse_enabled"])
 
         rv = self.app.post('/api/workshop/%s/discourse' % ws_json["id"], headers = self.logged_in_headers_admin())
         self.assert_success(rv)
@@ -891,6 +897,9 @@ class TestCase(unittest.TestCase):
         workshop = models.Workshop.query.filter_by(id=ws_json["id"]).first()
         instructor = workshop.instructor
         ws_json = self.get_workshop(ws_json["id"])  # refetch to get the correct data.
+
+        self.assertIsNotNone(ws_json["discourse_url"])
+        self.assertTrue(ws_json["discourse_enabled"])
 
         # The instructor has an account in the system.
         account = discourse.getAccount(workshop.instructor)

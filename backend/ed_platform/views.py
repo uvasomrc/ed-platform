@@ -290,6 +290,10 @@ def add_discourse_topic(id):
     if(workshop.discourse_topic_id is None):
         topic = discourse.createTopic(workshop)
         workshop.discourse_topic_id = topic.id
+
+    workshop.discourse_enabled = True
+    db.session.add(workshop)
+    db.session.commit()
     return (jsonify(workshop_schema.dump(workshop)))
 
 @app.route('/api/workshop/<int:id>/discourse', methods=['GET'])

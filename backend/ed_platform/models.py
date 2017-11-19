@@ -97,12 +97,13 @@ class Workshop(db.Model):
     sessions = db.relationship("Session", backref="workshop")
     instructor_id = db.Column('instructor_id', db.Integer, db.ForeignKey('participant.id'))
     code_id = db.Column('code_id', db.String(), db.ForeignKey('code.id'))
+    discourse_enabled = db.Column(db.Boolean(), default=False)
     discourse_topic_id = db.Column(db.Integer, nullable=True)
     #code:  Backref created a code on Workshop
 
     def discourse_url(self):
         if(self.discourse_topic_id):
-            return discourse.url_for_topic(self.discourse_topic_id)
+            return discourse.urlForTopic(self.discourse_topic_id)
 
 
 class Code(db.Model):
@@ -462,7 +463,7 @@ class SessionAPISchema(ma.Schema):
 
 class WorkshopAPISchema(ma.Schema):
     class Meta:
-        fields = ('id', 'title', 'description', '_links', 'sessions','code_id', 'instructor', 'discourse_url')
+        fields = ('id', 'title', 'description', '_links', 'sessions','code_id', 'instructor', 'discourse_enabled', 'discourse_url')
         ordered = True
     instructor = ma.Nested(ParticipantAPISchema)
     sessions = ma.List(ma.Nested(SessionAPISchema))

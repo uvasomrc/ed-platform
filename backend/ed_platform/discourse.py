@@ -21,6 +21,8 @@ class Discourse:
             "Content-Type": "application/json"
         }
 
+    def urlForTopic(self, topic_id):
+        return "%s/t/%i" % (self.url, topic_id)
 
     def createTopic(self, workshop):
         '''Creates a new topic, and makes it owned by the workshop instructor.'''
@@ -240,10 +242,11 @@ class Topic:
 
     def __init__(self,rv):
         self.id = rv["id"]
-        if("topic_id" in rv):
-            self.id = rv["topic_id"]
+        if("topic_id" in rv): self.id = rv["topic_id"]
         self.deleted = rv["deleted_at"] is not None
         self.user_id = rv["user_id"]
+        if("posts_count" in rv): self.posts_count = rv["posts_count"]
+        if("created_at" in rv): self.posts_count = rv["created_at"]
         if "display_username" in rv: self.display_username = rv["display_username"]
         if "cooked" in rv: self.cooked = rv["cooked"]
         self.posts = []
