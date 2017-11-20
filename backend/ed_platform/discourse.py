@@ -128,7 +128,13 @@ class Discourse:
 
     def getAccount(self, participant):
         """Returns None if the user does not exist."""
-        url = "%s/admin/users/list/all.json?api_key=%s&api_username=%s&filter=%s" % (self.url, self.key, self.user, participant.email_address)
+        discourseAccount = self._searchAccounts(participant.email_address)
+        if discourseAccount == None:
+            discourseAccount = self._searchAccounts(participant.uid)
+        return discourseAccount
+
+    def _searchAccounts(self, query):
+        url = "%s/admin/users/list/all.json?api_key=%s&api_username=%s&filter=%s" % (self.url, self.key, self.user, query)
         response = requests.get(url)
         response.raise_for_status()
         json = response.json()
@@ -239,6 +245,7 @@ class Topic:
 
     logger = logging.getLogger("Discourse.Topic")
     cooked = ""
+    participant = None
 
     def __init__(self,rv):
         self.id = rv["id"]
@@ -246,13 +253,15 @@ class Topic:
         self.deleted = rv["deleted_at"] is not None
         self.user_id = rv["user_id"]
         if("posts_count" in rv): self.posts_count = rv["posts_count"]
-        if("created_at" in rv): self.posts_count = rv["created_at"]
+        if("created_at" in rv): self.created_at = rv["created_at"]
         if "display_username" in rv: self.display_username = rv["display_username"]
+        if "username" in rv: self.uid = rv["username"]
         if "cooked" in rv: self.cooked = rv["cooked"]
         self.posts = []
         if "post_stream" in rv:
             for post in rv['post_stream']['posts']:
-                self.posts.append(Topic(post))
+                if post["post_number"] != 1:
+                    self.posts.append(Topic(post))
 
     def toJSON(self):
         topic_json = json.dumps(self, default=lambda o: o.__dict__,

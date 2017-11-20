@@ -254,7 +254,9 @@ def search_workshops():
 def create_workshop():
     request_data = request.get_json()
     db_code = None
-    if('code_id' in request_data and request_data['code_id'] != ''):
+    if('code_id' in request_data and
+               request_data['code_id'] is not None and
+               request_data['code_id'] != ''):
         db_code = models.Code.query.filter_by(id=request_data['code_id']).first()
         if (db_code == None): raise RestException(RestException.NO_SUCH_CODE)
 
@@ -278,8 +280,14 @@ def create_workshop():
     else:
         new_workshop.code = None
     new_workshop.sessions = new_sessions
+
+    if(request_data["discourse_enabled"] and new_workshop.discourse_topic_id is None):
+        topic = discourse.createTopic(new_workshop)
+        new_workshop.discourse_topic_id = topic.id
+
     db.session.add(new_workshop)
     db.session.commit()
+
     return workshop_schema.jsonify(new_workshop)
 
 @app.route('/api/workshop/<int:id>/discourse', methods=['POST'])
@@ -301,7 +309,12 @@ def add_discourse_topic(id):
 def get_discourse_topic(id):
     workshop = models.Workshop.query.filter_by(id=id).first()
     topic = discourse.getTopic(workshop)
-    return(topic.toJSON())
+    for post in topic.posts:
+        participant = models.Participant.query.filter_by(uid=post.uid).first()
+        if(participant is not None):
+            post.participant = models.ParticipantAPISchema().dump(participant).data
+    json = topic.toJSON()
+    return(json)
 
 @app.route('/api/workshop/<int:id>/discourse/post', methods=['POST'])
 @auth.login_required

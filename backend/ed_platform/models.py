@@ -470,6 +470,7 @@ class WorkshopAPISchema(ma.Schema):
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_workshop', id='<id>'),
         'collection': ma.URLFor('get_workshops'),
+        'posts': ma.URLFor('get_discourse_topic', id='<id>'),
         'image': ma.URLFor('get_workshop_image', id='<id>'),
         'tracks': ma.URLFor('get_workshop_tracks', id='<id>'),
         'sessions': ma.URLFor('get_workshop_sessions', id='<id>')
