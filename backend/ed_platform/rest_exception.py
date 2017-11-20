@@ -11,6 +11,7 @@ class RestException(Exception):
     NO_SUCH_PARTICIPANT = {'code': 'no_such_participant', 'message': 'This participant does not exist.'}
     NO_SUCH_SESSION = {'code': 'no_such_session', 'message': 'This session does not exist.'}
     NO_SUCH_WORKSHOP = {'code': 'no_such_workshop', 'message': 'This workshop does not exist.'}
+    NO_DISCOURSE_TOPIC = {'code': 'no_such_discourse', 'message': 'Discourse ID is missing.'}
     NOT_INSTRUCTOR = {'code': 'not_the_instructor', 'message':'You must be the instructor of this session to perform this action.'}
     ELASTIC_ERROR = {'code': 'elastic_error', 'message':"Error connecting to ElasticSearch."}
     NO_SUCH_CODE = {'code': 'no_such_code', 'message': 'This Track Code does not exist, and cannot be assigned.'}

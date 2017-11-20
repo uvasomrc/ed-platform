@@ -308,7 +308,10 @@ def add_discourse_topic(id):
 @auth.login_required
 def get_discourse_topic(id):
     workshop = models.Workshop.query.filter_by(id=id).first()
+    if(workshop.discourse_topic_id is None): raise RestException(RestException.NO_DISCOURSE_TOPIC)
     topic = discourse.getTopic(workshop)
+    if(topic is None): raise RestException(RestException.NO_DISCOURSE_TOPIC)
+
     for post in topic.posts:
         participant = models.Participant.query.filter_by(uid=post.uid).first()
         if(participant is not None):

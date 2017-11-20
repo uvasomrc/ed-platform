@@ -1,7 +1,7 @@
 import {Links} from './links';
 import {Session} from './session';
 import {Review} from './review';
-import {Participant} from "./participant";
+import {Participant} from './participant';
 
 export class Workshop  {
 
@@ -10,10 +10,11 @@ export class Workshop  {
   description = '';
   links = new Links();
   sessions = Array<Session>();
-  code_id = ''
+  code_id = '';
   instructor: Participant;
   discourse_enabled = false;
   discourse_url = '';
+  discourse_topic_id: Number;
 
   constructor(values: Object = {}) {
     Object.assign(this, values);

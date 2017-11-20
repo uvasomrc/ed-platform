@@ -463,7 +463,8 @@ class SessionAPISchema(ma.Schema):
 
 class WorkshopAPISchema(ma.Schema):
     class Meta:
-        fields = ('id', 'title', 'description', '_links', 'sessions','code_id', 'instructor', 'discourse_enabled', 'discourse_url')
+        fields = ('id', 'title', 'description', '_links', 'sessions','code_id', 'instructor',
+                  'discourse_enabled', 'discourse_url', 'discourse_topic_id')
         ordered = True
     instructor = ma.Nested(ParticipantAPISchema)
     sessions = ma.List(ma.Nested(SessionAPISchema))

@@ -22,6 +22,7 @@ export class WorkshopFormComponent implements OnInit {
   title: FormControl;
   description: FormControl;
   discourse_enabled: FormControl;
+  discourse_topic_id: FormControl;
   code: FormControl;
   isDataLoaded = false;
   codeList = new Array<Code>();
@@ -71,11 +72,13 @@ export class WorkshopFormComponent implements OnInit {
     this.description = new FormControl([Validators.required, Validators.minLength(20)]);
     this.discourse_enabled = new FormControl();
     this.code = new FormControl();
+    this.discourse_topic_id = new FormControl();
 
     this.workshopForm = new FormGroup({
       title: this.title,
       description: this.description,
       discourse_enabled: this.discourse_enabled,
+      discourse_topic_id: this.discourse_topic_id,
       code: this.code
     });
 
@@ -83,11 +86,13 @@ export class WorkshopFormComponent implements OnInit {
     this.title.patchValue(this.workshop.title);
     this.description.patchValue(this.workshop.description);
     this.discourse_enabled.patchValue(this.workshop.discourse_enabled);
+    this.discourse_topic_id.patchValue(this.workshop.discourse_topic_id);
 
     this.title.valueChanges.subscribe(t => this.workshop.title = t);
     this.description.valueChanges.subscribe(d => this.workshop.description = d);
     this.code.valueChanges.subscribe(code_id => this.workshop.code_id = code_id);
     this.discourse_enabled.valueChanges.subscribe(enabled => this.workshop.discourse_enabled = enabled);
+    this.discourse_topic_id.valueChanges.subscribe(id => this.workshop.discourse_topic_id = id);
     this.isDataLoaded = true;
   }
 
