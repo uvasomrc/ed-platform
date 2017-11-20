@@ -51,7 +51,7 @@ class Discourse:
         try:
             return Topic(response.json())
         except:
-            raise RestException({'code':'topic_creation_failed', 'message':response.json})
+            raise RestException({'code':'topic_creation_failed', 'message':response.json()})
 
     def createPost(self, workshop, participant, message):
         discourse_account = self.getAccount(participant)
