@@ -4,6 +4,8 @@ import logging
 import requests
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 
+from ed_platform import RestException
+
 
 class Discourse:
 
@@ -46,7 +48,10 @@ class Discourse:
 
         print(response.json())
         response.raise_for_status()
-        return Topic(response.json())
+        try:
+            return Topic(response.json())
+        except:
+            raise RestException({'code':'topic_creation_failed', 'message':response.json})
 
     def createPost(self, workshop, participant, message):
         discourse_account = self.getAccount(participant)
