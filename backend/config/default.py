@@ -53,7 +53,8 @@ UPLOADS_DEFAULT_DEST = "/tmp/"
 DISCOURSE= {
     "url": "http://localhost:8080/disourse",
     "key": "mysupersecretkey",
-    "user": "test"
+    "user": "test",
+    "workshop_link": SITE_URL + "/#/workshop"
 }
 DISCOURSE_CATEGORY = "workshops"
 DISCOURSE_USER_GROUP = "cadre_user"

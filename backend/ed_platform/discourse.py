@@ -15,6 +15,7 @@ class Discourse:
         self.url = app.config['DISCOURSE']['url']
         self.key = app.config['DISCOURSE']['key']
         self.user = app.config['DISCOURSE']['user']
+        self.workshop_link = app.config['DISCOURSE']['workshop_link']
         self.category = self.createCategory(app.config['DISCOURSE_CATEGORY'])
         self.group = self.createGroup(app.config['DISCOURSE_USER_GROUP'])
 
@@ -33,13 +34,16 @@ class Discourse:
             self.createAccount(workshop.instructor)
             discourse_account = self.getAccount(workshop.instructor)
 
+        link = "[%s](%s/%i)" % ("Sign up on Cadre Academy",
+                             self.workshop_link, workshop.id)
+
         multipart_data = MultipartEncoder(
             fields={
                 "api_key": self.key,
                 "api_username": discourse_account.username,
                 "category": str(self.category.id),
-                "title": workshop.title,
-                "raw": workshop.description,
+                "title": "%s with %s (CA Workshop #%i)" % (workshop.title, workshop.instructor.display_name, workshop.id),
+                "raw": "%s\n%s" % (link, workshop.description)
             }
         )
         url = "%s/posts" % self.url
@@ -47,11 +51,12 @@ class Discourse:
                                  headers={'Content-Type': multipart_data.content_type})
 
         print(response.json())
-        response.raise_for_status()
+        if(response.status_code < 200 or response.status_code > 299):
+            raise RestException({'code': 'topic_creation_failed', 'message': json.dumps(response.json())})
         try:
             return Topic(response.json())
         except:
-            raise RestException({'code':'topic_creation_failed', 'message':response.json()})
+            raise RestException({'code':'topic_creation_failed', 'message':json.dumps(response.json())})
 
     def createPost(self, workshop, participant, message):
         discourse_account = self.getAccount(participant)
