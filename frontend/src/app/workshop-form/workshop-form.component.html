@@ -40,11 +40,14 @@
             </mat-error>
           </mat-form-field>
           <mat-form-field>
-            <mat-select mdInput formControlName="code" placeholder="Track Code" >
+            <mat-select matInput formControlName="code" placeholder="Track Code" >
               <mat-option [value]="">No code.</mat-option>
               <mat-option *ngFor="let code of codeList" [value]="code.id">{{code.id}}</mat-option>
             </mat-select>
           </mat-form-field>
+            <mat-checkbox matInput formControlName="discourse_enabled">
+            Enable Discourse Discussions?
+            </mat-checkbox>
         </div>
 
         <div class="display">

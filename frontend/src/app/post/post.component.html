@@ -1,0 +1,8 @@
+<div class="post">
+  <div>
+    <img *ngIf="post.participant" class="avatar" src="{{post.participant.image()}}"/>
+    <b>{{post.display_username}}</b>
+    <p>{{post.created_at | date: 'EEE. MMMM d, y, h:mma'}}</p>
+  </div>
+  <div class="content" [innerHTML]="post.cooked"></div>
+</div>

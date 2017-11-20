@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {WorkshopService} from '../workshop.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Workshop} from '../workshop';
@@ -6,6 +6,7 @@ import {AccountService} from "../account.service";
 import {Track} from "../track";
 import {Code} from "../code";
 import {Participant} from "../participant";
+import {Post} from "../post";
 
 @Component({
   selector: 'app-workshop-details',
@@ -20,12 +21,13 @@ export class WorkshopDetailsComponent implements OnInit {
   isDataLoaded = false;
   code: Code;
   account: Participant;
+  post: Post;
 
   constructor(private workshopService: WorkshopService,
               private accountService: AccountService,
               private router: Router,
               private route: ActivatedRoute) {
-    this.route.params.subscribe( params => {
+    this.route.params.subscribe(params => {
       this.workshop_id = params['id'];
       this.load_workshop();
     });
@@ -53,8 +55,14 @@ export class WorkshopDetailsComponent implements OnInit {
           this.code = new Code();
           this.updatedLoaded();
         }
-      }
-    );
+        this.workshopService.getPost(workshop).subscribe(
+          (post) => {
+            this.post = post;
+          }
+        );
+
+      });
+    /**/
   }
 
   ngOnInit() {

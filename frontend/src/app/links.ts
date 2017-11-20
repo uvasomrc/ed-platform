@@ -11,6 +11,7 @@ export class Links {
   send_email = '';
   messages = '';
   code = '';
+  posts = '';
 
   constructor(values: Object = {}) {
     for (const key in values) {

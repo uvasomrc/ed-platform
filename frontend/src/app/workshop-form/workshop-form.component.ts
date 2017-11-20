@@ -2,12 +2,12 @@ import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core'
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {WorkshopService} from '../workshop.service';
 import {Workshop} from '../workshop';
-import {ActivatedRoute, Router} from "@angular/router";
-import {Participant} from "../participant";
-import {Session} from "../session";
-import {SessionFormComponent} from "../session-form/session-form.component";
-import {Code} from "../code";
-import {TrackService} from "../track.service";
+import {ActivatedRoute, Router} from '@angular/router';
+import {Participant} from '../participant';
+import {Session} from '../session';
+import {SessionFormComponent} from '../session-form/session-form.component';
+import {Code} from '../code';
+import {TrackService} from '../track.service';
 
 @Component({
   selector: 'app-workshop-form',
@@ -21,6 +21,7 @@ export class WorkshopFormComponent implements OnInit {
   workshopForm: FormGroup;
   title: FormControl;
   description: FormControl;
+  discourse_enabled: FormControl;
   code: FormControl;
   isDataLoaded = false;
   codeList = new Array<Code>();
@@ -68,28 +69,32 @@ export class WorkshopFormComponent implements OnInit {
   loadForm() {
     this.title = new FormControl([Validators.required, Validators.maxLength(256)]);
     this.description = new FormControl([Validators.required, Validators.minLength(20)]);
+    this.discourse_enabled = new FormControl();
     this.code = new FormControl();
 
     this.workshopForm = new FormGroup({
       title: this.title,
       description: this.description,
+      discourse_enabled: this.discourse_enabled,
       code: this.code
     });
 
     this.code.patchValue(this.workshop.code_id);
     this.title.patchValue(this.workshop.title);
     this.description.patchValue(this.workshop.description);
+    this.discourse_enabled.patchValue(this.workshop.discourse_enabled);
 
     this.title.valueChanges.subscribe(t => this.workshop.title = t);
     this.description.valueChanges.subscribe(d => this.workshop.description = d);
     this.code.valueChanges.subscribe(code_id => this.workshop.code_id = code_id);
+    this.discourse_enabled.valueChanges.subscribe(enabled => this.workshop.discourse_enabled = enabled);
     this.isDataLoaded = true;
   }
 
   addSession(s: Session) {
-    console.log(`Adding Session ${s.id}`)
-    let index = this.workshop.sessions.findIndex(es => es.id === s.id);
-    if(!s.id) {
+    console.log(`Adding Session ${s.id}`);
+    const index = this.workshop.sessions.findIndex(es => es.id === s.id);
+    if (!s.id) {
       s.id = 0 - this.workshop.sessions.length;
     }
     if (index >= 0) {
@@ -100,8 +105,8 @@ export class WorkshopFormComponent implements OnInit {
   }
 
   deleteSession(s: Session) {
-    console.log(`Removing Session ${s.id}`)
-    let index = this.workshop.sessions.findIndex(es => es.id === s.id);
+    console.log(`Removing Session ${s.id}`);
+    const index = this.workshop.sessions.findIndex(es => es.id === s.id);
     if (index >= 0) {
       this.workshop.sessions.splice(index, 1);
     }

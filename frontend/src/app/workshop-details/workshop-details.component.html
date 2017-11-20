@@ -36,6 +36,30 @@
   </section>
 
   <mat-tab-group class="tall-labels">
+
+    <mat-tab *ngIf="registerState() === 'registered' && workshop.discourse_enabled && post">
+      <ng-template mat-tab-label>
+        <div>
+          <h1>{{post.posts.length}}</h1>
+          <div class="sub-title">Posts in Discussion</div>
+        </div>
+      </ng-template>
+      <p>You can participate in this discussion on <a target="discourse" href="{{workshop.discourse_url}}">Discourse</a>.</p>
+
+      <div
+        class="container"
+        fxLayout="column"
+        fxLayoutWrap
+        fxLayout.xs="column"
+        fxLayoutAlign="center"
+        fxLayoutGap="10px"
+        fxLayoutGap.xs="0">
+        <app-post *ngFor="let p of post.posts" [post]="p">
+
+        </app-post>
+      </div>
+    </mat-tab>
+
     <mat-tab>
       <ng-template mat-tab-label>
           <div>

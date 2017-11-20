@@ -44,6 +44,7 @@ import { SessionFormComponent } from './session-form/session-form.component';
 import {OverlayModule} from '@angular/cdk/overlay';
 import { ParticipantFormComponent } from './participant-form/participant-form.component';
 import {DatePipe} from "@angular/common";
+import { PostComponent } from './post/post.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -88,7 +89,8 @@ const routes: Routes = [
     ConfirmDialogComponent,
     ParticipantSearchComponent,
     SessionFormComponent,
-    ParticipantFormComponent
+    ParticipantFormComponent,
+    PostComponent
   ],
   imports: [
     BrowserModule,

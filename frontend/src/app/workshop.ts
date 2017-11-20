@@ -12,6 +12,8 @@ export class Workshop  {
   sessions = Array<Session>();
   code_id = ''
   instructor: Participant;
+  discourse_enabled = false;
+  discourse_url = '';
 
   constructor(values: Object = {}) {
     Object.assign(this, values);

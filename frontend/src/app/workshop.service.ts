@@ -6,6 +6,7 @@ import {Session} from './session';
 import {EmailMessage} from './EmailMessage';
 import {Search} from './search';
 import {Track} from "./track";
+import {Post} from "./post";
 
 @Injectable()
 export class WorkshopService {
@@ -52,6 +53,10 @@ export class WorkshopService {
 
   getTracksForWorkshop(workshop: Workshop): Observable<Track[]> {
     return this.api.getTracksForWorkshop(workshop);
+  }
+
+  getPost(workshop: Workshop): Observable<Post> {
+    return this.api.getPost(workshop);
   }
 
 }

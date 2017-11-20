@@ -12,6 +12,7 @@ import {Session} from './session';
 import {EmailMessage} from './EmailMessage';
 import {Search} from './search';
 import {Code} from './code';
+import {Post} from "./post";
 
 @Injectable()
 export class ApiService {
@@ -218,6 +219,12 @@ export class ApiService {
       });
   }
 
+  getPost(workshop: Workshop): Observable<Post> {
+    return this.http.get(workshop.links.posts, this.getOptions())
+      .map(res => {
+        return new Post(res.json());
+      });
+  }
 
   getTracksForWorkshop(workshop: Workshop): Observable<Track[]> {
     return this.http.get(workshop.links.tracks, this.getOptions())
