@@ -4,22 +4,6 @@
          alt="Welcome to Cadre Academy.  Free Technology Classes on the UVA Campus."/>
   </div>
 </div>
-<div class="sponsors">
-  <button (click)="left()" class="arrows">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
-  <div class="carousel-wrapper">
-    <ul class="carousel-inner" [@slide]="sponsor_state">
-      <li *ngFor="let sponsor of sponsors;" class="carousel">
-        <img class="item" src="{{sponsor.image}}">
-      </li>
-    </ul>
-  </div>
-  <button (click)="right()" class="arrows">
-    <mat-icon>arrow_forward</mat-icon>
-  </button>
-</div>
-
 
 <section class="center">
 <h1>Welcome!</h1>
@@ -56,3 +40,20 @@
   <app-workshop-form (add)="onAddWorkshop($event)"></app-workshop-form>
 </section>
 -->
+
+<div class="sponsors">
+  <button (click)="left()" class="arrows">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <div class="carousel-wrapper">
+    <ul class="carousel-inner" [@slide]="sponsor_state">
+      <li *ngFor="let sponsor of sponsors;" class="carousel">
+        <img class="item" src="{{sponsor.image}}">
+      </li>
+    </ul>
+  </div>
+  <button (click)="right()" class="arrows">
+    <mat-icon>arrow_forward</mat-icon>
+  </button>
+</div>
+

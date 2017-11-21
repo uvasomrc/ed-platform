@@ -1,16 +1,19 @@
 <mat-card class="workshop">
   <mat-card-header (click)="goWorkshop()">
     <img mat-card-avatar src="{{workshop.instructor.image()}}" *ngIf="workshop.instructor">
-    <mat-card-title>{{workshop.title}}</mat-card-title>
+    <mat-card-title>
+      <div class="mat-card-pre-title">{{workshop.code_id}}</div>
+      {{workshop.title}}</mat-card-title>
     <mat-card-subtitle>
-      with <span *ngIf="workshop.instructor">{{workshop.instructor.display_name}}</span><br/>
+      <span *ngIf="workshop.instructor">{{workshop.instructor.display_name}}</span><br/>
       <span *ngIf="workshop.hasUpcomingSession()">
-        {{workshop.nextSession().date_time | date: 'EEE. MMMM d, h:mm-'}}{{workshop.nextSession().endTime() | date: 'h:mma'}}
-        <br/>
-        Location: {{workshop.nextSession().location}}
+        Next Session:
+        {{workshop.nextSession().date_time | date: 'MMM. d, h:mm-'}}{{workshop.nextSession().endTime() | date: 'h:mma'}}
       </span>
     </mat-card-subtitle>
   </mat-card-header>
+
+  <!--
   <mat-card-header *ngIf="!workshop.hasUpcomingSession()">
     <p>No upcoming sessions for this workshop.</p>
   </mat-card-header>
@@ -25,7 +28,7 @@
   </mat-card-actions>
 
   </span>
-
+  -->
   <!--
   <mat-card-actions>
     <button mat-button (click)="goWorkshop(workshop.id)">Register Now!</button>

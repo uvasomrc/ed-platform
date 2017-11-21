@@ -6,8 +6,8 @@ import {Workshop} from '../workshop';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import { trigger, state, style, transition, animate, keyframes, query, stagger } from '@angular/animations';
-import {Participant} from "../participant";
-import {AccountService} from "../account.service";
+import {Participant} from '../participant';
+import {AccountService} from '../account.service';
 
 @Component({
   selector: 'app-home',
