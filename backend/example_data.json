@@ -502,7 +502,7 @@
         "workshop": "python_intro_workshop_t3",
         "date_time":"2017-11-14T18:30:00.000Z",
         "duration_minutes":"60",
-        "max_attendees":2,
+        "max_attendees":4,
         "instructor_notes": "",
         "location":"Brown 133"
       }
@@ -800,7 +800,63 @@
         "participant": "bk7k",
         "session": "python_intro_workshop_s2",
         "created": "2017-06-04T15:55:00.000Z",
-        "attended": false,
+        "attended": true,
+        "is_instructor": false,
+        "review_score": 5,
+        "review_comment": "Excellent overview of latest trends, and learned a little Python in the process!"
+      }
+    },
+    {
+      "name":"dhf8r_python_intro_workshop_s2",
+      "data": {
+        "participant": "dhf8r",
+        "session": "python_intro_workshop_s2",
+        "created": "2017-06-04T15:55:00.000Z",
+        "attended": true,
+        "is_instructor": false,
+        "review_score": 5,
+        "review_comment": "It has a good beat, and I can dance to it."
+      }
+    },
+    {
+      "name":"nem2p_python_intro_workshop_s2",
+      "data": {
+        "participant": "nem2p",
+        "session": "python_intro_workshop_s2",
+        "created": "2017-06-04T15:55:00.000Z",
+        "attended": true,
+        "is_instructor": false,
+        "review_score": 5,
+        "review_comment": "I really appreciate the references to Platonic Scripts."
+      }
+    },
+    {
+      "name":"chrisg_python_intro_workshop_s2",
+      "data": {
+        "participant": "chrisg",
+        "session": "python_intro_workshop_s2",
+        "created": "2017-06-04T15:55:00.000Z",
+        "attended": true,
+        "is_instructor": false
+      }
+    },
+    {
+      "name":"cag3fr_python_intro_workshop_s2",
+      "data": {
+        "participant": "cag3fr",
+        "session": "python_intro_workshop_s2",
+        "created": "2017-06-04T15:55:00.000Z",
+        "attended": true,
+        "is_instructor": false
+      }
+    },
+    {
+      "name":"vpn7n_python_intro_workshop_s2",
+      "data": {
+        "participant": "vpn7n",
+        "session": "python_intro_workshop_s2",
+        "created": "2017-06-04T15:55:00.000Z",
+        "attended": true,
         "is_instructor": false
       }
     },
