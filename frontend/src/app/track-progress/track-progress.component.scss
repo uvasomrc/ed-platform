@@ -14,28 +14,19 @@
 }
 
 .track-progress mat-icon {
-  border: 2px solid transparent;
-  border-radius: 25px;
+  color: mat-color($uva-primary, 500);
   cursor: pointer;
-}
-
-.progress-next {
-//  width: 10px;
+  padding: -2px;
+  stroke: #888;
 }
 
 .track-progress mat-icon.active {
-  border: 2px solid mat-color($uva-accent, 500);
-  border-radius: 25px;
+  stroke: mat-color($uva-accent, 500);
 }
 
 .track-progress mat-icon.open {
-  fill: #888;
+  color: #888;
 }
 
-.track-progress mat-icon.complete {
-  fill: mat-color($uva-primary, 500);
-}
-
-.active {
-  border: 1px solid mat-color($uva-primary, 500);
+.track-progress mat-icon.connect {
 }
