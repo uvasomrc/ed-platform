@@ -1,61 +1,66 @@
-<form class="search-box" [formGroup]="searchForm">
-  <div>Search:</div>
-  <input #query type="search" formControlName="searchBox">
-  <button (click)="updateQuery(query.value)">
-    <mat-icon>search</mat-icon>
-  </button>
-  <button (click)="toggleFilter()">
-    <i class="material-icons">filter_list</i>
-  </button>
-</form>
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #sidenav class="example-sidenav">
+    <h2>Filters</h2>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Date Range
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-list>
+        <mat-list-item (click)="setDateRange('all', 'All')">All</mat-list-item>
+        <mat-list-item (click)="setDateRange('future', 'Upcoming')">Upcoming</mat-list-item>
+        <mat-list-item (click)="setDateRange('7days', 'Upcoming (7 days)')">Upcoming (7 days)</mat-list-item>
+        <mat-list-item (click)="setDateRange('30days', 'Upcoming (30 days)')">Upcoming (30 days)</mat-list-item>
+        <mat-list-item (click)="setDateRange('past', 'Past')">Past</mat-list-item>
+      </mat-list>
+    </mat-expansion-panel>
+    <mat-expansion-panel *ngFor="let facet of search.facets">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{facet.name}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-list>
+        <mat-list-item *ngFor="let count of facet.counts" (click)="addFilter(facet.name, count.category)">
+          {{count.category}} <div class="spacer"> </div>{{count.hit_count}}
+        </mat-list-item>
+      </mat-list>
+    </mat-expansion-panel>
+  </mat-sidenav>
 
-<p>Total Results Found: <span>{{search.total}}</span></p>
+  <form class="search-box" [formGroup]="searchForm">
+    <mat-input-container>
+      <input matInput #query type="search" formControlName="searchBox" placeholder="Search">
+    </mat-input-container>
+    <button mat-fab (click)="updateQuery(query.value)">
+      <mat-icon>search</mat-icon>
+    </button>
+    <button mat-fab (click)="sidenav.open()">
+      <i class="material-icons">filter_list</i>
+    </button>
+  </form>
 
-<ul>
-  <li *ngIf="search.query">
-    <button mat-icon-button (click)="updateQuery()"><i class="material-icons">remove_circle_outline</i></button>
-    Search: {{search.query}}</li>
 
-  <li *ngIf="search.date_restriction">
-    <button mat-icon-button (click)="removeDateRange()"><i class="material-icons">remove_circle_outline</i></button>
-    Date Range: {{date_range_display}}</li>
+  <ul class="applied-filters">
+    <li *ngIf="search.query">
+      <button mat-icon-button (click)="updateQuery()"><i class="material-icons">remove_circle_outline</i></button>
+      Search: {{search.query}}
+    </li>
 
-  <li *ngFor="let filter of search.filters">
-    <button mat-icon-button (click)="removeFilter(filter)"><i class="material-icons">remove_circle_outline</i></button>
-    {{filter.field}} : {{filter.value}}</li>
-</ul>
+    <li *ngIf="search.date_restriction">
+      <button mat-icon-button (click)="removeDateRange()"><i class="material-icons">remove_circle_outline</i></button>
+      Date Range: {{date_range_display}}
+    </li>
 
-<div *ngIf="showFilters">
-<h2>Filters</h2>
-<mat-expansion-panel>
-  <mat-expansion-panel-header>
-    <mat-panel-title>
-      Date Range
-    </mat-panel-title>
-  </mat-expansion-panel-header>
-  <mat-list>
-    <mat-list-item (click)="setDateRange('all', 'All')">All</mat-list-item>
-    <mat-list-item (click)="setDateRange('future', 'Upcoming')">Upcoming</mat-list-item>
-    <mat-list-item (click)="setDateRange('7days', 'Upcoming (7 days)')">Upcoming (7 days)</mat-list-item>
-    <mat-list-item (click)="setDateRange('30days', 'Upcoming (30 days)')">Upcoming (30 days)</mat-list-item>
-    <mat-list-item (click)="setDateRange('past', 'Past')">Past</mat-list-item>
-  </mat-list>
-</mat-expansion-panel>
+    <li *ngFor="let filter of search.filters">
+      <button mat-icon-button (click)="removeFilter(filter)"><i class="material-icons">remove_circle_outline</i>
+      </button>
+      {{filter.field}} : {{filter.value}}
+    </li>
+  </ul>
 
-<mat-expansion-panel *ngFor="let facet of search.facets">
-  <mat-expansion-panel-header>
-    <mat-panel-title>
-      {{facet.name}}
-    </mat-panel-title>
-  </mat-expansion-panel-header>
-  <mat-list>
-    <mat-list-item *ngFor="let count of facet.counts" (click)="addFilter(facet.name, count.category)">
-      {{count.category}}  {{count.hit_count}}
-    </mat-list-item>
-  </mat-list>
-</mat-expansion-panel>
-  <br/>
-</div>
+  <app-workshop-list [workshops]="search.workshops"></app-workshop-list>
 
-<h2>Workshops</h2>
-<app-workshop-list [workshops]="search.workshops"></app-workshop-list>
+</mat-sidenav-container>
+

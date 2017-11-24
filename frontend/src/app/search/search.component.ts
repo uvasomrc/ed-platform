@@ -78,9 +78,4 @@ export class SearchComponent implements OnInit {
     this.doSearch();
   }
 
-  toggleFilter() {
-    this.showFilters = !this.showFilters;
-    console.log('Filters are visible?' + this.showFilters);
-  }
-
 }

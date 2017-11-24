@@ -7,15 +7,31 @@
 
 
 form.search-box {
-  background-color: white;
+  background: transparent;
   border-radius: 5px;
-  padding: 0px 10px;
+  padding: 0px 20px 0 20px;
   margin: 10px 0 0 0;
   display: flex;
 }
 
-form.search-box div {
-  flex: 0 0 auto;
+.applied-filters > li {
+  list-style: none;
+}
+
+.mat-drawer-container {
+  background: transparent;
+}
+
+mat-list-item {
+  cursor: pointer;
+}
+
+mat-list-item:hover {
+  background-color: mat-color($uva-primary, 100)
+}
+
+form.search-box mat-input-container {
+  flex: 2 0 auto;
   line-height: 30px;
 }
 
@@ -34,7 +50,6 @@ input:active {
 
 button {
   flex: 0 0 auto;
-  background: #fff;
   border: none;
 }
 

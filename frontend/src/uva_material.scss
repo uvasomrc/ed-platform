@@ -110,10 +110,13 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
     font-size: 24px;
   }
 
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+  }
+
   h2.mat-h2, h2.mat-title {
     background-color: mat-contrast($primary, 900);
-    padding-bottom: 0px;
-    margin-button: 0px;
     font-size: 18px;
     line-height: 20px;
   }
@@ -134,6 +137,7 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
   @media screen and (min-width: 480px) {
     mat-card {
      max-width: 356px;
+     min-width: 356px;
      min-height: 90px;
     }
   }
