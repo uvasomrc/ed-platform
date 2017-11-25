@@ -6,17 +6,77 @@
         "image_file": "images/python_track.png",
         "title": "Python for Data Analysis",
         "sub_title": "From Introduction to Modeling",
-        "description": "Intro Python > Python Data Manipulation > Python Data Visualization > Advanced Topics Python > Python Modeling"
+        "description": "Get hands on experience with Python, gain experience with data management and visualization as you build mastery in this exceedingly popular open source language."
+      }
+    },
+    {
+      "name": "r_programming",
+      "data": {
+        "image_file": "images/r_track.png",
+        "title": "R Programming",
+        "sub_title": "Become a Pro at R Development",
+        "description": "Learn about fundamentals of R, possibly the beset language available for statistics and data science, then build on these base concepts to specific tasks including visualization and distributed computing."
+      }
+    },
+    {
+      "name": "medical_image_analysis",
+      "data": {
+        "image_file": "images/medical_track.png",
+        "title": "Medical Image Analysis",
+        "sub_title": "Unix, MatLab, FSL, HPC",
+        "description": "Starting from the command line, learn the tools you need to perform complex data manipulation and image analysis."
+      }
+    },
+    {
+      "name": "image_analysis_for_microscopy",
+      "data": {
+        "image_file": "images/microscopy.png",
+        "title": "Image Analysis for Microscopy",
+        "sub_title": "Unix, MatLab, Figi, ImageJ, Omero",
+        "description": "From a gentle introduction to basic uni command line tools and MatLab, venture into specialized tools for visualization and data management."
+      }
+    },
+    {
+      "name": "infrastructure",
+      "data": {
+        "image_file": "images/infrastructure.png",
+        "title": "Infrastructure",
+        "sub_title": "Unix, AWS, the Cloud, and Docker",
+        "description": "Some people strive to be system administrators, others have this forced upon them.  Get hands on experience with the Unix command line, and then launch into modern administration with AWS, Docker and Python scripting."
       }
     }
+
   ],
 
   "Code": [
-    {"name":"python_intro", "data": {"id":"Python: Intro"}},
-    {"name":"python_data", "data": {"id":"Python: Data"}},
-    {"name":"python_visual", "data": {"id":"Python: Visualization"}},
-    {"name":"python_adv", "data": {"id":"Python: Advanced"}},
-    {"name":"python_modeling", "data": {"id":"Python: Modeling"}}
+   {"name":"python_intro", "data": {"id":"Python: Intro"}},
+   {"name":"python_data", "data": {"id":"Python: Data"}},
+   {"name":"python_visual", "data": {"id":"Python: Visualization"}},
+   {"name":"python_adv", "data": {"id":"Python: Advanced"}},
+   {"name":"python_modeling", "data": {"id":"Python: Modeling"}},
+
+   {"name":"r_intro", "data": {"id":"R: Intro"}},
+   {"name":"data_manipulation", "data": {"id":"Data Manipulation"}},
+   {"name":"data_visualization", "data": {"id":"Data Visualization"}},
+   {"name":"functional_programming", "data": {"id":"Functional Programming"}},
+   {"name":"r_package", "data": {"id":"R: Packages"}},
+   {"name":"r_advanced", "data": {"id":"R: Advanced"}},
+
+   {"name":"unix_intro", "data": {"id":"UNIX: Intro"}},
+   {"name":"matlab_intro", "data": {"id":"Matlab: Intro"}},
+   {"name":"matlab_toolboxes", "data": {"id":"Matlab: Toolboxes"}},
+   {"name":"fsl", "data": {"id":"FSL"}},
+
+   {"name":"data_management", "data": {"id":"Data Management"}},
+   {"name":"hpc", "data": {"id":"HPC For Image Analysis"}},
+
+   {"name":"imaging_tools", "data": {"id":"Imaging Tools"}},
+   {"name":"cloud_intro", "data": {"id":"Cloud Computing: Intro"}},
+   {"name":"cloud_adv", "data": {"id":"Cloud Computing: Advanced"}},
+
+   {"name":"databases", "data": {"id":"Databases"}},
+   {"name":"advanced_scripting", "data": {"id":"Advanced Scripting"}},
+   {"name":"containers", "data": {"id":"Containers"}}
   ],
 
   "TrackCode": [
@@ -53,6 +113,185 @@
       "track":"python_for_data_analysis",
       "code":"python_modeling",
       "order":4,
+      "prereq":false
+    }},
+
+
+    {"name":"r_intro_tc",
+    "data": {
+      "track":"r_programming",
+      "code":"r_intro",
+      "order":0,
+      "prereq":true
+    }},
+    {"name":"data_manipulation_tc",
+    "data": {
+      "track":"r_programming",
+      "code":"data_manipulation",
+      "order": 1,
+      "prereq":true
+    }},
+    {"name":"data_visualization_tc",
+    "data": {
+      "track":"r_programming",
+      "code":"data_visualization",
+      "order":2,
+      "prereq":true
+    }},
+    {"name":"functional_programming_tc",
+    "data": {
+      "track":"r_programming",
+      "code":"functional_programming",
+      "order":3,
+      "prereq":false
+    }},
+    {"name":"r_package_tc",
+    "data": {
+      "track":"r_programming",
+      "code":"r_package",
+      "order":4,
+      "prereq":false
+    }},
+    {"name":"r_advanced_tc",
+    "data": {
+      "track":"r_programming",
+      "code":"r_advanced",
+      "order":5,
+      "prereq":false
+    }},
+
+    {"name":"unix_intro_tc",
+    "data": {
+      "track":"medical_image_analysis",
+      "code":"unix_intro",
+      "order":0,
+      "prereq":true
+    }},
+    {"name":"matlab_intro_tc",
+    "data": {
+      "track":"medical_image_analysis",
+      "code":"matlab_intro",
+      "order":1,
+      "prereq":true
+    }},
+    {"name":"matlab_toolboxes_tc",
+    "data": {
+      "track":"medical_image_analysis",
+      "code":"matlab_toolboxes",
+      "order":2,
+      "prereq":false
+    }},
+    {"name":"fsl_tc",
+    "data": {
+      "track":"medical_image_analysis",
+      "code":"fsl",
+      "order":3,
+      "prereq":false
+    }},
+    {"name":"data_management_tc",
+    "data": {
+      "track":"medical_image_analysis",
+      "code":"data_management",
+      "order":4,
+      "prereq":false
+    }},
+    {"name":"hpc_tc",
+    "data": {
+      "track":"medical_image_analysis",
+      "code":"hpc",
+      "order":5,
+      "prereq":false
+    }},
+    {"name":"data_visualization_tc",
+    "data": {
+      "track":"medical_image_analysis",
+      "code":"data_visualization",
+      "order":6,
+      "prereq":false
+    }},
+
+    {"name":"unix_intro2_tc",
+    "data": {
+      "track":"image_analysis_for_microscopy",
+      "code":"unix_intro",
+      "order":0,
+      "prereq":true
+    }},
+    {"name":"matlab_intro2_tc",
+    "data": {
+      "track":"image_analysis_for_microscopy",
+      "code":"matlab_intro",
+      "order":1,
+      "prereq":true
+    }},
+    {"name":"imaging_tools_tc",
+    "data": {
+      "track":"image_analysis_for_microscopy",
+      "code":"imaging_tools",
+      "order":2,
+      "prereq":true
+    }},
+    {"name":"data_management_tc",
+    "data": {
+      "track":"image_analysis_for_microscopy",
+      "code":"data_management",
+      "order":3,
+      "prereq":true
+    }},
+    {"name":"hpc_tc",
+    "data": {
+      "track":"image_analysis_for_microscopy",
+      "code":"hpc",
+      "order":4,
+      "prereq":false
+    }},
+    {"name":"data_visualization2_tc",
+    "data": {
+      "track":"image_analysis_for_microscopy",
+      "code":"data_visualization",
+      "order":5,
+      "prereq":false
+    }},
+    {"name":"unix_intro_i_tc",
+    "data": {
+      "track":"infrastructure",
+      "code":"unix_intro",
+      "order":0,
+      "prereq":true
+    }},
+    {"name":"cloud_intro_tc",
+    "data": {
+      "track":"infrastructure",
+      "code":"cloud_intro",
+      "order":1,
+      "prereq":false
+    }},
+    {"name":"cloud_adv_tc",
+    "data": {
+      "track":"infrastructure",
+      "code":"cloud_adv",
+      "order":2,
+      "prereq":false
+    }},
+    {"name":"containers_tc",
+    "data": {
+      "track":"infrastructure",
+      "code":"containers",
+      "order":3,
+      "prereq":false
+    }},
+    {"name":"databases_tc",
+    "data": {
+      "track":"infrastructure",
+      "code":"databases",
+      "order":4,
+      "prereq":false
+    }},
+    {"name":"advanced_scripting_tc",
+    "data": {
+      "track":"infrastructure",
+      "code":"advanced_scripting",
+      "order":5,
       "prereq":false
     }}
   ],
@@ -278,7 +517,38 @@
         "created": "2017-08-25T10:30:00.000Z",
         "bio": "Christina recently joined SOM research computing and brings with her expertise in image analysis and Matlab. Prior to joining the team, Christina performed brain imaging research in the University of Virginia Department of Radiology and Medical Imaging. She takes great pride in developing computational solutions for expediting long or repetitive processes and looks forward to collaborating on more image analysis projects."
       }
+    },
+    {
+      "name": "KHS3Z",
+      "data": {
+        "role": "USER",
+        "uid": "KHS3Z",
+        "display_name": "Karsten Siller",
+        "title": "Computational Research Consultant",
+        "email_address": "karstensiller@virginia.edu",
+        "phone_number": "",
+        "image_file": "images/profile/profile_karsten.png",
+        "use_gravatar": false,
+        "created": "2017-11-25T10:30:00.000Z",
+        "bio": "Karsten received his doctorate degree in Biology from the University of Tuebingen, Germany. His research has been focused on genetic programs and cellular mechanisms that drive nervous system development. After working for a bioinstrumentation company where he provided hardware and software support for automated light microscopy and image processing, Karsten joined UVA's Biology Department in 2013. As an ARCS computational research consultant, Karsten specializes in bioinformatics computational tools."
+      }
+    },
+        {
+      "name": "zf3s",
+      "data": {
+        "role": "USER",
+        "uid": "zf3s",
+        "display_name": "Zhuo Fu",
+        "title": "Assistant Professor, Medicine: Endocrinology and Metabolism",
+        "email_address": "zf3s@hscmail.mcc.virginia.edu",
+        "phone_number": "",
+        "image_file": "images/profile/zf3s.jpg",
+        "use_gravatar": false,
+        "created": "2017-11-25T10:30:00.000Z",
+        "bio": "My research interests include exploration of pathologies during the development of diabetes and dietary treatment methods. I am particularly interested in investigating functional changes in pancreatic, muscular and cerebral microvasculature during the development of diabetes, as well as the search for food-derived bioactive molecules that preserve or improve microvascular function in diabetic patients."
+      }
     }
+
   ],
   "Workshop": [
     {
@@ -343,7 +613,8 @@
         "image_file": "images/r_intro_workshop.png",
         "title": "Introduction to the R programming language",
         "description": "This machine learning course is perfect for those who have a solid basis in R and statistics, but are complete beginners with machine learning. After a broad overview of the discipline's most common techniques and applications, you'll gain more insight into the assessment and training of different machine learning models. The rest of the course is dedicated to a first reconnaissance with three of the most basic machine learning tasks: classification, regression and clustering.",
-        "instructor": "nem2p"
+        "instructor": "nem2p",
+        "code": "r_intro"
       }
     },
     {
@@ -352,7 +623,8 @@
         "image_file": "images/ml_intro_workshop.png",
         "title": "Introduction to Machine Learning",
         "description": "In this introduction to R, you will master the basics of this beautiful open source language, including factors, lists and data frames. With the knowledge gained in this course, you will be ready to undertake your first very own data analysis. With over 2 million users worldwide R is rapidly becoming the leading programming language in statistics and data science. Every year, the number of R users grows by 40% and an increasing number of organizations are using it in their day-to-day activities. Leverage the power of R by completing this free R online course today!",
-        "instructor": "cag3fr"      }
+        "instructor": "cag3fr"
+      }
     },
     {
       "name": "unix_into_workshop",
@@ -360,7 +632,8 @@
         "image_file": "images/unix.png",
         "title": "Introduction to Unix",
         "description": "This workshop will introduce new users to the command line interface and Unix shell commands. This would be useful both for users interested in using Unix on a local machine (including Linux and Mac OS X), as well as users who want to make use of remote resources such as the Rivanna cluster. Users will learn how to create and navigate directories, and to create, copy, move, and search files. We will also cover setting and changing file permissions, and creating symbolic links. Redirection of output and job control, with a brief discussion of shell scripts. Users will need to bring their own laptop in order to fully participate in the workshop.",
-        "instructor": "ricky"
+        "instructor": "ricky",
+        "code": "unix_intro"
       }
     },
     {
@@ -387,7 +660,8 @@
         "image_file": "images/aws.png",
         "title": "Introduction to Cloud Computing with AWS",
         "description": "This workshop covers the basic paradigms of cloud infrastructure and introduces techniques for working in it. Why use the cloud for computation and storage? What are its advantages? We will discuss core concepts such as scaling and infrastructure-as-code, while also getting hands-on experience with creating computing, storage, and data resources in Amazon Web Services. Workshop participants will work directly in the AWS console and command-line tools. Upon completing this workshop, students will be familiar with basic cloud design, as well as with how to deploy simple, resizable environments on their own.",
-        "instructor": "nem2p"
+        "instructor": "nem2p",
+        "code": "cloud_intro"
       }
     },
     {
@@ -424,7 +698,8 @@
         "image_file": "images/ggplot2.png",
         "title": "Visualization in R/ggplot2",
         "description": "The ggplot2 package has revolutionized data visualization with R. With its consistent syntax and layered approach to making graphics, ggplot2 allows you to rapidly visualize your data in ways that previously would have required hours of tedious programming. In this workshop we introduce the logic behind ggplot2, how to use ggplot2 to explore your data, and how to customize and polish ggplot2 graphs. No prior experience with ggplot2 is assumed, though some previous experience with R would be helpful.",
-        "instructor": "jcf2d"
+        "instructor": "jcf2d",
+        "code": "data_visualization"
       }
     },
     {
@@ -481,10 +756,341 @@
         "description": "This is an introduction to the Tableau platform starting from beginner, to building an interactive visualization on the web",
         "instructor": "nek8n"
       }
+    },
+    {
+      "name": "r_web",
+      "data": {
+        "title": "Building Shiny Web Applications with R",
+        "description": "Shiny is a framework for developing interactive, web-based tools with R. This workshop will cover how to create a basic user interface, add reactive widgets and publish a Shiny app.",
+        "instructor": "nek8n",
+        "code": "r_advanced"
+      }
+    },
+    {
+      "name": "r_functional",
+      "data": {
+        "title": "Functional Programming in R",
+        "description": "The R Programming language is a Functional Language, permitting you to create applications that can easily scale across many processors at once.  This workshop offers hands on experience developing R applications that are fully functional and why this is a critical skill in cloud computing.",
+        "instructor": "dhf8r",
+        "code": "functional_programming"
+      }
+    },
+    {
+      "name": "r_package_dev",
+      "data": {
+        "title": "R Package Development Tools",
+        "description": "R is an open-source statistical programming language. New functions can be documented and distributed to other users as packages. This workshop will introduce attendees to some of the tools used for R package development.",
+        "instructor": "vpn7n",
+        "code": "r_package"
+      }
+    },
+    {
+      "name": "data_manipulation_in_r",
+      "data": {
+        "title": "Advanced Data Manipulation in R",
+        "description": "Data analysis involves a large amount of janitor work - munging and cleaning data to facilitate downstream data analysis. This workshop is designed for those with a basic familiarity with R who want to learn tools and techniques for advanced data manipulation. It will cover data cleaning and 'tidy data,' and will introduce participants to R packages that enable data manipulation, analysis, and visualization using split-apply-combine strategies. Upon completing this lesson, participants will be able to use the dplyr package in R to effectively manipulate and conditionally compute summary statistics over subsets of a \"big\" dataset containing many observations.",
+        "instructor": "vpn7n",
+        "code": "data_manipulation"
+      }
+    },
+    {
+      "name": "introduction_to_matlab",
+      "data": {
+        "title": "Introduction to Matlab",
+        "description": "This workshop will teach you the basics of Matlab. We will explore the data types, built-in functions and apps, and visualizing your data, as well as accessing the Mathworks documentation. Be sure to bring your laptop with Matlab already installed with a valid license to follow along with the examples. No prior experience is required.",
+        "instructor": "CRD2JG",
+        "code": "matlab_intro"
+      }
+    },
+    {
+      "name": "parallel_matlab",
+      "data": {
+        "title": "Parallel Matlab",
+        "description": "This workshop will cover all aspects of parallel computing using Matlab on Rivanna, with both task and data parallel examples, as well as the use of the GPU nodes. Participants will be assisted in working through a set of exercises on Rivanna. Prerequisite: Access to the Rivanna cluster and familiarity with Linux and Matlab.  This class is primarily meant for faculty and graduate students doing computational research.",
+        "instructor": "CRD2JG",
+        "code": "matlab_toolboxes"
+      }
+    },
+    {
+      "name": "fsl_ws",
+      "data": {
+        "title": "Image Normalization and Analysis with FSL",
+        "description": "FSL is a comprehensive library of analysis tools for FMRI, MRI and DTI brain imaging data. It runs on Apple and PCs (both Linux, and Windows via a Virtual Machine), and is very easy to install. Most of the tools can be run both from the command line and as GUIs (\"point-and-click\" graphical user interfaces).",
+        "instructor": "CRD2JG",
+        "code": "fsl"
+      }
+    },
+    {
+      "name": "data_management_ws",
+      "data": {
+        "title": "Omero",
+        "description": "This workshop provides you with basic strategies to manage research data. Topics include: best practices for retention and archiving, effective directory structures and naming conventions, good file formats for long-term access, data security and backup options, and metadata, tagging, and citation options",
+        "instructor": "vpn7n",
+        "code": "data_management"
+      }
+    },
+    {
+      "name": "hpc_ws",
+      "data": {
+        "title": "Effective Use Of HPC Systems",
+        "description": "This workshop provides an introduction to effective use of high-performance computing (HPC) systems.  Appropriate usage of SLURM for high-performance and high-throughput workflows will be discussed.  The different types of parallelism will be covered (multicore versus distributed) and how those map to SLURM scripts.  Strategies for determining how efficiently parallel codes are performing will be described.  A brief introduction to accessing national resources for very large-scale computing will be provided. Prerequisite: An account on an HPC system, preferably Rivanna. Some basic experience with bash scripting and SLURM. Ability to use a Unix command line at an elementary level. Attendees who wish to participate in hands-on exercises should bring a laptop.",
+        "instructor": "vpn7n",
+        "code": "hpc"
+      }
+    },
+    {
+      "name": "scientific_image_processing_ws",
+      "data": {
+        "title": "Introduction to scientific image processing with Fiji/ImageJ",
+        "description": "This hands-on workshop is an introduction to using Fiji, an open-source and enhanced version of the popular ImageJ program used for scientific image processing. Participants will be introduced to image processing filters, strategies for image background correction, as well as identification and analysis of image objects of interest using segmentation masks. Pre-requisites: No prior knowledge of ImageJ or Fiji is required. Participants are encouraged to bring their own laptop with Fiji (an enhanced version of ImageJ) preinstalled. Instructions for installations of Fiji on Windows, Mac OSX, and Linux can be found on this website. ",
+        "instructor": "KHS3Z",
+        "code": "imaging_tools"
+      }
+    },
+    {
+      "name": "cloud_adv_ws",
+      "data": {
+        "title": "Advanced Cloud Computing with AWS",
+        "description": "This workshop picks up on topics introduced in 'Introduction to Cloud Computing.  Working directly with the AWS console and command line toosl, Students will learn how to use connect special purpose systems to their existing AWS computing and storage environments, ElasticSearch, S3, Kubana, and other topics will be covered.",
+        "instructor": "nem2p",
+        "code": "cloud_adv"
+      }
+    },
+    {
+      "name": "database_ws",
+      "data": {
+        "title": "How to Work With Databases",
+        "description": "Attendees of this workshop will learn the basics of databases and how to work with them. We will cover how both structured (SQL) and unstructured (NoSQL) databases work, their advantages and disadvantages, and how to know which is appropriate for your research. Users will learn how to create and interact with databases in a variety of ways: Designing tables and data structures, inserting and updating records, and querying for information within a database. We will discuss common mistakes made when creating and using databases.",
+        "instructor": "nem2p",
+        "code": "databases"
+      }
+    },
+    {
+      "name": "bash_scripting",
+      "data": {
+        "title": "Introduction to BASH Scripting",
+        "description": "This workshop will provide an introduction to the BASH shell scripting environment. Attendees will learn how to produce simple shell scripts to automate repetitive tasks and to write jobs scripts for a queuing system. Prerequisite: Some experience with Unix commands and file structure.",
+        "instructor": "nem2p",
+        "code": "advanced_scripting"
+      }
+    },
+    {
+      "name": "optimizing_r",
+      "data": {
+        "title": "Optimizing R",
+        "description": "This workshop examines timing issues associated with R programs.  Topics will include the causes for R being slow, techniques for making R code faster, and methods for timing blocks of code. Prerequisite: Some programming experience in R.",
+        "instructor": "vpn7n",
+        "code": "r_advanced"
+      }
+    },
+    {
+      "name": "command_line_ws",
+      "data": {
+        "title": "Introduction to the Command Line",
+        "description": "Mac, Windows and Linux operating systems all included a number of command-line utilities for organizing files, manipulating data and executing programs that do not have graphical interfaces. This workshop will introduce participants to a number of commands to perform basic operations in the terminal. Users will learn how to navigate through directories, manage files, file permissions, symbolic links, connect to remove resources, and other basic commands. No previous experience with the command-line is required.",
+        "instructor": "nem2p",
+        "code": "unix_intro"
+      }
+    },
+    {
+      "name": "automated_analysis_ws",
+      "data": {
+        "title": "Automated Image Analysis with ImageJ",
+        "description": "This workshop is intended to be an introduction to open source (free) image analysis and statistical software to life science researchers with little to no programming experience. During the workshop, participants will learn: 1) basics of ImageJ; 2) using ImageJ to analyze scientific images (such as Western blot or immunofluorescent images), 3) analyze large numbers of immunofluorescence staining images with minimal human error. By the end of the workshop, participants will understand basic image analyzing concepts and several basic computing skills (such as macros and scripting) and be able to adapt codes found online to meet their own research needs.",
+        "instructor": "zf3s",
+        "code": "imaging_tools"
+      }
+    },
+    {
+      "name": "intro_docker_ws",
+      "data": {
+        "title": "Introduction to Docker Containers",
+        "description": "What are containers? What are they used for? This workshop will cover the basics of containers and explain why they’ve become so popular with software developers and administrators. Users will work directly with container images pulled from Docker Hub and build their own in class using Docker files. Particular attention will be given to how containers are useful to research, and to making our computing tools more portable and shareable.",
+        "instructor": "nem2p",
+        "code": "containers"
+      }
+    },
+    {
+      "name": "python_apis",
+      "data": {
+        "title": "Interacting with Infrastructure APIs with Python",
+        "description": "An application programming interface (API) is a tool that allows computers to communicate and share information. For social scientists, APIs can be useful for accessing data or services from firms, organizations, or government agencies. This workshop will introduce the use of APIs to obtain data from sources on the UVA campus, including Shibboleth for single sign on.",
+        "instructor": "nem2p",
+        "code": "advanced_scripting"
+      }
     }
-
   ],
   "Session": [
+    {
+      "name": "python_apis_s1",
+      "data": {
+        "workshop": "python_apis",
+        "date_time":"2018-02-01T17:00:00.000Z",
+        "duration_minutes":"120",
+        "max_attendees":30,
+        "location":"Health Sciences Library Carter Classroom"
+      }
+    },
+    {
+      "name": "automated_analysis_ws_s1",
+      "data": {
+        "workshop": "automated_analysis_ws",
+        "date_time":"2018-01-19T14:00:00.000Z",
+        "duration_minutes":"180",
+        "max_attendees":30,
+        "location":"Health Sciences Library Carter Classroom"
+      }
+    },
+    {
+      "name": "command_line_s1",
+      "data": {
+        "workshop": "command_line_ws",
+        "date_time":"2018-04-07T14:00:00.000Z",
+        "duration_minutes":"180",
+        "max_attendees":30,
+        "location":"Health Sciences Library Carter Classroom"
+      }
+    },
+    {
+      "name": "optimizing_r_s1",
+      "data": {
+        "workshop": "optimizing_r",
+        "date_time":"2018-03-17T16:00:00.000Z",
+        "duration_minutes":"120",
+        "max_attendees":30,
+        "location":"Brown 133"
+      }
+    },
+    {
+      "name": "bash_scripting_s1",
+      "data": {
+        "workshop": "bash_scripting",
+        "date_time":"2018-02-13T14:00:00.000Z",
+        "duration_minutes":"120",
+        "max_attendees":30,
+        "location":"Alderman Library"
+      }
+    },
+    {
+      "name": "database_s1",
+      "data": {
+        "workshop": "database_ws",
+        "date_time":"2018-01-04T10:00:00.000Z",
+        "duration_minutes":"120",
+        "max_attendees":30,
+        "location":"Health Sciences Library Carter Classroom"
+      }
+    },
+    {
+      "name": "cloud_advanced_s1",
+      "data": {
+        "workshop": "cloud_adv_ws",
+        "date_time":"2018-04-02T14:00:00.000Z",
+        "duration_minutes":"180",
+        "max_attendees":30,
+        "location":"Health Sciences Library Carter Classroom"
+      }
+    },
+    {
+      "name": "scientific_image_processing_ws_s1",
+      "data": {
+        "workshop": "scientific_image_processing_ws",
+        "date_time":"2018-02-09T13:00:00.000Z",
+        "duration_minutes":"120",
+        "max_attendees":30,
+        "location":"Health Sciences Library Carter Classroom"
+      }
+    },
+    {
+      "name": "hpc_ws_s1",
+      "data": {
+        "workshop": "hpc_ws",
+        "date_time":"2018-01-15T17:00:00.000Z",
+        "duration_minutes":"120",
+        "max_attendees":30,
+        "location":"Health Sciences Library Carter Classroom"
+      }
+    },
+    {
+      "name": "data_management_s1",
+      "data": {
+        "workshop": "data_management_ws",
+        "date_time":"2018-03-01T17:00:00.000Z",
+        "duration_minutes":"120",
+        "max_attendees":30,
+        "location":"Health Sciences Library Carter Classroom"
+      }
+    },
+    {
+      "name": "fsl_s1",
+      "data": {
+        "workshop": "fsl_ws",
+        "date_time":"2018-02-27T17:00:00.000Z",
+        "duration_minutes":"120",
+        "max_attendees":30,
+        "location":"Health Sciences Library Carter Classroom"
+      }
+    },
+    {
+      "name": "parallel_matlab_s1",
+      "data": {
+        "workshop": "parallel_matlab",
+        "date_time":"2018-04-01T17:00:00.000Z",
+        "duration_minutes":"240",
+        "max_attendees":30,
+        "location":"Health Sciences Library Carter Classroom"
+      }
+    },
+    {
+      "name": "introduction_to_matlab_s1",
+      "data": {
+        "workshop": "introduction_to_matlab",
+        "date_time":"2018-03-03T14:00:00.000Z",
+        "duration_minutes":"120",
+        "max_attendees":30,
+        "location":"Health Sciences Library Carter Classroom"
+      }
+    },
+    {
+      "name": "data_manipulation_in_r_s1",
+      "data": {
+        "workshop": "data_manipulation_in_r",
+        "date_time":"2018-01-07T14:00:00.000Z",
+        "duration_minutes":"120",
+        "max_attendees":30,
+        "location":"Health Sciences Library Carter Classroom"
+      }
+    },
+    {
+      "name": "r_package_s1",
+      "data": {
+        "workshop": "r_package_dev",
+        "date_time":"2018-03-22T14:00:00.000Z",
+        "duration_minutes":"120",
+        "max_attendees":30,
+        "location":"Health Sciences Library Carter Classroom"
+      }
+    },
+    {
+      "name": "r_functional_s1",
+      "data": {
+        "workshop": "r_functional",
+        "date_time":"2018-02-12T10:00:00.000Z",
+        "duration_minutes":"120",
+        "max_attendees":30,
+        "location":"Health Sciences Library Baker Classroom"
+      }
+    },
+    {
+      "name": "r_web_s1",
+      "data": {
+        "workshop": "r_web",
+        "date_time":"2018-02-11T18:30:00.000Z",
+        "duration_minutes":"120",
+        "max_attendees":30,
+        "location":"Health Sciences Library Carter Classroom"
+      }
+    },
     {
       "name": "python_intro_workshop_s1",
       "data": {
