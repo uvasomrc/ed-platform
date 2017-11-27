@@ -306,7 +306,7 @@
         "phone_number": "+15404570024",
         "image_file": "images/profile/crd2jg.png",
         "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
+        "created": "2017-08-25T10:30:00",
         "bio": "Cory works at Centers for Computation Research & Scholarship"
       }
     },
@@ -320,7 +320,7 @@
         "phone_number": "+15404570024",
         "image_file": "images/profile/profile_funk.png",
         "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
+        "created": "2017-08-25T10:30:00",
         "bio": "I am software engineer who works on a number of research projects at UVA.  I am a full stack developer with experience in Javascript (Angular4), Python, Java, Scala and other languages.  I'm a certified Casandra Architect with extensive experience in full text search engines like ElasticSearch and Solr."
       }
     },
@@ -335,7 +335,7 @@
         "phone_number": "",
         "image_file": "images/profile/profile_bdkim.png",
         "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
+        "created": "2017-08-25T10:30:00",
         "bio": "BD leads the SOM research computing program and also supports university-wide collaborations such as CADRE. He received his PhD in Aeronautics and Astronautics Engineering from Purdue University, and has been working in high-performance computing and big data field for more than 10 years at many institutions including National Center for Supercomputing Applications (NCSA) and Harvard Medical School. He always looks for opportunities where SOM-RC team can maximize the potential of computational biomed research by providing expertise in big data analysis and advanced computing."
       }
     },
@@ -350,7 +350,7 @@
         "phone_number": "",
         "image_file": "images/profile/profile_nmagee.png",
         "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
+        "created": "2017-08-25T10:30:00",
         "bio": "Neal designs scaling, service-driven, distributed systems in the public cloud. His recent work has been built primarily in Amazon Web Services, a platform in which he is a certified solution architect. Drawing on a background in development and operations, his work now focuses on “programmable infrastructure” that changes dynamically with the needs of an application. He has extensive experience with Python, the Amazon / Google / Microsoft public clouds, and architecting dynamic systems that scale and heal automatically. Neal is also interested in large IoT and data sensor projects that gather large amounts of data."
       }
     },
@@ -365,7 +365,7 @@
         "phone_number": "",
         "image_file": "images/profile/profile_pete.png",
         "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
+        "created": "2017-08-25T10:30:00",
         "bio": "Pete teaches, consults and contributes to scientific programming and data analysis projects. With expertise in R and Python, he’s been active in package development and a variety of open-source collaborations."
       }
     },
@@ -380,7 +380,7 @@
         "phone_number": "",
         "image_file": "images/profile/alonzi.jpg",
         "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
+        "created": "2017-08-25T10:30:00",
         "bio": "A physicist by training, Pete Alonzi is one of the Library’s data science experts. He provides computational and data science consultation support and training, including support around advanced computing architecture at UVA. As part of the Research Data Services group, Pete works with colleagues to advance the expert use of computational methods and data analytics in support of research across the University. Pete also serves as the liaison to the Physics and Computer Science departments."
       }
     },
@@ -395,7 +395,7 @@
         "phone_number": "",
         "image_file": "images/profile/ricky.jpg",
         "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
+        "created": "2017-08-25T10:30:00",
         "bio": "STEM Librarian, and Lecturer"
       }
     },
@@ -410,7 +410,7 @@
         "phone_number": "",
         "image_file": "images/profile/nekyn.jpg",
         "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
+        "created": "2017-08-25T10:30:00",
         "bio": "Nancy moves to StatLab from the ITS Research Computing Support Group. Nancy earned her PhD in Physiology from Temple Medical School in 1997, and has worked in medical research for nearly 20 years. She also has 2 degrees from the Curry School of Education; her BS Ed in Kinesiology, and an M Ed in Instructional Technology."
       }
     },
@@ -425,7 +425,7 @@
         "phone_number": "",
         "image_file": "images/profile/clay.jpg",
         "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
+        "created": "2017-08-25T10:30:00",
         "bio": "Clay joined the UVa Library as a Statistical Research Consultant in 2013. He helps students, faculty, and staff with data analysis questions. Some of the services he provides include assistance with data wrangling and data manipulation, experimental design, selection and implementation of statistical methods, and data visualization. Since coming to UVa Clay has led over a dozen workshops on statistical software and methods, developed and taught a Data Wrangling with R short course, and co-founded the UVa R Users group. He also started and regularly contributes to StatLab Articles, a collection of blog posts on data analysis and statistical practice."
       }
     },
@@ -440,7 +440,7 @@
         "phone_number": "",
         "image_file": "images/profile/doug.jpg",
         "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
+        "created": "2017-08-25T10:30:00",
         "bio": ""
       }
     },
@@ -455,7 +455,7 @@
         "phone_number": "",
         "image_file": "images/profile/harrison.jpg",
         "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
+        "created": "2017-08-25T10:30:00",
         "bio": "Dr. Harrison is Associate Professor and Director of the Division of Biomedical Informatics in the Department of Public Health Sciences at UVA, and has a secondary appointment in the Department of Pathology. He also has a courtesy appointment in the Department of Systems and Information Engineering in the School of Engineering and Applied Sciences. He has 20 years of experience in the field of medical informatics, including work in clinical laboratory information systems, electronic health records, clinical data analysis, World Wide Web development, funded participation in the caBIG® Architecture and Documentation/Training Workspaces, and has current and previous R01 funding in informatics and software development from the NCI and NLM."
       }
     },
@@ -470,7 +470,7 @@
         "phone_number": "",
         "image_file": "images/profile/chris.jpg",
         "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
+        "created": "2017-08-25T10:30:00",
         "bio": "Christopher and his father Jim are Gibson Design Associates. GDA is a technologically adept graphic design, website design, and user interface design firm serving a national clientele from Charlottesville, VA."
       }
     },
@@ -485,7 +485,7 @@
         "phone_number": "",
         "image_file": "images/profile/jimg.jpg",
         "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
+        "created": "2017-08-25T10:30:00",
         "bio": "Jim and his son Christopher are Gibson Design Associates. GDA is a technologically adept graphic design, website design, and user interface design firm serving a national clientele from Charlottesville, VA."
       }
     },
@@ -499,7 +499,7 @@
         "email_address": "joe@cool.com",
         "phone_number": "",
         "use_gravatar": true,
-        "created": "2017-08-25T10:30:00.000Z",
+        "created": "2017-08-25T10:30:00",
         "bio": "Joe Cool, aka Manfred Albrecht Freiherr von Richthofen (2 May 1892 – 21 April 1918), also known as the 'Red Baron', was a fighter pilot with the German Air Force during World War I. He is considered the ace-of-aces of the war, being officially credited with 80 air combat victories."
       }
     },
@@ -514,7 +514,7 @@
         "phone_number": "",
         "image_file": "images/profile/christina.jpg",
         "use_gravatar": false,
-        "created": "2017-08-25T10:30:00.000Z",
+        "created": "2017-08-25T10:30:00",
         "bio": "Christina recently joined SOM research computing and brings with her expertise in image analysis and Matlab. Prior to joining the team, Christina performed brain imaging research in the University of Virginia Department of Radiology and Medical Imaging. She takes great pride in developing computational solutions for expediting long or repetitive processes and looks forward to collaborating on more image analysis projects."
       }
     },
@@ -529,7 +529,7 @@
         "phone_number": "",
         "image_file": "images/profile/profile_karsten.png",
         "use_gravatar": false,
-        "created": "2017-11-25T10:30:00.000Z",
+        "created": "2017-11-25T10:30:00",
         "bio": "Karsten received his doctorate degree in Biology from the University of Tuebingen, Germany. His research has been focused on genetic programs and cellular mechanisms that drive nervous system development. After working for a bioinstrumentation company where he provided hardware and software support for automated light microscopy and image processing, Karsten joined UVA's Biology Department in 2013. As an ARCS computational research consultant, Karsten specializes in bioinformatics computational tools."
       }
     },
@@ -544,7 +544,7 @@
         "phone_number": "",
         "image_file": "images/profile/zf3s.jpg",
         "use_gravatar": false,
-        "created": "2017-11-25T10:30:00.000Z",
+        "created": "2017-11-25T10:30:00",
         "bio": "My research interests include exploration of pathologies during the development of diabetes and dietary treatment methods. I am particularly interested in investigating functional changes in pancreatic, muscular and cerebral microvasculature during the development of diabetes, as well as the search for food-derived bioactive molecules that preserve or improve microvascular function in diabetic patients."
       }
     }
@@ -925,7 +925,7 @@
       "name": "python_apis_s1",
       "data": {
         "workshop": "python_apis",
-        "date_time":"2018-02-01T17:00:00.000Z",
+        "date_time":"2018-02-01T22:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -935,7 +935,7 @@
       "name": "automated_analysis_ws_s1",
       "data": {
         "workshop": "automated_analysis_ws",
-        "date_time":"2018-01-19T14:00:00.000Z",
+        "date_time":"2018-01-19T19:00:00",
         "duration_minutes":"180",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -945,7 +945,7 @@
       "name": "command_line_s1",
       "data": {
         "workshop": "command_line_ws",
-        "date_time":"2018-04-07T14:00:00.000Z",
+        "date_time":"2018-04-07T19:00:00",
         "duration_minutes":"180",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -955,7 +955,7 @@
       "name": "optimizing_r_s1",
       "data": {
         "workshop": "optimizing_r",
-        "date_time":"2018-03-17T16:00:00.000Z",
+        "date_time":"2018-03-17T21:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Brown 133"
@@ -965,7 +965,7 @@
       "name": "bash_scripting_s1",
       "data": {
         "workshop": "bash_scripting",
-        "date_time":"2018-02-13T14:00:00.000Z",
+        "date_time":"2018-02-13T19:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Alderman Library"
@@ -975,7 +975,7 @@
       "name": "database_s1",
       "data": {
         "workshop": "database_ws",
-        "date_time":"2018-01-04T10:00:00.000Z",
+        "date_time":"2018-01-04T15:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -985,7 +985,7 @@
       "name": "cloud_advanced_s1",
       "data": {
         "workshop": "cloud_adv_ws",
-        "date_time":"2018-04-02T14:00:00.000Z",
+        "date_time":"2018-04-02T19:00:00",
         "duration_minutes":"180",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -995,7 +995,7 @@
       "name": "scientific_image_processing_ws_s1",
       "data": {
         "workshop": "scientific_image_processing_ws",
-        "date_time":"2018-02-09T13:00:00.000Z",
+        "date_time":"2018-02-09T18:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -1005,7 +1005,7 @@
       "name": "hpc_ws_s1",
       "data": {
         "workshop": "hpc_ws",
-        "date_time":"2018-01-15T17:00:00.000Z",
+        "date_time":"2018-01-15T22:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -1015,7 +1015,7 @@
       "name": "data_management_s1",
       "data": {
         "workshop": "data_management_ws",
-        "date_time":"2018-03-01T17:00:00.000Z",
+        "date_time":"2018-03-01T22:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -1025,7 +1025,7 @@
       "name": "fsl_s1",
       "data": {
         "workshop": "fsl_ws",
-        "date_time":"2018-02-27T17:00:00.000Z",
+        "date_time":"2018-02-27T22:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -1035,7 +1035,7 @@
       "name": "parallel_matlab_s1",
       "data": {
         "workshop": "parallel_matlab",
-        "date_time":"2018-04-01T17:00:00.000Z",
+        "date_time":"2018-04-01T22:00:00",
         "duration_minutes":"240",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -1045,7 +1045,7 @@
       "name": "introduction_to_matlab_s1",
       "data": {
         "workshop": "introduction_to_matlab",
-        "date_time":"2018-03-03T14:00:00.000Z",
+        "date_time":"2018-03-03T19:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -1055,7 +1055,7 @@
       "name": "data_manipulation_in_r_s1",
       "data": {
         "workshop": "data_manipulation_in_r",
-        "date_time":"2018-01-07T14:00:00.000Z",
+        "date_time":"2018-01-07T19:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -1065,7 +1065,7 @@
       "name": "r_package_s1",
       "data": {
         "workshop": "r_package_dev",
-        "date_time":"2018-03-22T14:00:00.000Z",
+        "date_time":"2018-03-22T19:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -1075,7 +1075,7 @@
       "name": "r_functional_s1",
       "data": {
         "workshop": "r_functional",
-        "date_time":"2018-02-12T10:00:00.000Z",
+        "date_time":"2018-02-12T15:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Health Sciences Library Baker Classroom"
@@ -1085,7 +1085,7 @@
       "name": "r_web_s1",
       "data": {
         "workshop": "r_web",
-        "date_time":"2018-02-11T18:30:00.000Z",
+        "date_time":"2018-02-11T23:30:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -1095,7 +1095,7 @@
       "name": "python_intro_workshop_s1",
       "data": {
         "workshop": "python_intro_workshop",
-        "date_time":"2017-11-11T18:30:00.000Z",
+        "date_time":"2017-11-11T23:30:00",
         "duration_minutes":"60",
         "max_attendees":20,
         "instructor_notes": "Class details are available at http://sartography.com.",
@@ -1106,7 +1106,7 @@
       "name": "python_intro_workshop_s2",
       "data": {
         "workshop": "python_intro_workshop_t3",
-        "date_time":"2017-11-14T18:30:00.000Z",
+        "date_time":"2017-11-14T23:30:00",
         "duration_minutes":"60",
         "max_attendees":4,
         "instructor_notes": "",
@@ -1117,7 +1117,7 @@
       "name": "python_intro_workshop_s3",
       "data": {
         "workshop": "python_intro_workshop_t2",
-        "date_time":"2018-01-12T14:00:00.000Z",
+        "date_time":"2018-01-12T19:00:00",
         "duration_minutes":"120",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1128,7 +1128,7 @@
       "name": "python_intro_workshop_s4",
       "data": {
         "workshop": "python_intro_workshop",
-        "date_time":"2017-11-24T14:00:00.000Z",
+        "date_time":"2017-11-24T19:00:00",
         "duration_minutes":"120",
         "max_attendees":2,
         "instructor_notes": "",
@@ -1139,7 +1139,7 @@
       "name": "python_data_cleaning_s1",
       "data": {
         "workshop": "python_data_cleaning",
-        "date_time":"2017-12-09T13:00:00.000Z",
+        "date_time":"2017-12-09T18:00:00",
         "duration_minutes":"90",
         "max_attendees":12,
         "instructor_notes": "",
@@ -1150,10 +1150,10 @@
       "name": "python_data_vis_s1",
       "data": {
         "workshop": "python_data_cleaning",
-        "date_time":"2017-12-11T14:00:00.000Z",
+        "date_time":"2017-12-11T19:00:00",
         "duration_minutes":"90",
         "max_attendees":12,
-        "instructor_notes": "",
+        "instructor_notes": "EAT BEANS",
         "location":"Health Sciences Library Carter Classroom"
       }
     },
@@ -1161,10 +1161,10 @@
       "name": "python_flask_s1",
       "data": {
         "workshop": "python_flask",
-        "date_time":"2018-02-01T14:00:00.000Z",
+        "date_time":"2018-02-01T19:00:00",
         "duration_minutes":"90",
         "max_attendees":12,
-        "instructor_notes": "",
+        "instructor_notes": "EAT SOUP!",
         "location":"Health Sciences Library Carter Classroom"
       }
     },
@@ -1172,7 +1172,7 @@
       "name": "r_intro_workshop_1",
       "data": {
         "workshop": "r_intro_workshop",
-        "date_time":"2018-02-12T10:30:00.000Z",
+        "date_time":"2018-02-12T15:30:00",
         "duration_minutes":"90",
         "max_attendees":10,
         "instructor_notes": "Materials will be provided during class.  Please bring a Flash drive with at least 6gb of free space.",
@@ -1183,7 +1183,7 @@
       "name": "ml_intro_workshop_1",
       "data": {
         "workshop": "ml_intro_workshop",
-        "date_time":"2017-12-12T10:30:00.000Z",
+        "date_time":"2017-12-12T15:30:00",
         "duration_minutes":"120",
         "max_attendees":20,
         "instructor_notes": "Please see uploaded resources.",
@@ -1194,7 +1194,7 @@
       "name": "unix_into_workshop_1",
       "data": {
         "workshop": "unix_into_workshop",
-        "date_time":"2017-08-30T14:00:00.000Z",
+        "date_time":"2017-08-30T19:00:00",
         "duration_minutes":"120",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1205,7 +1205,7 @@
       "name": "unix_into_workshop_2",
       "data": {
         "workshop": "unix_into_workshop",
-        "date_time":"2017-11-06T14:00:00.000Z",
+        "date_time":"2017-11-06T19:00:00",
         "duration_minutes":"120",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1216,7 +1216,7 @@
       "name": "unix_into_workshop_3",
       "data": {
         "workshop": "unix_into_workshop",
-        "date_time":"2017-11-20T14:00:00.000Z",
+        "date_time":"2017-11-20T19:00:00",
         "duration_minutes":"120",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1227,7 +1227,7 @@
       "name": "github_intro_workshop_1",
       "data": {
         "workshop": "github_intro_workshop",
-        "date_time":"2017-11-07T14:00:00.000Z",
+        "date_time":"2017-11-07T19:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1238,7 +1238,7 @@
       "name": "data_in_excel_1",
       "data": {
         "workshop": "data_in_excel",
-        "date_time":"2017-11-12T14:00:00.000Z",
+        "date_time":"2017-11-12T19:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1249,7 +1249,7 @@
       "name": "intro_cloud_aws_1",
       "data": {
         "workshop": "intro_cloud_aws",
-        "date_time":"2017-11-14T10:00:00.000Z",
+        "date_time":"2017-11-14T15:00:00",
         "duration_minutes":"120",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1260,7 +1260,7 @@
       "name": "latex_1",
       "data": {
         "workshop": "latex",
-        "date_time":"2017-07-12T10:00:00.000Z",
+        "date_time":"2017-07-12T15:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1271,7 +1271,7 @@
       "name": "intro_dedoose_1",
       "data": {
         "workshop": "intro_dedoose",
-        "date_time":"2017-11-26T14:00:00.000Z",
+        "date_time":"2017-11-26T19:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1282,7 +1282,7 @@
       "name": "interactive_visualization_1",
       "data": {
         "workshop": "inter_vis_py",
-        "date_time":"2017-11-27T14:00:00.000Z",
+        "date_time":"2017-11-27T19:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1293,7 +1293,7 @@
       "name": "vis_ggplot2_1",
       "data": {
         "workshop": "vis_ggplot2",
-        "date_time":"2017-11-28T10:00:00.000Z",
+        "date_time":"2017-11-28T15:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1304,7 +1304,7 @@
       "name": "jekyll_1",
       "data": {
         "workshop": "jekyll",
-        "date_time":"2018-02-05T10:00:00.000Z",
+        "date_time":"2018-02-05T15:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1315,7 +1315,7 @@
       "name": "scikit_1",
       "data": {
         "workshop": "scikit",
-        "date_time":"2018-02-11T14:00:00.000Z",
+        "date_time":"2018-02-11T19:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1326,7 +1326,7 @@
       "name": "orchid_1",
       "data": {
         "workshop": "orchid",
-        "date_time":"2017-07-12T10:00:00.000Z",
+        "date_time":"2017-07-12T15:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1337,7 +1337,7 @@
       "name": "funders_1",
       "data": {
         "workshop": "funders",
-        "date_time":"2018-02-12T10:30:00.000Z",
+        "date_time":"2018-02-12T15:30:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1348,7 +1348,7 @@
       "name": "visual_javascript_1",
       "data": {
         "workshop": "visual_javascript",
-        "date_time":"2018-02-17T10:00:00.000Z",
+        "date_time":"2018-02-17T15:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1359,7 +1359,7 @@
       "name": "visual_tableau_1",
       "data": {
         "workshop": "visual_tableau",
-        "date_time":"2018-02-19T14:00:00.000Z",
+        "date_time":"2018-02-19T19:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1373,7 +1373,7 @@
       "data": {
         "participant": "dhf8r",
         "session": "r_intro_workshop_1",
-        "created": "2017-07-20T01:30:00.000Z",
+        "created": "2017-07-20T01:30:00",
         "attended": false,
         "is_instructor": false
       }
@@ -1383,7 +1383,7 @@
       "data": {
         "participant": "dhf8r",
         "session": "ml_intro_workshop_1",
-        "created": "2017-09-12T16:05:00.000Z",
+        "created": "2017-09-12T16:05:00",
         "attended": false,
         "is_instructor": false,
         "review_score": 4,
@@ -1395,7 +1395,7 @@
       "data": {
         "participant": "bk7k",
         "session": "python_intro_workshop_s1",
-        "created": "2017-08-12T09:35:00.000Z",
+        "created": "2017-08-12T09:35:00",
         "attended": false,
         "is_instructor": false
       }
@@ -1405,7 +1405,7 @@
       "data": {
         "participant": "bk7k",
         "session": "python_intro_workshop_s2",
-        "created": "2017-06-04T15:55:00.000Z",
+        "created": "2017-06-04T15:55:00",
         "attended": true,
         "is_instructor": false,
         "review_score": 5,
@@ -1417,7 +1417,7 @@
       "data": {
         "participant": "dhf8r",
         "session": "python_intro_workshop_s2",
-        "created": "2017-06-04T15:55:00.000Z",
+        "created": "2017-06-04T15:55:00",
         "attended": true,
         "is_instructor": false,
         "review_score": 5,
@@ -1429,7 +1429,7 @@
       "data": {
         "participant": "nem2p",
         "session": "python_intro_workshop_s2",
-        "created": "2017-06-04T15:55:00.000Z",
+        "created": "2017-06-04T15:55:00",
         "attended": true,
         "is_instructor": false,
         "review_score": 5,
@@ -1441,7 +1441,7 @@
       "data": {
         "participant": "chrisg",
         "session": "python_intro_workshop_s2",
-        "created": "2017-06-04T15:55:00.000Z",
+        "created": "2017-06-04T15:55:00",
         "attended": true,
         "is_instructor": false
       }
@@ -1451,7 +1451,7 @@
       "data": {
         "participant": "cag3fr",
         "session": "python_intro_workshop_s2",
-        "created": "2017-06-04T15:55:00.000Z",
+        "created": "2017-06-04T15:55:00",
         "attended": true,
         "is_instructor": false
       }
@@ -1461,7 +1461,7 @@
       "data": {
         "participant": "vpn7n",
         "session": "python_intro_workshop_s2",
-        "created": "2017-06-04T15:55:00.000Z",
+        "created": "2017-06-04T15:55:00",
         "attended": true,
         "is_instructor": false
       }
@@ -1471,7 +1471,7 @@
       "data": {
         "participant": "bk7k",
         "session": "r_intro_workshop_1",
-        "created": "2017-07-05T08:22:00.000Z",
+        "created": "2017-07-05T08:22:00",
         "attended": false,
         "is_instructor": false
       }
@@ -1481,7 +1481,7 @@
       "data": {
         "participant": "bk7k",
         "session": "ml_intro_workshop_1",
-        "created": "2017-08-01T11:02:00.000Z",
+        "created": "2017-08-01T11:02:00",
         "attended": true,
         "is_instructor": false,
         "review_score": 5,
@@ -1493,7 +1493,7 @@
       "data": {
         "participant": "alonzi",
         "session": "python_intro_workshop_s1",
-        "created": "2017-07-22T20:02:00.000Z",
+        "created": "2017-07-22T20:02:00",
         "attended": false,
         "is_instructor": false
       }
@@ -1503,7 +1503,7 @@
       "data": {
         "participant": "alonzi",
         "session": "python_intro_workshop_s2",
-        "created": "2017-08-10T12:02:00.000Z",
+        "created": "2017-08-10T12:02:00",
         "attended": false,
         "is_instructor": false
       }
@@ -1513,7 +1513,7 @@
       "data": {
         "participant": "nem2p",
         "session": "ml_intro_workshop_1",
-        "created": "2017-08-12T11:01:00.000Z",
+        "created": "2017-08-12T11:01:00",
         "attended": true,
         "is_instructor": false,
         "review_score": 4,
@@ -1524,7 +1524,7 @@
       "data": {
         "participant": "vpn7n",
         "session": "python_intro_workshop_s1",
-        "created": "2017-07-05T11:11:12.000Z",
+        "created": "2017-07-05T11:11:12",
         "attended": false,
         "is_instructor": false
       }
@@ -1534,7 +1534,7 @@
       "data": {
         "participant": "vpn7n",
         "session": "intro_dedoose_1",
-        "created": "2017-07-05T11:11:12.000Z",
+        "created": "2017-07-05T11:11:00",
         "attended": false,
         "is_instructor": false
       }
@@ -1544,7 +1544,7 @@
       "data": {
         "participant": "bk7k",
         "session": "intro_dedoose_1",
-        "created": "2017-08-01T11:02:00.000Z",
+        "created": "2017-08-01T11:02:00",
         "attended": true,
         "is_instructor": false,
         "review_score": 5,
@@ -1556,7 +1556,7 @@
       "data": {
         "participant": "nem2p",
         "session": "intro_dedoose_1",
-        "created": "2017-07-22T20:02:00.000Z",
+        "created": "2017-07-22T20:02:00",
         "attended": false,
         "is_instructor": false
       }
@@ -1566,7 +1566,7 @@
       "data": {
         "participant": "chrisg",
         "session": "intro_dedoose_1",
-        "created": "2017-07-22T20:02:00.000Z",
+        "created": "2017-07-22T20:02:00",
         "attended": false,
         "is_instructor": false
       }
@@ -1576,7 +1576,7 @@
       "data": {
         "participant": "jimg",
         "session": "intro_dedoose_1",
-        "created": "2017-07-22T20:02:00.000Z",
+        "created": "2017-07-22T20:02:00",
         "attended": false,
         "is_instructor": false
       }
@@ -1586,7 +1586,7 @@
       "data": {
         "participant": "cag3fr",
         "session": "intro_dedoose_1",
-        "created": "2017-07-22T20:02:00.000Z",
+        "created": "2017-07-22T20:02:00",
         "attended": false,
         "is_instructor": false
       }
