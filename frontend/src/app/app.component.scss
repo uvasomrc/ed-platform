@@ -13,27 +13,36 @@
   display: none;
 }
 
-.mat-toolbar {
+.home {
   display: block;
   background: #fff;
   color: mat-color($uva-primary, 500);
+
   a {
     color: mat-color($uva-primary, 500);
     text-decoration: none;
   }
 }
 
+div.account {
+  position: absolute;
+  font-size: 14px;
+  right: 20px;
+  top: 10px;
+}
+
+img.lvl2 {
+  display: none;
+}
+
 @media screen and (min-width: 480px) {
 
-  .mat-toolbar {
-    background: #fff url("../assets/logo-home.png") no-repeat 20px 20px;
-    height: 90px;
-    font-size: 16px;
+  .logout {
+    display: inline;
+  }
 
-    a {
-      color: mat-color($uva-primary, 500);
-      text-decoration: none;
-    }
+  .mat-toolbar {
+    position: relative;
 
     .menu {
       display: none;
@@ -42,10 +51,16 @@
     .title {
       display: none;
     }
+  }
 
-    .account {
-      padding: 20px 20px 0 0;
-      vertical-align: middle;
+  .home {
+    background: #fff url("../assets/logo-home.png") no-repeat 20px 20px;
+    height: 90px;
+    font-size: 16px;
+
+    a {
+      color: mat-color($uva-primary, 500);
+      text-decoration: none;
     }
 
     .menubar {
@@ -59,6 +74,42 @@
       }
     }
   }
+
+  mat-toolbar.lvl2 {
+    background: -webkit-linear-gradient(bottom,rgba(0,47,108,0),rgba(0,47,108,1)), url('../assets/logo-bg.png'); /*Safari 5.1-6*/
+    background: -o-linear-gradient(top,rgba(0,47,108,0),rgba(0,47,108,1)), url('../assets/logo-bg.png'); /*Opera 11.1-12*/
+    background: -moz-linear-gradient(bottom,rgba(0,47,108,0),rgba(0,47,108,1)), url('../assets/logo-bg.png'); /*Fx 3.6-15*/
+    background: linear-gradient(to bottom, rgba(0,47,108,0), rgba(0,47,108,1)), url('../assets/logo-bg.png');
+    display: flex;
+    height: 100px;
+    padding: 20px 10px 10px 10px;
+    color: #fff;
+
+    img.lvl2 {
+      display: block;
+    }
+
+    a {
+      color: mat-color($uva-primary, 50);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .menubar {
+      display: block;
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      a {
+        display: inline-block;
+        padding-right: 10px;
+        padding-left: 10px;
+        text-transform: uppercase;
+      }
+    }
+
+  }
+
 }
 
 .logged-in {

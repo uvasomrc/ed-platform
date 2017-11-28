@@ -39,6 +39,10 @@ export class AppComponent implements OnInit {
     this.router.navigate(['search', '']);
   }
 
+  goHome() {
+    this.router.navigate(['home']);
+  }
+
   goParticipantEditor() {
     this.router.navigate(['participant-form', 0 ]);
   }

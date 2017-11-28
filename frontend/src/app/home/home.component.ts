@@ -8,6 +8,7 @@ import {Subscription} from 'rxjs/Subscription';
 import { trigger, state, style, transition, animate, keyframes, query, stagger } from '@angular/animations';
 import {Participant} from '../participant';
 import {AccountService} from '../account.service';
+import {Search} from "../search";
 
 @Component({
   selector: 'app-home',
@@ -31,12 +32,10 @@ import {AccountService} from '../account.service';
     ])
   ]
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
 
   workshops: Workshop[] = [];
   tracks: Track[] = [];
-  workshopSub: Subscription;
-  trackSub: Subscription;
   sponsors: Sponsor[] = [];
   showControls = false;
   sponsor_index = 1;
@@ -49,12 +48,14 @@ export class HomeComponent implements OnInit, OnDestroy {
               private accountService: AccountService) {}
 
   public ngOnInit() {
-    this.workshopSub = this.workshopService.getAllWorkshops().subscribe(
-      (workshops) => {
-        this.workshops = workshops;
+    const search = new Search();
+    search.date_restriction = "30days";
+    this.workshopService.searchWorkshops(search).subscribe(
+      (results) => {
+        this.workshops = results.workshops;
       }
     );
-    this.trackSub = this.trackService.getTracks().subscribe(
+    this.trackService.getTracks().subscribe(
       (tracks) => {
         this.tracks = tracks;
       }
@@ -76,11 +77,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.sponsors.push(new Sponsor('../../assets/sponsors/uva_somrc_logo.png', 'visible'));
     this.sponsors.push(new Sponsor('../../assets/sponsors/uva-library.png', 'hidden'));
     this.sponsors.push(new Sponsor('../../assets/sponsors/bio-connector.png', 'hidden'));
-  }
-
-  public ngOnDestroy() {
-    this.workshopSub.unsubscribe();
-    this.trackSub.unsubscribe();
   }
 
   left() {

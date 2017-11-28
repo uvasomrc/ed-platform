@@ -30,21 +30,17 @@
 <app-track-list [tracks]="tracks"></app-track-list>
 
 <h2 class="header">
-  Workshops
+  Featured Workshops
   <div class="spacer"></div>
   <button (click)="goNewWorkshop()" mat-icon-button *ngIf="account && account.isAdmin()">
     <mat-icon color="primary">add_circle</mat-icon>
   </button>
+  <button  mat-raised-button (click)="goSearch('')">
+    <mat-icon color="primary">search</mat-icon>Search all
+  </button>
 </h2>
 
-<app-search></app-search>
-
-<!--
-<section>
-  <h2>Create Workshop</h2>
-  <app-workshop-form (add)="onAddWorkshop($event)"></app-workshop-form>
-</section>
--->
+<app-workshop-list [workshops] = "workshops"></app-workshop-list>
 
 <div class="sponsors">
   <button (click)="left()" class="arrows">
