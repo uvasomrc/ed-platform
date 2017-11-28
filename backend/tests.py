@@ -755,6 +755,18 @@ class TestCase(unittest.TestCase):
         self.assert_success(rv)
         return json.loads(rv.get_data(as_text=True))
 
+    def test_search_pagination(self):
+        self.load_sample_data()
+        data = {'start': 8, 'size': 1}
+        search_results = self.search(data)
+        self.assertEqual(1, len(search_results["workshops"]))
+        workshop = search_results["workshops"][0]
+
+        data = {'start': 8, 'size': 2}
+        search_results = self.search(data)
+        self.assertEqual(2, len(search_results["workshops"]))
+        self.assertEqual(workshop["id"], search_results["workshops"][0]["id"])
+
     def test_search_title(self):
         self.load_sample_data()
         data = {'query': 'python', 'filters': []}

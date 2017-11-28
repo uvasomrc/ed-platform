@@ -40,11 +40,15 @@ class Search():
     workshops = []
     facets = []
     date_restriction = ""
+    start = 0
+    size = 0
 
-    def __init__(self, query="", filters=[], date_restriction=""):
+    def __init__(self, query="", filters=[], date_restriction="",start=0, size=10):
         self.query = query
         self.filters = filters
         self.date_restriction = date_restriction
+        self.start = start
+        self.size = size
 
     def jsonFilters(self):
         jfilter = {}
@@ -333,6 +337,8 @@ class SearchSchema(ma.Schema):
             return Filter(**data)
 
     query = fields.Str()
+    start = fields.Integer()
+    size = fields.Integer()
     date_restriction = fields.Str()
     filters = ma.List(ma.Nested(FilterSchema))
     total = fields.Integer(dump_only=True)

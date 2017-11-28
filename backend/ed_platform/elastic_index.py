@@ -109,6 +109,8 @@ class ElasticIndex:
     def search_workshops(self, search):
         workshop_search = WorkshopSearch(search.query, search.jsonFilters(),
                                          date_restriction=search.date_restriction, index=self.workshop_index_name)
+        # apply pagination arguments...
+        workshop_search = workshop_search[search.start:search.start + search.size]
         return workshop_search.execute()
 
     def search_participants(self, search):
