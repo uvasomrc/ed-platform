@@ -8,6 +8,8 @@ export class Search {
  participants: Array<Participant>;
  facets: Array<Facet>;
  date_restriction: string;
+ start = 0;
+ size = 10;
 
  constructor(values: Object= {}) {
    Object.assign(this, values);

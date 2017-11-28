@@ -1,6 +1,12 @@
 <mat-sidenav-container class="example-container">
   <mat-sidenav #sidenav class="example-sidenav">
-    <h2>Filters</h2>
+    <h2><span>Filters</span>
+      <div class="spacer"></div>
+      <button mat-icon-button (click)="sidenav.close()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </h2>
+    <div class="spacer"></div>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
@@ -60,7 +66,11 @@
     </li>
   </ul>
 
-  <app-workshop-list [workshops]="search.workshops"></app-workshop-list>
+  <app-workshop-list [workshops]="workshops"
+                     infiniteScroll
+                     [infiniteScrollDistance]="1"
+                     [infiniteScrollThrottle]="300"
+                     (scrolled)="onScroll()"></app-workshop-list>
 
 </mat-sidenav-container>
 

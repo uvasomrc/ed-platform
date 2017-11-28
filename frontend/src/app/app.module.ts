@@ -45,6 +45,7 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import { ParticipantFormComponent } from './participant-form/participant-form.component';
 import {DatePipe} from "@angular/common";
 import { PostComponent } from './post/post.component';
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -119,6 +120,7 @@ const routes: Routes = [
     MatDatepickerModule,
     OverlayModule,
     MatNativeDateModule,
+    InfiniteScrollModule,
     DndModule.forRoot(),
     RouterModule.forRoot(routes, {useHash: true})
   ],
