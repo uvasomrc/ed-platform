@@ -43,6 +43,16 @@ export class AppComponent implements OnInit {
     this.router.navigate(['home']);
   }
 
+  goAbout() {
+    //fixme: should go to about page.
+    this.router.navigate(['home']);
+  }
+
+  goHelp() {
+    //fixme: should go to about page.
+    this.router.navigate(['home']);
+  }
+
   goParticipantEditor() {
     this.router.navigate(['participant-form', 0 ]);
   }
