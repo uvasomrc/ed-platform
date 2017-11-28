@@ -1,14 +1,31 @@
 <mat-toolbar>
-  <button mat-button [matMenuTriggerFor]="appMenu">
+  <button class="menu" mat-button [matMenuTriggerFor]="appMenu">
     <mat-icon>menu</mat-icon>
   </button>
-  <span>{{title}}</span>
+  <div class="menubar">
+    <a href="#" (click)="goHome()">Home</a>
+    &bull;
+    <a href="#" (click)="goAbout()">About</a>
+    &bull;
+    <a href="#" (click)="goHelp()">Help</a>
+    &bull;
+    <a href="#" (click)="goSearch()">Search</a>
+  </div>
+  <span *ngIf="title != 'Home'" class="title">{{title}}</span>
   <span class="spacer"></span>
-  <button mat-button (click)="goSearch()"><mat-icon>search</mat-icon></button>
-  <button mat-icon-button *ngIf="account" class="logged-in" [routerLink]="['accountDetails']">
-    <img class="user-icon" src="{{account.image()}}" alt="{{account.display_name}}">
-  </button>
+
+  <div class="account" *ngIf="loggedIn">
+    <button *ngIf="loggedIn" mat-icon-button class="logged-in" [routerLink]="['accountDetails']">
+      <img class="user-icon" src="{{account.image()}}" alt="{{account.display_name}}">
+    </button>
+    <a class="logout" href="#" (click)="goLogout()">&bull; Sign out</a>
+  </div>
+
+  <a *ngIf="!loggedIn" href="#" (click)="goLogin()">Sign In</a>
 </mat-toolbar>
+
+
+
 <mat-menu #appMenu="matMenu">
   <button mat-menu-item
      [routerLink]="['home']"

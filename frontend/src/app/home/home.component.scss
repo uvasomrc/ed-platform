@@ -6,8 +6,109 @@
 @include uva-theme($uva-theme);
 
 .docs-primary-header {
-  background-image: url('../../assets/logo-bg.png');
 }
+
+.desktop-header {
+  display: none;
+}
+
+.mobile-header {
+  background-image: url('../../assets/logo-bg.png');
+  background-position: 0px,20/px;
+  display: block;
+}
+
+div.introduction {
+  display: block;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+50,000000+52&0.65+0,0+52 */
+  background: -moz-linear-gradient(left, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.65) 100%), url("../../assets/introduction.jpg"); /* FF3.6-15 */
+  background: -webkit-linear-gradient(left, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0.65) 100%), url("../../assets/introduction.jpg"); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0.65) 100%), url("../../assets/introduction.jpg"); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  color: mat-color($uva-primary, 500);
+  height: 300px;
+  font-size: 16px;
+
+  h1 {
+    background: transparent;
+    font-style: italic;
+    color: #fff;
+    padding: 60px 0 0 30px;
+  }
+
+  p {
+    background: transparent;
+    color: #fff;
+    padding: 0px 0 0 30px;
+    width: 300px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  form.searchbox {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    background: #fff;
+    margin: 0 30px 0 30px;
+    border-radius: 8px;
+    max-width: 400px;
+    padding:0;
+    height: 40px;
+
+    div.label {
+      flex: 0 1 auto;
+      padding: 0 10px 0 10px;
+      color: #999;
+    }
+
+    input {
+      flex: 1 1 auto;
+      border: none;
+      border-left: 2px solid #ccc;
+      font-size: 24px;
+      width: 100%;
+      height: 38px;
+      padding-left: 10px;
+    }
+
+    textarea:focus, input:focus{
+      outline: none;
+    }
+
+    button {
+      flex: 0 1 auto;
+      width: 100px;
+    }
+
+  }
+
+
+}
+
+@media screen and (min-width: 480px) {
+  .desktop-header {
+    display: block;
+  }
+  .mobile-header {
+    display: none;
+  }
+
+  div.introduction {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+50,000000+52&0.65+0,0+52 */
+    background: -moz-linear-gradient(left, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.02) 50%, rgba(0,0,0,0) 52%), url("../../assets/introduction.jpg"); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0.02) 50%,rgba(0,0,0,0) 52%), url("../../assets/introduction.jpg"); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0.02) 50%,rgba(0,0,0,0) 52%), url("../../assets/introduction.jpg"); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
+  }
+}
+
+
+
 
 div.logo {
   background: -webkit-linear-gradient(bottom,rgba(0,47,108,0),rgba(0,47,108,1)); /*Safari 5.1-6*/

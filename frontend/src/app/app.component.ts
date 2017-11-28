@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
 
   account: Participant;
   title: String;
+  loggedIn = false;
 
   constructor(private router: Router,
               private accountService: AccountService) {
@@ -26,13 +27,16 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.accountService.getAccount().subscribe(acct => {
+      console.log('Account Updated');
       this.account = acct;
+      if (this.account === null) {  this.loggedIn = false; }
+      else { this.loggedIn = true; }
     });
     this.accountService.refreshAccount();
   }
 
   goSearch() {
-    this.router.navigate(['search']);
+    this.router.navigate(['search', '']);
   }
 
   goParticipantEditor() {

@@ -66,6 +66,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.showControls = true;
   }
 
+  goSearch(query) {
+    this.router.navigate(['search', query]);
+  }
+
   setSponsors() {
     this.sponsors.push(new Sponsor('../../assets/sponsors/uva-info-tech.png', 'hidden'));
     this.sponsors.push(new Sponsor('../../assets/sponsors/uva-adcs.png', 'hidden'));

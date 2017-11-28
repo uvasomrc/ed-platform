@@ -1,7 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Filter, Search} from '../search';
 import {WorkshopService} from '../workshop.service';
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup} from '@angular/forms';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-search',
@@ -20,10 +21,15 @@ export class SearchComponent implements OnInit {
   searchForm: FormGroup;
   searchBox: FormControl;
 
-  constructor(private workshopService: WorkshopService) { }
+  constructor(private workshopService: WorkshopService,
+              private route: ActivatedRoute) {
+    this.route.params.subscribe(params => {
+      this.search = new Search();
+      this.search.query = params['query'];
+    });
+  }
 
   ngOnInit() {
-    this.search = new Search();
     this.setDateRange('future', 'Upcoming');
     this.doSearch();
 
@@ -31,6 +37,8 @@ export class SearchComponent implements OnInit {
     this.searchForm = new FormGroup({
       searchBox: this.searchBox
     });
+
+    this.searchBox.setValue(this.search.query);
 
     this.searchBox.valueChanges.subscribe(query => {
       this.search.query = query;

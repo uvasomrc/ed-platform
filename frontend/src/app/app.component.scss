@@ -5,8 +5,61 @@
 // Load the UVA Theme
 @include uva-theme($uva-theme);
 
+.menubar {
+  display: none;
+}
 
+.logout {
+  display: none;
+}
 
+.mat-toolbar {
+  display: block;
+  background: #fff;
+  color: mat-color($uva-primary, 500);
+  a {
+    color: mat-color($uva-primary, 500);
+    text-decoration: none;
+  }
+}
+
+@media screen and (min-width: 480px) {
+
+  .mat-toolbar {
+    background: #fff url("../assets/logo-home.png") no-repeat 20px 20px;
+    height: 90px;
+    font-size: 16px;
+
+    a {
+      color: mat-color($uva-primary, 500);
+      text-decoration: none;
+    }
+
+    .menu {
+      display: none;
+    }
+
+    .title {
+      display: none;
+    }
+
+    .account {
+      padding: 20px 20px 0 0;
+      vertical-align: middle;
+    }
+
+    .menubar {
+      display: block;
+      padding: 65px 0 0 84px;
+      a {
+        display: inline-block;
+        padding-right: 10px;
+        padding-left: 10px;
+        text-transform: uppercase;
+      }
+    }
+  }
+}
 
 .logged-in {
   font-size: .8em;
@@ -20,7 +73,7 @@
   vertical-align:middle;
 }
 
-.content {
+.content, .mat-toolbar {
   max-width: 1200px;
   margin:auto;
 }

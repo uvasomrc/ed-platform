@@ -50,7 +50,7 @@ const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'find', redirectTo: 'search', data: {title: 'Search'}},
   {path: 'home', component: HomeComponent, data: {title: 'Home'}},
-  {path: 'search', component: SearchComponent, data: {title: 'Search'}},
+  {path: 'search/:query', component: SearchComponent, data: {title: 'Search'}},
   {path: 'track/:id', component: TrackDetailsComponent, data: {title: 'Track'}},
   {path: 'track-form/:id', component: TrackFormComponent, data: {title: 'Create/Edit Track'}},
   {path: 'workshop-form/:id', component: WorkshopFormComponent, data: {title: 'Create/Edit Workshop'}},
