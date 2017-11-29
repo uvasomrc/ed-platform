@@ -555,7 +555,7 @@
       "name": "python_intro_workshop",
       "data": {
         "image_file": "images/python_intro_workshop.png",
-        "title": "Introduction to Python",
+        "title": "Python, A gentle beginning.",
         "description": "This workshop covers the fundamentals of python beginning with setting it up on your system. No prior experience is required. Just bring your laptop. We will start with installation and then move to interpreted coding focusing on the built-in data types. This will be a hands on experience with exercises throughout and plenty of time to get your hands dirty.",
         "code":"python_intro",
         "instructor": "dhf8r"
@@ -1106,9 +1106,9 @@
       "name": "python_intro_workshop_s2",
       "data": {
         "workshop": "python_intro_workshop_t3",
-        "date_time":"2017-11-14T23:30:00",
+        "date_time":"2018-03-14T23:30:00",
         "duration_minutes":"60",
-        "max_attendees":4,
+        "max_attendees":7,
         "instructor_notes": "",
         "location":"Brown 133"
       }
@@ -1271,7 +1271,7 @@
       "name": "intro_dedoose_1",
       "data": {
         "workshop": "intro_dedoose",
-        "date_time":"2017-11-26T19:00:00",
+        "date_time":"2018-03-26T19:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",

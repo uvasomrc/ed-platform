@@ -37,7 +37,7 @@
 
   <mat-tab-group class="tall-labels">
 
-    <mat-tab *ngIf="registerState() === 'registered' && workshop.discourse_enabled && post">
+    <mat-tab *ngIf="workshop.discourse_enabled">
       <ng-template mat-tab-label>
         <div>
           <h1>{{post.posts.length}}</h1>

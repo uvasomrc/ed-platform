@@ -18,6 +18,22 @@
     <mat-icon>menu</mat-icon>
   </button>
 
+  <mat-menu #adminMenu="matMenu">
+    <button mat-menu-item (click)="goParticipantEditor()">
+      <mat-icon> add_circle</mat-icon>
+      <span> Add User </span>
+    </button>
+    <button mat-menu-item (click)="goWorkshopEditor()">
+      <mat-icon> add_circle</mat-icon>
+      <span> Add Workshop </span>
+    </button>
+    <button mat-menu-item (click)="goTrackEditor()">
+      <mat-icon> add_circle</mat-icon>
+      <span> Add Track </span>
+    </button>
+  </mat-menu>
+
+
   <div class="menubar">
     <a href="#" (click)="goHome()">Home</a>
     &bull;
@@ -26,6 +42,11 @@
     <a href="#" (click)="goHelp()">Help</a>
     &bull;
     <a href="#" (click)="goSearch()">Search</a>
+    <span *ngIf="account && account.isAdmin()">
+    &bull;
+    <a href="#" [matMenuTriggerFor]="adminMenu">Admin</a>
+    </span>
+
   </div>
   <span *ngIf="title != 'Home'" class="title">{{title}}</span>
   <span class="spacer"></span>
@@ -33,48 +54,39 @@
 </mat-toolbar>
 
 
-
 <mat-menu #appMenu="matMenu">
   <button mat-menu-item
-     [routerLink]="['home']"
-     [routerLinkActive]="['active']">
-    <mat-icon> home </mat-icon>
+          [routerLink]="['home']"
+          [routerLinkActive]="['active']">
+    <mat-icon> home</mat-icon>
     <span> Home </span>
   </button>
   <button mat-menu-item
           [routerLink]="['search']"
           [routerLinkActive]="['active']">
-    <mat-icon> search </mat-icon>
+    <mat-icon> search</mat-icon>
     <span> Search </span>
   </button>
   <button *ngIf="account" mat-menu-item
           [routerLink]="['accountDetails']"
           [routerLinkActive]="['active']">
-    <mat-icon> person </mat-icon>
+    <mat-icon> person</mat-icon>
     <span> Your Account </span>
   </button>
   <button *ngIf="!(account)" mat-menu-item (click)="goLogin()">
-    <mat-icon> person </mat-icon>
+    <mat-icon> person</mat-icon>
     <span> Log in </span>
   </button>
   <button *ngIf="account" mat-menu-item (click)="goLogout()">
-    <mat-icon> exit_to_app </mat-icon>
+    <mat-icon> exit_to_app</mat-icon>
     <span> Log out </span>
   </button>
-  <button *ngIf="account && account.isAdmin()" mat-menu-item (click)="goParticipantEditor()">
-    <mat-icon> add_circle </mat-icon>
-    <span> Add User </span>
+  <button *ngIf="account && account.isAdmin()" mat-menu-item [matMenuTriggerFor]="adminMenu">
+    <mat-icon> admin</mat-icon>
+    <span> Admin </span>
   </button>
-  <button *ngIf="account && account.isAdmin()" mat-menu-item (click)="goWorkshopEditor()">
-    <mat-icon> add_circle </mat-icon>
-    <span> Add Workshop </span>
-  </button>
-  <button *ngIf="account && account.isAdmin()" mat-menu-item (click)="goTrackEditor()">
-    <mat-icon> add_circle </mat-icon>
-    <span> Add Track </span>
-  </button>
-
 </mat-menu>
+
 
 <div class="content">
   <router-outlet></router-outlet>

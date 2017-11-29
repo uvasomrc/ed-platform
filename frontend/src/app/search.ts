@@ -9,7 +9,7 @@ export class Search {
  facets: Array<Facet>;
  date_restriction: string;
  start = 0;
- size = 10;
+ size = 20;
 
  constructor(values: Object= {}) {
    Object.assign(this, values);

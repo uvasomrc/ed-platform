@@ -25,7 +25,6 @@ export class AccountDetailsComponent implements OnInit {
       });
 
     });
-    this.accountService.refreshAccount();
   }
 
   upcomingWorkshops() {

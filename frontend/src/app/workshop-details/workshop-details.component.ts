@@ -55,11 +55,13 @@ export class WorkshopDetailsComponent implements OnInit {
           this.code = new Code();
           this.updatedLoaded();
         }
-        this.workshopService.getPost(workshop).subscribe(
-          (post) => {
-            this.post = post;
-          }
-        );
+        if (this.workshop.discourse_enabled) {
+          this.workshopService.getPost(workshop).subscribe(
+            (post) => {
+              this.post = post;
+            }
+          );
+        }
 
       });
     /**/

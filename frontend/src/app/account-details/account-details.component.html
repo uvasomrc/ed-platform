@@ -12,41 +12,14 @@
   </section>
 
   <mat-tab-group [selectedIndex]="participant.new_account? 3 : 0">
-    <mat-tab label="Upcoming Workshops">
-      <div
-        class="container"
-        fxLayout="row"
-        fxLayout.xs="column"
-        fxLayoutAlign="center"
-        fxLayoutGap="10px"
-        fxLayoutGap.xs="0">
-
-        <app-workshop *ngFor="let workshop of upcomingWorkshops()" [workshop]="workshop" ></app-workshop>
-      </div>
+    <mat-tab label="Upcoming Workshops" *ngIf="upcomingWorkshops().length > 0">
+      <app-workshop-list [workshops]="upcomingWorkshops()"></app-workshop-list>
     </mat-tab>
-    <mat-tab label="Past Workshops">
-      <div
-        class="container"
-        fxLayout="row"
-        fxLayout.xs="column"
-        fxLayoutAlign="center"
-        fxLayoutGap="10px"
-        fxLayoutGap.xs="0">
-
-        <app-workshop *ngFor="let workshop of pastWorkshops()" [workshop]="workshop" ></app-workshop>
-      </div>
+    <mat-tab label="Past Workshops" *ngIf="pastWorkshops().length > 0">
+      <app-workshop-list [workshops]="pastWorkshops()"></app-workshop-list>
     </mat-tab>
     <mat-tab label="Instructing" *ngIf="instructingWorkshops().length > 0">
-      <div
-        class="container"
-        fxLayout="row"
-        fxLayout.xs="column"
-        fxLayoutAlign="center"
-        fxLayoutGap="10px"
-        fxLayoutGap.xs="0">
-
-        <app-workshop *ngFor="let workshop of instructingWorkshops()" [workshop]="workshop" ></app-workshop>
-      </div>
+      <app-workshop-list [workshops]="instructingWorkshops()"></app-workshop-list>
     </mat-tab>
     <mat-tab label="Edit Account">
       <div *ngIf="participant.new_account">

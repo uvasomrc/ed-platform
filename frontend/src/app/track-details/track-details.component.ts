@@ -66,6 +66,7 @@ export class TrackDetailsComponent implements OnInit {
 
   gotoCode(index) {
     this.getCode(this.track.codes[index]);
+    this.codeIndex = index;
   }
 
   confirmDelete() {

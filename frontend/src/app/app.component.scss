@@ -35,6 +35,29 @@ img.lvl2 {
   display: none;
 }
 
+.logged-in {
+  font-size: .8em;
+  line-height: 35px;
+}
+
+.user-icon {
+  border-radius: 50%;
+  height: 35px;
+  width: 35px;
+  vertical-align:middle;
+}
+
+.content, .mat-toolbar {
+  max-width: 1200px;
+  margin:auto;
+}
+
+.active {
+  background-color: mat-color($uva-accent, 50);
+}
+
+
+
 @media screen and (min-width: 480px) {
 
   .logout {
@@ -112,23 +135,3 @@ img.lvl2 {
 
 }
 
-.logged-in {
-  font-size: .8em;
-  line-height: 35px;
-}
-
-.user-icon {
-  border-radius: 50%;
-  height: 35px;
-  width: 35px;
-  vertical-align:middle;
-}
-
-.content, .mat-toolbar {
-  max-width: 1200px;
-  margin:auto;
-}
-
-.active {
-  background-color: mat-color($uva-accent, 50);
-}
