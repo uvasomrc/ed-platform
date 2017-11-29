@@ -29,13 +29,12 @@ export class SearchComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.search = new Search();
       this.search.query = params['query'];
+      this.setDateRange('future', 'Upcoming');
     });
   }
 
   ngOnInit() {
-    this.setDateRange('future', 'Upcoming');
     this.doSearch();
-
     this.searchBox = new FormControl();
     this.searchForm = new FormGroup({
       searchBox: this.searchBox
@@ -52,6 +51,7 @@ export class SearchComponent implements OnInit {
 
   updateQuery(query) {
     this.search.query = query;
+    this.search.start = 0;
     this.doSearch();
   }
 
