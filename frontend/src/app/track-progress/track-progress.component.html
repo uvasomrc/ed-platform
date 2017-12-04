@@ -1,11 +1,17 @@
-<div class="track-progress">
-  <span *ngFor="let code of track.codes; let i = index">
-    <mat-icon color="{{code.color()}}"
-            svgIcon="{{code.icon()}}"
+<div *ngIf="showTitles" class="titles">
+  <ng-container *ngFor="let code of track.codes; let i = index">
+  <div class="code-name"> {{code.id}}</div>
+  </ng-container>
+
+</div>
+<div class="{{showTitles ? 'track-progress-with-titles' : 'track-progress'}}">
+  <div *ngIf="showTitles" class="track-spacer"></div>
+  <ng-container *ngFor="let code of track.codes; let i = index">
+    <mat-icon class="circle" color="{{code.color()}}"
+              svgIcon="{{code.icon()}}"
               [ngClass]="{'active': codeIndex == i}" (click)="select(i)"></mat-icon>
-    <mat-icon class="connect" color="primary" svgIcon="{{code.progress_icon()}}" ></mat-icon>
-  </span>
-  <div class="spacer"></div>
-
-
+    <mat-icon *ngIf="i < track.codes.length - 1" class="connect" color="primary" svgIcon="{{code.progress_icon()}}"></mat-icon>
+  </ng-container>
+  <div *ngIf="showTitles" class="track-spacer"></div>
+  <div *ngIf="!showTitles" class="spacer"></div>
 </div>

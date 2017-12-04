@@ -6,27 +6,77 @@
 @include uva-theme($uva-theme);
 
 .track-progress {
+  display: -webkit-flex; /* Safari */
   display: flex;
+  flex-flow: row;
+  flex-wrap: nowrap;
+  -webkit-align-items: flex-end; /* Safari 7.0+ */
+  align-items: flex-end;
 }
 
-.track-progress span {
-  display: flex;
-}
-
-.track-progress mat-icon {
+mat-icon {
   color: mat-color($uva-primary, 500);
   cursor: pointer;
   padding: -2px;
   stroke: #888;
 }
 
-.track-progress mat-icon.active {
+mat-icon.active {
   stroke: mat-color($uva-accent, 500);
 }
 
-.track-progress mat-icon.open {
+mat-icon.open {
   color: #888;
 }
 
-.track-progress mat-icon.connect {
+mat-icon.connect {
+}
+
+.titles {
+  display: none;
+}
+
+
+@media screen and (min-width: 480px) {
+
+  .track-progress-with-titles, .titles {
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    -webkit-align-items: flex-end; /* Safari 7.0+ */
+    align-items: flex-end;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+
+
+    .circle {
+      flex: 1 1 0;
+    }
+
+    .connect {
+      flex: 1 1 0;
+    }
+
+    .track-spacer {
+      flex: .5 1 0;
+    }
+
+    .code-name {
+      flex: 1 1 0;
+      text-align: center;
+      color: #4d6d98;
+      font-size: 10px;
+      line-height: 12px;
+      width: 60px;
+      padding: 5px 10px;
+    }
+
+  }
+
+
+
+
+
 }

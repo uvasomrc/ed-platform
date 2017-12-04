@@ -1,35 +1,43 @@
 <div *ngIf="isDataLoaded">
 
-  <section class="header flex">
+  <div>
+    <!-- Use this for background image, if we can make it work. [ngStyle]="{'background': '#fff url(' +track.links.image + ') no-repeat 0 0'}"> -->
+    <section class="header flex">
+
     <div>
+      <div class="mat-card-pre-title">Track</div>
       <h2 class="mat-title">{{track.title}}</h2>
-      <div class="sub-title">Unaccredited Program</div>
+      <div class="sub-title">{{track.sub_title}}</div>
+      <div class="progress">
+        <app-track-progress (selectedIndex)="gotoCode($event)" [track]="track" [showTitles]="true"
+                            [codeIndex]="codeIndex"></app-track-progress>
+      </div>
+
     </div>
     <div class="spacer"></div>
-    <button mat-raised-button>Follow</button>
     <button mat-fab (click)="confirmDelete()" aria-label="Delete Track" *ngIf="account && account.isAdmin()">
       <mat-icon>delete_forever</mat-icon>
     </button>
     <button mat-fab (click)="editTrack()" aria-label="Edit Track" *ngIf="account && account.isAdmin()">
       <mat-icon>edit</mat-icon>
     </button>
-  </section>
-  <section class="header">
-    <p>{{track.description}}</p>
-    <app-track-progress (selectedIndex)="gotoCode($event)" [track]="track" [codeIndex]="codeIndex"></app-track-progress>
-  </section>
+    </section>
+    <section class="header">
+      <p>{{track.description}}</p>
+    </section>
 
 
-  <div class="course-nav">
-    <button mat-button (click)="prevCode()">
-      <i class="material-icons">keyboard_arrow_left</i>PREV
-    </button>
-    <div class="spacer"></div>
-    <h2 *ngIf="code" >{{code.id}}</h2>
-    <div class="spacer"></div>
-    <button mat-button (click)="nextCode()">
-    NEXT<i class="material-icons">keyboard_arrow_right</i>
-    </button>
+    <div class="course-nav">
+      <button mat-button (click)="prevCode()">
+        <i class="material-icons">keyboard_arrow_left</i>PREV
+      </button>
+      <div class="spacer"></div>
+      <h2 *ngIf="code">{{code.id}}</h2>
+      <div class="spacer"></div>
+      <button mat-button (click)="nextCode()">
+        NEXT<i class="material-icons">keyboard_arrow_right</i>
+      </button>
+    </div>
   </div>
 
   <app-workshop-list *ngIf="code" [workshops]="code.workshops"></app-workshop-list>

@@ -117,8 +117,11 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
 
   h2.mat-h2, h2.mat-title {
     background-color: mat-contrast($primary, 900);
-    font-size: 18px;
-    line-height: 20px;
+    font-size: 24px;
+    line-height: 30px;
+    font-weight: 700;
+    margin: 0px;
+    padding: 0px;
   }
 
   .mat-toolbar {

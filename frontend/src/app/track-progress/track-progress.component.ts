@@ -16,6 +16,9 @@ export class TrackProgressComponent implements OnInit {
   @Input('codeIndex')
   codeIndex = -1;
 
+  @Input('showTitles')
+  showTitles = false;
+
   @Output()
   selectedIndex = new EventEmitter<number>();
 
