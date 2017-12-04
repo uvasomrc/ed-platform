@@ -12,11 +12,33 @@
   height: 50px;
   border-top: 2px solid rgba(0, 0, 0, 0.54);;
   color: rgba(0, 0, 0, 0.54);
+  background: #fff;
 
   h2 {
     padding: 0;
     magin: 0;
   }
+}
+
+.course-nav-scroll {
+  display: block;
+}
+
+.course-nav-list {
+  display: none;
+}
+
+@media screen and (min-width: 480px) {
+
+  .course-nav-scroll {
+    display: none;
+  }
+
+  .course-nav-list {
+    display: block;
+  }
+
+
 }
 
 div.header-title {

@@ -76,6 +76,8 @@ class TrackCode(db.Model):
     code_id = db.Column('code_id', db.String(), db.ForeignKey('code.id'), primary_key=True)
     order = db.Column(db.Integer())
     prereq = db.Column(db.Boolean())
+    def workshops(self):
+        return self.code.workshops
 
 class Track(db.Model):
     __tablename__ = 'track'
@@ -361,47 +363,6 @@ class UserSchema(ma.Schema):
 
 
 
-class TrackAPISchema(ma.Schema):
-
-    class TrackCodeSchema(ma.Schema):
-        class Meta:
-            fields = ('prereq','id', 'status', '_links')
-        id = fields.Function(lambda obj: obj.code_id)
-        status = fields.Method('get_status')
-        _links = ma.Hyperlinks({
-            'self': ma.URLFor('get_code', code='<code_id>'),
-        })
-        def get_status(self, obj):
-            participant = g.user
-            if participant == None:
-                return "UNREGISTERED"
-            for ps in participant.participant_sessions:
-                if ps.session.code() != None and ps.session.code().id == obj.code.id:
-                    if (ps.attended):
-                        return "ATTENDED"
-                    elif ps.session.is_past():
-                        return "AWAITING_REVIEW"
-                    else:
-                        return "REGISTERED"
-            return "UNREGISTERED"
-
-
-    class Meta:
-        # Fields to expose
-        fields = ('id','title', 'sub_title', 'description', '_links', 'codes')
-        ordered = True
-
-    codes = ma.List(ma.Nested(TrackCodeSchema))
-    _links = ma.Hyperlinks({
-        'self': ma.URLFor('get_track', track_id='<id>'),
-        'collection': ma.URLFor('get_tracks'),
-        'image': ma.URLFor('get_track_image', track_id='<id>'),
-    })
-#    workshops = ma.Method('links_to_workshops')
-#    def links_to_workshops(self, obj):
-#        return list(map(lambda t: flask.url_for('get_workshop', id=t.workshop_id),
-#                                                obj.track_workshops))
-
 
 class ParticipantAPISchema(ma.Schema):
 
@@ -489,6 +450,49 @@ class CodeApiSchema(ma.Schema):
         fields = ('id','description','workshops')
         ordered = True
     workshops = ma.List(ma.Nested(WorkshopAPISchema()))
+
+class TrackAPISchema(ma.Schema):
+
+    class TrackCodeSchema(ma.Schema):
+        class Meta:
+            fields = ('prereq','id', 'status', '_links', 'workshops')
+        id = fields.Function(lambda obj: obj.code_id)
+        status = fields.Method('get_status')
+        workshops = ma.List(ma.Nested(WorkshopAPISchema()))
+        _links = ma.Hyperlinks({
+            'self': ma.URLFor('get_code', code='<code_id>'),
+        })
+        def get_status(self, obj):
+            participant = g.user
+            if participant == None:
+                return "UNREGISTERED"
+            for ps in participant.participant_sessions:
+                if ps.session.code() != None and ps.session.code().id == obj.code.id:
+                    if (ps.attended):
+                        return "ATTENDED"
+                    elif ps.session.is_past():
+                        return "AWAITING_REVIEW"
+                    else:
+                        return "REGISTERED"
+            return "UNREGISTERED"
+
+
+    class Meta:
+        # Fields to expose
+        fields = ('id','title', 'sub_title', 'description', '_links', 'codes')
+        ordered = True
+
+    codes = ma.List(ma.Nested(TrackCodeSchema))
+    _links = ma.Hyperlinks({
+        'self': ma.URLFor('get_track', track_id='<id>'),
+        'collection': ma.URLFor('get_tracks'),
+        'image': ma.URLFor('get_track_image', track_id='<id>'),
+    })
+#    workshops = ma.Method('links_to_workshops')
+#    def links_to_workshops(self, obj):
+#        return list(map(lambda t: flask.url_for('get_workshop', id=t.workshop_id),
+#                                                obj.track_workshops))
+
 
 
 class EmailMessageAPISchema(ma.Schema):

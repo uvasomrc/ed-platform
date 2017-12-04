@@ -37,11 +37,8 @@ export class TrackDetailsComponent implements OnInit {
     this.trackService.getTrack(this.track_id).subscribe(
       (track) => {
         this.track = track;
-        if (this.track.codes.length > 0) {
-          this.getCode(track.codes[this.codeIndex]);
-        } else {
-          this.isDataLoaded = true;
-        }
+        this.code = track.codes[this.codeIndex];
+        this.isDataLoaded = true;
       }
     );
   }
@@ -51,7 +48,7 @@ export class TrackDetailsComponent implements OnInit {
       return;
     } else {
       this.codeIndex--;
-      this.getCode(this.track.codes[this.codeIndex]);
+      this.code = this.track.codes[this.codeIndex]
     }
   }
 
@@ -60,12 +57,12 @@ export class TrackDetailsComponent implements OnInit {
       return;
     } else {
       this.codeIndex++;
-      this.getCode(this.track.codes[this.codeIndex]);
+      this.code = this.track.codes[this.codeIndex]
     }
   }
 
   gotoCode(index) {
-    this.getCode(this.track.codes[index]);
+    this.code = this.track.codes[index];
     this.codeIndex = index;
   }
 
@@ -86,16 +83,6 @@ export class TrackDetailsComponent implements OnInit {
   editTrack() {
     this.router.navigate(['track-form', this.track.id]);
   }
-
-  getCode(code: Code) {
-    this.trackService.getCode(code).subscribe(
-      (fullCode) => {
-        this.code = fullCode;
-        this.isDataLoaded = true;
-      }
-    );
-  }
-
 }
 
 @Component({

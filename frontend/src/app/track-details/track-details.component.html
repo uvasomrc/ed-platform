@@ -37,22 +37,32 @@
                             [codeIndex]="codeIndex"></app-track-progress>
       </div>
     </section>
+  </div>
 
+  <div class="course-nav-scroll">
 
-    <div class="course-nav">
-      <button mat-button (click)="prevCode()">
-        <i class="material-icons">keyboard_arrow_left</i>PREV
-      </button>
-      <div class="spacer"></div>
-      <h2 *ngIf="code">{{code.id}}</h2>
-      <div class="spacer"></div>
-      <button mat-button (click)="nextCode()">
-        NEXT<i class="material-icons">keyboard_arrow_right</i>
-      </button>
-    </div>
+  <div class="course-nav">
+    <button mat-button (click)="prevCode()">
+      <i class="material-icons">keyboard_arrow_left</i>PREV
+    </button>
+    <div class="spacer"></div>
+    <h2 *ngIf="code">{{code.id}}</h2>
+    <div class="spacer"></div>
+    <button mat-button (click)="nextCode()">
+      NEXT<i class="material-icons">keyboard_arrow_right</i>
+    </button>
   </div>
 
   <app-workshop-list *ngIf="code" [workshops]="code.workshops"></app-workshop-list>
+  </div>
+
+  <div class="course-nav-list">
+    <ng-container *ngFor="let code of track.codes">
+      <h2>{{code.id}}</h2>
+      <app-workshop-list [workshops]="code.workshops"></app-workshop-list>
+    </ng-container>
+  </div>
+
 
 </div>
 
