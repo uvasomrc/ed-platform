@@ -209,8 +209,12 @@ def update_track_codes(id):
 @app.route('/api/track/<int:track_id>/image')
 def get_track_image(track_id):
     track = models.Track.query.filter_by(id=track_id).first()
-    return send_file("static/" + track.image_file, mimetype='image/png')
-
+    if( not track.image_file):
+        raise RestException(RestException.NOT_FOUND)
+    try:
+        return send_file("static/" + track.image_file, mimetype='image/png')
+    except FileNotFoundError:
+        raise RestException(RestException.NOT_FOUND)
 
 # Workshop
 # *****************************
