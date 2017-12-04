@@ -1,29 +1,41 @@
 <div *ngIf="isDataLoaded">
 
   <div>
-    <!-- Use this for background image, if we can make it work. [ngStyle]="{'background': '#fff url(' +track.links.image + ') no-repeat 0 0'}"> -->
-    <section class="header flex">
+    <div class="header " [ngStyle]="{'background': '#fff url(' +track.links.image + ') no-repeat center center'}">
+      <div class="header-title"
+        fxLayout="row"
+        fxLayoutAlign="center center"
+        fxLayoutStart=""
+        fxLayoutGap="10px"
+        fxLayoutGap.xs="0">
+        <div>
+          <div class="mat-card-pre-title">Track</div>
+          <h2 class="mat-title">{{track.title}}</h2>
+          <div class="sub-title">{{track.sub_title}}</div>
+        </div>
+        <div class="spacer"></div>
+        <button mat-fab (click)="confirmDelete()" aria-label="Delete Track" *ngIf="account && account.isAdmin()">
+          <mat-icon>delete_forever</mat-icon>
+        </button>
+        <button mat-fab (click)="editTrack()" aria-label="Edit Track" *ngIf="account && account.isAdmin()">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+    </div>
 
-    <div>
-      <div class="mat-card-pre-title">Track</div>
-      <h2 class="mat-title">{{track.title}}</h2>
-      <div class="sub-title">{{track.sub_title}}</div>
+    <section class="container"
+             fxLayout="row"
+             fxLayout.xs="column"
+             fxLayoutAlign="center center"
+             fxLayoutStart=""
+             fxLayoutGap="10px"
+             fxLayoutGap.xs="0">
+
+      <p>{{track.description}}</p>
       <div class="progress">
         <app-track-progress (selectedIndex)="gotoCode($event)" [track]="track" [showTitles]="true"
                             [codeIndex]="codeIndex"></app-track-progress>
       </div>
-
-    </div>
-    <div class="spacer"></div>
-    <button mat-fab (click)="confirmDelete()" aria-label="Delete Track" *ngIf="account && account.isAdmin()">
-      <mat-icon>delete_forever</mat-icon>
-    </button>
-    <button mat-fab (click)="editTrack()" aria-label="Edit Track" *ngIf="account && account.isAdmin()">
-      <mat-icon>edit</mat-icon>
-    </button>
-    </section>
-    <section class="header">
-      <p>{{track.description}}</p>
     </section>
 
 
