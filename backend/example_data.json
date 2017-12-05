@@ -1406,7 +1406,7 @@
         "participant": "bk7k",
         "session": "python_intro_workshop_s2",
         "created": "2017-06-04T15:55:00",
-        "attended": true,
+        "attended": false,
         "is_instructor": false,
         "review_score": 5,
         "review_comment": "Excellent overview of latest trends, and learned a little Python in the process!"
@@ -1418,7 +1418,7 @@
         "participant": "dhf8r",
         "session": "python_intro_workshop_s2",
         "created": "2017-06-04T15:55:00",
-        "attended": true,
+        "attended": false,
         "is_instructor": false,
         "review_score": 5,
         "review_comment": "It has a good beat, and I can dance to it."
@@ -1430,7 +1430,7 @@
         "participant": "nem2p",
         "session": "python_intro_workshop_s2",
         "created": "2017-06-04T15:55:00",
-        "attended": true,
+        "attended": false,
         "is_instructor": false,
         "review_score": 5,
         "review_comment": "I really appreciate the references to Platonic Scripts."
@@ -1442,7 +1442,7 @@
         "participant": "chrisg",
         "session": "python_intro_workshop_s2",
         "created": "2017-06-04T15:55:00",
-        "attended": true,
+        "attended": false,
         "is_instructor": false
       }
     },
@@ -1452,7 +1452,7 @@
         "participant": "cag3fr",
         "session": "python_intro_workshop_s2",
         "created": "2017-06-04T15:55:00",
-        "attended": true,
+        "attended": false,
         "is_instructor": false
       }
     },
@@ -1462,7 +1462,7 @@
         "participant": "vpn7n",
         "session": "python_intro_workshop_s2",
         "created": "2017-06-04T15:55:00",
-        "attended": true,
+        "attended": false,
         "is_instructor": false
       }
     },
@@ -1482,7 +1482,7 @@
         "participant": "bk7k",
         "session": "ml_intro_workshop_1",
         "created": "2017-08-01T11:02:00",
-        "attended": true,
+        "attended": false,
         "is_instructor": false,
         "review_score": 5,
         "review_comment": "Excellent overview of latest trends, and learned a little Python in the process!"
@@ -1514,7 +1514,7 @@
         "participant": "nem2p",
         "session": "ml_intro_workshop_1",
         "created": "2017-08-12T11:01:00",
-        "attended": true,
+        "attended": false,
         "is_instructor": false,
         "review_score": 4,
         "review_comment": "Pete is an excellent instructor, I learned a great deal about latest techniques of machine learning."
@@ -1545,7 +1545,7 @@
         "participant": "bk7k",
         "session": "intro_dedoose_1",
         "created": "2017-08-01T11:02:00",
-        "attended": true,
+        "attended": false,
         "is_instructor": false,
         "review_score": 5,
         "review_comment": "Excellent overview of latest trends, and learned a little Python in the process!"
