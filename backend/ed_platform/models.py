@@ -125,6 +125,10 @@ class Code(db.Model):
             tracks.append(tc.track)
         return tracks
 
+    def track_count(self):
+        return len(self.tracks())
+
+
 class Participant(db.Model):
     __tablename__ = 'participant'
     id  = db.Column(db.Integer, primary_key=True)
@@ -446,10 +450,14 @@ class WorkshopAPISchema(ma.Schema):
 
 
 class CodeApiSchema(ma.Schema):
+
     class Meta:
-        fields = ('id','description','workshops')
+        fields = ('id','description','workshops', 'track_count', "_links")
         ordered = True
     workshops = ma.List(ma.Nested(WorkshopAPISchema()))
+    _links = ma.Hyperlinks({
+        'self': ma.URLFor('get_code', code='<id>'),
+    })
 
 class TrackAPISchema(ma.Schema):
 

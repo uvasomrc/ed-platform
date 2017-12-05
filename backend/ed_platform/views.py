@@ -122,7 +122,7 @@ def create_code():
 @app.route('/api/code', methods=['GET'])
 @auth.login_required
 def get_codes():
-    codes = list(map(lambda c: models.CodeApiSchema().dump(c).data, models.Code.query.all()))
+    codes = list(map(lambda c: models.CodeApiSchema().dump(c).data, models.Code.query.order_by(models.Code.id).all()))
     return jsonify(codes)
 
 @app.route('/api/code/<string:code>')
