@@ -1,11 +1,17 @@
 <div *ngIf="isDataLoaded">
 
-  <section class="header">
+  <section class="header"
+           fxLayout="row"
+           fxLayoutAlign="start center"
+           fxLayoutGap="10px"
+           fxLayoutGap.xs="0">
     <div class="circleborder">
       <img class="instructor-big" src="{{workshop.instructor.image()}}">
     </div>
-    <h2 class="mat-title">{{workshop.title}}</h2>
-    <span class="sub-title">with {{workshop.instructor.display_name}}</span>
+    <div>
+      <h2 class="mat-title">{{workshop.title}}</h2>
+      <span class="sub-title">with {{workshop.instructor.display_name}}</span>
+    </div>
   </section>
 
   <section class="header flex">

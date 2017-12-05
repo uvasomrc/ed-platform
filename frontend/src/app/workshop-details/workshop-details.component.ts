@@ -81,7 +81,9 @@ export class WorkshopDetailsComponent implements OnInit {
   }
 
   registerState(): String {
-    if (this.workshop.instructing()) {
+    if (!this.isLoggedIn()) {
+      return 'login';
+    } else if (this.workshop.instructing()) {
       return 'instructing';
     } else if (this.workshop.awaiting_review()) {
       return 'awaiting';
@@ -92,10 +94,8 @@ export class WorkshopDetailsComponent implements OnInit {
     } else if (this.workshop.hasUpcomingSession()) {
       if (this.workshop.sessions.length > 0 && this.workshop.nextSession().isFull()) {
         return 'full';
-      } else if (this.isLoggedIn() && this.workshop.nextSession().isAvailable()) {
+      } else if (this.workshop.nextSession().isAvailable()) {
         return 'available';
-      } else if (!this.isLoggedIn() && this.workshop.nextSession().isAvailable()) {
-        return 'login';
       }
     }
   }

@@ -39,7 +39,7 @@
     </section>
   </div>
 
-  <div class="course-nav-scroll">
+  <div class="course-nav-scroll" (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')">
 
   <div class="course-nav">
     <button mat-button (click)="prevCode()">
