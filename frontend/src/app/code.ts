@@ -1,5 +1,6 @@
 import {Links} from './links';
 import {Workshop} from './workshop';
+import {Track} from "./track";
 
 export class Code {
   id: String;
@@ -9,6 +10,7 @@ export class Code {
   links = new Links();
   workshops = Array<Workshop>();
   workshop_ids = Array<Number>();
+  track_count = 0;
 
   constructor(values: Object = {}) {
     Object.assign(this, values);

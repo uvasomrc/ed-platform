@@ -80,6 +80,7 @@
                 <mat-icon>reorder</mat-icon>
                 {{code.id}}
                 <label><input type="checkbox" (click)="setPrereq(i)" [checked]="code.prereq">prerequisite?</label>
+                &nbsp;({{code.workshops.length}} workshops)
               </li>
             </ul>
           </div>

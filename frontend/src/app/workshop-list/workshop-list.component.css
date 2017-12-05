@@ -1,0 +1,9 @@
+div.container {
+  margin-bottom: 20px;
+}
+
+div.container:after {
+  content: "";
+  flex:auto;
+  margin: 10px;
+}
