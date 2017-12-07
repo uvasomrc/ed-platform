@@ -129,7 +129,10 @@ def get_codes():
 @auth.login_required
 def get_code(code):
     code = models.Code.query.filter_by(id=code).first()
-    return models.CodeApiSchema().jsonify(code)
+    if (code == None):
+        raise RestException(RestException.NO_SUCH_CODE)
+    else:
+        return models.CodeApiSchema().jsonify(code)
 
 # Tracks
 # *****************************

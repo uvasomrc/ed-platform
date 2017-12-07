@@ -44,13 +44,12 @@ export class WorkshopDetailsComponent implements OnInit {
             this.updatedLoaded();
           }
         );
-        if (this.workshop.code_id !== '') {
+        if (this.workshop.code_id !== null && this.workshop.code_id.length > 0) {
           this.workshopService.getCodeByString(this.workshop.code_id).subscribe(
             (code) => {
               this.code = code;
               this.updatedLoaded();
-            }
-          );
+            });
         } else {
           this.code = new Code();
           this.updatedLoaded();
