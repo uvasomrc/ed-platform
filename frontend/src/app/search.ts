@@ -40,10 +40,15 @@ export class Search {
  }
 
  addFilter(field: string, value: string) {
-   const filter = new Filter();
-   filter.field = field;
-   filter.value = value;
-   this.filters.push(filter);
+   let index = this.filters.findIndex(f => f.field === field);
+   if (index >= 0) {
+    this.filters[index].value = value;
+   } else {
+     const filter = new Filter();
+     filter.field = field;
+     filter.value = value;
+     this.filters.push(filter);
+   }
  }
 
  removeFilter(filter: Filter) {

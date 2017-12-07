@@ -12,17 +12,33 @@ form.search-box {
   padding: 0px 20px 0 20px;
   margin: 10px 0 0 0;
   display: flex;
+
+  button {
+    max-height: 50px;
+  }
 }
 
 .container {
   min-height: 600px;
 }
 
-.mat-sidenav h2 {
-  display:flex;
+.mat-sidenav {
 
-  span {
-    flex: 1 1 auto;
+  width: 100%;
+
+  h2 {
+    display: flex;
+
+    span {
+      flex: 1 1 auto;
+    }
+  }
+}
+
+
+@media screen and (min-width: 480px) {
+  .mat-sidenav {
+    width: 400px;
   }
 }
 

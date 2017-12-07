@@ -1,9 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {Filter, Search} from '../search';
 import {WorkshopService} from '../workshop.service';
 import {FormControl, FormGroup} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {Workshop} from '../workshop';
+import {MatSidenav} from '@angular/material';
+import 'rxjs/add/operator/debounceTime';
 
 @Component({
   selector: 'app-search',
@@ -16,7 +18,6 @@ export class SearchComponent implements OnInit {
   search: Search;
 
   date_range_display: string;
-
   showFilters = false;
 
   searchForm: FormGroup;
@@ -24,13 +25,29 @@ export class SearchComponent implements OnInit {
   loading = false;
   workshops: Workshop[];
 
+  @ViewChild('sidenav') public sideNav: MatSidenav;
+
   constructor(private workshopService: WorkshopService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private renderer: Renderer2) {
     this.route.params.subscribe(params => {
       this.search = new Search();
       this.search.query = params['query'];
       this.setDateRange('future', 'Upcoming');
     });
+    renderer.listen(window, 'resize', (event) => {
+      this.checkWindowWidth();
+    });
+  }
+
+  private checkWindowWidth(): void {
+    if (window.innerWidth > 768) {
+      this.sideNav.mode = 'side';
+      this.sideNav.opened = true;
+    }else {
+      this.sideNav.mode = 'over';
+      this.sideNav.opened = false;
+    }
   }
 
   ngOnInit() {
@@ -42,9 +59,10 @@ export class SearchComponent implements OnInit {
 
     this.searchBox.setValue(this.search.query);
 
-    this.searchBox.valueChanges.subscribe(query => {
-      this.search.query = query;
-      this.doSearch();
+    this.searchBox.valueChanges
+      .debounceTime(300).subscribe(query => {
+        this.search.query = query;
+        this.doSearch();
     });
 
   }
@@ -58,9 +76,10 @@ export class SearchComponent implements OnInit {
   doSearch() {
     this.workshopService.searchWorkshops(this.search).subscribe(
       (search) => {
+        console.log("Searching ...");
         this.search = search;
         this.workshops = search.workshops;
-        console.log('.... and done.');
+        this.checkWindowWidth();
       }
     );
   }

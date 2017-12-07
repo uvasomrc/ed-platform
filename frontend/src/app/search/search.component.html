@@ -1,5 +1,5 @@
 <mat-sidenav-container class="container">
-  <mat-sidenav #sidenav class="example-sidenav">
+  <mat-sidenav #sidenav class="sidenav">
     <h2><span>Filters</span>
       <div class="spacer"></div>
       <button mat-icon-button (click)="sidenav.close()">
@@ -7,48 +7,53 @@
       </button>
     </h2>
     <div class="spacer"></div>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Date Range
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-      <mat-list>
-        <mat-list-item (click)="setDateRange('all', 'All')">All</mat-list-item>
-        <mat-list-item (click)="setDateRange('future', 'Upcoming')">Upcoming</mat-list-item>
-        <mat-list-item (click)="setDateRange('7days', 'Upcoming (7 days)')">Upcoming (7 days)</mat-list-item>
-        <mat-list-item (click)="setDateRange('30days', 'Upcoming (30 days)')">Upcoming (30 days)</mat-list-item>
-        <mat-list-item (click)="setDateRange('past', 'Past')">Past</mat-list-item>
-      </mat-list>
-    </mat-expansion-panel>
-    <mat-expansion-panel *ngFor="let facet of search.facets">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{facet.name}}
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-      <mat-list>
-        <mat-list-item *ngFor="let count of facet.counts" (click)="addFilter(facet.name, count.category)">
-          {{count.category}} <div class="spacer"> </div>{{count.hit_count}}
-        </mat-list-item>
-      </mat-list>
-    </mat-expansion-panel>
+    <mat-accordion>
+      <mat-expansion-panel #datePanel >
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            date
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-list (click)="datePanel.expanded = false">
+          <mat-list-item (click)="setDateRange('all', 'All')">All</mat-list-item>
+          <mat-list-item (click)="setDateRange('future', 'Upcoming')">Upcoming</mat-list-item>
+          <mat-list-item (click)="setDateRange('7days', 'Upcoming (7 days)')">Upcoming (7 days)</mat-list-item>
+          <mat-list-item (click)="setDateRange('30days', 'Upcoming (30 days)')">Upcoming (30 days)</mat-list-item>
+          <mat-list-item (click)="setDateRange('past', 'Past')">Past</mat-list-item>
+        </mat-list>
+      </mat-expansion-panel>
+      <mat-expansion-panel *ngFor="let facet of search.facets">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{facet.name}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-list>
+          <mat-list-item *ngFor="let count of facet.counts" (click)="addFilter(facet.name, count.category)">
+            {{count.category}}
+            <div class="spacer"></div>
+            {{count.hit_count}}
+          </mat-list-item>
+        </mat-list>
+      </mat-expansion-panel>
+    </mat-accordion>
   </mat-sidenav>
 
   <form class="search-box" [formGroup]="searchForm">
     <mat-input-container>
-      <input matInput #query type="search" formControlName="searchBox" placeholder="Search">
+      <input matInput #query type="search" formControlName="searchBox" placeholder="Search" value="{{search.query}}">
     </mat-input-container>
-    <button mat-fab (click)="updateQuery(query.value)">
+    <button mat-raised-button (click)="updateQuery(query.value)">
       <mat-icon>search</mat-icon>
-    </button>
-    <button mat-fab (click)="sidenav.open()">
-      <i class="material-icons">filter_list</i>
     </button>
   </form>
 
 
   <ul class="applied-filters">
+    <li *ngIf="!sidenav.opened">
+      <button mat-icon-button (click)="sidenav.open()"><i class="material-icons">add_circle_outline</i></button>
+      Add a filter
+    </li>
     <li *ngIf="search.query">
       <button mat-icon-button (click)="updateQuery()"><i class="material-icons">remove_circle_outline</i></button>
       Search: {{search.query}}
