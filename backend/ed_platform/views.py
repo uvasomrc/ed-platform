@@ -288,7 +288,9 @@ def create_workshop():
         new_workshop.code = None
     new_workshop.sessions = new_sessions
 
-    if(request_data["discourse_enabled"] and new_workshop.discourse_topic_id is None):
+    if("discourse_enabled" in request_data and
+           request_data["discourse_enabled"] and
+           new_workshop.discourse_topic_id is None):
         topic = discourse.createTopic(new_workshop)
         new_workshop.discourse_topic_id = topic.id
 
@@ -501,7 +503,7 @@ def unregister(id):
 def email_participants(id):
     instructor = g.user
     session = models.Session.query.filter_by(id=id).first()
-    if(instructor != session.workshop.instructor):
+    if(g.user.role != 'ADMIN' and instructor != session.workshop.instructor):
         raise RestException(RestException.NOT_INSTRUCTOR)
 
     request_data = request.get_json()

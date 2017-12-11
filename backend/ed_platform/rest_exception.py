@@ -8,6 +8,7 @@ class RestException(Exception):
     TOKEN_EXPIRED = {'code': 'token_expired', 'message': 'Your session timed out.  Please log in again.'}
     TOKEN_MISSING = {'code': 'token_missing', 'message': 'Your are not logged in.'}
     SESSION_FULL = {'code': 'session_full', 'message': 'This session is full.'}
+    SESSION_WAIT = {'code': 'session_wait', 'message': 'This session is not yet open for Registration.'}
     NO_SUCH_PARTICIPANT = {'code': 'no_such_participant', 'message': 'This participant does not exist.'}
     NO_SUCH_SESSION = {'code': 'no_such_session', 'message': 'This session does not exist.'}
     NO_SUCH_WORKSHOP = {'code': 'no_such_workshop', 'message': 'This workshop does not exist.'}

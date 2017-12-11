@@ -165,6 +165,8 @@ class Participant(db.Model):
 
     def register(self, session):
         if(self.is_registered(session)): return
+        if(not session.is_open()):
+           raise RestException(RestException.SESSION_WAIT)
         self.participant_sessions.append(ParticipantSession(
             participant_id = self.id, session_id=session.id
         ))
@@ -232,6 +234,7 @@ class Session(db.Model):
     location = db.Column(db.TEXT())
     instructor_notes = db.Column(db.TEXT())
     max_attendees = db.Column(db.Integer)
+    max_days_prior = db.Column(db.Integer) # Maximum number of days before the session starts that people can register.
     workshop_id = db.Column('workshop_id', db.Integer, db.ForeignKey('workshop.id'))
     participant_sessions = db.relationship('ParticipantSession', backref='session')
     email_messages = db.relationship('EmailMessage', backref='session')
@@ -242,8 +245,16 @@ class Session(db.Model):
     def waiting_participants(self):
         return len(list(filter(lambda ps: ps.wait_listed, self.participant_sessions)))
 
-    def open(self):
-        return(self.total_participants() < self.max_attendees)
+    def date_open(self):
+        if(self.max_days_prior == None or self.max_days_prior <= 0): return None;
+        else : return(self.date_time - datetime.timedelta(days = self.max_days_prior));
+
+    def is_full(self):
+        return(self.total_participants() >= self.max_attendees)
+
+    def is_open(self):
+        if(self.max_days_prior == None or self.max_days_prior <= 0): return True;
+        else : return(self.date_open() <= datetime.datetime.now());
 
     def is_past(self):
         if datetime.datetime.now() > self.date_time:
@@ -399,13 +410,15 @@ class SessionAPISchema(ma.Schema):
     class Meta:
         fields = ('id', 'date_time', 'duration_minutes', 'instructor_notes',
                   '_links', 'max_attendees', 'participant_sessions', 'location',
-                  'status', 'total_participants', 'waiting_participants')
+                  'status', 'total_participants', 'waiting_participants', 'max_days_prior', 'date_open')
         ordered = True
     participant_sessions = ma.List(ma.Nested(ParticipantSessionAPISchema))
     status = fields.Method('get_status')
 
     def get_status(self, obj):
         participant = g.user
+        if not obj.is_open():
+            return "NOT_YET_OPEN"
         if participant == None:
             return "UNREGISTERED"
         if (obj.workshop in participant.instructing_workshops):

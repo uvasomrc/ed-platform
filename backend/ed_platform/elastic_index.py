@@ -84,7 +84,8 @@ class ElasticIndex:
                 ew.date.append(s.date_time)
                 ew.location.append(s.location)
                 ew.location_search.append(s.location)
-                ew.open.append(s.open()),
+                ew.open.append(s.is_open()),
+                ew.full.append(s.is_full()),
                 ew.notes.append(s.instructor_notes)
                 for email in s.email_messages:
                     ew.messages.append(email.content)
@@ -149,6 +150,7 @@ class ElasticWorkshop(DocType):
     location = Keyword(multi=True)
     location_search = Text(multi=True)
     open = Keyword(multi=True)
+    full = Keyword(multi=True)
     notes = Text(multi=True)
     messages = Text(multi=True)
     instructor = Keyword(multi=True)
