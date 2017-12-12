@@ -111,15 +111,16 @@ class TestCase(unittest.TestCase):
         self.assert_success(rv)
         return rv
 
-    def add_test_workshop(self, discourse_enabled=False):
+    def add_test_workshop(self, discourse_enabled=False, instructor_id=None):
         self.add_code(self.test_code_1, "Some description.")
-        participant = self.add_test_participant()
+        if(instructor_id is None):
+            instructor_id = self.add_test_participant()['id']
         data = {'image_file': 'workshop_one.jpg',
                 'title': 'This is a test workshop ' + self.randomString(),
                 'description': 'This is the test description. ' + ' '.join([self.randomString()[:5]] * 2),
                 'code_id': self.test_code_1,
                 'sessions': [],
-                'instructor': {'id': participant['id']},
+                'instructor': {'id': instructor_id},
                 'discourse_enabled': discourse_enabled
                 }
         rv = self.app.post('/api/workshop', data=json.dumps(data), follow_redirects=True,
@@ -147,7 +148,7 @@ class TestCase(unittest.TestCase):
     def add_test_participant(self):
         data = {
             "display_name": "Peter Dinklage",
-            "uid": "pad123",
+            "uid": "pad123" + self.randomString(),
             "email_address": "tyrion@got.com",
             "phone_number": "+15554570024",
             "created": "2017-08-28T16:09:00.000Z",
@@ -379,6 +380,56 @@ class TestCase(unittest.TestCase):
         workshop = self.add_test_workshop()
         self.assertTrue(workshop["title"].startswith("This is a test workshop"))
 
+    def test_get_workshop(self):
+        workshop = self.add_test_workshop()
+        self.assertTrue(workshop["title"].startswith("This is a test workshop"))
+        self.assertTrue("status" in workshop)
+
+    def test_get_workshop_status_no_user(self):
+        workshop = self.add_test_workshop()
+        response = self.app.get('/api/workshop/%i' % workshop['id'])
+        workshop = json.loads(response.get_data(as_text=True))
+        self.assertEqual("NO_USER",workshop["status"])
+
+    def test_workshop_status_instructor(self):
+        headers = self.logged_in_headers()
+        participant = models.Participant.query.filter_by(uid=self.test_uid).first()
+        workshop = self.add_test_workshop(instructor_id=participant.id)
+        response = self.app.get('/api/workshop/%i' % workshop['id'],headers=headers)
+        workshop = json.loads(response.get_data(as_text=True))
+        self.assertEqual("INSTRUCTOR",workshop["status"])
+
+    def test_get_workshop_status_registered(self):
+        headers = self.logged_in_headers()
+        workshop = self.add_test_workshop()
+        session = self.add_test_session(workshop['id'])
+        rv = self.app.post("/api/session/%i/register" % session["id"], headers=headers)
+        response = self.app.get('/api/workshop/%i' % workshop['id'],headers=headers)
+        workshop = json.loads(response.get_data(as_text=True))
+        self.assertEqual("REGISTERED",workshop["status"])
+
+    def test_get_workshop_status_waitlisted(self):
+        headers = self.logged_in_headers()
+        workshop = self.add_test_workshop()
+        session = self.add_test_session(workshop['id'])
+        sessionModel = models.Session.query.filter_by(id=session['id']).first()
+        sessionModel.max_attendees = 0
+        rv = self.app.post("/api/session/%i/register" % session["id"], headers=headers)
+        response = self.app.get('/api/workshop/%i' % workshop['id'],headers=headers)
+        workshop = json.loads(response.get_data(as_text=True))
+        self.assertEqual("WAIT_LISTED",workshop["status"])
+
+    def test_get_workshop_status_attended(self):
+        headers = self.logged_in_headers()
+        workshop = self.add_test_workshop()
+        session = self.add_test_session(workshop['id'])
+        sessionModel = models.Session.query.filter_by(id=session['id']).first()
+        sessionModel.date_time = datetime.datetime.now() - datetime.timedelta(days=10)
+        rv = self.app.post("/api/session/%i/register" % session["id"], headers=headers)
+        response = self.app.get('/api/workshop/%i' % workshop['id'],headers=headers)
+        workshop = json.loads(response.get_data(as_text=True))
+        self.assertEqual("ATTENDED",workshop["status"])
+
     def test_remove_code_from_workshop(self):
         workshop = self.add_test_workshop()
         self.assertEquals(self.test_code_1, workshop["code_id"])
@@ -505,7 +556,6 @@ class TestCase(unittest.TestCase):
         rv = self.app.delete(participant["_links"]["self"], follow_redirects=True)
         self.assert_failure(rv, 'permission_denied')
 
-        participant = self.add_test_participant()
         rv = self.app.delete(participant["_links"]["self"], follow_redirects=True, headers=self.logged_in_headers())
         self.assert_failure(rv, 'permission_denied')
 
@@ -684,8 +734,8 @@ class TestCase(unittest.TestCase):
         self.assertTrue(data['display_name'] == 'Daniel')
 
     def test_get_workshops_for_current_user(self):
-        self.test_add_session()
         ws = self.add_test_workshop()
+        session = self.add_test_session(ws["id"])
         workshop2 = models.Workshop.query.filter_by(id=ws['id']).first()
         self.get_current_participant()
         participant = models.Participant.query.filter_by(uid=self.test_uid).first()
@@ -718,7 +768,8 @@ class TestCase(unittest.TestCase):
         self.assertIsNotNone(workshop.instructor)
 
     def test_email_participants_only_by_instructor(self):
-        self.test_add_session()
+        workshop = self.add_test_workshop()
+        session = self.add_test_session(workshop["id"])
         session = models.Session.query.first()
         rv = self.app.post("/api/session/%i/email" % session.id, follow_redirects=True,
                            content_type="application/json")

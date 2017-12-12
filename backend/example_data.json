@@ -942,11 +942,45 @@
       }
     },
     {
+      "name": "command_line_s_past",
+      "data": {
+        "workshop": "command_line_ws",
+        "date_time":"2017-04-07T19:00:00",
+        "duration_minutes":"180",
+        "max_days_prior":30,
+        "max_attendees":30,
+        "location":"Health Sciences Library Carter Classroom"
+      }
+    },
+    {
       "name": "command_line_s1",
       "data": {
         "workshop": "command_line_ws",
         "date_time":"2018-04-07T19:00:00",
         "duration_minutes":"180",
+        "max_days_prior":30,
+        "max_attendees":30,
+        "location":"Health Sciences Library Carter Classroom"
+      }
+    },
+    {
+      "name": "command_line_s2",
+      "data": {
+        "workshop": "command_line_ws",
+        "date_time":"2018-02-07T19:00:00",
+        "duration_minutes":"180",
+        "max_days_prior":30,
+        "max_attendees":30,
+        "location":"Health Sciences Library Carter Classroom"
+      }
+    },
+    {
+      "name": "command_line_s3",
+      "data": {
+        "workshop": "command_line_ws",
+        "date_time":"2018-03-07T19:00:00",
+        "duration_minutes":"180",
+        "max_days_prior":30,
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
       }

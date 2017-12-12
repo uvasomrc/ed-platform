@@ -111,7 +111,6 @@ class Workshop(db.Model):
         if(self.discourse_topic_id):
             return discourse.urlForTopic(self.discourse_topic_id)
 
-
 class Code(db.Model):
     __tablename__ = 'code'
     id = db.Column(db.String(), primary_key=True)
@@ -132,7 +131,7 @@ class Code(db.Model):
 class Participant(db.Model):
     __tablename__ = 'participant'
     id  = db.Column(db.Integer, primary_key=True)
-    uid = db.Column(db.String())
+    uid = db.Column(db.String(), unique=True)
     display_name = db.Column(db.String())
     title = db.Column(db.String())
     email_address = db.Column(db.String())
@@ -162,6 +161,24 @@ class Participant(db.Model):
 
     def is_registered(self, session):
         return len([r for r in self.participant_sessions if r.session_id == session.id]) > 0
+
+    def is_registered_for_workshop(self, workshop):
+        for session in workshop.sessions:
+            if(not(session.is_past()) and session.is_attendee(self)):
+                return True
+        return False
+
+    def is_waitlisted_for_workshop(self, workshop):
+        for session in workshop.sessions:
+            if(not(session.is_past()) and session.is_waitlisted(self)):
+                return True
+        return False
+
+    def has_attended_workshop(self, workshop):
+        for session in workshop.sessions:
+            if(session.is_past() and session.is_attendee(self)):
+                return True
+        return False
 
     def register(self, session):
         if(self.is_registered(session)): return
@@ -239,6 +256,10 @@ class Session(db.Model):
     participant_sessions = db.relationship('ParticipantSession', backref='session')
     email_messages = db.relationship('EmailMessage', backref='session')
 
+#    def contains_participant(self, participant):
+#        for(ps in self.participant_sessions):
+
+
     def total_participants(self):
         return len(list(filter(lambda ps: not(ps.wait_listed), self.participant_sessions)))
 
@@ -261,6 +282,18 @@ class Session(db.Model):
             return True
         else:
             return False
+
+    def is_attendee(self, participant):
+        for ps in self.participant_sessions:
+            if(ps.participant == participant and ps.wait_listed == False):
+                return True
+        return False
+
+    def is_waitlisted(self, participant):
+        for ps in self.participant_sessions:
+            if(ps.participant == participant and ps.wait_listed == True):
+                return True
+        return False
 
     def code(self):
         return self.workshop.code
@@ -420,7 +453,7 @@ class SessionAPISchema(ma.Schema):
         if not obj.is_open():
             return "NOT_YET_OPEN"
         if participant == None:
-            return "UNREGISTERED"
+            return "NO_USER"
         if (obj.workshop in participant.instructing_workshops):
             return "INSTRUCTOR"
         for ps in participant.participant_sessions:
@@ -433,7 +466,10 @@ class SessionAPISchema(ma.Schema):
                     return "AWAITING_REVIEW"
                 else:
                     return "REGISTERED"
-        return "UNREGISTERED"
+        if obj.is_full():
+            return "FULL"
+        else:
+            return "UNREGISTERED"
 
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_session', id='<id>'),
@@ -448,10 +484,11 @@ class SessionAPISchema(ma.Schema):
 class WorkshopAPISchema(ma.Schema):
     class Meta:
         fields = ('id', 'title', 'description', '_links', 'sessions','code_id', 'instructor',
-                  'discourse_enabled', 'discourse_url', 'discourse_topic_id')
+                  'discourse_enabled', 'discourse_url', 'discourse_topic_id', 'status')
         ordered = True
     instructor = ma.Nested(ParticipantAPISchema)
     sessions = ma.List(ma.Nested(SessionAPISchema))
+    status = fields.Method('get_status')
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_workshop', id='<id>'),
         'collection': ma.URLFor('get_workshops'),
@@ -460,6 +497,19 @@ class WorkshopAPISchema(ma.Schema):
         'tracks': ma.URLFor('get_workshop_tracks', id='<id>'),
         'sessions': ma.URLFor('get_workshop_sessions', id='<id>')
     })
+
+    def get_status(self, obj):
+        participant = g.user
+        if participant is None or participant.role == "ANON":
+            return "NO_USER"
+        if (obj.instructor.uid == participant.uid):
+            return "INSTRUCTOR"
+        if (participant.has_attended_workshop(obj)):
+            return "ATTENDED"
+        if (participant.is_registered_for_workshop(obj)):
+            return "REGISTERED"
+        if (participant.is_waitlisted_for_workshop(obj)):
+            return "WAIT_LISTED"
 
 
 class CodeApiSchema(ma.Schema):
