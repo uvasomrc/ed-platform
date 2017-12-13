@@ -33,7 +33,7 @@ export class SearchComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.search = new Search();
       this.search.query = params['query'];
-      this.setDateRange('future', 'Upcoming');
+      //this.setDateRange('future', 'Upcoming');
     });
     renderer.listen(window, 'resize', (event) => {
       this.checkWindowWidth();
