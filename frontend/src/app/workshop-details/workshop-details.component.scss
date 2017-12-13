@@ -6,7 +6,6 @@
 @include uva-theme($uva-theme);
 
 .instructor-big {
-  float: left;
   width: 50px;
   height: 50px;
   border-radius: 381px;
@@ -23,3 +22,40 @@ div.notification {
   max-width: 300px;
 }
 
+app-session {
+  padding-bottom: 10px;
+}
+
+.course-nav-scroll {
+  display: block;
+}
+
+.course-nav-list {
+  display: none;
+}
+
+
+@media screen and (min-width: 480px) {
+
+  .instructor-big {
+    width: 100px;
+    height: 100px;
+    border: none;
+    padding: 4px;
+    margin-right: 10px;
+  }
+
+  .course-nav-list {
+    display: block;
+  }
+
+  .course-nav-scroll {
+    display: none;
+  }
+
+  .course-nav-list {
+    display: block;
+  }
+
+
+}

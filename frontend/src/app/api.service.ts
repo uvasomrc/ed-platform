@@ -165,7 +165,8 @@ export class ApiService {
     return this.http.get(code.links.self, this.getOptions())
       .map(res => {
           return(new Code(res.json()));
-      });
+      })
+      .catch(this.handleError);
   }
 
   addCode(code: Code): Observable<Code> {
@@ -181,7 +182,8 @@ export class ApiService {
     return this.http.get(this.code_url + '/' + code, this.getOptions())
       .map(res => {
         return(new Code(res.json()));
-      });
+      })
+      .catch(this.handleError);
   }
 
   getAllCodes(): Observable<Code[]> {

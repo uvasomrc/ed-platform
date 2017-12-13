@@ -28,15 +28,15 @@ export class AccountDetailsComponent implements OnInit {
   }
 
   upcomingWorkshops() {
-    return this.workshops.filter(ws => ws.registered());
+    return this.workshops.filter(ws => ws.status === 'REGISTERED');
   }
 
   pastWorkshops() {
-    return this.workshops.filter(ws => ws.attended());
+    return this.workshops.filter(ws => ws.status === 'ATTENDED');
   }
 
   instructingWorkshops() {
-    return this.workshops.filter(ws => ws.instructing());
+    return this.workshops.filter(ws => ws.status === 'INSTRUCTOR');
   }
 
 

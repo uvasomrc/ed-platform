@@ -2,6 +2,7 @@
 
   <section class="header"
            fxLayout="row"
+           fxLayout.xs="column"
            fxLayoutAlign="start center"
            fxLayoutGap="10px"
            fxLayoutGap.xs="0">
@@ -11,101 +12,94 @@
     <div>
       <h2 class="mat-title">{{workshop.title}}</h2>
       <span class="sub-title">with {{workshop.instructor.display_name}}</span>
+      <p>{{workshop.description}}</p>
     </div>
-  </section>
-
-  <section class="header flex">
-    <p>{{workshop.description}}</p>
     <div class="spacer"></div>
     <button mat-fab (click)="goEdit()" aria-label="Edit Track" *ngIf="account && account.isAdmin()">
       <mat-icon>edit</mat-icon>
     </button>
-  </section>
-
-  <section class="header flex">
-    <div *ngIf="workshop.hasUpcomingSession()">
-      {{workshop.nextSession().date_time | date: 'EEE. MMMM d, y, h:mm-'}}{{workshop.nextSession().endTime() | date: 'h:mma'}}
-      <br/>
-      <span class="sub-title">Location: {{workshop.nextSession().location}}</span>
-      <br/>
-      <span class="sub-title">Attendees: {{workshop.nextSession().total_participants}} of {{workshop.nextSession().max_attendees}}, with {{workshop.nextSession().waiting_participants}} waiting.</span>
+    <div>
+      <button *ngIf="workshop.status === 'NO_USER'" mat-raised-button (click)="goLogin()">Log in to Register</button>
     </div>
-    <span class="spacer"></span>
-    <button *ngIf="registerState() === 'instructing'" mat-raised-button (click)="goTeacher()">Teacher Dashboard</button>
-    <div class="notification" *ngIf="registerState() === 'wait_listed'">You are on the waiting list.  We will notify you when a slot opens or a new session is scheduled.</div>
-    <button *ngIf="registerState() === 'awaiting'" mat-raised-button color="accent" (click)="goLogin()">Record Attendance</button>
-    <button *ngIf="registerState() === 'registered'" mat-raised-button color="accent" (click)="unRegister()">Cancel Registration</button>
-    <button *ngIf="registerState() === 'available'" mat-raised-button (click)="register()">Register</button>
-    <button *ngIf="registerState() === 'login'" mat-raised-button (click)="goLogin()">Log In To Register</button>
-    <button *ngIf="registerState() === 'full'" mat-raised-button  color="accent"  (click)="register()">Join Wait List</button>
-
   </section>
 
-  <mat-tab-group class="tall-labels">
 
-    <mat-tab *ngIf="workshop.discourse_enabled">
-      <ng-template mat-tab-label>
-        <div>
-          <h1>{{post.posts.length}}</h1>
-          <div class="sub-title">Posts in Discussion</div>
+  <div class="course-nav-scroll">
+    <mat-tab-group class="tall-labels">
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div>
+            <h1>{{displaySessions().length}}</h1>
+            <div class="sub-title">Sessions Available</div>
+          </div>
+        </ng-template>
+        <app-session-list [sessions]="displaySessions()"></app-session-list>
+        <section *ngIf="displaySessions().length === 0">
+          <p>No session of this workshop are currently available.</p>
+          <a href="">Sign up to be notified when they are added to the system</a>
+        </section>
+      </mat-tab>
+
+      <mat-tab *ngIf="workshop.discourse_enabled">
+        <ng-template mat-tab-label>
+          <div>
+            <h1>{{post.posts.length}}</h1>
+            <div class="sub-title">Posts in Discussion</div>
+          </div>
+        </ng-template>
+        <p>You can participate in this discussion on <a target="discourse"
+                                                        href="{{workshop.discourse_url}}">Discourse</a>.</p>
+        <div
+          class="container"
+          fxLayout="column"
+          fxLayoutWrap
+          fxLayout.xs="column"
+          fxLayoutAlign="center"
+          fxLayoutGap="10px"
+          fxLayoutGap.xs="0">
+          <app-post *ngFor="let p of post.posts" [post]="p"></app-post>
         </div>
-      </ng-template>
-      <p>You can participate in this discussion on <a target="discourse" href="{{workshop.discourse_url}}">Discourse</a>.</p>
+      </mat-tab>
 
-      <div
-        class="container"
-        fxLayout="column"
-        fxLayoutWrap
-        fxLayout.xs="column"
-        fxLayoutAlign="center"
-        fxLayoutGap="10px"
-        fxLayoutGap.xs="0">
-        <app-post *ngFor="let p of post.posts" [post]="p">
-
-        </app-post>
-      </div>
-    </mat-tab>
-
-    <mat-tab>
-      <ng-template mat-tab-label>
+      <mat-tab>
+        <ng-template mat-tab-label>
           <div>
             <h1>{{tracks.length}}</h1>
             <div class="sub-title">Tracks contain this workshop</div>
           </div>
-      </ng-template>
-      <div
-        class="container"
-        fxLayout="row"
-        fxLayoutWrap
-        fxLayout.xs="column"
-        fxLayoutAlign="center"
-        fxLayoutGap="10px"
-        fxLayoutGap.xs="0">
-        <app-track *ngFor="let track of tracks" [track]="track"></app-track>
-      </div>
-    </mat-tab>
-    <mat-tab *ngIf="similarWorkshops().length > 0">
-      <ng-template mat-tab-label>
-        <div>
-          <h1>{{similarWorkshops().length}}</h1>
-          <div class="sub-title">Similar Workshops offered</div>
-        </div>
-      </ng-template>
-      <div
-        class="container"
-        fxLayout="row"
-        fxLayoutWrap
-        fxLayout.xs="column"
-        fxLayoutAlign="center"
-        fxLayoutGap="10px"
-        fxLayoutGap.xs="0">
-        <app-workshop *ngFor="let workshop of similarWorkshops()" [workshop]="workshop"></app-workshop>
-      </div>
-    </mat-tab>
-  </mat-tab-group>
+        </ng-template>
+        <app-track-list [tracks]="tracks"></app-track-list>
+      </mat-tab>
+      <mat-tab *ngIf="similarWorkshops().length > 0">
+        <ng-template mat-tab-label>
+          <div>
+            <h1>{{similarWorkshops().length}}</h1>
+            <div class="sub-title">Similar Workshops offered</div>
+          </div>
+        </ng-template>
+        <app-workshop-list [workshops]="similarWorkshops()"></app-workshop-list>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 
 
+  <div class="course-nav-list">
+    <h2>Sessions</h2>
+    <app-session-list [sessions]="displaySessions()"></app-session-list>
+    <section *ngIf="displaySessions().length === 0">
+      <p>No session of this workshop are currently available.</p>
+      <a href="">Sign up to be notified when they are added to the system</a>
+    </section>
 
+    <h2>Tracks containing this workshop</h2>
+    <app-track-list [tracks]="tracks"></app-track-list>
 
+    <h2>Similar Workshops</h2>
+    <app-workshop-list [workshops]="similarWorkshops()"></app-workshop-list>
+
+  </div>
 
 </div>
+
+

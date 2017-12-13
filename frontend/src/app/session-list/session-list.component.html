@@ -1,0 +1,10 @@
+<div
+  class="container"
+  fxLayout="row"
+  fxLayoutWrap
+  fxLayout.xs="column"
+  fxLayoutAlign="center"
+  fxLayoutGap="10px"
+  fxLayoutGap.xs="0">
+  <app-session *ngFor="let session of sessions" [session]="session"></app-session>
+</div>

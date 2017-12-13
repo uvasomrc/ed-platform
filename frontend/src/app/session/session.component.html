@@ -1,16 +1,35 @@
 <mat-card class="session">
-  <mat-card-header>
-    <mat-card-subtitle>
-      {{dateAsString()}}{{session.endTime() | date: 'h:mma'}}
-      <br/>
-      Location: {{session.location}}
+  <div
+    fxLayout="row"
+    fxLayoutWrap
+    fxLayoutAlign="center"
+    fxLayoutGap="10px"
+    fxLayoutGap.xs="0">
+
+    <mat-card-header>
+      <mat-card-title class='mat-title'>{{session.date_time | date: 'MMMM d, y'}}
+        <div class="time">{{session.date_time | date: 'h:mma'}} to {{session.endTime() | date: 'h:mma'}}</div>
+      </mat-card-title>
+    </mat-card-header>
+    <div class="spacer"></div>
+    <div class="action" [ngSwitch]="session.status">
+      <button *ngSwitchCase="'FULL'" mat-raised-button (click)="register()">Join Wait List</button>
+      <button *ngSwitchCase="'INSTRUCTOR'" mat-raised-button (click)="goTeacher()">Teacher Dashboard</button>
+      <button *ngSwitchCase="'UNREGISTERED'" mat-raised-button (click)="register()">Register</button>
+      <button *ngSwitchCase="'REGISTERED'" mat-raised-button color="accent" (click)="unRegister()">Cancel Registration
+      </button>
+      <button *ngSwitchCase="'WAIT_LISTED'" mat-raised-button color="accent" (click)="unRegister()">Cancel Waitlist
+      </button>
+      <button *ngSwitchCase="'NOT_YET_OPEN'" mat-raised-button disabled>Register</button>
+    </div>
+  </div>
+  <div class="details">
+    <mat-card-subtitle>{{session.location}}</mat-card-subtitle>
+    <mat-card-subtitle *ngIf="session.status!=='NOT_YET_OPEN'">{{session.total_participants}} out of
+      {{session.max_attendees}} spaces filled.
     </mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    Attendees: {{session.total_participants}} of {{session.max_attendees}}, with {{session.waiting_participants}}
-    wait-listed.
-    <p>{{session.instructor_notes}}</p>
-  </mat-card-content>
+    <mat-card-subtitle *ngIf="session.status==='NOT_YET_OPEN'">Registration opens {{session.date_open | date: 'MMM d, y'}}
+    </mat-card-subtitle>
+  </div>
+
 </mat-card>
-
-

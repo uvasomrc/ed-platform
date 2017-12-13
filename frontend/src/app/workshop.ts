@@ -15,6 +15,7 @@ export class Workshop  {
   discourse_enabled = false;
   discourse_url = '';
   discourse_topic_id: Number;
+  status = '';
 
   constructor(values: Object = {}) {
     Object.assign(this, values);
@@ -37,12 +38,6 @@ export class Workshop  {
     }
     return reviews;
   }
-
-  instructing() { return this.sessions.filter(s => s.instructing()).length > 0; }
-  attended() { return this.sessions.filter(s => s.attended()).length > 0; }
-  awaiting_review() { return this.sessions.filter(s => s.awaiting_review()).length > 0; }
-  registered() { return this.sessions.filter(s => s.registered()).length > 0; }
-  wait_listed() { return this.sessions.filter(s => s.wait_listed()).length > 0; }
 
   hasUpcomingSession(): boolean {
     for (const s of this.sessions) {

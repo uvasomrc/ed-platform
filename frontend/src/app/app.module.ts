@@ -46,6 +46,7 @@ import { ParticipantFormComponent } from './participant-form/participant-form.co
 import {DatePipe} from "@angular/common";
 import { PostComponent } from './post/post.component';
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import { SessionListComponent } from './session-list/session-list.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -91,7 +92,8 @@ const routes: Routes = [
     ParticipantSearchComponent,
     SessionFormComponent,
     ParticipantFormComponent,
-    PostComponent
+    PostComponent,
+    SessionListComponent
   ],
   imports: [
     BrowserModule,

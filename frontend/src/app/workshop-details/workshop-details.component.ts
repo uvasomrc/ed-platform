@@ -7,6 +7,7 @@ import {Track} from "../track";
 import {Code} from "../code";
 import {Participant} from "../participant";
 import {Post} from "../post";
+import {Session} from "../session";
 
 @Component({
   selector: 'app-workshop-details',
@@ -79,28 +80,8 @@ export class WorkshopDetailsComponent implements OnInit {
     return this.code.workshops.filter(w => w.id !== this.workshop.id);
   }
 
-  registerState(): String {
-    if (!this.isLoggedIn()) {
-      return 'login';
-    } else if (this.workshop.instructing()) {
-      return 'instructing';
-    } else if (this.workshop.awaiting_review()) {
-      return 'awaiting';
-    } else if (this.workshop.registered()) {
-      return 'registered';
-    } else if (this.workshop.wait_listed()) {
-      return 'wait_listed';
-    } else if (this.workshop.hasUpcomingSession()) {
-      if (this.workshop.sessions.length > 0 && this.workshop.nextSession().isFull()) {
-        return 'full';
-      } else if (this.workshop.nextSession().isAvailable()) {
-        return 'available';
-      }
-    }
-  }
-
-  isLoggedIn() {
-    return this.accountService.isLoggedIn();
+  displaySessions(): Session[] {
+    return this.workshop.sessions.filter(s => !s.isPast());
   }
 
   goLogin() {
@@ -116,21 +97,7 @@ export class WorkshopDetailsComponent implements OnInit {
     this.router.navigate(['workshop-form', this.workshop.id]);
   }
 
-  register() {
-    const session = this.workshop.nextSession();
-    this.accountService.register(session).subscribe(
-      (newSession) => {
-        this.workshop.replaceSession(newSession);
-      });
-  }
 
-  unRegister() {
-    const session = this.workshop.nextSession();
-    this.accountService.unRegister(session).subscribe(
-      (newSession) => {
-        this.workshop.replaceSession(newSession);
-      });
-  }
 
 
 }

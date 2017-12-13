@@ -11,6 +11,8 @@ export class Session {
   instructor_notes: string;
   location: string;
   max_attendees: number;
+  max_days_prior: number;
+  date_open: Date;
   status: string;
   total_participants = 0;
   waiting_participants = 0;
@@ -45,13 +47,6 @@ export class Session {
   isFull() {
     return this.max_attendees <= this.total_participants;
   }
-
-  unregistered() { return this.status === 'UNREGISTERED'; }
-  instructing() { return this.status === 'INSTRUCTOR'; }
-  attended() { return this.status === 'ATTENDED'; }
-  awaiting_review() { return this.status === 'AWAITING_REVIEW'; }
-  registered() { return this.status === 'REGISTERED'; }
-  wait_listed() {return this.status === 'WAIT_LISTED'; }
 
   isPast(): boolean {
     return (this.date_time.valueOf() < new Date().valueOf());

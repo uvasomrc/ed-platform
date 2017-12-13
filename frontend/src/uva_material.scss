@@ -111,7 +111,7 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
   }
 
   h2 {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
   }
 
@@ -150,7 +150,7 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
   }
 
   .mat-card-header .mat-card-title {
-    font-size: 1.4em;
+    font-size: 18px;
     font-weight: 500;
   }
 
@@ -159,7 +159,7 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
     width: 80px;
   }
 
-  app-workshop, app-track {
+  app-workshop, app-track, app-session {
     flex: 1 1 0;
     margin: 10px;
     padding: 0px;
@@ -194,7 +194,7 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
   }
 
   section.header {
-    background-color: white;
+//    background-color: white;
   }
 
   .mat-raised-button {
