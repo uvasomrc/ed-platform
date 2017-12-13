@@ -93,6 +93,11 @@ class Track(db.Model):
         return '<id {}>'.format(self.id)
 
 
+followers_table = db.Table('workshop_followers', db.metadata,
+    db.Column('workshop_id', db.Integer, db.ForeignKey('workshop.id')),
+    db.Column('participant_id', db.Integer, db.ForeignKey('participant.id'))
+)
+
 class Workshop(db.Model):
     __tablename__ = 'workshop'
 
@@ -105,6 +110,7 @@ class Workshop(db.Model):
     code_id = db.Column('code_id', db.String(), db.ForeignKey('code.id'))
     discourse_enabled = db.Column(db.Boolean(), default=False)
     discourse_topic_id = db.Column(db.Integer, nullable=True)
+    followers = db.relationship("Participant", secondary=followers_table, back_populates="following")
     #code:  Backref created a code on Workshop
 
     def discourse_url(self):
@@ -151,6 +157,8 @@ class Participant(db.Model):
     use_gravatar = db.Column(db.Boolean(), default=True)
     role = db.Column(db.String(), default='USER')
     instructing_workshops = db.relationship('Workshop', backref=db.backref('instructor', lazy=True))
+    following = db.relationship("Workshop", secondary=followers_table, back_populates="followers")
+
 
     def cache_bust(self):
         '''Used the bust the cache of user images.'''
@@ -173,12 +181,6 @@ class Participant(db.Model):
                 return True
         return False
 
-    def is_waitlisted_for_workshop(self, workshop):
-        for session in workshop.sessions:
-            if(not(session.is_past()) and session.is_waitlisted(self)):
-                return True
-        return False
-
     def has_attended_workshop(self, workshop):
         for session in workshop.sessions:
             if(session.is_past() and session.is_attendee(self)):
@@ -193,11 +195,6 @@ class Participant(db.Model):
             participant_id = self.id, session_id=session.id
         ))
 
-    def wait_list(self, session):
-        if(self.is_registered(session)): return
-        self.participant_sessions.append(ParticipantSession(
-            participant_id = self.id, session_id=session.id, wait_listed=True
-        ))
 
     def getWorkshops(self):
         workshops = []
@@ -266,10 +263,7 @@ class Session(db.Model):
 
 
     def total_participants(self):
-        return len(list(filter(lambda ps: not(ps.wait_listed), self.participant_sessions)))
-
-    def waiting_participants(self):
-        return len(list(filter(lambda ps: ps.wait_listed, self.participant_sessions)))
+        return len(self.participant_sessions)
 
     def date_open(self):
         if(self.max_days_prior == None or self.max_days_prior <= 0): return None;
@@ -290,15 +284,10 @@ class Session(db.Model):
 
     def is_attendee(self, participant):
         for ps in self.participant_sessions:
-            if(ps.participant == participant and ps.wait_listed == False):
+            if(ps.participant == participant):
                 return True
         return False
 
-    def is_waitlisted(self, participant):
-        for ps in self.participant_sessions:
-            if(ps.participant == participant and ps.wait_listed == True):
-                return True
-        return False
 
     def code(self):
         return self.workshop.code
@@ -311,7 +300,6 @@ class ParticipantSession(db.Model):
     review_score = db.Column(db.Integer)
     review_comment = db.Column(db.TEXT())
     attended = db.Column(db.Boolean, default=False)
-    wait_listed = db.Column(db.Boolean, default=False)
 
 class EmailMessage(db.Model):
     __tablename__ = 'email_message'
@@ -435,7 +423,7 @@ class ParticipantAPISchema(ma.Schema):
 
 class ParticipantSessionAPISchema(ma.Schema):
     class Meta:
-        fields = ('participant', 'created', 'review_score', 'review_comment', 'attended', 'wait_listed')
+        fields = ('participant', 'created', 'review_score', 'review_comment', 'attended')
         ordered = True
     participant = ma.Nested(ParticipantAPISchema)
     _links = ma.Hyperlinks({
@@ -448,7 +436,7 @@ class SessionAPISchema(ma.Schema):
     class Meta:
         fields = ('id', 'date_time', 'duration_minutes', 'instructor_notes',
                   '_links', 'max_attendees', 'participant_sessions', 'location',
-                  'status', 'total_participants', 'waiting_participants', 'max_days_prior', 'date_open')
+                  'status', 'total_participants', 'max_days_prior', 'date_open')
         ordered = True
     participant_sessions = ma.List(ma.Nested(ParticipantSessionAPISchema))
     status = fields.Method('get_status')
@@ -462,8 +450,6 @@ class SessionAPISchema(ma.Schema):
             return "INSTRUCTOR"
         for ps in participant.participant_sessions:
             if ps.session.id == obj.id:
-                if (ps.wait_listed):
-                    return "WAIT_LISTED"
                 if (ps.attended):
                     return "ATTENDED"
                 elif ps.session.is_past():
@@ -490,10 +476,11 @@ class SessionAPISchema(ma.Schema):
 class WorkshopAPISchema(ma.Schema):
     class Meta:
         fields = ('id', 'title', 'description', '_links', 'sessions','code_id', 'instructor',
-                  'discourse_enabled', 'discourse_url', 'discourse_topic_id', 'status')
+                  'discourse_enabled', 'discourse_url', 'discourse_topic_id', 'status', 'followers')
         ordered = True
     instructor = ma.Nested(ParticipantAPISchema)
     sessions = ma.List(ma.Nested(SessionAPISchema))
+    followers = ma.List(ma.Nested(ParticipantAPISchema))
     status = fields.Method('get_status')
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_workshop', id='<id>'),
@@ -510,12 +497,12 @@ class WorkshopAPISchema(ma.Schema):
             return "NO_USER"
         elif (obj.instructor.uid == participant.uid):
             return "INSTRUCTOR"
+        elif (obj in participant.following):
+            return "FOLLOWING"
         elif (participant.has_attended_workshop(obj)):
             return "ATTENDED"
         elif (participant.is_registered_for_workshop(obj)):
             return "REGISTERED"
-        elif (participant.is_waitlisted_for_workshop(obj)):
-            return "WAIT_LISTED"
         elif (obj.has_available_session):
             return "UNREGISTERED"
         else:

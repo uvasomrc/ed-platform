@@ -107,6 +107,12 @@ def logout():
 def user_workshops():
     return models.WorkshopAPISchema().jsonify(g.user.getWorkshops(),many=True)
 
+@app.route('/api/user/following', methods=['GET'])
+@auth.login_required
+@requires_roles('USER','ADMIN')
+def following():
+    return models.WorkshopAPISchema().jsonify(g.user.following,many=True)
+
 # Codes
 # *****************************
 @app.route('/api/code', methods=['POST'])
@@ -400,6 +406,25 @@ def get_workshop_image(id):
     workshop = models.Workshop.query.filter_by(id=id).first()
     return send_file("static/" + workshop.image_file, mimetype='image/png')
 
+@app.route('/api/workshop/<int:id>/follow', methods=['POST'])
+@auth.login_required
+@requires_roles('USER','ADMIN')
+def follow_workshop(id):
+    participant = g.user
+    workshop = models.Workshop.query.filter_by(id=id).first()
+    workshop.followers.append(participant)
+    return workshop_schema.jsonify(workshop)
+
+@app.route('/api/workshop/<int:id>/follow', methods=['DELETE'])
+@auth.login_required
+@requires_roles('USER','ADMIN')
+def unfollow_workshop(id):
+    participant = g.user
+    workshop = models.Workshop.query.filter_by(id=id).first()
+    workshop.followers.remove(participant)
+    return workshop_schema.jsonify(workshop)
+
+
 # Sessions
 # *****************************
 
@@ -451,14 +476,15 @@ def view_registration(id):
 def register(id):
     participant = g.user
     session = models.Session.query.filter_by(id=id).first()
-    wait_listed = False
     if(session is None):
         raise RestException(RestException.NO_SUCH_SESSION, 404)
     if(session.max_attendees <= len(session.participant_sessions)):
-        wait_listed = True
-        participant.wait_list(session)
+        raise RestException(RestException.SESSION_FULL, 404)
     else:
         participant.register(session)
+
+    if(participant in session.workshop.followers):
+        session.workshop.followers.remove(participant) # Don't follow a workshop you are now registered for.
     db.session.merge(participant)
     db.session.commit()
     return models.SessionAPISchema().jsonify(session)

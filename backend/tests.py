@@ -408,17 +408,6 @@ class TestCase(unittest.TestCase):
         workshop = json.loads(response.get_data(as_text=True))
         self.assertEqual("REGISTERED",workshop["status"])
 
-    def test_get_workshop_status_waitlisted(self):
-        headers = self.logged_in_headers()
-        workshop = self.add_test_workshop()
-        session = self.add_test_session(workshop['id'])
-        sessionModel = models.Session.query.filter_by(id=session['id']).first()
-        sessionModel.max_attendees = 0
-        rv = self.app.post("/api/session/%i/register" % session["id"], headers=headers)
-        response = self.app.get('/api/workshop/%i' % workshop['id'],headers=headers)
-        workshop = json.loads(response.get_data(as_text=True))
-        self.assertEqual("WAIT_LISTED",workshop["status"])
-
     def test_get_workshop_status_attended(self):
         headers = self.logged_in_headers()
         workshop = self.add_test_workshop()
@@ -612,21 +601,13 @@ class TestCase(unittest.TestCase):
         db.session.commit()
 
         rv = self.app.post("/api/session/%i/register" % session["id"], headers=self.logged_in_headers())
-        self.assert_success(rv)
+        self.assert_failure(rv, "session_full")
+        rv = self.app.get("/api/session/%i" % session["id"], headers=self.logged_in_headers())
         sessionJson = json.loads(rv.get_data(as_text=True))
         self.assertEquals(2, sessionJson['total_participants'])
-        self.assertEquals(1, sessionJson['waiting_participants'])
-        self.assertEquals('WAIT_LISTED', sessionJson['status'])
 
         sessionModel = models.Session.query.filter_by(id=session['id']).first()
-        self.assertEquals(3, len(sessionModel.participant_sessions))
         self.assertTrue(sessionModel.is_full())
-        participantSession = None
-        for ps in sessionModel.participant_sessions:
-            if ps.participant.uid == self.test_uid:
-                participantSession = ps
-        self.assertIsNotNone(participantSession)
-        self.assertTrue(participantSession.wait_listed)
 
     def test_wait_period(self):
         '''If there is a fixed window of time before the session that you can register,
@@ -644,10 +625,13 @@ class TestCase(unittest.TestCase):
         rv = self.app.post("/api/session/%i/register" % session["id"], headers=self.logged_in_headers())
         self.assert_success(rv)
 
+        rv = self.app.delete("/api/session/%i/register" % session["id"], headers=self.logged_in_headers())
+        self.assert_success(rv)
+
         sessionModel.max_days_prior = 5 # test sessions date is 10 days from now.
 
         url = '/api/session/%i' % session["id"]
-        rv = self.app.get(url, follow_redirects=True)
+        rv = self.app.get(url, follow_redirects=True, headers=self.logged_in_headers())
         self.assert_success(rv)
         session = json.loads(rv.get_data(as_text=True))
 
@@ -1019,6 +1003,55 @@ class TestCase(unittest.TestCase):
         self.assertGreaterEqual(len(data['posts']), 1)
         post = data['posts'][0]
         self.assertEqual("<p>" + post_data["raw"] + "</p>", post['cooked'])
+
+
+    def test_follow_workshop(self):
+        ws = self.add_test_workshop()
+        workshop = models.Workshop.query.filter_by(id=ws["id"]).first()
+        self.assertEqual(0, len(workshop.followers))
+        rv = self.app.post('/api/workshop/%s/follow' % ws["id"], headers = self.logged_in_headers())
+        self.assert_success(rv)
+        rv = self.app.post('/api/workshop/%s/follow' % ws["id"], headers = self.logged_in_headers_admin())
+        self.assert_success(rv)
+        self.assertEqual(2, len(workshop.followers))
+
+        rv = self.app.get('/api/workshop/%s' % ws["id"], headers = self.logged_in_headers())
+        ws = json.loads(rv.get_data(as_text=True))
+        self.assertEquals("FOLLOWING", ws["status"])
+
+        rv = self.app.get('/api/user/following', headers = self.logged_in_headers_admin())
+        self.assert_success(rv)
+        following = json.loads(rv.get_data(as_text=True))
+        self.assertEqual(1, len(following))
+        self.assertEqual(ws["id"], following[0]["id"])
+
+    def test_unfollow(self):
+        ws = self.add_test_workshop()
+        workshop = models.Workshop.query.filter_by(id=ws["id"]).first()
+        self.assertEqual(0, len(workshop.followers))
+        rv = self.app.post('/api/workshop/%s/follow' % ws["id"], headers = self.logged_in_headers())
+        self.assertEqual(1, len(workshop.followers))
+        rv = self.app.delete('/api/workshop/%s/follow' % ws["id"], headers = self.logged_in_headers())
+        self.assert_success(rv)
+        self.assertEqual(0, len(workshop.followers))
+
+
+    def test_register_unfollows(self):
+        ws = self.add_test_workshop()
+        session = self.add_test_session(ws["id"])
+        rv = self.app.post('/api/workshop/%s/follow' % ws["id"], headers = self.logged_in_headers())
+        self.assert_success(rv)
+        rv = self.app.get('/api/workshop/%s' % ws["id"])
+        self.assert_success(rv)
+        ws = json.loads(rv.get_data(as_text=True))
+        self.assertEqual(1, len(ws["followers"]))
+        rv = self.app.post('/api/session/%s/register' % session["id"], headers = self.logged_in_headers())
+        self.assert_success(rv)
+        rv = self.app.get('/api/workshop/%s' % ws["id"])
+        ws = json.loads(rv.get_data(as_text=True))
+        self.assertEqual(0, len(ws["followers"]))
+
+
 
 
 if __name__ == '__main__':
