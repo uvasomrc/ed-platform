@@ -100,7 +100,7 @@ class Workshop(db.Model):
     image_file = db.Column(db.String())
     title = db.Column(db.TEXT())
     description = db.Column(db.TEXT())
-    sessions = db.relationship("Session", backref="workshop")
+    sessions = db.relationship("Session", backref="workshop", order_by="Session.date_time")
     instructor_id = db.Column('instructor_id', db.Integer, db.ForeignKey('participant.id'))
     code_id = db.Column('code_id', db.String(), db.ForeignKey('code.id'))
     discourse_enabled = db.Column(db.Boolean(), default=False)
@@ -110,6 +110,11 @@ class Workshop(db.Model):
     def discourse_url(self):
         if(self.discourse_topic_id):
             return discourse.urlForTopic(self.discourse_topic_id)
+
+    def has_available_session(self):
+        for s in self.sessions:
+            if(s.is_open() and not s.is_full() and not s.is_past()): return True;
+        return False
 
 class Code(db.Model):
     __tablename__ = 'code'
@@ -448,11 +453,10 @@ class SessionAPISchema(ma.Schema):
     participant_sessions = ma.List(ma.Nested(ParticipantSessionAPISchema))
     status = fields.Method('get_status')
 
+
     def get_status(self, obj):
         participant = g.user
-        if not obj.is_open():
-            return "NOT_YET_OPEN"
-        if participant == None:
+        if participant is None or participant.role == "ANON":
             return "NO_USER"
         if (obj.workshop in participant.instructing_workshops):
             return "INSTRUCTOR"
@@ -466,6 +470,8 @@ class SessionAPISchema(ma.Schema):
                     return "AWAITING_REVIEW"
                 else:
                     return "REGISTERED"
+        if not obj.is_open():
+            return "NOT_YET_OPEN"
         if obj.is_full():
             return "FULL"
         else:
@@ -502,15 +508,18 @@ class WorkshopAPISchema(ma.Schema):
         participant = g.user
         if participant is None or participant.role == "ANON":
             return "NO_USER"
-        if (obj.instructor.uid == participant.uid):
+        elif (obj.instructor.uid == participant.uid):
             return "INSTRUCTOR"
-        if (participant.has_attended_workshop(obj)):
+        elif (participant.has_attended_workshop(obj)):
             return "ATTENDED"
-        if (participant.is_registered_for_workshop(obj)):
+        elif (participant.is_registered_for_workshop(obj)):
             return "REGISTERED"
-        if (participant.is_waitlisted_for_workshop(obj)):
+        elif (participant.is_waitlisted_for_workshop(obj)):
             return "WAIT_LISTED"
-
+        elif (obj.has_available_session):
+            return "UNREGISTERED"
+        else:
+            return "UNAVAILABLE"
 
 class CodeApiSchema(ma.Schema):
 

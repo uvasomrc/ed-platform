@@ -967,7 +967,7 @@
       "name": "command_line_s2",
       "data": {
         "workshop": "command_line_ws",
-        "date_time":"2018-02-07T19:00:00",
+        "date_time":"2018-01-07T19:00:00",
         "duration_minutes":"180",
         "max_days_prior":30,
         "max_attendees":30,
@@ -980,7 +980,6 @@
         "workshop": "command_line_ws",
         "date_time":"2018-03-07T19:00:00",
         "duration_minutes":"180",
-        "max_days_prior":30,
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
       }
