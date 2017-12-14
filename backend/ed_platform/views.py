@@ -413,6 +413,8 @@ def follow_workshop(id):
     participant = g.user
     workshop = models.Workshop.query.filter_by(id=id).first()
     workshop.followers.append(participant)
+    db.session.add(workshop)
+    db.session.commit()
     return workshop_schema.jsonify(workshop)
 
 @app.route('/api/workshop/<int:id>/follow', methods=['DELETE'])
