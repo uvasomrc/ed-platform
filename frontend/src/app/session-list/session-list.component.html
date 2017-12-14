@@ -6,5 +6,5 @@
   fxLayoutAlign="center"
   fxLayoutGap="10px"
   fxLayoutGap.xs="0">
-  <app-session *ngFor="let session of sessions" [session]="session"></app-session>
+  <app-session *ngFor="let session of sessions" [session]="session" (registerEvent)="onRegistrationChange($event)"></app-session>
 </div>

@@ -12,7 +12,7 @@ import {Session} from './session';
 import {EmailMessage} from './EmailMessage';
 import {Search} from './search';
 import {Code} from './code';
-import {Post} from "./post";
+import {Post} from './post';
 
 @Injectable()
 export class ApiService {
@@ -96,6 +96,19 @@ export class ApiService {
   register(session: Session): Observable<Session> {
     return this.http.post(session.links.register, '{}', this.getOptions())
       .map(res => { return new Session(res.json()); })
+      .catch(this.handleError);
+  }
+
+
+  unFollow(workshop: Workshop): Observable<Workshop> {
+    return this.http.delete(workshop.links.follow, this.getOptions())
+      .map(res => { return new Workshop(res.json()); })
+      .catch(this.handleError);
+  }
+
+  follow(workshop: Workshop): Observable<Workshop> {
+    return this.http.post(workshop.links.follow, '{}', this.getOptions())
+      .map(res => { return new Workshop(res.json()); })
       .catch(this.handleError);
   }
 

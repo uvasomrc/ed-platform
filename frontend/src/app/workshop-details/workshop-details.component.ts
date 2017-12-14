@@ -2,12 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {WorkshopService} from '../workshop.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Workshop} from '../workshop';
-import {AccountService} from "../account.service";
-import {Track} from "../track";
-import {Code} from "../code";
-import {Participant} from "../participant";
-import {Post} from "../post";
-import {Session} from "../session";
+import {AccountService} from '../account.service';
+import {Track} from '../track';
+import {Code} from '../code';
+import {Participant} from '../participant';
+import {Post} from '../post';
+import {Session} from '../session';
 
 @Component({
   selector: 'app-workshop-details',
@@ -33,6 +33,27 @@ export class WorkshopDetailsComponent implements OnInit {
       this.load_workshop();
     });
     accountService.getAccount().subscribe(a => this.account = a);
+  }
+
+  follow() {
+    this.workshopService.follow(this.workshop).subscribe(
+    (workshop) => {
+      this.workshop = workshop;
+    });
+  }
+
+  unFollow() {
+    this.workshopService.unFollow(this.workshop).subscribe(
+      (workshop) => {
+        this.workshop = workshop;
+      });
+  }
+
+  onRegistrationChange(session) {
+    this.workshopService.getWorkshop(this.workshop.id).subscribe(
+      (workshop) => {
+        this.workshop = workshop;
+      });
   }
 
   load_workshop() {

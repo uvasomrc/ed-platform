@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Session} from "../session";
 
 @Component({
@@ -10,6 +10,13 @@ export class SessionListComponent {
 
   @Input()
   sessions: Session[];
+
+  @Output()
+  registerEvent: EventEmitter<Session> = new EventEmitter();
+
+  onRegistrationChange(session: Session) {
+    this.registerEvent.emit(session);
+  }
 
   constructor() {}
 }

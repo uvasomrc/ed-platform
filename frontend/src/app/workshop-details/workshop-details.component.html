@@ -15,12 +15,21 @@
       <p>{{workshop.description}}</p>
     </div>
     <div class="spacer"></div>
+
+    <div class="status" [ngSwitch]="workshop.status">
+      <button *ngSwitchCase="'NO_USER'"  mat-raised-button (click)="goLogin()">Log in to Register</button>
+      <button *ngSwitchCase="'INSTRUCTOR'" mat-raised-button (click)="goInstructorDashboard()" aria-label="Instructor">Instructor Dashboard</button>
+      <button *ngSwitchCase="'FOLLOWING'" mat-raised-button color="accent" (click)="unFollow()">Un-Follow</button>
+      <div *ngSwitchCase="'REGISTERED'" class="details">You are now registered for this class.</div>
+      <div *ngSwitchDefault>
+         <button mat-raised-button (click)="follow()">Follow</button>
+         <div class="details">Follow this workshop to receive notifications about new sessions and open seats.</div>
+      </div>
+    </div>
+
     <button mat-fab (click)="goEdit()" aria-label="Edit Track" *ngIf="account && account.isAdmin()">
       <mat-icon>edit</mat-icon>
     </button>
-    <div>
-      <button *ngIf="workshop.status === 'NO_USER'" mat-raised-button (click)="goLogin()">Log in to Register</button>
-    </div>
   </section>
 
 
@@ -34,10 +43,10 @@
             <div class="sub-title">Sessions Available</div>
           </div>
         </ng-template>
-        <app-session-list [sessions]="displaySessions()"></app-session-list>
+        <app-session-list  *ngIf="displaySessions().length > 0"  [sessions]="displaySessions()" (registerEvent)="onRegistrationChange($event)"></app-session-list>
         <section *ngIf="displaySessions().length === 0">
-          <p>No session of this workshop are currently available.</p>
-          <a href="">Sign up to be notified when they are added to the system</a>
+          <p>No session of this workshop are currently available.  Use the follow button to be notified when a new session is posted.</p>
+          <p *ngIf="similarWorkshops().length > 0">There is one or more similar workshops listed below that cover the same content. </p>
         </section>
       </mat-tab>
 
@@ -86,17 +95,21 @@
 
   <div class="course-nav-list">
     <h2>Sessions</h2>
-    <app-session-list [sessions]="displaySessions()"></app-session-list>
+    <app-session-list *ngIf="displaySessions().length > 0" [sessions]="displaySessions()" (registerEvent)="onRegistrationChange($event)"></app-session-list>
     <section *ngIf="displaySessions().length === 0">
-      <p>No session of this workshop are currently available.</p>
-      <a href="">Sign up to be notified when they are added to the system</a>
+      <p>No session of this workshop are currently available.  Use the follow button to be notified when a new session is posted.</p>
+      <p *ngIf="similarWorkshops().length > 0">There is one or more similar workshops listed below that cover the same content. </p>
     </section>
 
+    <div *ngIf="tracks.length > 0">
     <h2>Tracks containing this workshop</h2>
     <app-track-list [tracks]="tracks"></app-track-list>
+    </div>
 
+    <div *ngIf="similarWorkshops().length > 0">
     <h2>Similar Workshops</h2>
     <app-workshop-list [workshops]="similarWorkshops()"></app-workshop-list>
+    </div>
 
   </div>
 

@@ -16,6 +16,11 @@ export class SessionComponent implements OnInit {
   session: Session;
   account: Participant;
 
+  @Output()
+  registerEvent: EventEmitter<Session> = new EventEmitter();
+
+
+
   constructor(private accountService: AccountService,
               private router: Router,
               private datePipe: DatePipe) {}
@@ -41,6 +46,7 @@ export class SessionComponent implements OnInit {
     this.accountService.register(this.session).subscribe(
       (newSession) => {
         this.session = newSession;
+        this.registerEvent.emit(this.session);
       });
   }
 
@@ -48,6 +54,7 @@ export class SessionComponent implements OnInit {
     this.accountService.unRegister(this.session).subscribe(
       (newSession) => {
         this.session = newSession;
+        this.registerEvent.emit(this.session);
       });
   }
 

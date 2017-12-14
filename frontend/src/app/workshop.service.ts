@@ -26,6 +26,15 @@ export class WorkshopService {
     return this.api.getSession(id);
   }
 
+  follow(workshop: Workshop): Observable<Workshop> {
+    return this.api.follow(workshop);
+  }
+
+  unFollow(workshop: Workshop): Observable<Workshop> {
+    return this.api.unFollow(workshop);
+  }
+
+
   getWorkshopForSession(session: Session): Observable<Workshop> {
     return this.api.getWorkshopForSession(session);
   }

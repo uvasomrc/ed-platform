@@ -12,6 +12,7 @@ export class Links {
   messages = '';
   code = '';
   posts = '';
+  follow = '';
 
   constructor(values: Object = {}) {
     for (const key in values) {
