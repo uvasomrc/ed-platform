@@ -38,7 +38,7 @@ should be properly configured to run in Development.
 $ git clone git@github.com:uvasomrc/ed-platform.git
 $ cd ed-platform/backend
 $ conda env create -f environment.yml
-$ source activate ed-platform
+$ source activate edp
 ```
 
 Going forward you will need to activate this environment each time
@@ -88,6 +88,18 @@ import any new libraries others may have added to the project.
 You can do this with:
 ```BASH
 $ conda env update
+```
+
+
+### Project Configuration
+You will need to create a directory called "instance" and place a config.py
+file in it.  This is useful for overriding any settings in config/default.py
+for your local development.  At it's simplest, it can just contain:
+
+```
+CORS_ENABLED = True
+DEVELOPMENT = True
+DEBUG = True
 ```
 
 ### Working with PyCharm
@@ -152,6 +164,7 @@ api making it easier to see how this system is working.
 ```BASH
 $ python manage.py clear_data
 $ python manage.py load_data
+$ python manage.py index_data
 ```
 
 ## Testing
@@ -205,4 +218,5 @@ SQLALCHEMY_DATABASE_URI = "postgresql://[USER]:[password]@[RDS_HOST].us-east-1.r
 ```bash
 $> APP_CONFIG_FILE="../config/default.py" python manage.py db upgrade
 $> APP_CONFIG_FILE="../config/default.py" python manage.py load_data
+$> APP_CONFIG_FILE="../config/default.py" python manage.py index_data
 ```
