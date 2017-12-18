@@ -23,9 +23,6 @@ export class WorkshopComponent  {
     this.router.navigate(['workshop', this.workshop.id]);
   }
 
-  teacherDashboard() {
-    this.router.navigate(['teacherDashboard', this.workshop.id]);
-  }
 
 
 }

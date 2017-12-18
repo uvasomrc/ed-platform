@@ -32,7 +32,7 @@ import { AccountDetailsComponent } from './account-details/account-details.compo
 import {AccountService} from './account.service';
 import { AccountRedirectComponent } from './account-redirect/account-redirect.component';
 import {AuthGuard} from './auth.guard';
-import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard.component';
+import { SessionDashboardComponent } from './session-dashboard/session-dashboard.component';
 import { SearchComponent } from './search/search.component';
 import { TrackProgressComponent } from './track-progress/track-progress.component';
 import {AccountFormComponent} from './account-form/account-form.component';
@@ -61,7 +61,7 @@ const routes: Routes = [
   {path: 'account/:token', component: AccountRedirectComponent, data: {title: 'Account Details'}},
   {path: 'accountDetails', component: AccountDetailsComponent, data: {title: 'Your Account'},
     canActivate: [AuthGuard]},
-  {path: 'teacherDashboard/:id', component: TeacherDashboardComponent,
+  {path: 'sessionDashboard/:id', component: SessionDashboardComponent,
     canActivate: [AuthGuard]}
 ];
 
@@ -82,7 +82,7 @@ const routes: Routes = [
     TimesPipe,
     AccountDetailsComponent,
     AccountRedirectComponent,
-    TeacherDashboardComponent,
+    SessionDashboardComponent,
     SearchComponent,
     TrackProgressComponent,
     AccountFormComponent,

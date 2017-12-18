@@ -41,8 +41,8 @@ export class SessionComponent implements OnInit {
     return this.datePipe.transform(this.session.date_time, 'EEE. MMMM d, y, h:mm-');
   }
 
-  goTeacher() {
-    this.router.navigate(['teacherDashboard', this.session.id]);
+  goSessionDashboard() {
+    this.router.navigate(['sessionDashboard', this.session.id]);
   }
 
   register() {

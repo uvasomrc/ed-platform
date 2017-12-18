@@ -118,10 +118,6 @@ export class WorkshopDetailsComponent implements OnInit {
     this.accountService.goLogin(current_url);
   }
 
-  goTeacher() {
-    this.router.navigate(['teacherDashboard', this.workshop.nextSession().id]);
-  }
-
   goEdit() {
     this.router.navigate(['workshop-form', this.workshop.id]);
   }

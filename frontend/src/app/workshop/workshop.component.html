@@ -18,10 +18,6 @@
     <p>No upcoming sessions for this workshop.</p>
   </mat-card-header>
 
-  <span *ngIf="loggedIn()">
-  <mat-card-actions *ngIf="workshop.instructing()">
-    <button mat-button (click)="teacherDashboard()">Teacher Dashboard</button>
-  </mat-card-actions>
 
   <mat-card-actions *ngIf="workshop.registered()">
     You are Registered for this class.

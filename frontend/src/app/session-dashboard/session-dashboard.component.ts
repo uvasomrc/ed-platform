@@ -8,11 +8,11 @@ import {EmailMessage} from "../EmailMessage";
 import {Workshop} from "../workshop";
 
 @Component({
-  selector: 'app-teacher-dashboard',
-  templateUrl: './teacher-dashboard.component.html',
-  styleUrls: ['./teacher-dashboard.component.scss']
+  selector: 'app-session-dashboard',
+  templateUrl: './session-dashboard.component.html',
+  styleUrls: ['./session-dashboard.component.scss']
 })
-export class TeacherDashboardComponent implements OnInit {
+export class SessionDashboardComponent implements OnInit {
 
   account: Participant;
   session: Session;
