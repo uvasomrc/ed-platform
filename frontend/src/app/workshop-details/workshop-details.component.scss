@@ -36,7 +36,6 @@ app-session {
 
 .details {
   margin-top: 5px;
-  max-width: 160px;
 }
 
 @media screen and (min-width: 480px) {
@@ -47,6 +46,10 @@ app-session {
     border: none;
     padding: 4px;
     margin-right: 10px;
+  }
+
+  .details {
+    max-width: 300px;
   }
 
   .course-nav-list {

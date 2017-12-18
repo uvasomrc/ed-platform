@@ -18,5 +18,10 @@ export class SessionListComponent {
     this.registerEvent.emit(session);
   }
 
+  availableSessions(): Session[] {
+    return this.sessions.filter(s => !s.isPast() && !s.isFull());
+  }
+
+
   constructor() {}
 }

@@ -105,6 +105,14 @@ export class WorkshopDetailsComponent implements OnInit {
     return this.workshop.sessions.filter(s => !s.isPast());
   }
 
+  availableSessions(): Session[] {
+    return this.workshop.sessions.filter(s => !s.isPast() && !s.isFull());
+  }
+
+  attendedSession(): Session {
+    return this.workshop.sessions.filter(s => s.status === 'ATTENDED')[0];
+  }
+
   goLogin() {
     const current_url = this.router.routerState.snapshot.url;
     this.accountService.goLogin(current_url);

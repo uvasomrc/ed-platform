@@ -13,12 +13,10 @@
     </mat-card-header>
     <div class="spacer"></div>
     <div class="action" [ngSwitch]="session.status">
-      <button *ngSwitchCase="'FULL'" mat-raised-button (click)="register()">Join Wait List</button>
+      <button *ngSwitchCase="'FULL'" mat-raised-button disabled (click)="register()">Full</button>
       <button *ngSwitchCase="'INSTRUCTOR'" mat-raised-button (click)="goTeacher()">Teacher Dashboard</button>
       <button *ngSwitchCase="'UNREGISTERED'" mat-raised-button (click)="register()">Register</button>
       <button *ngSwitchCase="'REGISTERED'" mat-raised-button color="accent" (click)="unRegister()">Cancel Registration
-      </button>
-      <button *ngSwitchCase="'WAIT_LISTED'" mat-raised-button color="accent" (click)="unRegister()">Cancel Waitlist
       </button>
       <button *ngSwitchCase="'NOT_YET_OPEN'" mat-raised-button disabled>Register</button>
     </div>

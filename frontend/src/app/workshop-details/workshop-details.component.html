@@ -10,7 +10,11 @@
       <img class="instructor-big" src="{{workshop.instructor.image()}}">
     </div>
     <div>
-      <h2 class="mat-title">{{workshop.title}}</h2>
+      <h2 class="mat-title">{{workshop.title}}
+        <button mat-mini-fab (click)="goEdit()" aria-label="Edit Track" *ngIf="account && account.isAdmin()">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </h2>
       <span class="sub-title">with {{workshop.instructor.display_name}}</span>
       <p>{{workshop.description}}</p>
     </div>
@@ -21,15 +25,12 @@
       <button *ngSwitchCase="'INSTRUCTOR'" mat-raised-button (click)="goInstructorDashboard()" aria-label="Instructor">Instructor Dashboard</button>
       <button *ngSwitchCase="'FOLLOWING'" mat-raised-button color="accent" (click)="unFollow()">Un-Follow</button>
       <div *ngSwitchCase="'REGISTERED'" class="details">You are now registered for this class.</div>
-      <div *ngSwitchDefault>
+      <div *ngSwitchCase="'UNREGISTERED'" class="details">Select a session below to register for your class.</div>
+      <div *ngSwitchCase="'ATTENDED'" class="details">You registered for/attended this workshop on {{attendedSession().date_time | date: 'MMMM d, y'}}</div>
+      <div *ngSwitchCase="'UNAVAILABLE'">
          <button mat-raised-button (click)="follow()">Follow</button>
-         <div class="details">Follow this workshop to receive notifications about new sessions and open seats.</div>
       </div>
     </div>
-
-    <button mat-fab (click)="goEdit()" aria-label="Edit Track" *ngIf="account && account.isAdmin()">
-      <mat-icon>edit</mat-icon>
-    </button>
   </section>
 
 
@@ -39,15 +40,11 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <div>
-            <h1>{{displaySessions().length}}</h1>
+            <h1>{{availableSessions().length}}</h1>
             <div class="sub-title">Sessions Available</div>
           </div>
         </ng-template>
-        <app-session-list  *ngIf="displaySessions().length > 0"  [sessions]="displaySessions()" (registerEvent)="onRegistrationChange($event)"></app-session-list>
-        <section *ngIf="displaySessions().length === 0">
-          <p>No session of this workshop are currently available.  Use the follow button to be notified when a new session is posted.</p>
-          <p *ngIf="similarWorkshops().length > 0">There is one or more similar workshops listed below that cover the same content. </p>
-        </section>
+        <app-session-list  [sessions]="displaySessions()" (registerEvent)="onRegistrationChange($event)"></app-session-list>
       </mat-tab>
 
       <mat-tab *ngIf="workshop.discourse_enabled">
@@ -95,11 +92,7 @@
 
   <div class="course-nav-list">
     <h2>Sessions</h2>
-    <app-session-list *ngIf="displaySessions().length > 0" [sessions]="displaySessions()" (registerEvent)="onRegistrationChange($event)"></app-session-list>
-    <section *ngIf="displaySessions().length === 0">
-      <p>No session of this workshop are currently available.  Use the follow button to be notified when a new session is posted.</p>
-      <p *ngIf="similarWorkshops().length > 0">There is one or more similar workshops listed below that cover the same content. </p>
-    </section>
+    <app-session-list [sessions]="displaySessions()" (registerEvent)="onRegistrationChange($event)"></app-session-list>
 
     <div *ngIf="tracks.length > 0">
     <h2>Tracks containing this workshop</h2>
