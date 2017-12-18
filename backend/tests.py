@@ -399,6 +399,17 @@ class TestCase(unittest.TestCase):
         workshop = json.loads(response.get_data(as_text=True))
         self.assertEqual("INSTRUCTOR",workshop["status"])
 
+    def test_get_workshop_status_unavailable_if_all_sessions_full(self):
+        headers = self.logged_in_headers()
+        workshop = self.add_test_workshop()
+        session = self.add_test_session(workshop['id'])
+        sessionModel = models.Session.query.filter_by(id=session['id']).first()
+        sessionModel.max_attendees=1
+        rv = self.app.post("/api/session/%i/register" % session["id"], headers=self.logged_in_headers_admin())
+        response = self.app.get('/api/workshop/%i' % workshop['id'],headers=headers)
+        workshop = json.loads(response.get_data(as_text=True))
+        self.assertEqual("UNAVAILABLE",workshop["status"])
+
     def test_get_workshop_status_registered(self):
         headers = self.logged_in_headers()
         workshop = self.add_test_workshop()
@@ -407,6 +418,7 @@ class TestCase(unittest.TestCase):
         response = self.app.get('/api/workshop/%i' % workshop['id'],headers=headers)
         workshop = json.loads(response.get_data(as_text=True))
         self.assertEqual("REGISTERED",workshop["status"])
+
 
     def test_get_workshop_status_attended(self):
         headers = self.logged_in_headers()

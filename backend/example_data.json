@@ -1090,7 +1090,7 @@
         "workshop": "data_manipulation_in_r",
         "date_time":"2018-01-07T19:00:00",
         "duration_minutes":"120",
-        "max_attendees":30,
+        "max_attendees":2,
         "location":"Health Sciences Library Carter Classroom"
       }
     },
@@ -1305,6 +1305,17 @@
       "data": {
         "workshop": "intro_dedoose",
         "date_time":"2018-03-26T19:00:00",
+        "duration_minutes":"90",
+        "max_attendees":20,
+        "instructor_notes": "",
+        "location":"Brown 133"
+      }
+    },
+        {
+      "name": "intro_dedoose_last_semester",
+      "data": {
+        "workshop": "intro_dedoose",
+        "date_time":"2017-10-26T19:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1562,6 +1573,19 @@
         "is_instructor": false
       }
     },
+
+    {
+      "name":"joe_python_dedoose_last",
+      "data": {
+        "participant": "joe",
+        "session": "intro_dedoose_last_semester",
+        "created": "2017-07-05T11:11:00",
+        "attended": true,
+        "is_instructor": false,
+        "review_score": 5,
+        "review_comment": "Excellent overview of latest trends, and learned a little Python in the process!"
+      }
+    },
     {
       "name":"vpnagraj_python_dedoose",
       "data": {
@@ -1579,9 +1603,7 @@
         "session": "intro_dedoose_1",
         "created": "2017-08-01T11:02:00",
         "attended": false,
-        "is_instructor": false,
-        "review_score": 5,
-        "review_comment": "Excellent overview of latest trends, and learned a little Python in the process!"
+        "is_instructor": false
       }
     },
     {
@@ -1619,6 +1641,26 @@
       "data": {
         "participant": "cag3fr",
         "session": "intro_dedoose_1",
+        "created": "2017-07-22T20:02:00",
+        "attended": false,
+        "is_instructor": false
+      }
+    },
+    {
+      "name":"c_data_manipulation_in_r_s1",
+      "data": {
+        "participant": "cag3fr",
+        "session": "data_manipulation_in_r_s1",
+        "created": "2017-07-22T20:02:00",
+        "attended": false,
+        "is_instructor": false
+      }
+    },
+    {
+      "name":"j_data_manipulation_in_r_s1",
+      "data": {
+        "participant": "jimg",
+        "session": "data_manipulation_in_r_s1",
         "created": "2017-07-22T20:02:00",
         "attended": false,
         "is_instructor": false

@@ -110,7 +110,7 @@ class Workshop(db.Model):
     code_id = db.Column('code_id', db.String(), db.ForeignKey('code.id'))
     discourse_enabled = db.Column(db.Boolean(), default=False)
     discourse_topic_id = db.Column(db.Integer, nullable=True)
-    followers = db.relationship("Participant", secondary=followers_table, back_populates="following")
+    followers = db.relationship("Participant", secondary=followers_table, back_populates="following",  cascade="all, delete", single_parent=True)
     #code:  Backref created a code on Workshop
 
     def discourse_url(self):
@@ -504,7 +504,7 @@ class WorkshopAPISchema(ma.Schema):
             return "ATTENDED"
         elif (participant.is_registered_for_workshop(obj)):
             return "REGISTERED"
-        elif (obj.has_available_session):
+        elif (obj.has_available_session()):
             return "UNREGISTERED"
         else:
             return "UNAVAILABLE"
