@@ -12,7 +12,7 @@
       </mat-card-title>
     </mat-card-header>
     <div class="spacer"></div>
-    <div class="action" [ngSwitch]="session.status">
+    <div class="action" [ngSwitch]="session.status" *ngIf="showButtons">
       <button *ngSwitchCase="'FULL'" mat-raised-button disabled (click)="register()">Full</button>
       <button *ngSwitchCase="'INSTRUCTOR'" mat-raised-button (click)="goTeacher()">Teacher Dashboard</button>
       <button *ngSwitchCase="'UNREGISTERED'" mat-raised-button (click)="register()">Register</button>

@@ -77,7 +77,7 @@
         <input id="fileInput" name="file" type="file" class="ng-hide" multiple>
       </div>
       -->
-      <div fxFlex="40%">
+      <div fxFlex="55%">
         <h2>Sessions</h2>
         <em *ngIf="workshop.sessions.length === 0">
           There are no sessions for this workshop.
@@ -86,10 +86,10 @@
           Click a session to edit or remove it.
         </em>
         <app-session *ngFor="let session of workshop.sessions" [session]="session"
-                     (click)="editSession(session)"></app-session>
+                     [showButtons]="false" (click)="editSession(session)"></app-session>
       </div>
 
-      <div fxFlex="50%">
+      <div fxFlex="40%">
         <h2>Add/Edit A Session:</h2>
         <app-session-form (newSession)="addSession($event)" (deleteSession)="deleteSession($event)"></app-session-form>
       </div>

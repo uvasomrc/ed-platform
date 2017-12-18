@@ -280,7 +280,7 @@ def create_workshop():
                 new_session = models.Session.query.filter_by(id=session['id']).first()
             else :
                 new_session = models.Session()
-            fields = ['date_time', 'duration_minutes', 'location', 'instructor_notes', 'max_attendees']
+            fields = ['date_time', 'duration_minutes', 'location', 'instructor_notes', 'max_attendees', 'max_days_prior']
             for field in fields:
                 if(field in session):
                     setattr(new_session, field, session[field])

@@ -16,6 +16,9 @@ export class SessionComponent implements OnInit {
   session: Session;
   account: Participant;
 
+  @Input()
+  showButtons = true;
+
   @Output()
   registerEvent: EventEmitter<Session> = new EventEmitter();
 
