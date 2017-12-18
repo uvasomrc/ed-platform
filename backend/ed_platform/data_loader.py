@@ -57,11 +57,15 @@ class DataLoader():
         for key in reversed(self.load_order):
             model_class = getattr(models, key)
             try:
-                model_class.query.delete()
+                records = model_class.query.all()
+                for r in records:
+                    self.db.session.delete(r)
+#               Would be faster to delete all, however, some integrity constraints are handled in code, and don't
+#               get applied it we did this:
+#                model_class.query.delete()
             except:
-                print("Failed to delete " + key + ": " + sys.exc_info()[0])
-                pass # We're just clearing the data out, if it doesn't
-                     # exist yet no worries.
+                print("Unexpected error:", str(sys.exc_info()))
+                raise
             self.db.session.commit()
 
     def index(self, index):
