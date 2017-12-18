@@ -24,10 +24,12 @@
   <mat-tab-group [selectedIndex]="selected_tab">
 
     <mat-tab label="Attendee List">
-      <p>There are currently {{session.total_participants}} out of {{session.max_attendees}} participants signed up for this session. There are {{session.waiting_participants}} participants waiting for open slots.</p>
+      <p>There are currently {{session.total_participants}} out of {{session.max_attendees}} participants signed up for this session. </p>
       <ul class="list">
         <li *ngFor="let a of session.attendees">
-          <img class="avatar" src="{{a.links.image}}" alt=""/>
+          <div class="avatar-wrapper">
+            <img class="avatar" src="{{a.links.image}}" alt=""/>
+          </div>
           <div class="list-text">
             <p>
               <b>{{ a.display_name }}</b><br/>
@@ -37,21 +39,6 @@
           </div>
         </li>
       </ul>
-
-      <h2>Wait List:</h2>
-      <ul class="list">
-        <li *ngFor="let a of session.waiting">
-          <img class="avatar" src="{{a.links.image}}" alt=""/>
-          <div class="list-text">
-            <p>
-              <b>{{ a.display_name }}</b><br/>
-              Signed up on {{ a.created | date: 'fullDate'}}<br/>
-              <br/>
-            </p>
-          </div>
-        </li>
-      </ul>
-
     </mat-tab>
 
     <mat-tab label="Email Attendees">
@@ -66,14 +53,14 @@
         </div>
         <div>
           <mat-form-field class="example-full-width">
-    <textarea matInput formControlName="email_content" placeholder="Description" value="" class="form-control">
+    <textarea matInput rows="10" formControlName="email_content" placeholder="Description" value="" class="form-control">
     </textarea>
             <mat-error>
               This description is too short.
             </mat-error>
           </mat-form-field>
         </div>
-        <button type="submit" mat-button>Send Email to Attendees</button>
+        <button type="submit" mat-raised-button>Send Email to Attendees</button>
       </form>
       <div id="sending-email" [hidden]="!is_sending">
         <mat-progress-spinner class="example-margin"  color="secondary" mode="indeterminate">
@@ -87,12 +74,14 @@
       <p>The following messages were sent to attendees:</p>
       <ul class="list">
         <li *ngFor="let m of messages">
-          <img class="avatar" src="{{workshop.instructor.image()}}" alt=""/>
+          <div class="avatar-wrapper">
+            <img class="avatar" src="{{workshop.instructor.image()}}" alt=""/>
+          </div>
+
           <div class="list_subject">
             <b>Subject:</b> {{m.subject}}<br/>
-            <b>Date:</b> {{m.sent_date | date: 'fullDate'}}
-          </div>
-          <div class="list-content">
+            <b>Date:</b> {{m.sent_date | date: 'fullDate'}}<br/>
+            <br/>
             {{m.content}}
           </div>
         </li>

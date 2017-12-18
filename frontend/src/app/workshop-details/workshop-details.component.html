@@ -22,11 +22,11 @@
 
     <div class="status" [ngSwitch]="workshop.status">
       <button *ngSwitchCase="'NO_USER'"  mat-raised-button (click)="goLogin()">Log in to Register</button>
-      <button *ngSwitchCase="'INSTRUCTOR'" mat-raised-button (click)="goInstructorDashboard()" aria-label="Instructor">Instructor Dashboard</button>
       <button *ngSwitchCase="'FOLLOWING'" mat-raised-button color="accent" (click)="unFollow()">Un-Follow</button>
       <div *ngSwitchCase="'REGISTERED'" class="details">You are now registered for this class.</div>
       <div *ngSwitchCase="'UNREGISTERED'" class="details">Select a session below to register for your class.</div>
       <div *ngSwitchCase="'ATTENDED'" class="details">You registered for/attended this workshop on {{attendedSession().date_time | date: 'MMMM d, y'}}</div>
+      <div *ngSwitchCase="'INSTRUCTOR'" class="details">You are instructing this workshop. </div>
       <div *ngSwitchCase="'UNAVAILABLE'">
          <button mat-raised-button (click)="follow()">Follow</button>
       </div>

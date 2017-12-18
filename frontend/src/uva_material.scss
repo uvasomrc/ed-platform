@@ -248,12 +248,6 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
     padding-right: 16px;
   }
 
-  ul.list .avatar {
-    /* Always left-align! Don't center icons */
-    width: 72px; /* 72-16 but we already use box-sizing */
-    border-radius: 36px;
-  }
-
   ul.list  li .list-text {
     padding-left: 16px;
 
