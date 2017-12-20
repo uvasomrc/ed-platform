@@ -45,8 +45,12 @@ def send_email(subject, recipients, text_body, html_body, sender = None):
 
     # FIXME: This is very specific to google.
     server.ehlo()
-    server.starttls()
-    server.login(app.config['MAIL_USERNAME'],
-                 app.config['MAIL_PASSWORD'])
+    if(app.config['MAIL_USE_TLS']):
+        server.starttls()
+
+    if(app.config['MAIL_USERNAME']) :
+        server.login(app.config['MAIL_USERNAME'],
+                     app.config['MAIL_PASSWORD'])
+
     server.sendmail(sender, recipients, msg.as_string())
     server.quit()
