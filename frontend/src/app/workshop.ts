@@ -12,6 +12,7 @@ export class Workshop  {
   sessions = Array<Session>();
   code_id = '';
   instructor: Participant;
+  followers: Participant[];
   discourse_enabled = false;
   discourse_url = '';
   discourse_topic_id: Number;
@@ -19,6 +20,8 @@ export class Workshop  {
 
   constructor(values: Object = {}) {
     Object.assign(this, values);
+    console.log("Loading Workshop: " + this.id);
+
     this.links = new Links(values['_links']);
     this.sessions = Array<Session>();
     if ('sessions' in values) {
@@ -28,6 +31,12 @@ export class Workshop  {
     }
     if ('instructor' in values) {
       this.instructor = new Participant(values['instructor']);
+    }
+    if ('followers' in values) {
+      this.followers = Array<Participant>();
+      for (const f of values['followers']) {
+        this.followers.push(new Participant(f));
+      }
     }
   }
 

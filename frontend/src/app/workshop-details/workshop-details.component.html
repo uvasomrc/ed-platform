@@ -26,7 +26,10 @@
       <div *ngSwitchCase="'REGISTERED'" class="details">You are now registered for this class.</div>
       <div *ngSwitchCase="'UNREGISTERED'" class="details">Select a session below to register for your class.</div>
       <div *ngSwitchCase="'ATTENDED'" class="details">You registered for/attended this workshop on {{attendedSession().date_time | date: 'MMMM d, y'}}</div>
-      <div *ngSwitchCase="'INSTRUCTOR'" class="details">You are instructing this workshop. </div>
+      <button *ngSwitchCase="'INSTRUCTOR'" mat-raised-button (click)="goWorkshopDashboard()">Manage Waitlist</button>
+      <div *ngSwitchCase="'INSTRUCTOR'">
+        <div *ngSwitchCase="'INSTRUCTOR'" class="details">You are instructing this workshop. </div>
+      </div>
       <div *ngSwitchCase="'UNAVAILABLE'">
          <button mat-raised-button (click)="follow()">Follow</button>
       </div>

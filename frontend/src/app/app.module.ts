@@ -47,6 +47,8 @@ import {DatePipe} from "@angular/common";
 import { PostComponent } from './post/post.component';
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import { SessionListComponent } from './session-list/session-list.component';
+import { WorkshopDashboardComponent } from './workshop-dashboard/workshop-dashboard.component';
+import { EmailFormComponent } from './email-form/email-form.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -59,10 +61,9 @@ const routes: Routes = [
   {path: 'participant-form/:id', component: ParticipantFormComponent, data: {title: 'Create/Edit Participants'}},
   {path: 'workshop/:id', component: WorkshopDetailsComponent, data: {title: 'Workshop'}},
   {path: 'account/:token', component: AccountRedirectComponent, data: {title: 'Account Details'}},
-  {path: 'accountDetails', component: AccountDetailsComponent, data: {title: 'Your Account'},
-    canActivate: [AuthGuard]},
-  {path: 'sessionDashboard/:id', component: SessionDashboardComponent,
-    canActivate: [AuthGuard]}
+  {path: 'accountDetails', component: AccountDetailsComponent, data: {title: 'Your Account'}, canActivate: [AuthGuard]},
+  {path: 'sessionDashboard/:id', component: SessionDashboardComponent, canActivate: [AuthGuard]},
+  {path: 'workshopDashboard/:id', component: WorkshopDashboardComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
@@ -93,7 +94,9 @@ const routes: Routes = [
     SessionFormComponent,
     ParticipantFormComponent,
     PostComponent,
-    SessionListComponent
+    SessionListComponent,
+    WorkshopDashboardComponent,
+    EmailFormComponent
   ],
   imports: [
     BrowserModule,

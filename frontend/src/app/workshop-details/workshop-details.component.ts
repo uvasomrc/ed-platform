@@ -122,6 +122,9 @@ export class WorkshopDetailsComponent implements OnInit {
     this.router.navigate(['workshop-form', this.workshop.id]);
   }
 
+  goWorkshopDashboard() {
+    this.router.navigate(['workshopDashboard', this.workshop.id]);
+  }
 
 
 

@@ -87,8 +87,8 @@ export class SearchComponent implements OnInit {
   onScroll() {
     console.log('Scrolled!');
     if (this.loading) { return; }
-    if (this.workshops.length === this.search.total) {
-      console.log('We found them all, not going to query again.');
+
+    if (this.workshops != null && this.workshops.length === this.search.total) {
       return;
     }
     console.log('finding workshops....');

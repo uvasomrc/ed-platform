@@ -1,0 +1,25 @@
+<form [formGroup]="email_form" novalidate (ngSubmit)="onSendEmail()" class="email_form"  [hidden]="is_sending">
+  <div>
+    <mat-form-field class="example-full-width">
+      <input matInput formControlName="email_title" placeholder="Email Title" value="" class="form-control">
+      <mat-error>
+        Title is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="example-full-width">
+    <textarea matInput rows="10" formControlName="email_content" placeholder="Description" value="" class="form-control">
+    </textarea>
+      <mat-error>
+        This description is too short.
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <button type="submit" mat-raised-button>Send Email</button>
+</form>
+<div id="sending-email" [hidden]="!is_sending">
+  <mat-progress-spinner class="example-margin"  color="secondary" mode="indeterminate">
+  </mat-progress-spinner>
+  Sending your email ...
+</div>

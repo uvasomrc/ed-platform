@@ -112,8 +112,27 @@ export class ApiService {
       .catch(this.handleError);
   }
 
+  emailFollowers(email: EmailMessage, workshop: Workshop): Observable<EmailMessage> {
+    return this.http.post(workshop.links.email, email, this.getOptions())
+      .map(res => {
+        return new EmailMessage(res.json());
+      })
+      .catch(this.handleError);
+  }
+
+  getFollowEmails(workshop: Workshop): Observable<EmailMessage[]> {
+    return this.http.get(workshop.links.email, this.getOptions())
+      .map(res => {
+        return res.json().map(item => {
+          return (new EmailMessage(item));
+        });
+      })
+      .catch(this.handleError);
+  }
+
+
   emailParticipants(email: EmailMessage, session: Session): Observable<EmailMessage> {
-    return this.http.post(session.links.send_email, email, this.getOptions())
+    return this.http.post(session.links.email, email, this.getOptions())
       .map(res => {
         return new EmailMessage(res.json());
       })
@@ -121,7 +140,7 @@ export class ApiService {
   }
 
   getMessagesForSession(session: Session): Observable<EmailMessage[]> {
-    return this.http.get(session.links.messages, this.getOptions())
+    return this.http.get(session.links.email, this.getOptions())
       .map(res => {
         return res.json().map(item => {
           return (new EmailMessage(item));

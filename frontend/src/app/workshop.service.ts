@@ -43,6 +43,14 @@ export class WorkshopService {
     return this.api.emailParticipants(email, session);
   }
 
+  emailFollowers(email: EmailMessage, workshop: Workshop): Observable<EmailMessage> {
+    return this.api.emailFollowers(email, workshop);
+  }
+
+  getFollowEmails(workshop: Workshop): Observable<EmailMessage[]> {
+    return this.api.getFollowEmails(workshop);
+  }
+
   getMessages(session: Session): Observable<EmailMessage[]> {
     return this.api.getMessagesForSession(session);
   }

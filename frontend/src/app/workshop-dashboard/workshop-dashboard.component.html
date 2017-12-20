@@ -1,25 +1,21 @@
 <div *ngIf="is_data_loaded">
 
   <section class="header">
-    <div class="circleborder">
-      <img class="instructor-big" src="{{workshop.instructor.image()}}">
-    </div>
-    <h2 class="mat-title">{{workshop.title}} <br/> {{session.date_time | date: 'EEE. MMMM d, y, h:mm-'}}{{session.endTime() | date: 'h:mma'}}</h2>
+    <h2 class="mat-title">Workshop Dashboard: {{workshop.title}}<br/>
     <span class="sub-title">with {{workshop.instructor.display_name}}</span>
+    </h2>
   </section>
 
   <section class="header">
     <p>{{workshop.description}}</p>
   </section>
 
-  <app-session [session]="session" [showButtons]="false"></app-session>
-
   <mat-tab-group [selectedIndex]="selected_tab">
 
-    <mat-tab label="Attendee List">
-      <p>There are currently {{session.total_participants}} out of {{session.max_attendees}} participants signed up for this session. </p>
+    <mat-tab label="Followers">
+      <p>There are currently {{workshop.followers.length}} people following this Workshop.</p>
       <ul class="list">
-        <li *ngFor="let a of session.attendees">
+        <li *ngFor="let a of workshop.followers">
           <div class="avatar-wrapper">
             <img class="avatar" src="{{a.links.image}}" alt=""/>
           </div>
@@ -34,13 +30,13 @@
       </ul>
     </mat-tab>
 
-    <mat-tab label="Email Attendees">
+    <mat-tab label="Email Followers">
       <app-email-form *ngIf="!is_sending" (newEmail)="sendEmail($event)"></app-email-form>
       <mat-spinner *ngIf="is_sending"></mat-spinner>
     </mat-tab>
 
     <mat-tab label="Previous Emails">
-      <p>The following messages were sent to attendees:</p>
+      <p>The following messages were sent to followers:</p>
       <ul class="list">
         <li *ngFor="let m of messages">
           <div class="avatar-wrapper">
@@ -60,6 +56,4 @@
   </mat-tab-group>
 
 </div>
-
-
 

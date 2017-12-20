@@ -8,8 +8,7 @@ export class Links {
   workshop = '';
   tracks = '';
   register = '';
-  send_email = '';
-  messages = '';
+  email = '';
   code = '';
   posts = '';
   follow = '';

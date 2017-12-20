@@ -5,16 +5,6 @@
 // Load the UVA Theme
 @include uva-theme($uva-theme);
 
-.instructor-big {
-  float: left;
-  width: 50px;
-  height: 50px;
-  border-radius: 381px;
-  border: 4px solid mat-color($uva-accent, 500);
-  padding: 4px;
-  margin-right: 10px;
-}
-
 mat-tab-group {
   min-height: 200px;
 }
