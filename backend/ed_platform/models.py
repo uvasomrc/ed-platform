@@ -111,6 +111,8 @@ class Workshop(db.Model):
     discourse_enabled = db.Column(db.Boolean(), default=False)
     discourse_topic_id = db.Column(db.Integer, nullable=True)
     followers = db.relationship("Participant", secondary=followers_table, back_populates="following",  cascade="all, delete", single_parent=True)
+    email_messages = db.relationship('EmailMessage', backref='workshop')
+
     #code:  Backref created a code on Workshop
 
     def discourse_url(self):
@@ -305,6 +307,7 @@ class EmailMessage(db.Model):
     __tablename__ = 'email_message'
     id = db.Column(db.Integer, primary_key=True)
     session_id = db.Column('session_id', db.Integer, db.ForeignKey('session.id'))
+    workshop_id = db.Column('workshop_id', db.Integer, db.ForeignKey('workshop.id'))
     subject = db.Column(db.String())
     content = db.Column(db.TEXT())
     sent_date = db.Column(db.DateTime, default=datetime.datetime.now)
@@ -332,7 +335,6 @@ class CodeDBSchema(ma.ModelSchema):
 class TrackCodeDBSchema(ma.ModelSchema):
     class Meta:
         model = TrackCode
-
 
 class TrackDBSchema(ma.ModelSchema):
     class Meta:
@@ -402,9 +404,6 @@ class UserSchema(ma.Schema):
         ordered = True
 
 
-
-
-
 class ParticipantAPISchema(ma.Schema):
 
     class Meta:
@@ -468,8 +467,7 @@ class SessionAPISchema(ma.Schema):
         'collection': ma.URLFor('get_sessions'),
         'workshop': ma.URLFor('get_workshop', id='<workshop_id>'),
         'register': ma.URLFor('register', id='<id>'),
-        'send_email': ma.URLFor('email_participants', id='<id>'),
-        'messages': ma.URLFor('list_messages', id='<id>')
+        'email': ma.URLFor('email_participants', id='<id>')
     })
 
 
@@ -489,7 +487,8 @@ class WorkshopAPISchema(ma.Schema):
         'image': ma.URLFor('get_workshop_image', id='<id>'),
         'tracks': ma.URLFor('get_workshop_tracks', id='<id>'),
         'sessions': ma.URLFor('get_workshop_sessions', id='<id>'),
-        'follow': ma.URLFor('follow_workshop', id='<id>')
+        'follow': ma.URLFor('follow_workshop', id='<id>'),
+        'email': ma.URLFor('email_followers', id='<id>')
     })
 
     def get_status(self, obj):

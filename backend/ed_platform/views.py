@@ -392,14 +392,12 @@ def get_workshop_tracks(id):
         tracks = workshop.code.tracks()
     return models.TrackAPISchema().jsonify(tracks, many=True)
 
-
 @app.route('/api/workshop/<int:id>/sessions', methods=['GET'])
 @auth.login_required
 def get_workshop_sessions(id):
     workshop = models.Workshop.query.filter_by(id=id).first()
     sessions = list(map(lambda s: session_schema.dump(s).data, workshop.sessions))
     return jsonify({"sessions": sessions})
-
 
 @app.route('/api/workshop/<int:id>/image')
 def get_workshop_image(id):
@@ -426,6 +424,45 @@ def unfollow_workshop(id):
     workshop.followers.remove(participant)
     return workshop_schema.jsonify(workshop)
 
+@app.route('/api/workshop/<int:id>/email', methods=['POST'])
+@auth.login_required
+def email_followers(id):
+    instructor = g.user
+    workshop = models.Workshop.query.filter_by(id=id).first()
+    if(g.user.role != 'ADMIN' and instructor != workshop.instructor):
+        raise RestException(RestException.NOT_INSTRUCTOR)
+
+    request_data = request.get_json()
+    email = email_message_db_schema.load(request_data).data
+    email.author = instructor
+    email.workshop = workshop
+    for participant in workshop.followers:
+         email_log = models.EmailLog(participant=participant, email_message=email)
+         email.logs.append(email_log)
+
+         text_body = render_template("instructor_to_followers.txt",
+                                     workshop=workshop, participant=participant,
+                                     api_url=app.config['API_URL'], site_url=app.config['SITE_URL'],
+                                     instructor=instructor, content=email.content)
+         html_body = render_template("instructor_to_followers.html",
+                                     workshop=workshop, participant=participant,
+                                     instructor=instructor, content=email.content,
+                                     api_url=app.config['API_URL'], site_url=app.config['SITE_URL'],
+                                     tracking_code=email_log.tracking_code)
+
+         emails.send_email("[edplatform] %s" % email.subject,
+                           recipients=[participant.email_address], text_body=text_body,
+                           html_body=html_body)
+    db.session.add(email)
+    db.session.commit()
+
+    return email_schema.jsonify(email)
+
+@app.route('/api/workshop/<int:id>/email', methods=['GET'])
+@auth.login_required
+def follow_emails(id):
+    workshop = models.Workshop.query.filter_by(id=id).first()
+    return (email_schema.jsonify(workshop.email_messages, many=True))
 
 # Sessions
 # *****************************
@@ -565,7 +602,7 @@ def email_participants(id):
 
     return email_schema.jsonify(email)
 
-@app.route('/api/session/<int:id>/messages', methods=['GET'])
+@app.route('/api/session/<int:id>/email', methods=['GET'])
 @auth.login_required
 def list_messages(id):
     session = models.Session.query.filter_by(id=id).first()
@@ -650,7 +687,7 @@ def set_participant_image(id, cache_bust):
     db.session.commit()
     return get_participant_image(id)
 
-@app.route('/api/logo/<string:id>/<string:tracking_id>/logo.png')
+@app.route('/api/logo/<string:id>/<string:tracking_id>/logo.jpg')
 def get_logo_tracking(id, tracking_id):
     email_log = models.EmailLog.query.filter_by(participant_id=id, tracking_code=tracking_id).first()
     if(email_log) :
@@ -658,7 +695,7 @@ def get_logo_tracking(id, tracking_id):
         email_log.date_opened = datetime.datetime.now()
         db.session.add(email_log)
         db.session.commit()
-    return send_file("static/images/logo.png", mimetype='image/png')
+    return send_file("static/images/logo.jpg", mimetype='image/jpg')
 
 @app.route('/api/participant/<int:id>', methods=['DELETE'])
 @auth.login_required

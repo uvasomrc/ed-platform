@@ -763,6 +763,16 @@ class TestCase(unittest.TestCase):
         workshop = models.Workshop.query.first()
         self.assertIsNotNone(workshop.instructor)
 
+    def test_email_followers_only_by_instructor(self):
+        workshop = self.add_test_workshop()
+        rv = self.app.post("/api/workshop/%i/email" % workshop['id'], follow_redirects=True,
+                           content_type="application/json")
+        self.assert_failure(rv, "not_the_instructor")
+
+        rv = self.app.post("/api/workshop/%i/email" % workshop['id'], headers=self.logged_in_headers())
+        self.assert_failure(rv, "not_the_instructor")
+
+
     def test_email_participants_only_by_instructor(self):
         workshop = self.add_test_workshop()
         session = self.add_test_session(workshop["id"])
@@ -773,6 +783,22 @@ class TestCase(unittest.TestCase):
 
         rv = self.app.post("/api/session/%i/email" % session.id, headers=self.logged_in_headers())
         self.assert_failure(rv, "not_the_instructor")
+
+    def test_email_workshop_followers(self):
+        workshop = self.add_test_workshop()
+        rv = self.app.post("/api/workshop/%i/follow" % (workshop["id"]), headers=self.logged_in_headers())
+        data = {'subject': 'Test Subject', 'content': 'Test Content'}
+        orig_log_count = len(models.EmailLog.query.all())
+        rv = self.app.post("/api/workshop/%i/email" % workshop['id'], headers=self.logged_in_headers_admin(),
+                           data=json.dumps(data), content_type="application/json")
+        self.assert_success(rv)
+        self.assertGreaterEqual(len(TEST_MESSAGES), 1)
+        self.assertEqual("[edplatform] Test Subject", TEST_MESSAGES[0]['subject'])
+        logs = models.EmailLog.query.all()
+        self.assertEqual(len(logs), orig_log_count + 1)
+        self.assertIsNotNone(logs[0].tracking_code)
+        self.assertEqual(logs[0].email_message.subject, data["subject"])
+        return workshop
 
     def test_email_sends_to_recipient(self):
         workshop = self.add_test_workshop()
@@ -800,9 +826,9 @@ class TestCase(unittest.TestCase):
         rv = self.app.get("/api/session/%i" % session['id'], headers=self.logged_in_headers())
         self.assert_success(rv)
         s_result = json.loads(rv.get_data(as_text=True))
-        self.assertTrue("messages" in s_result["_links"])
+        self.assertTrue("email" in s_result["_links"])
 
-        rv = self.app.get(s_result["_links"]["messages"])
+        rv = self.app.get(s_result["_links"]["email"])
         self.assert_success(rv)
         s_result = json.loads(rv.get_data(as_text=True))
         self.assertEqual(1, len(s_result))
@@ -817,7 +843,7 @@ class TestCase(unittest.TestCase):
         db.session.commit()
 
         self.assertFalse(email_log.opened)
-        rv = self.app.get("/api/logo/%i/%s/logo.png" %
+        rv = self.app.get("/api/logo/%i/%s/logo.jpg" %
                           (participant['id'], email_log.tracking_code))
         self.assert_success(rv)
 

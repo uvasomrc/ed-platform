@@ -1,0 +1,16 @@
+Hi {{ participant.display_name }},
+
+You expressed interest in taking {{ workshop.title }}.
+
+The Instructor, {{ instructor.display_name }}, just send you a message:
+
+{{content}}
+
+Regards,
+
+The Ed-Platform Team
+
+You received this email because you are following a workshop on the
+Education Platform. You can manage your contact preferences by visiting our
+site at {{ url }} and modifying your account settings.
+
