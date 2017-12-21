@@ -267,6 +267,9 @@ class Session(db.Model):
     def total_participants(self):
         return len(self.participant_sessions)
 
+    def end_date_time(self):
+        return (self.date_time + datetime.timedelta(minutes=self.duration_minutes))
+
     def date_open(self):
         if(self.max_days_prior == None or self.max_days_prior <= 0): return None;
         else : return(self.date_time - datetime.timedelta(days = self.max_days_prior));
@@ -315,11 +318,15 @@ class EmailMessage(db.Model):
     logs = db.relationship("EmailLog", backref="email_message", cascade="all, delete-orphan")
 
 class EmailLog(db.Model):
-    participant_id = db.Column('participant_id', db.Integer, db.ForeignKey('participant.id'), primary_key=True)
-    email_message_id = db.Column('email_message_id', db.Integer, db.ForeignKey('email_message.id'), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String())
+    date_sent = db.Column(db.DateTime, default=datetime.datetime.now)
     tracking_code = db.Column(db.String(), default=str(uuid.uuid4())[:16])
     opened = db.Column(db.Boolean, default=False)
     date_opened = db.Column(db.DateTime)
+    participant_id = db.Column('participant_id', db.Integer, db.ForeignKey('participant.id'), nullable=False)
+    email_message_id = db.Column('email_message_id', db.Integer, db.ForeignKey('email_message.id'))
+    session_id = db.Column('session_id', db.Integer, db.ForeignKey('session.id'))
 
     def participant_name(self):
         return self.participant.display_name
@@ -467,7 +474,7 @@ class SessionAPISchema(ma.Schema):
         'collection': ma.URLFor('get_sessions'),
         'workshop': ma.URLFor('get_workshop', id='<workshop_id>'),
         'register': ma.URLFor('register', id='<id>'),
-        'email': ma.URLFor('email_participants', id='<id>')
+        'email': ma.URLFor('email_participants', id='<id>'),
     })
 
 

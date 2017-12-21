@@ -1,0 +1,16 @@
+You have successfully registered for
+{{ session.workshop.title }} with {{ session.workshop.instructor.display_name }}
+
+{{ participant.display_name }},
+
+Thank you for signing up for {{ session.workshop.title }} with {{ session.workshop.instructor.display_name }}.
+
+SESSION DETAILS
+{{ session.date_time.strftime('%B %d, %Y') }}
+{{ session.date_time.strftime('%I:%M %p') }} to {{ session.end_date_time().strftime('%I:%M %p') }}
+Location: {{ session.location }}
+
+If you signed up in error or were not the one who signed up for this class,
+visit <a href="{{ site_url }}/#/workshop/{{session.workshop.id}}">the course page on CADRE Academy</a>
+to change your registration status.
+

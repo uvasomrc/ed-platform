@@ -15,7 +15,7 @@ import time
 os.environ["APP_CONFIG_FILE"] = '../config/testing.py'
 
 from ed_platform import app, db, data_loader, models, elastic_index, discourse
-from ed_platform.emails import TEST_MESSAGES
+from ed_platform.notify import TEST_MESSAGES
 
 
 
@@ -577,12 +577,14 @@ class TestCase(unittest.TestCase):
         participant = self.get_current_participant()
         workshop = self.add_test_workshop()
         session = self.add_test_session(workshop)
+
         rv = self.app.post("/api/session/%i/register" % (session["id"]))
         self.assert_failure(rv, code="permission_denied")
         rv = self.app.post("/api/session/%i/register" % (session["id"]), headers=self.logged_in_headers())
         self.assert_success(rv)
         session_js = json.loads(rv.get_data(as_text=True))
         self.assertEqual("REGISTERED", session_js['status'])
+
 
         rv = self.app.get(participant["_links"]["workshops"], headers=self.logged_in_headers(), follow_redirects=True)
         self.assert_success(rv)
@@ -595,6 +597,20 @@ class TestCase(unittest.TestCase):
         rv = self.app.get(participant["_links"]["workshops"], follow_redirects=True)
         workshops = json.loads(rv.get_data(as_text=True))
         self.assertEqual(2, len(workshops), "adding a second session three times, we still only have two sessions")
+
+    def test_register_sends_email(self):
+        participant = self.get_current_participant()
+        workshop = self.add_test_workshop()
+        session = self.add_test_session(workshop)
+        message_count = len(TEST_MESSAGES)
+        rv = self.app.post("/api/session/%i/register" % (session["id"]), headers=self.logged_in_headers())
+        self.assert_success(rv)
+        self.assertGreater(len(TEST_MESSAGES), message_count)
+        self.assertEqual("CADRE Academy: Registration Successful", TEST_MESSAGES[-1]['subject'])
+
+        logs = models.EmailLog.query.all()
+        self.assertIsNotNone(logs[-1].tracking_code)
+
 
     def test_max_participants(self):
         p1 = self.add_test_participant()
@@ -793,11 +809,11 @@ class TestCase(unittest.TestCase):
                            data=json.dumps(data), content_type="application/json")
         self.assert_success(rv)
         self.assertGreaterEqual(len(TEST_MESSAGES), 1)
-        self.assertEqual("[edplatform] Test Subject", TEST_MESSAGES[0]['subject'])
+        self.assertEqual("CADRE Academy: Test Subject", TEST_MESSAGES[-1]['subject'])
         logs = models.EmailLog.query.all()
         self.assertEqual(len(logs), orig_log_count + 1)
-        self.assertIsNotNone(logs[0].tracking_code)
-        self.assertEqual(logs[0].email_message.subject, data["subject"])
+        self.assertIsNotNone(logs[-1].tracking_code)
+        self.assertEqual(logs[-1].email_message.subject, data["subject"])
         return workshop
 
     def test_email_sends_to_recipient(self):
@@ -813,11 +829,11 @@ class TestCase(unittest.TestCase):
         self.assert_success(rv)
 
         self.assertGreaterEqual(len(TEST_MESSAGES), 1)
-        self.assertEqual("[edplatform] Test Subject", TEST_MESSAGES[0]['subject'])
+        self.assertEqual("CADRE Academy: Test Subject", TEST_MESSAGES[-1]['subject'])
         logs = models.EmailLog.query.all()
         self.assertEqual(len(logs), orig_log_count + 1)
-        self.assertIsNotNone(logs[0].tracking_code)
-        self.assertEqual(logs[0].email_message.subject, data["subject"])
+        self.assertIsNotNone(logs[-1].tracking_code)
+        self.assertEqual(logs[-1].email_message.subject, data["subject"])
         return session
 
     def test_get_messages(self):

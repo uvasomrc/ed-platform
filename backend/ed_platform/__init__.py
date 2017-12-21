@@ -9,6 +9,7 @@ from flask_sso import SSO
 from flask_uploads import UploadSet, configure_uploads
 
 from ed_platform.elastic_index import ElasticIndex
+from ed_platform.notify import Notify
 from ed_platform.rest_exception import RestException
 from ed_platform.discourse import Discourse
 
@@ -45,7 +46,7 @@ app.secret_key = app.config['SECRET_KEY']
 sso = SSO(app=app)
 
 # Sending email messages.
-mail = Mail(app)
+notify = Notify(app)
 
 # Search System
 elastic_index = ElasticIndex(app)

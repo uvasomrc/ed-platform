@@ -4,7 +4,7 @@ import elasticsearch
 import magic
 import os
 from flask import jsonify, request, send_file, session, redirect, g, render_template, json
-from ed_platform import app, db, models, sso, RestException, emails, elastic_index, profile_photos, discourse
+from ed_platform import app, db, models, sso, RestException, elastic_index, profile_photos, discourse, notify
 from flask_httpauth import HTTPTokenAuth
 
 from ed_platform.wrappers import requires_roles
@@ -440,19 +440,9 @@ def email_followers(id):
          email_log = models.EmailLog(participant=participant, email_message=email)
          email.logs.append(email_log)
 
-         text_body = render_template("instructor_to_followers.txt",
-                                     workshop=workshop, participant=participant,
-                                     api_url=app.config['API_URL'], site_url=app.config['SITE_URL'],
-                                     instructor=instructor, content=email.content)
-         html_body = render_template("instructor_to_followers.html",
-                                     workshop=workshop, participant=participant,
-                                     instructor=instructor, content=email.content,
-                                     api_url=app.config['API_URL'], site_url=app.config['SITE_URL'],
-                                     tracking_code=email_log.tracking_code)
-
-         emails.send_email("[edplatform] %s" % email.subject,
-                           recipients=[participant.email_address], text_body=text_body,
-                           html_body=html_body)
+         notify.message_to_followers(instructor=instructor, subject=email.subject,
+                                     content=email.content,
+                                     participant=participant, workshop=workshop)
     db.session.add(email)
     db.session.commit()
 
@@ -521,10 +511,15 @@ def register(id):
         raise RestException(RestException.SESSION_FULL, 404)
     else:
         participant.register(session)
+        tracking_code = notify.registered(participant, session)
+        email_log = models.EmailLog(participant=participant,
+                                session_id=session.id,
+                                type="REGISTER", tracking_code=tracking_code)
+        db.session.add(email_log)
 
     if(participant in session.workshop.followers):
         session.workshop.followers.remove(participant) # Don't follow a workshop you are now registered for.
-    db.session.merge(participant)
+        db.session.merge(participant)
     db.session.commit()
     return models.SessionAPISchema().jsonify(session)
 
@@ -579,24 +574,12 @@ def email_participants(id):
         email_log = models.EmailLog(participant=ps.participant,
                                     email_message=email)
         email.logs.append(email_log)
+        notify.message_to_attendees(instructor=instructor,
+                                    subject=email.subject,
+                                    content=email.content,
+                                    participant=ps.participant,
+                                    session=session)
 
-        # To Add: site_url, logo_url, session_url
-        # instructor_image_url, workshop_date
-
-        text_body = render_template("instructor_message.txt",
-                                    session=session, participant=ps.participant,
-                                    api_url=app.config['API_URL'], site_url=app.config['SITE_URL'],
-                                    instructor=instructor, content=email.content)
-        html_body = render_template("instructor_message.html",
-                                    session=session, participant=ps.participant,
-                                    instructor=instructor, content=email.content,
-                                    api_url=app.config['API_URL'], site_url=app.config['SITE_URL'],
-                                    tracking_code=email_log.tracking_code)
-
-        emails.send_email("[edplatform] %s" % email.subject,
-                          recipients=[ps.participant.email_address], text_body=text_body,
-                          html_body=html_body)
-        print(html_body)
     db.session.add(email)
     db.session.commit()
 
@@ -695,6 +678,8 @@ def get_logo_tracking(id, tracking_id):
         email_log.date_opened = datetime.datetime.now()
         db.session.add(email_log)
         db.session.commit()
+
+
     return send_file("static/images/logo.jpg", mimetype='image/jpg')
 
 @app.route('/api/participant/<int:id>', methods=['DELETE'])
