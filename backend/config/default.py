@@ -1,3 +1,6 @@
+NAME = "CADRE Academy"
+VERSION = "0.9BETA"
+
 DEBUG = True
 TESTING = False
 CORS_ENABLED = False

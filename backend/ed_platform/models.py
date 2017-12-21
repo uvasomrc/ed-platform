@@ -4,6 +4,7 @@ import random
 import uuid
 
 import jwt
+import icalendar
 
 from ed_platform import app, db, ma, RestException, discourse
 from marshmallow import fields, post_load
@@ -260,9 +261,22 @@ class Session(db.Model):
     participant_sessions = db.relationship('ParticipantSession', backref='session')
     email_messages = db.relationship('EmailMessage', backref='session')
 
-#    def contains_participant(self, participant):
-#        for(ps in self.participant_sessions):
+    def ical(self):
+        """Returns an iCalendar, as a string that can be attached to an email message."""
+        cal = icalendar.Calendar()
+        cal.add('prodid', '-//%s//mxm.dk//' % app.config['NAME'])
+        cal.add('version', app.config['VERSION'])
 
+        event = icalendar.Event()
+        event.add('summary', self.workshop.title)
+        event.add('description', self.workshop.description)
+        event.add('location', self.location)
+        event.add('dtstart', self.date_time)
+        event.add('dtend', self.end_date_time())
+        event.add('dtstamp', datetime.datetime.now())
+        event.add('uid', str("CADRE-ACADEMY-SESSION-%i" % self.id))
+        cal.add_component(event)
+        return cal.to_ical()
 
     def total_participants(self):
         return len(self.participant_sessions)

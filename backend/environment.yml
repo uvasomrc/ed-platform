@@ -20,3 +20,4 @@ dependencies:
   - flask-uploads==0.2.1
   - python-magic==0.4.13
   - requests-toolbelt==0.8.0
+  - icalendar==4.0.0

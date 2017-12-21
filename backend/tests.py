@@ -1105,6 +1105,13 @@ class TestCase(unittest.TestCase):
         ws = json.loads(rv.get_data(as_text=True))
         self.assertEqual(0, len(ws["followers"]))
 
+    def test_session_creates_ical(self):
+        ws = self.add_test_workshop()
+        s = self.add_test_session(ws["id"])
+        session = models.Session.query.filter_by(id=s['id']).first()
+
+        ical = session.ical()
+        self.assertIsNotNone(ical)
 
 
 
