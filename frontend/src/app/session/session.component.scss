@@ -10,6 +10,8 @@ mat-card.session {
   border-top: 4px solid mat-color($uva-primary, 200);
   padding: 12px;
 
+
+
   mat-card-header {
     margin: 5px 0 0 5px;
     max-width: 230px;
@@ -31,6 +33,9 @@ mat-card.session {
     }
   }
 
+  .mat-spinner {
+    margin: auto;
+  }
 
   div.action {
     padding: 10px 5px 0 0;

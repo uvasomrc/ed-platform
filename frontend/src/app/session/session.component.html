@@ -1,4 +1,7 @@
 <mat-card class="session">
+  <mat-spinner *ngIf="session.status === 'CHANGING'"></mat-spinner>
+  <ng-container  *ngIf="session.status !== 'CHANGING'">
+
   <div
     fxLayout="row"
     fxLayoutWrap
@@ -29,5 +32,5 @@
     <mat-card-subtitle *ngIf="session.status==='NOT_YET_OPEN'">Registration opens {{session.date_open | date: 'MMM d, y'}}
     </mat-card-subtitle>
   </div>
-
+  </ng-container>
 </mat-card>

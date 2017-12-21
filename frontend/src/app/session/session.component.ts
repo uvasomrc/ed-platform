@@ -2,8 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Session} from '../session';
 import {AccountService} from '../account.service';
 import {Participant} from '../participant';
-import {Router} from "@angular/router";
-import {DatePipe} from "@angular/common";
+import {Router} from '@angular/router';
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-session',
@@ -46,6 +46,7 @@ export class SessionComponent implements OnInit {
   }
 
   register() {
+    this.session.status = 'CHANGING';
     this.accountService.register(this.session).subscribe(
       (newSession) => {
         this.session = newSession;
@@ -54,6 +55,7 @@ export class SessionComponent implements OnInit {
   }
 
   unRegister() {
+    this.session.status = 'CHANGING';
     this.accountService.unRegister(this.session).subscribe(
       (newSession) => {
         this.session = newSession;
