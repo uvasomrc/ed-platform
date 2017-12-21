@@ -20,8 +20,8 @@ class Notify():
         return str(uuid.uuid4())[:16]
 
     def email_server(self):
-        server_details = '%s:%s' % (app.config['MAIL_SERVER'],
-                                    app.config['MAIL_PORT'])
+        server_details = '%s:%s' % (self.app.config['MAIL_SERVER'],
+                                    self.app.config['MAIL_PORT'])
         print("Connecting to: " + server_details)
         server = smtplib.SMTP(server_details)
 
@@ -50,17 +50,19 @@ class Notify():
         if (sender == None):
             sender = self.app.config['MAIL_DEFAULT_SENDER']
 
-        if (self.app.config['DEVELOPMENT']):
-            print("DEVELOP:  Sending All emails to " + app.config['MAIL_DEFAULT_RECIPIENT'])
-            recipients = [self.app.config['MAIL_DEFAULT_RECIPIENT']]
-        elif ('TESTING' in self.app.config and self.app.config['TESTING']):
+        if ('TESTING' in self.app.config and self.app.config['TESTING']):
             print("TEST:  Recording Emails, not sending")
             TEST_MESSAGES.append(msg)
-        else:
-            server = self.email_server()
-            server.sendmail(sender, recipients, msg.as_string())
-            print(html_body)
-            server.quit()
+            return
+
+        if (self.app.config['DEVELOPMENT']):
+            print("DEVELOP:  Sending All emails to " + self.app.config['MAIL_DEFAULT_RECIPIENT'])
+            recipients = [self.app.config['MAIL_DEFAULT_RECIPIENT']]
+
+        server = self.email_server()
+        server.sendmail(sender, recipients, msg.as_string())
+        print(html_body)
+        server.quit()
 
 
     def registered(self, participant, session):

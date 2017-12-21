@@ -30,6 +30,15 @@ ELASTIC_SEARCH = {
     "http_auth_pass": ""
 }
 
+MAIL_SERVER = 'localhost'
+MAIL_PORT = 2525
+MAIL_USE_TLS = False
+MAIL_USE_SSL = False
+#MAIL_USERNAME = "daniel.h.funk@gmail.com"
+#MAIL_PASSWORD = "bmpnrbqmwvyfdjgb"
+MAIL_DEFAULT_SENDER='daniel.h.funk@gmail.com'
+MAIL_DEFAULT_RECIPIENT='daniel.h.funk@gmail.com'
+
 # Use the isntance/config.py connection for now, but use
 # a category and user_group that we can use to clear out any created data.0
 DISCOURSE_CATEGORY = "test_posts"
