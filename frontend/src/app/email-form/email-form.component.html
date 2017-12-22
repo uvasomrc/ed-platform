@@ -1,4 +1,4 @@
-<form [formGroup]="email_form" novalidate (ngSubmit)="onSendEmail()" class="email_form"  [hidden]="is_sending">
+<form [formGroup]="email_form" novalidate (ngSubmit)="onSendEmail()" class="email_form">
   <div>
     <mat-form-field class="example-full-width">
       <input matInput formControlName="email_title" placeholder="Email Title" value="" class="form-control">
@@ -18,8 +18,3 @@
   </div>
   <button type="submit" mat-raised-button>Send Email</button>
 </form>
-<div id="sending-email">
-  <mat-progress-spinner class="example-margin"  color="secondary" mode="indeterminate">
-  </mat-progress-spinner>
-  Sending your email ...
-</div>
