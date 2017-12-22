@@ -28,8 +28,8 @@ export class Code {
   registered() { return this.status === 'REGISTERED'; }
 
   color() {
-    if (this.attended()) { return 'accent'; }
-    if (this.awaiting_review()) { return 'accent'; }
+    if (this.attended()) { return 'primary'; }
+    if (this.awaiting_review()) { return 'primary'; }
     return 'primary';
   }
 

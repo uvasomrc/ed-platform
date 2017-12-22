@@ -1435,9 +1435,9 @@
       }
     },
     {
-      "name":"bk7k_python_intro_workshop_s1",
+      "name":"cool_python_intro_workshop_s1",
       "data": {
-        "participant": "bk7k",
+        "participant": "joe",
         "session": "python_intro_workshop_s1",
         "created": "2017-08-12T09:35:00",
         "attended": false,
