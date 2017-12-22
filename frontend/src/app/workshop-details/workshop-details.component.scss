@@ -38,6 +38,11 @@ app-session {
   margin-top: 5px;
 }
 
+.discourse {
+  padding: 10px;
+  min-height: 200px;
+}
+
 @media screen and (min-width: 480px) {
 
   .instructor-big {
@@ -63,6 +68,7 @@ app-session {
   .course-nav-list {
     display: block;
   }
+
 
 
 }

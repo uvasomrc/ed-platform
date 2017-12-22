@@ -57,6 +57,7 @@
             <div class="sub-title">Posts in Discussion</div>
           </div>
         </ng-template>
+        <div class="discourse">
         <p>You can participate in this discussion on <a target="discourse"
                                                         href="{{workshop.discourse_url}}">Discourse</a>.</p>
         <div
@@ -68,6 +69,7 @@
           fxLayoutGap="10px"
           fxLayoutGap.xs="0">
           <app-post *ngFor="let p of post.posts" [post]="p"></app-post>
+        </div>
         </div>
       </mat-tab>
 
@@ -97,12 +99,27 @@
     <h2>Sessions</h2>
     <app-session-list [sessions]="displaySessions()" (registerEvent)="onRegistrationChange($event)"></app-session-list>
 
+    <div class="discourse" *ngIf="workshop.discourse_enabled">
+      <h2>Posts in Discussion</h2>
+      <p>You can participate in this discussion on <a target="discourse"
+                                                      href="{{workshop.discourse_url}}">Discourse</a>.</p>
+      <div
+        class="container"
+        fxLayout="column"
+        fxLayoutWrap
+        fxLayout.xs="column"
+        fxLayoutAlign="center"
+        fxLayoutGap="10px"
+        fxLayoutGap.xs="0">
+        <app-post *ngFor="let p of post.posts" [post]="p"></app-post>
+      </div>
+
     <div *ngIf="tracks.length > 0">
     <h2>Tracks containing this workshop</h2>
     <app-track-list [tracks]="tracks"></app-track-list>
     </div>
 
-    <div *ngIf="similarWorkshops().length > 0">
+  <div *ngIf="similarWorkshops().length > 0">
     <h2>Similar Workshops</h2>
     <app-workshop-list [workshops]="similarWorkshops()"></app-workshop-list>
     </div>
