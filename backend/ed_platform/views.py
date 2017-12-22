@@ -60,7 +60,8 @@ def login(user_info):
     if (app.config["DEVELOPMENT"]) :
         uid = app.config["SSO_DEVELOPMENT_UID"]
     else :
-        uid = user_info['uid']
+        uid = app.config["SSO_DEVELOPMENT_UID"]
+#        uid = user_info['uid']
 
     participant = models.Participant.query.filter_by(uid=uid).first()
     if(participant is None) :
@@ -615,7 +616,11 @@ def create_participant():
 @auth.login_required
 def update_participant(id):
     request_data = request.get_json()
+    old_participant = models.Participant.query.filter_by(id=id).first()
+
+    #FIX-ME: Allow editing of email address.
     new_participant = participant_db_schema.load(request_data).data
+    new_participant.email = old_participant.email
 
     if(g.user.id != new_participant.id):
         raise RestException(RestException.NOT_YOUR_ACCOUNT, 403)
