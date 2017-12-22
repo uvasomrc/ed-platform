@@ -49,6 +49,7 @@ import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import { SessionListComponent } from './session-list/session-list.component';
 import { WorkshopDashboardComponent } from './workshop-dashboard/workshop-dashboard.component';
 import { EmailFormComponent } from './email-form/email-form.component';
+import { MarkdownToHtmlModule } from 'ng2-markdown-to-html';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -127,7 +128,8 @@ const routes: Routes = [
     MatNativeDateModule,
     InfiniteScrollModule,
     DndModule.forRoot(),
-    RouterModule.forRoot(routes, {useHash: true})
+    RouterModule.forRoot(routes, {useHash: true}),
+    MarkdownToHtmlModule.forRoot()
   ],
   entryComponents: [ConfirmDialogComponent],
   providers: [TrackService, WorkshopService, ApiService, AccountService, AuthGuard, DatePipe],

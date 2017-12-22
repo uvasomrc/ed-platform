@@ -16,7 +16,7 @@
         </button>
       </h2>
       <span class="sub-title">with {{workshop.instructor.display_name}}</span>
-      <p>{{workshop.description}}</p>
+      <markdown-to-html [data]="workshop.description"></markdown-to-html>
     </div>
     <div class="spacer"></div>
 
