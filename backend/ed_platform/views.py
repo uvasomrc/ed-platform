@@ -60,8 +60,7 @@ def login(user_info):
     if (app.config["DEVELOPMENT"]) :
         uid = app.config["SSO_DEVELOPMENT_UID"]
     else :
-        uid = app.config["SSO_DEVELOPMENT_UID"]
-#        uid = user_info['uid']
+        uid = user_info['uid']
 
     participant = models.Participant.query.filter_by(uid=uid).first()
     if(participant is None) :
