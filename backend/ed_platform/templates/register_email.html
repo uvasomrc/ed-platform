@@ -16,6 +16,16 @@
     {{ session.date_time.strftime('%I:%M %p') }} to {{ session.end_date_time().strftime('%I:%M %p') }}<br>
     Location: {{ session.location }}
     </p>
+    {% if session.instructor_notes %}
+    <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">
+        The Instructor has included the following attendance notes:
+    </p>
+    <p style="font-family: sans-serif; font-size: 14px; font-weight: bold; margin-left: 30px; margin-bottom: 15px;">
+        {{ session.instructor_notes }}
+    </p>
+    {% endif %}
+
+
 
     <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">
         If you signed up in error or were not the one who signed up for this class,
