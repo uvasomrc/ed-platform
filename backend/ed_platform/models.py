@@ -318,6 +318,7 @@ class ParticipantSession(db.Model):
     created = db.Column(db.DateTime, default=datetime.datetime.now)
     review_score = db.Column(db.Integer)
     review_comment = db.Column(db.TEXT())
+    confirmed = db.Column(db.Boolean, default=False)
     attended = db.Column(db.Boolean, default=False)
 
 class EmailMessage(db.Model):

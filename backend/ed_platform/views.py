@@ -558,6 +558,37 @@ def unregister(id):
     session = models.Session.query.filter_by(id=id).first()
     return models.SessionAPISchema().jsonify(session)
 
+@app.route('/api/session/<int:id>/confirm/<string:tracking_code>', methods=['POST'])
+@auth.login_required
+# @requires_roles('USER','ADMIN')  Anyone can post to this, since it contains a token.
+def confirm_attending(id, tracking_code):
+    # locate email message in logs by the token/tracking code
+    log = models.EmailLog.query.filter_by(tracking_code=tracking_code, session_id=id).first()
+    if(log is None):
+        raise RestException(RestException.INVALID_TRACKING_CODE)
+    participant = log.participant
+    session = models.Session.query.filter_by(id=id).first()
+    participant_session = participant.getParticipantSession(session)
+    participant_session.confirmed = True
+    db.session.add(participant_session)
+    db.session.commit()
+    return models.SessionAPISchema().jsonify(session)
+
+@app.route('/api/session/<int:id>/confirm/<string:tracking_code>', methods=['DELETE'])
+@auth.login_required
+# @requires_roles('USER','ADMIN')  Anyone can post to this, since it contains a token.
+def confirm_not_attending(id, tracking_code):
+    # locate email message in logs by the token/tracking code
+    log = models.EmailLog.query.filter_by(tracking_code=tracking_code, session_id=id).first()
+    if(log is None):
+        raise RestException(RestException.INVALID_TRACKING_CODE)
+    participant = log.participant
+    session = models.Session.query.filter_by(id=id).first()
+    participant_session = participant.getParticipantSession(session)
+    db.session.delete(participant_session)
+    db.session.commit()
+    return models.SessionAPISchema().jsonify(session)
+
 @app.route('/api/session/<int:id>/email', methods=['POST'])
 @auth.login_required
 def email_participants(id):
@@ -619,7 +650,7 @@ def update_participant(id):
 
     #FIX-ME: Allow editing of email address.
     new_participant = participant_db_schema.load(request_data).data
-    new_participant.email = old_participant.email
+    new_participant.email_address = old_participant.email_address
 
     if(g.user.id != new_participant.id):
         raise RestException(RestException.NOT_YOUR_ACCOUNT, 403)

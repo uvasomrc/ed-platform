@@ -1,0 +1,14 @@
+{{ participant.display_name }},
+
+You are currently registered for the class {{ session.workshop.title }} with {{ session.workshop.instructor.display_name }} 'which is happening soon.
+
+SESSION DETAILS
+---------------
+{{ session.date_time.strftime('%B %d, %Y') }}
+{{ session.date_time.strftime('%I:%M %p') }} to {{ session.end_date_time().strftime('%I:%M %p') }}
+Location: {{ session.location }}
+
+Please let us know if you are planning to attend.
+
+If you are planning to attend, please go to: {{ site_url }}/#/{{ session.workshop.id }}/attending/{{ tracking_code }}
+If you are not planning to attend, please go to: {{ site_url }}/#/{{ session.workshop.id }}/not_attending/{{ tracking_code }}

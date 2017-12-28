@@ -14,7 +14,7 @@ import time
 # Set enivoronment variable to testing before loading.
 os.environ["APP_CONFIG_FILE"] = '../config/testing.py'
 
-from ed_platform import app, db, data_loader, models, elastic_index, discourse
+from ed_platform import app, db, data_loader, models, elastic_index, discourse, notify
 from ed_platform.notify import TEST_MESSAGES
 
 
@@ -867,6 +867,9 @@ class TestCase(unittest.TestCase):
         self.assertTrue(updated.opened)
         self.assertIsNotNone(updated.date_opened)
 
+
+
+
     def search(self, query):
         '''Executes a query, returning the resulting search results object.'''
         rv = self.app.post('/api/workshop/search', data=json.dumps(query), follow_redirects=True,
@@ -1114,6 +1117,76 @@ class TestCase(unittest.TestCase):
         self.assertIsNotNone(ical)
 
 
+    def test_confirmation_email(self):
+
+        self.assertEqual(len(TEST_MESSAGES), 0)
+
+        # Create workshop, and session.
+        ws = self.add_test_workshop()
+        s = self.add_test_session(ws["id"])
+        p = self.get_current_participant()
+
+        workshop = models.Workshop.query.filter_by(id=ws['id']).first()
+        session  = models.Session.query.filter_by(id=s['id']).first()
+        participant = models.Participant.query.filter_by(id=p['id']).first()
+
+        # Register participant for the workshop.
+        rv = self.app.post("/api/session/%i/register" % session.id, headers=self.logged_in_headers())
+        self.assertEqual(len(TEST_MESSAGES), 1)
+        self.assertEqual(1, len(participant.participant_sessions))
+
+        # Send the participant a reminder about the upcoming workshop.
+        notify.message_confirm(workshop.instructor,participant,session)
+
+        # Assure message is delivered.
+        self.assertEqual(len(TEST_MESSAGES), 2)
+
+        # Find the tracking code
+        log = participant.email_logs[-1]
+        self.assertIsNotNone(log.tracking_code)
+
+        # Follow email link, to say we are attending.
+        self.assertFalse(participant.participant_sessions[0].confirmed)
+
+        # Use a bad tracking code, assure this won't work.
+        rv = self.app.post("/api/session/%i/confirm/%s" % (session.id, "stuff"), headers=self.logged_in_headers())
+        self.assert_failure(rv)
+
+        # Use the correct tracking code, assure this does work.
+        rv = self.app.post("/api/session/%i/confirm/%s" % (session.id, log.tracking_code), headers=self.logged_in_headers())
+        self.assert_success(rv)
+
+
+        # Check that participant confirmed attendance of the workshop.
+        self.assertTrue(participant.participant_sessions[0].confirmed)
+
+    def test_confirmation_email_not_attending(self):
+
+        # Create workshop, and session.
+        ws = self.add_test_workshop()
+        s = self.add_test_session(ws["id"])
+        p = self.get_current_participant()
+
+        workshop = models.Workshop.query.filter_by(id=ws['id']).first()
+        session  = models.Session.query.filter_by(id=s['id']).first()
+        participant = models.Participant.query.filter_by(id=p['id']).first()
+
+        # Register participant for the workshop.
+        rv = self.app.post("/api/session/%i/register" % session.id, headers=self.logged_in_headers())
+        self.assertTrue(participant.is_registered(session))
+
+        # Send the participant a reminder about the upcoming workshop.
+        notify.message_confirm(workshop.instructor,participant,session)
+
+        # Find the tracking code
+        log = participant.email_logs[-1]
+
+        # Use the correct tracking code, cancel registration.
+        rv = self.app.delete("/api/session/%i/confirm/%s" % (session.id, log.tracking_code), headers=self.logged_in_headers())
+        self.assert_success(rv)
+
+        # Assure that the participant is no longer registered for the session.
+        self.assertFalse(participant.is_registered(session))
 
 if __name__ == '__main__':
     unittest.main()

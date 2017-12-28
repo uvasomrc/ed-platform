@@ -18,6 +18,7 @@ class RestException(Exception):
     NO_SUCH_CODE = {'code': 'no_such_code', 'message': 'This Track Code does not exist, and cannot be assigned.'}
     NOT_YOUR_ACCOUNT = {'code': 'permission_denied', 'message': 'You may not edit another users account.'}
     PERMISSON_DENIED = {'code': 'permission_denied', 'message': 'You are not authorized to make this call.'}
+    INVALID_TRACKING_CODE = {'code': 'invalid_tracking_code', 'message': 'The tracking code provided does not match any messages sent.'}
 
     def __init__(self, payload, status_code=None):
         Exception.__init__(self)

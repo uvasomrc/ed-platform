@@ -135,3 +135,25 @@ class Notify():
                           html_body=html_body)
 
         return tracking_code
+
+    def message_confirm(self, instructor, participant, session):
+
+        subject = "CADRE Academy: Upcoming Workshop"
+        tracking_code = self.tracking_code()
+
+        text_body = render_template("confirm_email.txt",
+                                    session=session, participant=participant,
+                                    api_url=self.api_url, site_url=self.site_url,
+                                    instructor=instructor)
+        html_body = render_template("confirm_email.html",
+                                    session=session, participant=participant,
+                                    api_url=self.api_url, site_url=self.site_url,
+                                    instructor=instructor,
+                                    tracking_code=tracking_code)
+
+
+        self.send_email(subject,
+                          recipients=[participant.email_address], text_body=text_body,
+                          html_body=html_body)
+
+        return tracking_code
