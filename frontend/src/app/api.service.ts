@@ -99,6 +99,18 @@ export class ApiService {
       .catch(this.handleError);
   }
 
+  confirmRegistration(trackingCode, sessionId) {
+    return this.http.post(`${this.session_url}/${sessionId}/confirm/${trackingCode}`, '{}', this.getOptions())
+      .map(res => { return new Session(res.json()); })
+      .catch(this.handleError);
+  }
+
+  cancelRegistration(trackingCode, sessionId) {
+    return this.http.delete(`${this.session_url}/${sessionId}/confirm/${trackingCode}`, this.getOptions())
+      .map(res => { return new Session(res.json()); })
+      .catch(this.handleError);
+  }
+
 
   unFollow(workshop: Workshop): Observable<Workshop> {
     return this.http.delete(workshop.links.follow, this.getOptions())

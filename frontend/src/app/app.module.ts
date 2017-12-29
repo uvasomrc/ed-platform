@@ -23,7 +23,6 @@ import {ApiService} from './api.service';
 import {RouterModule, Routes} from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import {ConfirmDialogComponent, TrackDetailsComponent} from './track-details/track-details.component';
-import { WorkshopDetailsComponent } from './workshop-details/workshop-details.component';
 import { SessionComponent } from './session/session.component';
 import { ReviewComponent } from './review/review.component';
 import { ReviewStarsComponent } from './review-stars/review-stars.component';
@@ -50,6 +49,10 @@ import { SessionListComponent } from './session-list/session-list.component';
 import { WorkshopDashboardComponent } from './workshop-dashboard/workshop-dashboard.component';
 import { EmailFormComponent } from './email-form/email-form.component';
 import { MarkdownToHtmlModule } from 'ng2-markdown-to-html';
+import {
+  ConfirmRegistrationDialogComponent,
+  DeclineRegistrationDialogComponent, WorkshopDetailsComponent
+} from "./workshop-details/workshop-details.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -61,6 +64,7 @@ const routes: Routes = [
   {path: 'workshop-form/:id', component: WorkshopFormComponent, data: {title: 'Create/Edit Workshop'}},
   {path: 'participant-form/:id', component: ParticipantFormComponent, data: {title: 'Create/Edit Participants'}},
   {path: 'workshop/:id', component: WorkshopDetailsComponent, data: {title: 'Workshop'}},
+  {path: 'workshop/:id/:action/:sessionId/:code', component: WorkshopDetailsComponent, data: {title: 'Workshop'}},
   {path: 'account/:token', component: AccountRedirectComponent, data: {title: 'Account Details'}},
   {path: 'accountDetails', component: AccountDetailsComponent, data: {title: 'Your Account'}, canActivate: [AuthGuard]},
   {path: 'sessionDashboard/:id', component: SessionDashboardComponent, canActivate: [AuthGuard]},
@@ -97,7 +101,9 @@ const routes: Routes = [
     PostComponent,
     SessionListComponent,
     WorkshopDashboardComponent,
-    EmailFormComponent
+    EmailFormComponent,
+    ConfirmRegistrationDialogComponent,
+    DeclineRegistrationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -131,9 +137,10 @@ const routes: Routes = [
     RouterModule.forRoot(routes, {useHash: true}),
     MarkdownToHtmlModule.forRoot()
   ],
-  entryComponents: [ConfirmDialogComponent],
+  entryComponents: [ConfirmDialogComponent, ConfirmRegistrationDialogComponent, DeclineRegistrationDialogComponent],
   providers: [TrackService, WorkshopService, ApiService, AccountService, AuthGuard, DatePipe],
   bootstrap: [AppComponent]
 })
+
 
 export class AppModule { }

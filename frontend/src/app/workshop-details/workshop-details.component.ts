@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {WorkshopService} from '../workshop.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Workshop} from '../workshop';
@@ -8,6 +8,7 @@ import {Code} from '../code';
 import {Participant} from '../participant';
 import {Post} from '../post';
 import {Session} from '../session';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
 
 @Component({
   selector: 'app-workshop-details',
@@ -27,9 +28,16 @@ export class WorkshopDetailsComponent implements OnInit {
   constructor(private workshopService: WorkshopService,
               private accountService: AccountService,
               private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private dialog: MatDialog) {
     this.route.params.subscribe(params => {
       this.workshop_id = params['id'];
+      if ('code' in params) {
+        const trackingCode = params['code'];
+        const action = params['action'];
+        const sessionId = params['sessionId']
+        this.confirm_registration(action, trackingCode, sessionId);
+      }
       this.load_workshop();
     });
     accountService.getAccount().subscribe(a => this.account = a);
@@ -88,6 +96,31 @@ export class WorkshopDetailsComponent implements OnInit {
     /**/
   }
 
+  confirm_registration(action: String, trackingCode: String, sessionId: Number) {
+    if (action.toLowerCase() === 'confirm') {
+      this.workshopService.confirmRegistration(trackingCode, sessionId).subscribe(
+        (session) => {
+          console.log('You are confirmed for session:' + session);
+          const dialogRef = this.dialog.open(ConfirmRegistrationDialogComponent, {
+              width: '250px',
+              data: { session: session}
+          });
+        }
+      );
+    }
+    if (action.toLowerCase() === 'decline') {
+      this.workshopService.cancelRegistration(trackingCode, sessionId).subscribe(
+        (session) => {
+          console.log('You are no longer registered for session:' + session);
+          const dialogRef = this.dialog.open(DeclineRegistrationDialogComponent, {
+            width: '250px',
+            data: { session: session}
+          });
+        }
+      );
+    }
+  }
+
   ngOnInit() {
   }
 
@@ -126,6 +159,20 @@ export class WorkshopDetailsComponent implements OnInit {
     this.router.navigate(['workshopDashboard', this.workshop.id]);
   }
 
+}
 
+@Component({
+  selector: 'app-confirm-registration-dialog',
+  templateUrl: 'confirm-registration-dialog.html',
+})
+export class ConfirmRegistrationDialogComponent {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
+}
 
+@Component({
+  selector: 'app-decline-registration-dialog',
+  templateUrl: 'decline-registration-dialog.html',
+})
+export class DeclineRegistrationDialogComponent {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
 }

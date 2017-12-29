@@ -76,4 +76,11 @@ export class WorkshopService {
     return this.api.getPost(workshop);
   }
 
+  confirmRegistration(trackingCode, sessionId): Observable<Session> {
+    return this.api.confirmRegistration(trackingCode, sessionId);
+  }
+
+  cancelRegistration(trackingCode, sessionId): Observable<Session> {
+    return this.api.cancelRegistration(trackingCode, sessionId);
+  }
 }
