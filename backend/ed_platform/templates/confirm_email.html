@@ -14,7 +14,7 @@
 </p>
 
 <p style="font-family: sans-serif; font-size: 14px; font-weight: bold; margin-left: 30px; margin-bottom: 15px;">
-    SESSION DETAILS<br>
+    SESS3ION DETAILS<br>
     {{ session.date_time.strftime('%B %d, %Y') }} <br>
     {{ session.date_time.strftime('%I:%M %p') }} to {{ session.end_date_time().strftime('%I:%M %p') }}<br>
     Location: {{ session.location }}
@@ -27,11 +27,11 @@
     <tr>
          <tr>
          <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #42BD41; border-radius: 5px; text-align: center;">
-             <a href="{{ site_url }}/#/{{ session.workshop.id }}/attending/{{ tracking_code }}" target="_blank" style="display: inline-block; width: 180px; color: #ffffff; background-color: #42BD41; border: solid 1px #42BD41; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-transform: capitalize; border-color: #42BD41;">
+             <a href="{{ site_url }}/#/workshop/{{ session.workshop.id }}/confirm/{{ session.id }}/{{ tracking_code }}" target="_blank" style="display: inline-block; width: 180px; color: #ffffff; background-color: #42BD41; border: solid 1px #42BD41; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-transform: capitalize; border-color: #42BD41;">
                  <span style="font-size: 1.4em; font-weight: bold">YES</span></br>I can Attend</a> </td>
          <td style="padding:10px;"0></td>
          <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #e98726; border-radius: 5px; text-align: center;">
-             <a href="{{ site_url }}/#/{{ session.workshop.id }}/not_attending/{{ tracking_code }}" target="_blank" style="display: inline-block; width: 180px; color: #ffffff; background-color: #e98726; border: solid 1px #e98726; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-transform: capitalize; border-color: #e98726;">
+             <a href="{{ site_url }}/#/workshop/{{ session.workshop.id }}/decline/{{ session.id }}/{{ tracking_code }}" target="_blank" style="display: inline-block; width: 180px; color: #ffffff; background-color: #e98726; border: solid 1px #e98726; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-transform: capitalize; border-color: #e98726;">
                  <span style="font-size: 1.4em; font-weight: bold">NO</span></br>I cannot Attend</a> </td>
          </tr>
     </tr>

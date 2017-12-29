@@ -10,5 +10,5 @@ Location: {{ session.location }}
 
 Please let us know if you are planning to attend.
 
-If you are planning to attend, please go to: {{ site_url }}/#/{{ session.workshop.id }}/attending/{{ tracking_code }}
-If you are not planning to attend, please go to: {{ site_url }}/#/{{ session.workshop.id }}/not_attending/{{ tracking_code }}
+If you are planning to attend, please visit: {{ site_url }}/#/workshop/{{ session.workshop.id }}/confirm/{{ session.id }}/{{ tracking_code }}
+If you are not planning to attend, please visit: {{ site_url }}/#/workshop/{{ session.workshop.id }}/decline/{{ session.id }}/{{ tracking_code }}
