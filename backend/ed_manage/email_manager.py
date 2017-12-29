@@ -1,6 +1,8 @@
 from flask_script import Command, Option, Manager, prompt_bool
 from flask import current_app
-from ed_platform import models
+from sqlalchemy.orm import Session
+
+from ed_platform import models, db
 
 #class Confirmation(Command):
 
@@ -27,5 +29,11 @@ def confirmation():
     notifier = Notify(current_app)
     participant = models.Participant.query.filter_by(uid='dhf8r').first()
     session = models.Session.query.first()
-    notifier.message_confirm(participant, participant, session)
+    tracking_code = notifier.message_confirm(participant, participant, session)
+    email_log = models.EmailLog(participant=participant,
+                                type="confirmation",
+                                session_id=session.id,
+                                tracking_code=tracking_code)
 
+    db.session.add(email_log)
+    db.session.commit()
