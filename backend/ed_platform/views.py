@@ -434,6 +434,7 @@ def email_followers(id):
 
     request_data = request.get_json()
     email = email_message_db_schema.load(request_data).data
+    email.type = models.EmailMessage.TYPE_FOLLOWERS
     email.author = instructor
     email.workshop = workshop
     for participant in workshop.followers:
@@ -599,6 +600,7 @@ def email_participants(id):
 
     request_data = request.get_json()
     email = email_message_db_schema.load(request_data).data
+    email.type = models.EmailMessage.TYPE_ATTENDEES
     email.author = instructor
     email.session = session
     for ps in session.participant_sessions:

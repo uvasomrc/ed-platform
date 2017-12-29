@@ -307,6 +307,10 @@ class Session(db.Model):
                 return True
         return False
 
+    def confirmation_sent(self):
+        for email in self.email_messages:
+            if(email.is_confirmation): return True
+        return False
 
     def code(self):
         return self.workshop.code
@@ -324,6 +328,7 @@ class ParticipantSession(db.Model):
 class EmailMessage(db.Model):
     __tablename__ = 'email_message'
     id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String())
     session_id = db.Column('session_id', db.Integer, db.ForeignKey('session.id'))
     workshop_id = db.Column('workshop_id', db.Integer, db.ForeignKey('workshop.id'))
     subject = db.Column(db.String())
@@ -331,6 +336,13 @@ class EmailMessage(db.Model):
     sent_date = db.Column(db.DateTime, default=datetime.datetime.now)
     author_id = db.Column('author_id', db.Integer, db.ForeignKey('participant.id'))
     logs = db.relationship("EmailLog", backref="email_message", cascade="all, delete-orphan")
+
+    TYPE_FOLLOWERS = "Instructor to Followers"
+    TYPE_ATTENDEES = "Instructor to Attendees"
+    TYPE_CONFIRM = "Upcoming Workshop Reminder"
+
+    def is_confirmation(self):
+        return self.type == self.TYPE_CONFIRM
 
 class EmailLog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
