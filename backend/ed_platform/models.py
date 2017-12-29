@@ -456,7 +456,7 @@ class ParticipantAPISchema(ma.Schema):
 
 class ParticipantSessionAPISchema(ma.Schema):
     class Meta:
-        fields = ('participant', 'created', 'review_score', 'review_comment', 'attended')
+        fields = ('participant', 'created', 'review_score', 'review_comment', 'attended', 'confirmed')
         ordered = True
     participant = ma.Nested(ParticipantAPISchema)
     _links = ma.Hyperlinks({

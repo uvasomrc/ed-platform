@@ -15,16 +15,14 @@ export class Session {
   date_open: Date;
   status: string;
   total_participants = 0;
-  waiting_participants = 0;
   reviews = Array<Review>();
   attendees = Array<Participant>();
-  waiting = Array<Participant>();
 
   links: Links;
 
   constructor(values: Object = {}, parent = null) {
     Object.assign(this, values);
-    if(values['date_time']) {
+    if (values['date_time']) {
       this.date_time = new Date(values['date_time']);
     } else {
       this.date_time = new Date();
@@ -32,14 +30,12 @@ export class Session {
     this.links = new Links(values['_links']);
     if ('participant_sessions' in values) {
       for (const ps of values['participant_sessions']) {
-        if (ps['review_score']) { this.reviews.push(new Review(ps)); }
-        const attendee = new Attendee(ps['participant'],
-          ps['attended'], ps['created'], ps['wait_listed']);
-        if (attendee.wait_listed) {
-          this.waiting.push(attendee);
-        } else {
-          this.attendees.push(attendee);
+        if (ps['review_score']) {
+          this.reviews.push(new Review(ps));
         }
+        const attendee = new Attendee(ps['participant'],
+          ps['attended'], ps['created'], ps['confirmed']);
+        this.attendees.push(attendee);
       }
     }
   }

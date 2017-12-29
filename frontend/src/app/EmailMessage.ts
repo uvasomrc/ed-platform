@@ -18,6 +18,15 @@ export class EmailMessage {
       }
     }
   }
+
+  total_delivered() {
+    return this.logs.length;
+  }
+
+  total_opened() {
+    return this.logs.filter(l => l.opened).length;
+  }
+
 }
 
 class EmailLog {

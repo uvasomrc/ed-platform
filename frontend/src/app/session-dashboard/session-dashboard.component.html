@@ -18,6 +18,8 @@
 
     <mat-tab label="Attendee List">
       <p>There are currently {{session.total_participants}} out of {{session.max_attendees}} participants signed up for this session. </p>
+      <p>A few days before the session begins, we send a reminder email, asking students to confirm attendance.  Students who are confirmed
+      are shown below with a green check mark.</p>
       <ul class="list">
         <li *ngFor="let a of session.attendees">
           <div class="avatar-wrapper">
@@ -27,6 +29,7 @@
             <p>
               <b>{{ a.display_name }}</b><br/>
               Signed up on {{ a.created | date: 'fullDate'}}<br/>
+              <span class="confirmed" *ngIf="a.confirmed"><i class="material-icons">check</i>Paticipant confirmed they will attend.</span>
               <br/>
             </p>
           </div>
@@ -50,6 +53,7 @@
           <div class="list_subject">
             <b>Subject:</b> {{m.subject}}<br/>
             <b>Date:</b> {{m.sent_date | date: 'fullDate'}}<br/>
+            <b>Status:</b> Sent to {{m.total_delivered()}} participants, of which {{m.total_opened()}} definitely viewed the message.<br/>
             <br/>
             {{m.content}}
           </div>

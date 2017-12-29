@@ -36,4 +36,14 @@ ul.list {
       padding-left: 0px;
     }
   }
+
+  .list-text {
+    .confirmed {
+      .material-icons {
+        font-size: inherit !important;
+        color: green;
+      }
+    }
+  }
+
 }
