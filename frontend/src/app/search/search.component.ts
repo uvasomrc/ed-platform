@@ -32,8 +32,12 @@ export class SearchComponent implements OnInit {
               private renderer: Renderer2) {
     this.route.params.subscribe(params => {
       this.search = new Search();
+      if ('query' in params) {
+        this.search.query = params['query'];
+      } else {
+        this.search.query = '';
+      }
       this.search.query = params['query'];
-      //this.setDateRange('future', 'Upcoming');
     });
     renderer.listen(window, 'resize', (event) => {
       this.checkWindowWidth();

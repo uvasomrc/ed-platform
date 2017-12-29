@@ -35,21 +35,25 @@ export class AppComponent implements OnInit {
     this.accountService.refreshAccount();
   }
 
-  goSearch() {
-    this.router.navigate(['search', '']);
+  goSearch($event) {
+    $event.preventDefault();
+    this.router.navigate(['search']);
   }
 
-  goHome() {
+  goHome($event) {
+    $event.preventDefault();
     this.router.navigate(['home']);
   }
 
-  goAbout() {
+  goAbout($event) {
     //fixme: should go to about page.
+    $event.preventDefault();
     this.router.navigate(['home']);
   }
 
-  goHelp() {
+  goHelp($event) {
     //fixme: should go to about page.
+    $event.preventDefault();
     this.router.navigate(['home']);
   }
 

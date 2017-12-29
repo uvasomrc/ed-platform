@@ -35,13 +35,13 @@
 
 
   <div class="menubar">
-    <a href="#" (click)="goHome()">Home</a>
+    <a href="#" (click)="goHome($event)">Home</a>
     &bull;
-    <a href="#" (click)="goAbout()">About</a>
+    <a href="#" (click)="goAbout($event)">About</a>
     &bull;
-    <a href="#" (click)="goHelp()">Help</a>
+    <a href="#" (click)="goHelp($event)">Help</a>
     &bull;
-    <a href="#" (click)="goSearch()">Search</a>
+    <a href="#" (click)="goSearch($event)">Search</a>
     <span *ngIf="account && account.isAdmin()">
     &bull;
     <a href="#" [matMenuTriggerFor]="adminMenu">Admin</a>
