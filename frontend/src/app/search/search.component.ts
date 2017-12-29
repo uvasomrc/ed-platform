@@ -43,7 +43,7 @@ export class SearchComponent implements OnInit {
   private checkWindowWidth(): void {
     if (window.innerWidth > 768) {
       this.sideNav.mode = 'side';
-      this.sideNav.opened = true;
+      this.sideNav.opened = false;
     }else {
       this.sideNav.mode = 'over';
       this.sideNav.opened = false;

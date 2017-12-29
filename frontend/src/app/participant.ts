@@ -21,7 +21,6 @@ export class Participant {
   constructor(values: Object = {}) {
     if (values === null) { return; }
     Object.assign(this, values);
-    console.log("Loading Participant: " + this.id);
     if ('_links' in values) {
       this.links = new Links(values['_links']);
     }

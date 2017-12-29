@@ -20,7 +20,6 @@ export class Workshop  {
 
   constructor(values: Object = {}) {
     Object.assign(this, values);
-    console.log("Loading Workshop: " + this.id);
 
     this.links = new Links(values['_links']);
     this.sessions = Array<Session>();

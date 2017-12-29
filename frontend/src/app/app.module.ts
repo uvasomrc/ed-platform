@@ -27,7 +27,7 @@ import { SessionComponent } from './session/session.component';
 import { ReviewComponent } from './review/review.component';
 import { ReviewStarsComponent } from './review-stars/review-stars.component';
 import { TimesPipe } from './times.pipe';
-import { AccountDetailsComponent } from './account-details/account-details.component';
+import {AccountDetailsComponent, NewUserDialogComponent} from './account-details/account-details.component';
 import {AccountService} from './account.service';
 import { AccountRedirectComponent } from './account-redirect/account-redirect.component';
 import {AuthGuard} from './auth.guard';
@@ -103,7 +103,8 @@ const routes: Routes = [
     WorkshopDashboardComponent,
     EmailFormComponent,
     ConfirmRegistrationDialogComponent,
-    DeclineRegistrationDialogComponent
+    DeclineRegistrationDialogComponent,
+    NewUserDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -137,7 +138,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes, {useHash: true}),
     MarkdownToHtmlModule.forRoot()
   ],
-  entryComponents: [ConfirmDialogComponent, ConfirmRegistrationDialogComponent, DeclineRegistrationDialogComponent],
+  entryComponents: [ConfirmDialogComponent, ConfirmRegistrationDialogComponent, DeclineRegistrationDialogComponent, NewUserDialogComponent],
   providers: [TrackService, WorkshopService, ApiService, AccountService, AuthGuard, DatePipe],
   bootstrap: [AppComponent]
 })

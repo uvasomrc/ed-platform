@@ -13,10 +13,13 @@ export class TrackComponent implements OnInit {
 
   @Input('track') track: Track;
 
+  @Input('activeCode')
+  activeCode: String;
+
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    console.log(`my Track is ${this.track}`);
+    console.log(`the active code for Track is ${this.activeCode}`);
   }
 
   goTrack(id: Number) {

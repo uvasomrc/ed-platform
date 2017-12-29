@@ -80,9 +80,9 @@
             <div class="sub-title">Tracks contain this workshop</div>
           </div>
         </ng-template>
-        <app-track-list [tracks]="tracks"></app-track-list>
+        <app-track-list [tracks]="tracks" [activeCode]="workshop.code_id"></app-track-list>
       </mat-tab>
-      <mat-tab *ngIf="similarWorkshops().length > 0">
+      <mat-tab>
         <ng-template mat-tab-label>
           <div>
             <h1>{{similarWorkshops().length}}</h1>
@@ -113,10 +113,11 @@
         fxLayoutGap.xs="0">
         <app-post *ngFor="let p of post.posts" [post]="p"></app-post>
       </div>
+    </div>
 
     <div *ngIf="tracks.length > 0">
     <h2>Tracks containing this workshop</h2>
-    <app-track-list [tracks]="tracks"></app-track-list>
+    <app-track-list [tracks]="tracks" [activeCode]="workshop.code_id"></app-track-list>
     </div>
 
   <div *ngIf="similarWorkshops().length > 0">

@@ -16,6 +16,9 @@ export class TrackProgressComponent implements OnInit {
   @Input('codeIndex')
   codeIndex = -1;
 
+  @Input('activeCode')
+  activeCode: String;
+
   @Input('showTitles')
   showTitles = false;
 
@@ -39,6 +42,9 @@ export class TrackProgressComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.activeCode) {
+      this.codeIndex = this.track.codes.findIndex(c => c.id === this.activeCode);
+    }
   }
 
   select(index) {

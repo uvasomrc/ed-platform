@@ -1,15 +1,20 @@
 <div *ngIf="isDataLoaded">
 
-  <section class="header">
+  <section class="header"
+           fxLayout="row"
+           fxLayout.xs="column"
+           fxLayoutAlign="start center"
+           fxLayoutGap="10px"
+           fxLayoutGap.xs="0">
     <div class="circleborder">
       <img class="participant-big" src="{{participant.image()}}">
     </div>
-    <h2 class="mat-title">{{participant.display_name}}</h2>
+    <div>
+      <h2 class="mat-title">{{participant.display_name}}</h2>
+      <p>{{participant.bio}}</p>
+    </div>
   </section>
 
-  <section class="header">
-    <p>{{participant.bio}}</p>
-  </section>
 
   <mat-tab-group [selectedIndex]="participant.new_account? 3 : 0">
     <mat-tab label="Upcoming Workshops" *ngIf="upcomingWorkshops().length > 0">
@@ -22,9 +27,6 @@
       <app-workshop-list [workshops]="instructingWorkshops()"></app-workshop-list>
     </mat-tab>
     <mat-tab label="Edit Account">
-      <div *ngIf="participant.new_account">
-        <h1>Please complete your account details.</h1>
-      </div>
       <app-account-form [participant]="participant"></app-account-form>
     </mat-tab>
   </mat-tab-group>
