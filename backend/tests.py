@@ -525,20 +525,27 @@ class TestCase(unittest.TestCase):
         self.assertIsNotNone(pData['_links']['image'])
 
     def test_update_participant(self):
-        participant = self.get_current_participant();
+        participant = self.get_current_participant()
         rv = self.app.get(participant["_links"]["self"], follow_redirects=True)
         self.assert_success(rv)
         pData = json.loads(rv.get_data(as_text=True))
         pData['display_name'] = 'new_test_name'
         pData['bio'] = 'my brand new bio.'
 
-        rv = self.app.put(participant["_links"]["self"], data=json.dumps(pData), follow_redirects=True,
+        participant = models.Participant.query.filter_by(id=pData['id']).first()
+        self.assertIsNotNone(participant.email_address)
+
+        rv = self.app.put(pData["_links"]["self"], data=json.dumps(pData), follow_redirects=True,
                           content_type="application/json", headers=self.logged_in_headers())
         self.assert_success(rv)
         pData = json.loads(rv.get_data(as_text=True))
         self.assertEqual("new_test_name", pData['display_name'])
         self.assertEqual("my brand new bio.", pData['bio'])
-        self.assertEqual(participant['id'], pData['id'])
+        self.assertEqual(participant.id, pData['id'])
+
+        participant = models.Participant.query.filter_by(id=pData['id']).first()
+        self.assertIsNotNone(participant.email_address)
+
 
     def test_edit_someone_elses_account(self):
         participant = self.add_test_participant()
