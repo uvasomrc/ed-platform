@@ -649,10 +649,9 @@ def create_participant():
 def update_participant(id):
     request_data = request.get_json()
     old_participant = models.Participant.query.filter_by(id=id).first()
-
     #FIX-ME: Allow editing of email address.
+    request_data['email_address'] = old_participant.email_address
     new_participant = participant_db_schema.load(request_data).data
-    new_participant.email_address = old_participant.email_address
 
     if(g.user.id != new_participant.id):
         raise RestException(RestException.NOT_YOUR_ACCOUNT, 403)
