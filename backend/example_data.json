@@ -311,12 +311,12 @@
       }
     },
     {
-      "name": "ORK8S",
+      "name": "ork8s",
       "data": {
-        "uid": "ORK8S",
+        "uid": "ork8s",
         "role": "ADMIN",
         "display_name": "Omar Khurshid",
-        "email_address": "ORK8S@virginia.edu",
+        "email_address": "ork8s@virginia.edu",
         "phone_number": "+121212112",
         "image_file": "images/profile/089253d.jpg",
         "use_gravatar": false,
