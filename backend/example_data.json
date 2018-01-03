@@ -311,6 +311,20 @@
       }
     },
     {
+      "name": "ORK8S",
+      "data": {
+        "uid": "ORK8S",
+        "role": "ADMIN",
+        "display_name": "Omar Khurshid",
+        "email_address": "ORK8S@virginia.edu",
+        "phone_number": "+121212112",
+        "image_file": "images/profile/089253d.jpg",
+        "use_gravatar": false,
+        "created": "2017-12-15T10:30:00",
+        "bio": "Omar works at SOMRC"
+      }
+    },
+    {
       "name": "dhf8r",
       "data": {
         "uid": "dhf8r",
