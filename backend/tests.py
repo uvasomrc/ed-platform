@@ -997,8 +997,8 @@ class TestCase(unittest.TestCase):
         data = {'query': 'Pete'}
         search_results = self.search_participant(data)
         self.assertEqual(2, len(search_results["participants"]))
-        vp = search_results["participants"][0]
-        alonzi = search_results["participants"][1]
+        alonzi = search_results["participants"][0]
+        vp = search_results["participants"][1]
 
         self.assertEqual("alonzi", alonzi["uid"])
         self.assertEqual("vpn7n", vp["uid"])
@@ -1143,7 +1143,7 @@ class TestCase(unittest.TestCase):
         self.assertEqual(1, len(participant.participant_sessions))
 
         # Send the participant a reminder about the upcoming workshop.
-        notify.message_confirm(workshop.instructor,participant,session)
+        notify.message_confirm(session, participant)
 
         # Assure message is delivered.
         self.assertEqual(len(TEST_MESSAGES), 2)
@@ -1183,7 +1183,7 @@ class TestCase(unittest.TestCase):
         self.assertTrue(participant.is_registered(session))
 
         # Send the participant a reminder about the upcoming workshop.
-        notify.message_confirm(workshop.instructor,participant,session)
+        notify.message_confirm(session, participant)
 
         # Find the tracking code
         log = participant.email_logs[-1]
@@ -1194,6 +1194,59 @@ class TestCase(unittest.TestCase):
 
         # Assure that the participant is no longer registered for the session.
         self.assertFalse(participant.is_registered(session))
+
+    def test_notify_followers_of_seats_email(self):
+        # Create workshop, and session.
+        ws = self.add_test_workshop()
+        s = self.add_test_session(ws["id"])
+        p = self.get_current_participant()
+
+        message_count = len(TEST_MESSAGES)
+
+        workshop = models.Workshop.query.filter_by(id=ws['id']).first()
+        session  = models.Session.query.filter_by(id=s['id']).first()
+        participant = models.Participant.query.filter_by(id=p['id']).first()
+
+        # Send the participant a reminder that they can sign up for the session, as seats are available.
+        tracking_code = notify.message_followers_seats_open(session, participant)
+
+        self.assertIsNotNone(tracking_code)
+
+        # assure that an email message was sent
+        self.assertEquals(message_count + 1, len(TEST_MESSAGES))
+
+
+    def test_notify_followers_of_seats_email_allows_unfollow(self):
+        # Create workshop, and session.
+        ws = self.add_test_workshop()
+        s = self.add_test_session(ws["id"])
+        p = self.get_current_participant()
+
+        workshop = models.Workshop.query.filter_by(id=ws['id']).first()
+        session  = models.Session.query.filter_by(id=s['id']).first()
+        participant = models.Participant.query.filter_by(id=p['id']).first()
+
+        # make the participant a follower of the workshop.
+        workshop.followers.append(participant)
+        self.assertTrue(participant.is_following(workshop))
+
+        # Send the participant a reminder that they can sign up for the session, as seats are available.
+        tracking_code = notify.message_followers_seats_open(session, participant)
+
+        # add an email log, so the notification is recorded.
+        email = models.EmailLog(participant = participant,
+                                type=models.EmailMessage.TYPE_NOTIFY_FOLLOWERS,
+                                workshop_id = workshop.id,
+                                tracking_code = tracking_code)
+        db.session.add(email)
+
+        # Use the correct tracking code, un-follow the session.
+        rv = self.app.delete("/api/workshop/%i/follow/%s" % (session.id, tracking_code), headers=self.logged_in_headers())
+        self.assert_success(rv)
+
+        # Assure that the participant is no longer following the workshop
+        self.assertFalse(participant.is_following(workshop))
+
 
 if __name__ == '__main__':
     unittest.main()

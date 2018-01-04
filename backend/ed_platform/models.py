@@ -178,6 +178,9 @@ class Participant(db.Model):
     def is_registered(self, session):
         return len([r for r in self.participant_sessions if r.session_id == session.id]) > 0
 
+    def is_following(self, workshop):
+        return len([w for w in self.following if w.id == workshop.id]) > 0
+
     def is_registered_for_workshop(self, workshop):
         for session in workshop.sessions:
             if(not(session.is_past()) and session.is_attendee(self)):
@@ -312,6 +315,12 @@ class Session(db.Model):
             if(email.is_confirmation): return True
         return False
 
+    def followers_notified(self):
+        for email in self.email_messages:
+            if(email.is_notify_followers): return True
+        return False
+
+
     def code(self):
         return self.workshop.code
 
@@ -340,9 +349,14 @@ class EmailMessage(db.Model):
     TYPE_FOLLOWERS = "Instructor to Followers"
     TYPE_ATTENDEES = "Instructor to Attendees"
     TYPE_CONFIRM = "Upcoming Workshop Reminder"
+    TYPE_NOTIFY_FOLLOWERS = "Upcoming Workshop Available"
 
     def is_confirmation(self):
         return self.type == self.TYPE_CONFIRM
+
+    def is_notify_followers(self):
+        return self.type == self.TYPE_NOTIFY_FOLLOWERS
+
 
 class EmailLog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -354,6 +368,7 @@ class EmailLog(db.Model):
     participant_id = db.Column('participant_id', db.Integer, db.ForeignKey('participant.id'), nullable=False)
     email_message_id = db.Column('email_message_id', db.Integer, db.ForeignKey('email_message.id'))
     session_id = db.Column('session_id', db.Integer, db.ForeignKey('session.id'))
+    workshop_id = db.Column('workshop_id', db.Integer, db.ForeignKey('workshop.id'))
 
     def participant_name(self):
         return self.participant.display_name

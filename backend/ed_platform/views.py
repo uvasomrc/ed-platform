@@ -424,6 +424,19 @@ def unfollow_workshop(id):
     workshop.followers.remove(participant)
     return workshop_schema.jsonify(workshop)
 
+@app.route('/api/workshop/<int:id>/follow/<string:tracking_code>', methods=['DELETE'])
+@auth.login_required
+def unfollow_workshop_using_token(id, tracking_code):
+    """Unfollow the workshop using a token, without logging in."""
+    log = models.EmailLog.query.filter_by(tracking_code=tracking_code, workshop_id=id).first()
+    if(log is None):
+        raise RestException(RestException.INVALID_TRACKING_CODE)
+    participant = log.participant
+    workshop = models.Workshop.query.filter_by(id=id).first()
+    workshop.followers.remove(participant)
+    db.session.commit()
+    return workshop_schema.jsonify(workshop)
+
 @app.route('/api/workshop/<int:id>/email', methods=['POST'])
 @auth.login_required
 def email_followers(id):
@@ -679,7 +692,7 @@ def get_participant_image(id):
     mime = magic.Magic(mime=True)
     image = ""
     mime_type = ""
-    if(participant.image_file is None):
+    if(participant is None or participant.image_file is None):
         raise RestException(RestException.NOT_FOUND, 404)
     elif(os.path.isfile('ed_platform/static/' + participant.image_file)):
         mime_type = mime.from_file('ed_platform/static/' + participant.image_file)

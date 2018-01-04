@@ -51,7 +51,7 @@ import { EmailFormComponent } from './email-form/email-form.component';
 import { MarkdownToHtmlModule } from 'ng2-markdown-to-html';
 import {
   ConfirmRegistrationDialogComponent,
-  DeclineRegistrationDialogComponent, WorkshopDetailsComponent
+  DeclineRegistrationDialogComponent, UnFollowDialogComponent, WorkshopDetailsComponent
 } from "./workshop-details/workshop-details.component";
 
 const routes: Routes = [
@@ -105,7 +105,8 @@ const routes: Routes = [
     EmailFormComponent,
     ConfirmRegistrationDialogComponent,
     DeclineRegistrationDialogComponent,
-    NewUserDialogComponent
+    NewUserDialogComponent,
+    UnFollowDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -139,7 +140,11 @@ const routes: Routes = [
     RouterModule.forRoot(routes, {useHash: true}),
     MarkdownToHtmlModule.forRoot()
   ],
-  entryComponents: [ConfirmDialogComponent, ConfirmRegistrationDialogComponent, DeclineRegistrationDialogComponent, NewUserDialogComponent],
+  entryComponents: [ConfirmDialogComponent,
+    ConfirmRegistrationDialogComponent,
+    DeclineRegistrationDialogComponent,
+    NewUserDialogComponent,
+    UnFollowDialogComponent],
   providers: [TrackService, WorkshopService, ApiService, AccountService, AuthGuard, DatePipe],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,17 @@
+There's space available in
+{{ session.workshop.title }} with {{ session.workshop.instructor.display_name }}
+
+{{ participant.display_name }},
+
+Space has become available in a session of {{ session.workshop.title }} with {{ session.workshop.instructor.display_name }}.
+
+SESSION DETAILS
+{{ session.date_time.strftime('%B %d, %Y') }}
+{{ session.date_time.strftime('%I:%M %p') }} to {{ session.end_date_time().strftime('%I:%M %p') }}
+Location: {{ session.location }}
+
+If you would like to attend this session, please visit the course page on CADRE Academy to sign up.
+visit {{ site_url }}/#/workshop/{{session.workshop.id}} to register for the class.
+
+If you no longer want to be notified about available sessions for this workshop, can unfollow the workshop
+by visiting the following url:  {{ site_url }}/#/workshop/{{ session.workshop.id }}/unfollow/{{ tracking_code }}

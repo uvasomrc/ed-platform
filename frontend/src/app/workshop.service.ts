@@ -34,8 +34,12 @@ export class WorkshopService {
     return this.api.unFollow(workshop);
   }
 
+  unFollowByTrackingCode(trackingCode, workshop_id): Observable<Workshop>  {
+    return this.api.unFollowByTrackingCode(trackingCode, workshop_id);
+  }
 
-  getWorkshopForSession(session: Session): Observable<Workshop> {
+
+    getWorkshopForSession(session: Session): Observable<Workshop> {
     return this.api.getWorkshopForSession(session);
   }
 
@@ -83,4 +87,6 @@ export class WorkshopService {
   cancelRegistration(trackingCode, sessionId): Observable<Session> {
     return this.api.cancelRegistration(trackingCode, sessionId);
   }
+
+
 }

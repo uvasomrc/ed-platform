@@ -4,7 +4,6 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from flask import render_template
-#from ed_platform import models
 
 TEST_MESSAGES = []
 
@@ -147,6 +146,28 @@ class Notify():
                                     instructor=session.workshop.instructor,
                                     tracking_code=tracking_code)
         html_body = render_template("confirm_email.html",
+                                    session=session, participant=participant,
+                                    api_url=self.api_url, site_url=self.site_url,
+                                    instructor=session.workshop.instructor,
+                                    tracking_code=tracking_code)
+
+        self.send_email(subject,
+                          recipients=[participant.email_address], text_body=text_body,
+                          html_body=html_body)
+
+        return tracking_code
+
+    def message_followers_seats_open(self, session, participant):
+        '''Sends a message intended for followers that seats are available in an upcoming session for a workshop they follow.'''
+        subject = "CADRE Academy: Upcoming Workshop"
+        tracking_code = self.tracking_code()
+
+        text_body = render_template("seats_open.txt",
+                                    session=session, participant=participant,
+                                    api_url=self.api_url, site_url=self.site_url,
+                                    instructor=session.workshop.instructor,
+                                    tracking_code=tracking_code)
+        html_body = render_template("seats_open.html",
                                     session=session, participant=participant,
                                     api_url=self.api_url, site_url=self.site_url,
                                     instructor=session.workshop.instructor,

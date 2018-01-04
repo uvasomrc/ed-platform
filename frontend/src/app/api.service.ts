@@ -118,6 +118,13 @@ export class ApiService {
       .catch(this.handleError);
   }
 
+  unFollowByTrackingCode(trackingCode, workshop_id): Observable<Workshop>  {
+    return this.http.delete(`${this.workshop_url}/${workshop_id}/follow/${trackingCode}`, this.getOptions())
+      .map(res => { return new Workshop(res.json()); })
+      .catch(this.handleError);
+  }
+
+
   follow(workshop: Workshop): Observable<Workshop> {
     return this.http.post(workshop.links.follow, '{}', this.getOptions())
       .map(res => { return new Workshop(res.json()); })

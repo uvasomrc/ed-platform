@@ -97,6 +97,17 @@ export class WorkshopDetailsComponent implements OnInit {
   }
 
   confirm_registration(action: String, trackingCode: String, sessionId: Number) {
+    if (action.toLowerCase() === 'unfollow') {
+      this.workshopService.unFollowByTrackingCode(trackingCode, this.workshop_id).subscribe(
+        (workshop) => {
+          this.workshop = workshop;
+          const dialogRef = this.dialog.open(UnFollowDialogComponent, {
+            width: '250px',
+            data: { workshop: workshop}
+          });
+        }
+      );
+    }
     if (action.toLowerCase() === 'confirm') {
       this.workshopService.confirmRegistration(trackingCode, sessionId).subscribe(
         (session) => {
@@ -159,6 +170,15 @@ export class WorkshopDetailsComponent implements OnInit {
     this.router.navigate(['workshopDashboard', this.workshop.id]);
   }
 
+}
+
+
+@Component({
+  selector: 'app-un-follow-dialog',
+  templateUrl: 'un-follow-dialog.html',
+})
+export class UnFollowDialogComponent {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
 }
 
 @Component({
