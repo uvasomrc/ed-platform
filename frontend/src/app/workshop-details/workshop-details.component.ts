@@ -154,7 +154,7 @@ export class WorkshopDetailsComponent implements OnInit {
   }
 
   attendedSession(): Session {
-    return this.workshop.sessions.filter(s => s.status === 'ATTENDED')[0];
+    return this.workshop.sessions.filter(s => s.status === 'ATTENDED' || s.status === 'AWAITING_REVIEW')[0];
   }
 
   goLogin() {
