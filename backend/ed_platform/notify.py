@@ -157,7 +157,7 @@ class Notify():
 
         return tracking_code
 
-    def message_followers_seats_open(self, session, participant):
+    def message_followers_seats_open(self, session, participant, new_session):
         '''Sends a message intended for followers that seats are available in an upcoming session for a workshop they follow.'''
         subject = "CADRE Academy: Upcoming Workshop"
         tracking_code = self.tracking_code()
@@ -166,12 +166,14 @@ class Notify():
                                     session=session, participant=participant,
                                     api_url=self.api_url, site_url=self.site_url,
                                     instructor=session.workshop.instructor,
-                                    tracking_code=tracking_code)
+                                    tracking_code=tracking_code,
+                                    new_session=new_session)
         html_body = render_template("seats_open.html",
                                     session=session, participant=participant,
                                     api_url=self.api_url, site_url=self.site_url,
                                     instructor=session.workshop.instructor,
-                                    tracking_code=tracking_code)
+                                    tracking_code=tracking_code,
+                                    new_session=new_session)
 
         self.send_email(subject,
                           recipients=[participant.email_address], text_body=text_body,

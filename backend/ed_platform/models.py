@@ -315,9 +315,14 @@ class Session(db.Model):
             if(email.is_confirmation): return True
         return False
 
-    def followers_notified(self):
+    def followers_notified_seats(self):
         for email in self.email_messages:
-            if(email.is_notify_followers): return True
+            if(email.is_notify_followers_seats): return True
+        return False
+
+    def followers_notified_session(self):
+        for email in self.email_messages:
+            if(email.is_notify_followers_session): return True
         return False
 
 
@@ -349,13 +354,17 @@ class EmailMessage(db.Model):
     TYPE_FOLLOWERS = "Instructor to Followers"
     TYPE_ATTENDEES = "Instructor to Attendees"
     TYPE_CONFIRM = "Upcoming Workshop Reminder"
-    TYPE_NOTIFY_FOLLOWERS = "Upcoming Workshop Available"
+    TYPE_NOTIFY_FOLLOWERS_SEATS = "Upcoming Workshop Available"
+    TYPE_NOTIFY_FOLLOWERS_SESSION = "New Session Notification"
 
     def is_confirmation(self):
         return self.type == self.TYPE_CONFIRM
 
-    def is_notify_followers(self):
-        return self.type == self.TYPE_NOTIFY_FOLLOWERS
+    def is_notify_followers_seats(self):
+        return self.type == self.TYPE_NOTIFY_FOLLOWERS_SEATS
+
+    def is_notify_followers_session(self):
+        return self.type == self.TYPE_NOTIFY_FOLLOWERS_SESSION
 
 
 class EmailLog(db.Model):
@@ -369,6 +378,7 @@ class EmailLog(db.Model):
     email_message_id = db.Column('email_message_id', db.Integer, db.ForeignKey('email_message.id'))
     session_id = db.Column('session_id', db.Integer, db.ForeignKey('session.id'))
     workshop_id = db.Column('workshop_id', db.Integer, db.ForeignKey('workshop.id'))
+    error = db.Column(db.TEXT())
 
     def participant_name(self):
         return self.participant.display_name

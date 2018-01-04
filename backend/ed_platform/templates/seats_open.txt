@@ -13,5 +13,5 @@ Location: {{ session.location }}
 If you would like to attend this session, please visit the course page on CADRE Academy to sign up.
 visit {{ site_url }}/#/workshop/{{session.workshop.id}} to register for the class.
 
-If you no longer want to be notified about available sessions for this workshop, can unfollow the workshop
-by visiting the following url:  {{ site_url }}/#/workshop/{{ session.workshop.id }}/unfollow/{{ tracking_code }}
+If you no longer want to be notified about available sessions for this workshop, you can unfollow the workshop
+by visiting the following url:  {{ site_url }}/#/workshop/{{session.workshop.id}}/unfollow/{{session.id}}/{{tracking_code}}

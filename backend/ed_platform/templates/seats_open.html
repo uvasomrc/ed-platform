@@ -1,16 +1,21 @@
 {% extends "base_email.html" %}
 {% block content %}
-<p style="font-family: sans-serif; font-size: 24px; font-weight: bold; margin: 0; Margin-bottom: 15px;">
-    There's space available in <i>"{{ session.workshop.title }}"</i>
+<p  style="font-family: sans-serif; font-size: 24px; font-weight: bold; margin: 0; Margin-bottom: 15px;">
+    {% if new_session %}A new session is open for registration in
+    {% else %}There's space available in
+    {% endif %}
+    <i>"{{ session.workshop.title }}"</i>
     with {{ session.workshop.instructor.display_name }}
 </p>
-<p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">
+    <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">
     {{ participant.display_name }}, </p>
 
 <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">
-    Space has become available in a session of {{ session.workshop.title }}
-    with {{ session.workshop.instructor.display_name }}
-    which is happening soon.
+    {% if new_session %}Registration is now open for a session of
+    {% else %}Space has become available in a session of
+    {% endif %}
+    {{ session.workshop.title }}
+    with {{ session.workshop.instructor.display_name }}.
 </p>
 
 <p style="font-family: sans-serif; font-size: 14px; font-weight: bold; margin-left: 30px; margin-bottom: 15px;">

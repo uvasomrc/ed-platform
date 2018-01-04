@@ -25,6 +25,13 @@ def sub_opts(app, **kwargs):
 manager = Manager(sub_opts, usage="Send Automated Email Messages")
 
 @manager.command
+def all():
+    "Send all possible automatic email messages"
+    confirmation()
+    followers_seats_open()
+    followers_session_created()
+
+@manager.command
 def confirmation():
     "Asks participants to confirm their attendance in upcoming sessions"
     days_out = 3
@@ -43,7 +50,7 @@ def confirmation():
 
 @manager.command
 def followers_seats_open():
-    "Asks participants to confirm their attendance in upcoming sessions"
+    "Notify Followers that seats are available in an upcoming session"
     days_out = 2
 
     # Get a list of all sessions that occur in the next x days
@@ -53,25 +60,38 @@ def followers_seats_open():
 
     for s in sessions:
         print("Checking session " + str(s.date_time))
-        print("Follower Notification Sent:" + str(s.followers_notified()))
+        print("Follower Notification Sent:" + str(s.followers_notified_seats()))
         print("Is the Session Full?:" + str(s.is_full()))
-        if not s.followers_notified() and not s.is_full():
-            send_followers_seats_open(s)
+        if not s.followers_notified_seats() and not s.is_full():
+            send_followers_session_open(s, new_session=False)
 
 @manager.command
-def test_followers():
-    participant = models.Participant.query.filter_by(uid='dhf8r').first()
-    session = models.Session.query.all()[0]
-    session.workshop.followers.append(participant)
-    notifier = Notify(current_app)
-    tracking_code = notifier.message_followers_seats_open(session, participant)
-    email_log = models.EmailLog(participant=participant,
-                                    type=models.EmailMessage.TYPE_NOTIFY_FOLLOWERS,
-                                    session_id=session.id,
-                                    workshop_id=session.workshop.id,
-                                    tracking_code=tracking_code)
-    db.session.add(email_log)
-    db.session.commit()
+def followers_session_created():
+    "Notify Followers that a new session is available for registration"
+    sessions = models.Session.query.all()
+
+    for s in sessions:
+        print("Checking session " + str(s.date_time))
+        print("Follower Session Sent:" + str(s.followers_notified_session()))
+        print("Is the Session Full?:" + str(s.is_full()))
+        if not s.followers_notified_session() and not s.is_full() and s.is_open():
+            send_followers_session_open(s, new_session=True)
+
+
+# @manager.command
+# def test_followers():
+#     participant = models.Participant.query.filter_by(uid='dhf8r').first()
+#     session = models.Session.query.all()[0]
+#     session.workshop.followers.append(participant)
+#     notifier = Notify(current_app)
+#     tracking_code = notifier.message_followers_seats_open(session, participant, new_session=True)
+#     email_log = models.EmailLog(participant=participant,
+#                                     type=models.EmailMessage.TYPE_NOTIFY_FOLLOWERS_SESSION,
+#                                     session_id=session.id,
+#                                     workshop_id=session.workshop.id,
+#                                     tracking_code=tracking_code)
+#     db.session.add(email_log)
+#     db.session.commit()
 
 def send_confirmation(session):
     notifier = Notify(current_app)
@@ -101,25 +121,32 @@ def send_confirmation(session):
     db.session.add(email)
     db.session.commit()
 
-def send_followers_seats_open(session):
+def send_followers_session_open(session, new_session=False):
     notifier = Notify(current_app)
-    email = models.EmailMessage(type=models.EmailMessage.TYPE_NOTIFY_FOLLOWERS,
+    if(new_session):
+        type = models.EmailMessage.TYPE_NOTIFY_FOLLOWERS_SESSION
+        content = "An automatic email message, sent to all followers if a new session is open for registration"
+    else:
+        type = models.EmailMessage.TYPE_NOTIFY_FOLLOWERS_SEATS
+        content = "An automatic email message, sent to followers if an upcoming session has open seats"
+
+    email = models.EmailMessage(type = type,
                                 session_id = session.id,
                                 workshop_id = session.workshop_id,
                                 subject = "Session Available",
-                                content = "An automatic email message, sent to followers if an upcoming session has open seats")
+                                content = content)
     tracking_code = "unknown"
     error = ""
     for participant in session.workshop.followers:
         try:
-            tracking_code = notifier.message_followers_seats_open(session, participant)
+            tracking_code = notifier.message_followers_seats_open(session, participant, new_session)
         except socket.error as e:
             error = "Could not connect to SMTP server"
         except:
             error =  sys.exc_info()[0]
         finally:
             email_log = models.EmailLog(participant=participant,
-                                    type=models.EmailMessage.TYPE_NOTIFY_FOLLOWERS,
+                                    type = type,
                                     session_id=session.id,
                                     workshop_id=session.workshop.id,
                                     tracking_code=tracking_code,
