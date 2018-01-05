@@ -88,6 +88,9 @@ export class AccountService implements OnDestroy {
         localStorage.setItem(this.USER_KEY, JSON.stringify(participant));
         this.logged_in = true;
         this.participant.next(participant);
+        (<any>window).gtag('event', participant.display_name, {
+          'event_category': 'login'
+        });
       },
       err => {
         this.logged_in = false;

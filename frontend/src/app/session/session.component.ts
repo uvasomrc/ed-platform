@@ -49,6 +49,9 @@ export class SessionComponent implements OnInit {
     this.session.status = 'CHANGING';
     this.accountService.register(this.session).subscribe(
       (newSession) => {
+        (<any>window).gtag('event', "session #" + this.session.id, {
+          'event_category': 'register'
+        });
         this.session = newSession;
         this.registerEvent.emit(this.session);
       });
@@ -58,6 +61,9 @@ export class SessionComponent implements OnInit {
     this.session.status = 'CHANGING';
     this.accountService.unRegister(this.session).subscribe(
       (newSession) => {
+        (<any>window).gtag('event', "session #" + this.session.id, {
+          'event_category': 'unregister'
+        });
         this.session = newSession;
         this.registerEvent.emit(this.session);
       });

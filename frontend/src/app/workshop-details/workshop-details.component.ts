@@ -47,6 +47,9 @@ export class WorkshopDetailsComponent implements OnInit {
     this.workshopService.follow(this.workshop).subscribe(
     (workshop) => {
       this.workshop = workshop;
+      (<any>window).gtag('event', this.workshop.title, {
+        'event_category': 'follow'
+      });
     });
   }
 
@@ -54,6 +57,9 @@ export class WorkshopDetailsComponent implements OnInit {
     this.workshopService.unFollow(this.workshop).subscribe(
       (workshop) => {
         this.workshop = workshop;
+        (<any>window).gtag('event', this.workshop.title, {
+          'event_category': 'unfollow'
+        });
       });
   }
 
@@ -105,6 +111,9 @@ export class WorkshopDetailsComponent implements OnInit {
             width: '250px',
             data: { workshop: workshop}
           });
+          (<any>window).gtag('event', this.workshop.title, {
+            'event_category': 'unfollow_by_email_link'
+          });
         }
       );
     }
@@ -116,6 +125,9 @@ export class WorkshopDetailsComponent implements OnInit {
               width: '250px',
               data: { session: session}
           });
+          (<any>window).gtag('event', this.workshop.title, {
+            'event_category': 'confirm_by_email_link'
+          });
         }
       );
     }
@@ -126,6 +138,9 @@ export class WorkshopDetailsComponent implements OnInit {
           const dialogRef = this.dialog.open(DeclineRegistrationDialogComponent, {
             width: '250px',
             data: { session: session}
+          });
+          (<any>window).gtag('event', this.workshop.title, {
+            'event_category': 'cancel_by_email_link'
           });
         }
       );

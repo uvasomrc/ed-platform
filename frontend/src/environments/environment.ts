@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
-  api: 'http://localhost:5000'
+  api: 'http://localhost:5000',
+  ga_id: 'UA-112017665-1' // Google Analytics tag
 };

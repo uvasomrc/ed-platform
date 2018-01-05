@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Router, RoutesRecognized} from '@angular/router';
+import {NavigationEnd, Router, RoutesRecognized} from '@angular/router';
 import {Participant} from './participant';
 import {AccountService} from './account.service';
+import {environment} from "../environments/environment";
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ export class AppComponent implements OnInit {
   account: Participant;
   title: String;
   loggedIn = false;
+  ga_id = environment.ga_id;
 
   constructor(private router: Router,
               private accountService: AccountService) {
@@ -21,6 +23,11 @@ export class AppComponent implements OnInit {
         const route = event.state.root.firstChild;
         this.title = route.data.title || '';
         console.log('Title', this.title);
+      }
+
+      // For google Analytics tracking of page views through the router
+      if (event instanceof NavigationEnd ) {
+        (<any>window).gtag('config', this.ga_id, {'page_path': event.urlAfterRedirects});
       }
     });
   }

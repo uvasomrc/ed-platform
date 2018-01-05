@@ -86,6 +86,9 @@ export class SearchComponent implements OnInit {
         this.checkWindowWidth();
       }
     );
+    (<any>window).gtag('event', this.search.query, {
+      'event_category': 'search'
+    });
   }
 
   onScroll() {
