@@ -1,4 +1,4 @@
-
+ 
 A mobile friendly web application that allow students to browse, search
 and register for live workshops on the University of Virginia campus.
  
