@@ -14,17 +14,17 @@
 
 .mobile-header {
   background-image: url('../../assets/logo-bg.png');
-  background-position: 0px,20px;
+  background-position: 0px, 20px;
   display: block;
 }
 
 div.introduction {
   display: block;
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+50,000000+52&0.65+0,0+52 */
-  background: -moz-linear-gradient(left, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.65) 100%), url("../../assets/introduction.jpg"); /* FF3.6-15 */
-  background: -webkit-linear-gradient(left, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0.65) 100%), url("../../assets/introduction.jpg"); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to right, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0.65) 100%), url("../../assets/introduction.jpg"); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
+  background: -moz-linear-gradient(left, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.65) 100%), url("../../assets/home-lawn.jpg"); /* FF3.6-15 */
+  background: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.65) 100%), url("../../assets/home-lawn.jpg"); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.65) 100%), url("../../assets/home-lawn.jpg"); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a8000000', endColorstr='#00000000', GradientType=1); /* IE6-9 */
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -37,7 +37,10 @@ div.introduction {
     background: transparent;
     font-style: italic;
     color: #fff;
-    padding: 60px 0 0 30px;
+    font-size: 24px;
+    font-weight: 600;
+    padding: 40px 0 0 30px;
+    text-shadow: 1px 1px #000000;
   }
 
   p {
@@ -45,48 +48,64 @@ div.introduction {
     color: #fff;
     padding: 0px 0 0 30px;
     width: 300px;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 20px;
+    font-weight: 500;
+    text-shadow: 1px 1px #000000;
   }
 
-  form.searchbox {
-    display: flex;
-    flex-flow: row;
-    align-items: center;
-    background: #fff;
-    margin: 0 30px 0 30px;
-    border-radius: 8px;
+  button.viewall {
+    float: right;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 10px 5px;
+  }
+
+  div.searchbox {
     max-width: 400px;
-    padding:0;
-    height: 40px;
 
-    div.label {
-      flex: 0 1 auto;
-      padding: 0 10px 0 10px;
-      color: #999;
+    form.searchbox {
+      display: flex;
+      flex-flow: row;
+      align-items: center;
+      background: #fff;
+      margin: 0 30px 0 30px;
+      border-radius: 8px;
+      max-width: 400px;
+      padding: 0;
+      height: 40px;
+
+      div.label {
+        flex: 0 1 auto;
+        padding: 0 10px 0 10px;
+        color: #999;
+      }
+
+      input {
+        flex: 1 1 auto;
+        border: none;
+        border-left: 2px solid #ccc;
+        font-size: 24px;
+        width: 100%;
+        height: 38px;
+        padding-left: 10px;
+      }
+
+      textarea:focus, input:focus {
+        outline: none;
+      }
+
+      button {
+        color: inherit;
+        flex: 0 1 auto;
+        width: 100px;
+        margin: 0 15px 0 0;
+
+      }
+
     }
-
-    input {
-      flex: 1 1 auto;
-      border: none;
-      border-left: 2px solid #ccc;
-      font-size: 24px;
-      width: 100%;
-      height: 38px;
-      padding-left: 10px;
-    }
-
-    textarea:focus, input:focus{
-      outline: none;
-    }
-
-    button {
-      flex: 0 1 auto;
-      width: 100px;
-    }
-
   }
-
 
 }
 
@@ -99,22 +118,19 @@ div.introduction {
   }
 
   div.introduction {
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+50,000000+52&0.65+0,0+52 */
-    background: -moz-linear-gradient(left, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.02) 50%, rgba(0,0,0,0) 52%), url("../../assets/introduction.jpg"); /* FF3.6-15 */
-    background: -webkit-linear-gradient(left, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0.02) 50%,rgba(0,0,0,0) 52%), url("../../assets/introduction.jpg"); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0.02) 50%,rgba(0,0,0,0) 52%), url("../../assets/introduction.jpg"); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+0,000000+0,000000+0,000000+0,000000+0&0.85+0,0+50 */
+    background: -moz-linear-gradient(45deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0) 60%), url("../../assets/home-lawn.jpg"); /* FF3.6-15 */
+    background: -webkit-linear-gradient(45deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0) 60%), url("../../assets/home-lawn.jpg"); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0) 60%), url("../../assets/home-lawn.jpg"); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d9000000', endColorstr='#00000000', GradientType=1); /* IE6-9 fallback on horizontal gradient */
   }
 }
 
-
-
-
 div.logo {
-  background: -webkit-linear-gradient(bottom,rgba(0,47,108,0),rgba(0,47,108,1)); /*Safari 5.1-6*/
-  background: -o-linear-gradient(top,rgba(0,47,108,0),rgba(0,47,108,1)); /*Opera 11.1-12*/
-  background: -moz-linear-gradient(bottom,rgba(0,47,108,0),rgba(0,47,108,1)); /*Fx 3.6-15*/
-  background: linear-gradient(to bottom, rgba(0,47,108,0), rgba(0,47,108,1));
+  background: -webkit-linear-gradient(bottom, rgba(0, 47, 108, 0), rgba(0, 47, 108, 1)); /*Safari 5.1-6*/
+  background: -o-linear-gradient(top, rgba(0, 47, 108, 0), rgba(0, 47, 108, 1)); /*Opera 11.1-12*/
+  background: -moz-linear-gradient(bottom, rgba(0, 47, 108, 0), rgba(0, 47, 108, 1)); /*Fx 3.6-15*/
+  background: linear-gradient(to bottom, rgba(0, 47, 108, 0), rgba(0, 47, 108, 1));
   width: 100%;
   color: white;
   margin: auto;
@@ -133,15 +149,18 @@ img.logo {
   background-color: white;
   text-align: center;
 }
+
 .carousel {
   list-style: none;
   margin: 0;
   padding: 0;
   width: 6000px;
 }
+
 .carousel-inner {
   display: flex;
 }
+
 .sponsors {
   display: flex;
 }

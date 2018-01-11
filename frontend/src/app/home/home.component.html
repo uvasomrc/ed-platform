@@ -4,13 +4,13 @@
          alt="Welcome to Cadre Academy.  Free Technology Classes on the UVA Campus."/>
   </div>
 </div>
-
 <div class="introduction">
-    <h1>Technology Workshops at UVa</h1>
-    <p>These workshops are free to UVA faculty, staff
-      and students and are offered in a single-session
-      format, typically lasting one to three hours.</p>
-    <p>FIND YOUR NEXT SKILL ...</p>
+  <h1>Technology Workshops at UVa</h1>
+  <p>These workshops are free to UVA faculty, staff
+    and students and are offered in a single-session
+    format, typically lasting one to three hours.</p>
+  <p>FIND YOUR NEXT SKILL ...</p>
+  <div class="searchbox">
     <form class="searchbox" (ngSubmit)="goSearch(query.value)">
       <div class="label">Search</div>
       <input #query type="text">
@@ -18,7 +18,11 @@
         <mat-icon>search</mat-icon>
       </button>
     </form>
+    <button class="viewall" mat-button (click)="goSearch('')">View All Workshops</button>
+  </div>
 </div>
+
+<div style="clear: both;"></div>
 
 <h2 class="header">
   Tracks
@@ -35,12 +39,13 @@
   <button (click)="goNewWorkshop()" mat-icon-button *ngIf="account && account.isAdmin()">
     <mat-icon color="primary">add_circle</mat-icon>
   </button>
-  <button  mat-raised-button (click)="goSearch('')">
-    <mat-icon color="primary">search</mat-icon>Search all
+  <button mat-raised-button (click)="goSearch('')">
+    <mat-icon color="primary">search</mat-icon>
+    Search all
   </button>
 </h2>
 
-<app-workshop-list [workshops] = "workshops"></app-workshop-list>
+<app-workshop-list [workshops]="workshops"></app-workshop-list>
 
 <div class="sponsors">
   <button (click)="left()" class="arrows">
