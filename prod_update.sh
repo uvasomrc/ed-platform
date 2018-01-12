@@ -1,4 +1,3 @@
-File Edit Options Buffers Tools Sh-Script Help
 #!/bin/bash
 
 # Run the basic operations to update a production setup after a code change.
