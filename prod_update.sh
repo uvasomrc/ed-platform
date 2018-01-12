@@ -11,7 +11,7 @@ cp /home/ubuntu/edp_config.py ./backend/instance/config.py
 
 if [ "$1" == "prod" ]; then
     echo "Building for production."
-elif [ "$1" == "staging"]; then
+elif [ "$1" == "staging" ]; then
     echo "Building for staging."
 else
     echo "Please specify environment (prod/staging)"
