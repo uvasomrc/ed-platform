@@ -10,6 +10,17 @@ File Edit Options Buffers Tools Sh-Script Help
 mkdir -p ./backend/instance
 cp /home/ubuntu/edp_config.py ./backend/instance/config.py
 
+if [ "$1" == "prod" ]; then
+    echo "Building for production."
+elif [ "$1" == "staging"]; then
+    echo "Building for staging."
+else
+    echo "Please specify environment (prod/staging)"
+    exit
+fi
+
+export ENV=$1
+
 # Update the database
 source /home/ubuntu/anaconda3/bin/activate edp
 export HOME_DIR=`pwd`
@@ -18,13 +29,18 @@ echo "Running from ${HOME_DIR}"
 eval 'cd ${HOME_DIR}/backend && conda env update'
 # But also install via pip3, which is what the production server is using now.
 eval 'pip3 install flask sqlalchemy psycopg2 flask-migrate flask-script flask-cors flask-marshmallow marshmallow-sqlalchemy flask-sso pyjwt flask-httpauth flask_mail elasticsearch_dsl flask-uploads python-magic requests-toolbelt icalendar'
-eval 'python ${HOME_DIR}/backend/manage.py clear_data'
+if [$ENV == 'staging']; then 
+   eval 'python ${HOME_DIR}/backend/manage.py clear_data'
+fi
 eval 'cd ${HOME_DIR}/backend && python ${HOME_DIR}/backend/manage.py db upgrade'
-eval 'cd ${HOME_DIR}/backend && python ${HOME_DIR}/backend/manage.py load_data'
+if [$ENV == 'staging']; then 
+   eval 'cd ${HOME_DIR}/backend && python ${HOME_DIR}/backend/manage.py load_data'
+fi
 eval 'cd ${HOME_DIR}/backend && python ${HOME_DIR}/backend/manage.py index_data'
 # Rebuild the front end.
 eval 'cd ${HOME_DIR}/frontend && npm install'
-eval 'cd ${HOME_DIR}/frontend && ng build -prod'
+eval 'cd ${HOME_DIR}/frontend && ng build -${ENV}'    
+
 
 # Reload apache
 echo "Reloading Apache"
