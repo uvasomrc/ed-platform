@@ -38,7 +38,7 @@ fi
 eval 'cd ${HOME_DIR}/backend && python ${HOME_DIR}/backend/manage.py index_data'
 # Rebuild the front end.
 eval 'cd ${HOME_DIR}/frontend && npm install'
-eval 'cd ${HOME_DIR}/frontend && ng build -${ENV}'    
+eval 'cd ${HOME_DIR}/frontend && ng build --environment=${ENV}'    
 
 
 # Reload apache
