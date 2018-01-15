@@ -9,7 +9,8 @@ import {Code} from './code';
 @Injectable()
 export class TrackService {
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService) {
+  }
 
   getTracks(): Observable<Track[]> {
     return this.api.getTracks();
@@ -31,7 +32,7 @@ export class TrackService {
     return this.api.updateTrack(track);
   }
 
-  deleteTrack(track: Track): Observable<Track>{
+  deleteTrack(track: Track): Observable<Track> {
     return this.api.deleteTrack(track);
   }
 
@@ -42,4 +43,9 @@ export class TrackService {
   getAllCodes(): Observable<Code[]> {
     return this.api.getAllCodes();
   }
+
+  updateTrackImage(track: Track, file: File) {
+    this.api.updateTrackImage(track, file).subscribe();
+  }
+
 }

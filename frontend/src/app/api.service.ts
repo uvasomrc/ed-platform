@@ -90,7 +90,7 @@ export class ApiService {
   unRegister(session: Session): Observable<Session> {
     return this.http.delete(session.links.register, this.getOptions())
       .map(res => { return new Session(res.json()); })
-      .catch(this.handleError);
+      .catch(e => this.handleError(e));
   }
 
   register(session: Session): Observable<Session> {
@@ -202,6 +202,18 @@ export class ApiService {
       })
       .catch(this.handleError);
   }
+
+  updateTrackImage(track: Track, file: File) {
+    const formData = new FormData();
+    formData.append('image', file, file.name);
+    console.log("Posting to " + track.links.self + '/image');
+    return this.http.post(track.links.self + '/image', formData, this.getOptions())
+      .map(response => {
+        console.log('Posted image, received response:' + response);
+      })
+      .catch(e => this.handleError(e));
+  }
+
 
   deleteTrack(track: Track): Observable<Track> {
     return this.http.delete(track.links.self, this.getOptions())

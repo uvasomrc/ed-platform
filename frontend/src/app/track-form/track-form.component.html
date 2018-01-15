@@ -60,6 +60,11 @@
               </mat-error>
             </mat-form-field>
           </div>
+          <h2>Choose an image</h2>
+          <i>Important:  Images should be 1280x505!</i>
+          <div class="image-selector">
+            <input type="file" (change)="newImage($event)" #fileInput>
+          </div>
         </div>
         <div class="display">
           <h2>How your Track will appear:</h2>

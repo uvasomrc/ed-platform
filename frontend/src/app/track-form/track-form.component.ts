@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Track} from '../track';
 import {TrackService} from '../track.service';
@@ -22,6 +22,8 @@ export class TrackFormComponent implements OnInit {
   code: FormControl;
   codeOptions: Code[];
   newTrack: Boolean;
+  @ViewChild('fileInput') fileInput: ElementRef;
+  imageAdded = false;
 
   @Output()
   add: EventEmitter<Track> = new EventEmitter();
@@ -41,7 +43,7 @@ export class TrackFormComponent implements OnInit {
         this.track = t;
         this.newTrack = false;
         this.loadForm();
-      });
+        });
     } else {
       this.track = new Track();
       this.newTrack = true;
@@ -81,16 +83,37 @@ export class TrackFormComponent implements OnInit {
     code.prereq = !code.prereq;
   }
 
+  uploadImage() {
+    const fileIn: HTMLInputElement = this.fileInput.nativeElement;
+    if (fileIn.files.length > 0) {
+      this.trackService.updateTrackImage(this.track, fileIn.files.item(0));
+    }
+  }
+
+  newImage(event) {
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e2) => {
+        this.track.links.image = reader.result;
+        this.imageAdded = true;
+      };
+
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+
   onSubmit() {
     console.log("Submitting the form.")
     if (this.track_form.valid) {
       if(this.newTrack) {
         this.trackService.addTrack(this.track).subscribe(newTrack => {
+          if (this.imageAdded) { this.uploadImage(); }
           this.add.emit(newTrack);
           this.router.navigate(['track', newTrack.id]);
         });
       } else {
         this.trackService.updateTrack(this.track).subscribe(newTrack => {
+          if (this.imageAdded) { this.uploadImage(); }
           this.add.emit(newTrack);
           this.router.navigate(['track', newTrack.id]);
         });

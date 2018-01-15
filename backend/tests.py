@@ -6,6 +6,7 @@ import urllib
 
 import dateutil
 import requests
+from io import StringIO, BytesIO
 from flask import json, request
 from flask_mail import Mail
 import os
@@ -251,6 +252,20 @@ class TestCase(unittest.TestCase):
         rv2 = self.app.get('/api/track/' + str(rd["id"]))
         assert b'This is the title' in rv2.data
         assert b'This is the description' in rv2.data
+
+    def test_upload_track_image(self):
+        rd = self.add_test_track()
+        rv = self.app.post('/api/track/%s/image' % rd['id'],
+            data = dict(
+                image=(BytesIO(b"hi everyone"), 'test.txt'),
+            ))
+        self.assert_failure(rv)
+        rv = self.app.post('/api/track/%s/image' % rd['id'],
+            data = dict(
+                image=(BytesIO(b"hi everyone"), 'test.txt'),
+            ), headers = self.logged_in_headers_admin())
+        self.assert_success(rv)
+
 
     def test_add_code(self):
         rv = self.add_codes()
