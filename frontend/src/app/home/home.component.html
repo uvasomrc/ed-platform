@@ -12,10 +12,10 @@
   <p>FIND YOUR NEXT SKILL ...</p>
   <div class="searchbox">
     <form class="searchbox" (ngSubmit)="goSearch(query.value)">
-      <div class="label">Search</div>
-      <input #query type="text">
-      <button mat-icon-button>
-        <mat-icon>search</mat-icon>
+      <label for="search_input">Search</label>
+      <input id="search_input" #query type="text" >
+      <button mat-icon-button aria-label="Search">
+        <mat-icon aria-hidden="true" aria-hidden="true" role="presentation">search</mat-icon>
       </button>
     </form>
     <button class="viewall" mat-button (click)="goSearch('')">View All Workshops</button>
@@ -49,17 +49,17 @@
 <app-workshop-list [workshops]="workshops"></app-workshop-list>
 
 <div class="sponsors">
-  <button (click)="left()" class="arrows">
+  <button (click)="left()" class="arrows" aria-hidden="true" role="presentation">
     <mat-icon>arrow_back</mat-icon>
   </button>
   <div class="carousel-wrapper">
     <ul class="carousel-inner" [@slide]="sponsor_state">
       <li *ngFor="let sponsor of sponsors;" class="carousel">
-        <img class="item" src="{{sponsor.image}}">
+        <img class="item" src="{{sponsor.image}}" alt="{{sponsor.name}}">
       </li>
     </ul>
   </div>
-  <button (click)="right()" class="arrows">
+  <button (click)="right()" class="arrows" aria-hidden="true" role="presentation">
     <mat-icon>arrow_forward</mat-icon>
   </button>
 </div>

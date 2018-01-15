@@ -1,6 +1,6 @@
 <mat-card class="workshop">
   <mat-card-header (click)="goWorkshop()">
-    <img mat-card-avatar src="{{workshop.instructor.image()}}" *ngIf="workshop.instructor">
+    <img mat-card-avatar src="{{workshop.instructor.image()}}" *ngIf="workshop.instructor" aria-hidden="true" role="presentation">
     <mat-card-title>
       <div class="mat-card-pre-title">{{workshop.code_id}}</div>
       {{workshop.title}}</mat-card-title>

@@ -2,7 +2,7 @@
 
   <div class="account" *ngIf="loggedIn">
     <button *ngIf="loggedIn" mat-icon-button class="logged-in" [routerLink]="['accountDetails']">
-      <img class="user-icon" src="{{account.image()}}" alt="{{account.display_name}}">
+      <img class="user-icon" src="{{account.image()}}" alt="View Account Details">
     </button>
     {{account.display_name}}
     <a class="logout" href="#" (click)="goLogout()">&bull; Sign out</a>
@@ -12,23 +12,23 @@
   </div>
 
 
-  <a href="#"><img class="lvl2" src="../assets/logo-lvl2.png"></a>
+  <a href="#" aria-label="Go Home"><img class="lvl2" src="../assets/logo-lvl2.png" alt="Cadre Academy"></a>
 
-  <button class="menu" mat-button [matMenuTriggerFor]="appMenu">
+  <button class="menu" mat-button [matMenuTriggerFor]="appMenu" aria-label="Main Menu">
     <mat-icon>menu</mat-icon>
   </button>
 
   <mat-menu #adminMenu="matMenu">
     <button mat-menu-item (click)="goParticipantEditor()">
-      <mat-icon> add_circle</mat-icon>
+      <mat-icon aria-hidden="true" role="presentation">add_circle</mat-icon>
       <span> Add User </span>
     </button>
     <button mat-menu-item (click)="goWorkshopEditor()">
-      <mat-icon> add_circle</mat-icon>
+      <mat-icon aria-hidden="true" role="presentation"> add_circle</mat-icon>
       <span> Add Workshop </span>
     </button>
     <button mat-menu-item (click)="goTrackEditor()">
-      <mat-icon> add_circle</mat-icon>
+      <mat-icon aria-hidden="true" role="presentation"> add_circle</mat-icon>
       <span> Add Track </span>
     </button>
   </mat-menu>
@@ -58,31 +58,31 @@
   <button mat-menu-item
           [routerLink]="['home']"
           [routerLinkActive]="['active']">
-    <mat-icon> home</mat-icon>
+    <mat-icon aria-hidden="true" role="presentation"> home</mat-icon>
     <span> Home </span>
   </button>
   <button mat-menu-item
           [routerLink]="['search']"
           [routerLinkActive]="['active']">
-    <mat-icon> search</mat-icon>
+    <mat-icon aria-hidden="true" role="presentation"> search</mat-icon>
     <span> Search </span>
   </button>
   <button *ngIf="account" mat-menu-item
           [routerLink]="['accountDetails']"
           [routerLinkActive]="['active']">
-    <mat-icon> person</mat-icon>
+    <mat-icon aria-hidden="true" role="presentation"> person</mat-icon>
     <span> Your Account </span>
   </button>
   <button *ngIf="!(account)" mat-menu-item (click)="goLogin()">
-    <mat-icon> person</mat-icon>
+    <mat-icon aria-hidden="true" role="presentation"> person</mat-icon>
     <span> Log in </span>
   </button>
   <button *ngIf="account" mat-menu-item (click)="goLogout()">
-    <mat-icon> exit_to_app</mat-icon>
+    <mat-icon aria-hidden="true" role="presentation"> exit_to_app</mat-icon>
     <span> Log out </span>
   </button>
   <button *ngIf="account && account.isAdmin()" mat-menu-item [matMenuTriggerFor]="adminMenu">
-    <mat-icon> admin</mat-icon>
+    <mat-icon aria-hidden="true" role="presentation"> admin</mat-icon>
     <span> Admin </span>
   </button>
 </mat-menu>

@@ -1,5 +1,5 @@
 <mat-card class="track" (click)="goTrack(track.id)">
-  <img mat-card-image src="{{track.links.image}}">
+  <img mat-card-image src="{{track.links.image}}" aria-hidden="true" role="presentation">
   <mat-card-header>
     <mat-card-title class='mat-title'>{{track.title}}</mat-card-title>
     <mat-card-subtitle>{{track.sub_title}}</mat-card-subtitle>

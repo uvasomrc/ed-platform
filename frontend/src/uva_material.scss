@@ -94,7 +94,7 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
   }
 
   p {
-    color: #888;
+    color: #666;
     font-weight: 400;
     max-width: 600px;
   }
@@ -171,7 +171,7 @@ $uva-theme: mat-light-theme($uva-primary, $uva-accent, $my-app-warn);
 
   mat-card-subtitle, .sub-title, .mat-card-pre-title {
     font-size: 14px;
-    color: rgba(0, 0, 0, 0.54);
+    color: rgba(0, 0, 0, 0.74);
     font-weight: 500;
   }
 

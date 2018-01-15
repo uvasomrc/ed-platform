@@ -43,7 +43,7 @@
     <mat-input-container>
       <input matInput #query type="search" formControlName="searchBox" placeholder="Search" value="{{search.query}}">
     </mat-input-container>
-    <button mat-raised-button (click)="updateQuery(query.value)">
+    <button mat-raised-button (click)="updateQuery(query.value)" aria-label="Run Search">
       <mat-icon>search</mat-icon>
     </button>
   </form>

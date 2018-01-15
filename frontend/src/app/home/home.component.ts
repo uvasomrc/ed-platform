@@ -72,11 +72,11 @@ export class HomeComponent implements OnInit {
   }
 
   setSponsors() {
-    this.sponsors.push(new Sponsor('../../assets/sponsors/uva-info-tech.png', 'hidden'));
-    this.sponsors.push(new Sponsor('../../assets/sponsors/uva-adcs.png', 'hidden'));
-    this.sponsors.push(new Sponsor('../../assets/sponsors/uva_somrc_logo.png', 'visible'));
-    this.sponsors.push(new Sponsor('../../assets/sponsors/uva-library.png', 'hidden'));
-    this.sponsors.push(new Sponsor('../../assets/sponsors/bio-connector.png', 'hidden'));
+    this.sponsors.push(new Sponsor('../../assets/sponsors/uva-info-tech.png', 'hidden', 'UVA Info Tech'));
+    this.sponsors.push(new Sponsor('../../assets/sponsors/uva-adcs.png', 'hidden', 'UVA ADCS'));
+    this.sponsors.push(new Sponsor('../../assets/sponsors/uva_somrc_logo.png', 'visible', 'UVA SOMRC'));
+    this.sponsors.push(new Sponsor('../../assets/sponsors/uva-library.png', 'hidden', 'UVA Library'));
+    this.sponsors.push(new Sponsor('../../assets/sponsors/bio-connector.png', 'hidden', 'Bio Connector'));
   }
 
   left() {
@@ -102,5 +102,5 @@ export class HomeComponent implements OnInit {
 }
 
 class Sponsor {
-  constructor(public image: String, public style: String) {}
+  constructor(public image: String, public style: String, public name: String) {}
 }
