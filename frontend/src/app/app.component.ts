@@ -53,15 +53,13 @@ export class AppComponent implements OnInit {
   }
 
   goAbout($event) {
-    //fixme: should go to about page.
     $event.preventDefault();
-    this.router.navigate(['home']);
+    this.router.navigate(['about']);
   }
 
   goHelp($event) {
-    //fixme: should go to about page.
     $event.preventDefault();
-    this.router.navigate(['home']);
+    this.router.navigate(['help']);
   }
 
   goParticipantEditor() {

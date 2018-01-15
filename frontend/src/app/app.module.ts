@@ -53,11 +53,15 @@ import {
   ConfirmRegistrationDialogComponent,
   DeclineRegistrationDialogComponent, UnFollowDialogComponent, WorkshopDetailsComponent
 } from "./workshop-details/workshop-details.component";
+import { AboutComponent } from './about/about.component';
+import { HelpComponent } from './help/help.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'find', redirectTo: 'search', data: {title: 'Search'}},
   {path: 'home', component: HomeComponent, data: {title: 'Home'}},
+  {path: 'about', component: AboutComponent, data: {title: 'About'}},
+  {path: 'help', component: HelpComponent, data: {title: 'Help'}},
   {path: 'search/:query', component: SearchComponent, data: {title: 'Search'}},
   {path: 'search', component: SearchComponent, data: {title: 'Search'}},
   {path: 'track/:id', component: TrackDetailsComponent, data: {title: 'Track'}},
@@ -106,7 +110,9 @@ const routes: Routes = [
     ConfirmRegistrationDialogComponent,
     DeclineRegistrationDialogComponent,
     NewUserDialogComponent,
-    UnFollowDialogComponent
+    UnFollowDialogComponent,
+    AboutComponent,
+    HelpComponent
   ],
   imports: [
     BrowserModule,
