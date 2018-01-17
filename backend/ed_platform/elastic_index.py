@@ -77,7 +77,7 @@ class ElasticIndex:
                     print("The Track Id is " + str(tc.track_id))
                     ew.tracks.append(tc.track.title)
 
-            if(ew.instructor != None) :
+            if(w.instructor != None) :
                 ew.instructor.append(w.instructor.display_name)
                 ew.instructor_search.append(w.instructor.display_name)
 
