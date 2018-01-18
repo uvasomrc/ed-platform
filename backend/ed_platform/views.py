@@ -231,6 +231,8 @@ def get_track_image(track_id):
         elif (os.path.isfile(profile_photos.path(track.image_file))):
             image = profile_photos.path(track.image_file)
             mime_type = mime.from_file(image)
+        else:
+            raise RestException(RestException.NOT_FOUND)
         return send_file(image, mimetype=mime_type)
     except FileNotFoundError:
         raise RestException(RestException.NOT_FOUND)
@@ -279,7 +281,8 @@ def search_workshops():
     workshops = []
     for hit in results:
         workshop = models.Workshop.query.filter_by(id=hit.id).first()
-        workshops.append(workshop)
+        if(workshop is not None):
+            workshops.append(workshop)
     search.workshops = workshop_schema.dump(workshops, many=True).data
     return models.SearchSchema().jsonify(search)
 
@@ -316,14 +319,18 @@ def create_workshop():
         new_workshop.code = None
     new_workshop.sessions = new_sessions
 
+    db.session.add(new_workshop)
+    db.session.commit()
+    elastic_index.add_workshop(new_workshop)
+
     if("discourse_enabled" in request_data and
            request_data["discourse_enabled"] and
            new_workshop.discourse_topic_id is None):
         topic = discourse.createTopic(new_workshop)
         new_workshop.discourse_topic_id = topic.id
+        db.session.add(new_workshop)
+        db.session.commit()
 
-    db.session.add(new_workshop)
-    db.session.commit()
 
     return workshop_schema.jsonify(new_workshop)
 
@@ -399,11 +406,11 @@ def remove_workshop(id):
     workshop = models.Workshop.query.filter_by(id=id).first()
     if(workshop is None): return ""
     if(len(workshop.sessions) > 0):
-        return jsonify(error=409, text=str("workshop has sessions. Can't delete.")), 409
+        return jsonify(error=409, text=str("This workshop has existing sessions. Please remove the sessions first.")), 409
     db.session.delete(workshop)
     db.session.commit()
+    elastic_index.remove_workshop(id)
     return ""
-
 
 @app.route('/api/workshop/<int:id>/tracks')
 @auth.login_required

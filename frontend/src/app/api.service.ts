@@ -284,6 +284,14 @@ export class ApiService {
       });
   }
 
+  deleteWorkshop(workshop: Workshop): Observable<Workshop> {
+    return this.http.delete(workshop.links.self, this.getOptions())
+      .map(response => {
+        return response;
+      })
+      .catch(this.handleError);
+  }
+
   getPost(workshop: Workshop): Observable<Post> {
     return this.http.get(workshop.links.posts, this.getOptions())
       .map(res => {
@@ -334,16 +342,11 @@ export class ApiService {
   }
 
   private handleError (error: Response | any) {
-    console.error('ApiService::handleError', error);
-    return Observable.throw(error);
+    console.error('ApiService::handleError', error.json().text);
+    return Observable.throw(error.json().text);
   }
 
-
-
-
-
   /*
-
   public getAllTodos(): Observable<Todo[]> {
     return this.http
       .get(API_URL + '/todos')
@@ -383,3 +386,4 @@ export class ApiService {
 */
 
 }
+1

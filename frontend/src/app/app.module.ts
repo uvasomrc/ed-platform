@@ -11,7 +11,7 @@ import {
   MatButtonModule, MatIconModule, MatMenuModule, MatToolbarModule, MatCardModule,
   MatInputModule, MatCheckboxModule, MatFormFieldModule, MatTabsModule, MatProgressSpinnerModule,
   MatExpansionModule, MatSelectModule, MatListModule, MatRadioModule, MatStepperModule, MatSidenavModule,
-  MatDialogModule, MatDatepickerModule, MatNativeDateModule
+  MatDialogModule, MatDatepickerModule, MatNativeDateModule, MatSnackBar, MatSnackBarModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {WorkshopService} from './workshop.service';
@@ -144,7 +144,8 @@ const routes: Routes = [
     InfiniteScrollModule,
     DndModule.forRoot(),
     RouterModule.forRoot(routes, {useHash: true}),
-    MarkdownToHtmlModule.forRoot()
+    MarkdownToHtmlModule.forRoot(),
+    MatSnackBarModule
   ],
   entryComponents: [ConfirmDialogComponent,
     ConfirmRegistrationDialogComponent,

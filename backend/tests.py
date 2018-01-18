@@ -522,12 +522,15 @@ class TestCase(unittest.TestCase):
     def test_remove_workshop_with_active_sessions(self):
         workshop = self.add_test_workshop()
         session = self.add_test_session(workshop["id"])
+        self.assertIsNotNone(elastic_index.get_workshop(workshop["id"]))
         rv = self.app.delete(workshop["_links"]["self"], follow_redirects=True, headers=self.logged_in_headers_admin())
         self.assertEqual(409, rv.status_code)
         rv = self.app.delete(session["_links"]["self"], follow_redirects=True, headers=self.logged_in_headers_admin())
         self.assert_success(rv)
         rv = self.app.delete(workshop["_links"]["self"], follow_redirects=True, headers=self.logged_in_headers_admin())
         self.assert_success(rv)
+        with self.assertRaises(Exception):
+            elastic_index.get_workshop(workshop["id"])
 
     def test_add_participant(self):
         participant = self.add_test_participant()
@@ -1223,7 +1226,7 @@ class TestCase(unittest.TestCase):
         participant = models.Participant.query.filter_by(id=p['id']).first()
 
         # Send the participant a reminder that they can sign up for the session, as seats are available.
-        tracking_code = notify.message_followers_seats_open(session, participant)
+        tracking_code = notify.message_followers_seats_open(session, participant, session)
 
         self.assertIsNotNone(tracking_code)
 
@@ -1246,11 +1249,11 @@ class TestCase(unittest.TestCase):
         self.assertTrue(participant.is_following(workshop))
 
         # Send the participant a reminder that they can sign up for the session, as seats are available.
-        tracking_code = notify.message_followers_seats_open(session, participant)
+        tracking_code = notify.message_followers_seats_open(session, participant, session)
 
         # add an email log, so the notification is recorded.
         email = models.EmailLog(participant = participant,
-                                type=models.EmailMessage.TYPE_NOTIFY_FOLLOWERS,
+                                type=models.EmailMessage.TYPE_NOTIFY_FOLLOWERS_SEATS,
                                 workshop_id = workshop.id,
                                 tracking_code = tracking_code)
         db.session.add(email)

@@ -11,15 +11,17 @@
     </div>
     <div>
       <h2 class="mat-title">{{workshop.title}}
-        <button mat-mini-fab (click)="goEdit()" aria-label="Edit Track" *ngIf="account && account.isAdmin()">
+        <button mat-mini-fab (click)="goEdit()" aria-label="Edit Workshop" *ngIf="account && account.isAdmin()">
           <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-fab (click)="confirmDelete()" aria-label="Delete Workshop" *ngIf="account && account.isAdmin()">
+          <mat-icon>delete_forever</mat-icon>
         </button>
       </h2>
       <span class="sub-title">with {{workshop.instructor.display_name}}</span>
       <markdown-to-html [data]="workshop.description"></markdown-to-html>
     </div>
     <div class="spacer"></div>
-
     <div class="status" [ngSwitch]="workshop.status">
       <button *ngSwitchCase="'NO_USER'"  mat-raised-button (click)="goLogin()">Log in to Register</button>
       <button *ngSwitchCase="'FOLLOWING'" mat-raised-button color="accent" (click)="unFollow()">Un-Follow</button>
@@ -50,7 +52,7 @@
         <app-session-list  [sessions]="displaySessions()" (registerEvent)="onRegistrationChange($event)"></app-session-list>
       </mat-tab>
 
-      <mat-tab *ngIf="workshop.discourse_enabled">
+      <mat-tab *ngIf="workshop.discourse_enabled && isDiscourseLoaded">
         <ng-template mat-tab-label>
           <div>
             <h1>{{post.posts.length}}</h1>
@@ -99,7 +101,7 @@
     <h2>Sessions</h2>
     <app-session-list [sessions]="displaySessions()" (registerEvent)="onRegistrationChange($event)"></app-session-list>
 
-    <div class="discourse" *ngIf="workshop.discourse_enabled">
+    <div class="discourse" *ngIf="workshop.discourse_enabled && isDiscourseLoaded">
       <h2>Posts in Discussion</h2>
       <p>You can participate in this discussion on <a target="discourse"
                                                       href="{{workshop.discourse_url}}">Discourse</a>.</p>

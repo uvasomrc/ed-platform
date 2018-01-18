@@ -62,36 +62,47 @@ class ElasticIndex:
         except:
             self.logger.error("Failed to delete the indices.  They night not exist.")
 
+    def remove_workshop(self, id):
+        ws = ElasticWorkshop.get(id='workshop_' + str(id))
+        ws.delete()
+
+    def get_workshop(self, id):
+        return ElasticWorkshop.get(id='workshop_' + str(id))
+
+    def add_workshop(self, w, flush=True):
+        ew = ElasticWorkshop(meta={'id': 'workshop_' + str(w.id)},
+                             id=w.id,
+                             title=w.title,
+                             description=w.description
+                             )
+        if (w.code != None):
+            ew.code = w.code.id
+
+            for tc in w.code.track_codes:
+                print("The Track Id is " + str(tc.track_id))
+                ew.tracks.append(tc.track.title)
+
+        if (w.instructor != None):
+            ew.instructor.append(w.instructor.display_name)
+            ew.instructor_search.append(w.instructor.display_name)
+
+        for s in w.sessions:
+            ew.date.append(s.date_time)
+            ew.location.append(s.location)
+            ew.location_search.append(s.location)
+            ew.open.append(s.is_open()),
+            ew.full.append(s.is_full()),
+            ew.notes.append(s.instructor_notes)
+            for email in s.email_messages:
+                ew.messages.append(email.content)
+                ew.messages.append(email.subject)
+        ElasticWorkshop.save(ew)
+        if(flush): self.workshop_index.flush()
+
     def load_workshops(self, workshops):
         print ("Loading workshops into %s" % self.index_prefix)
         for w in workshops:
-            ew = ElasticWorkshop(meta={'id': 'workshop_' + str(w.id)},
-                                 id=w.id,
-                                 title=w.title,
-                                 description=w.description
-                                 )
-            if(w.code != None):
-                ew.code = w.code.id
-
-                for tc in w.code.track_codes:
-                    print("The Track Id is " + str(tc.track_id))
-                    ew.tracks.append(tc.track.title)
-
-            if(w.instructor != None) :
-                ew.instructor.append(w.instructor.display_name)
-                ew.instructor_search.append(w.instructor.display_name)
-
-            for s in w.sessions:
-                ew.date.append(s.date_time)
-                ew.location.append(s.location)
-                ew.location_search.append(s.location)
-                ew.open.append(s.is_open()),
-                ew.full.append(s.is_full()),
-                ew.notes.append(s.instructor_notes)
-                for email in s.email_messages:
-                    ew.messages.append(email.content)
-                    ew.messages.append(email.subject)
-            ElasticWorkshop.save(ew)
+            self.add_workshop(w, flush=False)
         self.workshop_index.flush()
 
     def load_participants(self, participants):

@@ -22,6 +22,10 @@ export class WorkshopService {
     return this.api.getWorkshop(id);
   }
 
+  deleteWorkshop(workshop: Workshop): Observable<Workshop> {
+    return this.api.deleteWorkshop(workshop);
+  }
+
   getSession(id: number): Observable<Session> {
     return this.api.getSession(id);
   }

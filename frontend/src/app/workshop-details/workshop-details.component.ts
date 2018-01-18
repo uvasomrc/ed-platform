@@ -8,7 +8,8 @@ import {Code} from '../code';
 import {Participant} from '../participant';
 import {Post} from '../post';
 import {Session} from '../session';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatSnackBar} from '@angular/material';
+import {ConfirmDialogComponent} from '../track-details/track-details.component';
 
 @Component({
   selector: 'app-workshop-details',
@@ -19,8 +20,9 @@ export class WorkshopDetailsComponent implements OnInit {
 
   workshop_id = 0;
   workshop: Workshop;
-  tracks: Track[];
+  tracks: Track[]
   isDataLoaded = false;
+  isDiscourseLoaded = false;
   code: Code;
   account: Participant;
   post: Post;
@@ -29,13 +31,14 @@ export class WorkshopDetailsComponent implements OnInit {
               private accountService: AccountService,
               private router: Router,
               private route: ActivatedRoute,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              public snackBar: MatSnackBar) {
     this.route.params.subscribe(params => {
       this.workshop_id = params['id'];
       if ('code' in params) {
         const trackingCode = params['code'];
         const action = params['action'];
-        const sessionId = params['sessionId']
+        const sessionId = params['sessionId'];
         this.confirm_registration(action, trackingCode, sessionId);
       }
       this.load_workshop();
@@ -94,6 +97,7 @@ export class WorkshopDetailsComponent implements OnInit {
           this.workshopService.getPost(workshop).subscribe(
             (post) => {
               this.post = post;
+              this.isDiscourseLoaded = true;
             }
           );
         }
@@ -185,7 +189,26 @@ export class WorkshopDetailsComponent implements OnInit {
     this.router.navigate(['workshopDashboard', this.workshop.id]);
   }
 
+  confirmDelete() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      height: '200px',
+      width: '300px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.workshopService.deleteWorkshop(this.workshop).subscribe(
+          workshop => {
+            this.router.navigate(['home']);
+          },
+          err => {
+            this.snackBar.open(err, 'close');
+          }
+        );
+      }
+    });
+  }
 }
+
 
 
 @Component({
