@@ -14,7 +14,7 @@ export class Participant {
   new_account = true;
   use_gravatar = true;
   gravatar = '';
-
+  created: Date;
 
 
 

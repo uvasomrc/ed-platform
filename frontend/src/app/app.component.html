@@ -4,7 +4,9 @@
     <button *ngIf="loggedIn" mat-icon-button class="logged-in" [routerLink]="['accountDetails']">
       <img class="user-icon" src="{{account.image()}}" alt="View Account Details">
     </button>
-    {{account.display_name}}
+    <span class="user-name">
+      {{account.display_name}}
+    </span>
     <a class="logout" href="#" (click)="goLogout()">&bull; Sign out</a>
   </div>
   <div class="account" *ngIf="!loggedIn">

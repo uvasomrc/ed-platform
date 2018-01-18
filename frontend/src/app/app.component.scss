@@ -24,6 +24,13 @@
   }
 }
 
+.lvl2 {
+  a {
+    color: mat-color($uva-primary, 50);
+    text-decoration: none;
+  }
+}
+
 div.account {
   position: absolute;
   font-size: 14px;
@@ -56,6 +63,9 @@ img.lvl2 {
   background-color: mat-color($uva-accent, 50);
 }
 
+.user-name {
+  display: none;
+}
 
 
 @media screen and (min-width: 480px) {
@@ -84,6 +94,10 @@ img.lvl2 {
     a {
       color: mat-color($uva-primary, 500);
       text-decoration: none;
+    }
+
+    .user-name {
+      display: inline;
     }
 
     .menubar {
