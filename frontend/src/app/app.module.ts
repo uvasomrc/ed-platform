@@ -55,6 +55,7 @@ import {
 } from "./workshop-details/workshop-details.component";
 import { AboutComponent } from './about/about.component';
 import { HelpComponent } from './help/help.component';
+import {HttpClientModule} from "@angular/common/http";
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -118,7 +119,7 @@ const routes: Routes = [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     MatButtonModule,
     MatMenuModule,
