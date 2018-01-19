@@ -324,6 +324,22 @@
         "bio": "Omar works at SOMRC"
       }
     },
+
+    
+    {
+      "name": "hp7d",
+      "data": {
+        "uid": "hp7d",
+        "role": "ADMIN",
+        "display_name": "Hardik Parikh",
+        "email_address": "hp7d@virginia.edu",
+        "phone_number": "+121212112",
+        "image_file": "",
+        "use_gravatar": false,
+        "created": "2017-12-15T10:30:00",
+        "bio": "Hardik works at SOMRC"
+      }
+    },
     {
       "name": "dhf8r",
       "data": {
