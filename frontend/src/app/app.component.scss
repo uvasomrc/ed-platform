@@ -119,10 +119,11 @@ img.lvl2 {
     background: linear-gradient(to bottom, rgba(0,47,108,0), rgba(0,47,108,1)), url('../assets/logo-bg.png');
     display: flex;
     height: 100px;
-    padding: 20px 10px 10px 10px;
+    //padding: 20px 10px 10px 10px;
     color: #fff;
 
     img.lvl2 {
+      padding: 20px 10px;
       display: block;
     }
 
