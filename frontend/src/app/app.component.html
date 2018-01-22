@@ -20,21 +20,7 @@
     <mat-icon>menu</mat-icon>
   </button>
 
-  <mat-menu #adminMenu="matMenu">
-    <button mat-menu-item (click)="goParticipantEditor()">
-      <mat-icon aria-hidden="true" role="presentation">add_circle</mat-icon>
-      <span> Add User </span>
-    </button>
-    <button mat-menu-item (click)="goWorkshopEditor()">
-      <mat-icon aria-hidden="true" role="presentation"> add_circle</mat-icon>
-      <span> Add Workshop </span>
-    </button>
-    <button mat-menu-item (click)="goTrackEditor()">
-      <mat-icon aria-hidden="true" role="presentation"> add_circle</mat-icon>
-      <span> Add Track </span>
-    </button>
-  </mat-menu>
-
+  <span *ngIf="title != 'Home'" class="title">{{title}}</span>
 
   <div class="menubar">
     <a href="#" (click)="goHome($event)">Home</a>
@@ -48,13 +34,24 @@
     &bull;
     <a href="#" [matMenuTriggerFor]="adminMenu">Admin</a>
     </span>
-
   </div>
-  <span *ngIf="title != 'Home'" class="title">{{title}}</span>
-  <span class="spacer"></span>
 
 </mat-toolbar>
 
+<mat-menu #adminMenu="matMenu">
+  <button mat-menu-item (click)="goParticipantEditor()">
+    <mat-icon aria-hidden="true" role="presentation">add_circle</mat-icon>
+    <span> Add User </span>
+  </button>
+  <button mat-menu-item (click)="goWorkshopEditor()">
+    <mat-icon aria-hidden="true" role="presentation"> add_circle</mat-icon>
+    <span> Add Workshop </span>
+  </button>
+  <button mat-menu-item (click)="goTrackEditor()">
+    <mat-icon aria-hidden="true" role="presentation"> add_circle</mat-icon>
+    <span> Add Track </span>
+  </button>
+</mat-menu>
 
 <mat-menu #appMenu="matMenu">
   <button mat-menu-item
@@ -82,6 +79,18 @@
   <button *ngIf="account" mat-menu-item (click)="goLogout()">
     <mat-icon aria-hidden="true" role="presentation"> exit_to_app</mat-icon>
     <span> Log out </span>
+  </button>
+  <button mat-menu-item
+          [routerLink]="['help']"
+          [routerLinkActive]="['active']">
+    <mat-icon aria-hidden="true" role="presentation"> help</mat-icon>
+    <span> Help </span>
+  </button>
+  <button mat-menu-item
+          [routerLink]="['about']"
+          [routerLinkActive]="['active']">
+    <mat-icon aria-hidden="true" role="presentation"> info</mat-icon>
+    <span> About </span>
   </button>
   <button *ngIf="account && account.isAdmin()" mat-menu-item [matMenuTriggerFor]="adminMenu">
     <mat-icon aria-hidden="true" role="presentation"> admin</mat-icon>
