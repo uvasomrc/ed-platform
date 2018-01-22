@@ -132,6 +132,7 @@ div.introduction {
     background: -webkit-linear-gradient(45deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0) 60%), url("../../assets/home-lawn.jpg"); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(45deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0) 60%), url("../../assets/home-lawn.jpg"); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d9000000', endColorstr='#00000000', GradientType=1); /* IE6-9 fallback on horizontal gradient */
+    height: 300px;
   }
 }
 
