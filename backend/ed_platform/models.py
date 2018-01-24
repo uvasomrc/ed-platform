@@ -470,6 +470,7 @@ class ParticipantAPISchema(ma.Schema):
         fields = ('id', 'uid','display_name', 'title',  'bio', 'created', 'new_account',
                  'gravatar', 'use_gravatar', 'role', '_links')
         ordered = True
+        dateformat = "iso"
 
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_participant', id='<id>'),
@@ -498,7 +499,7 @@ class SessionAPISchema(ma.Schema):
         ordered = True
     participant_sessions = ma.List(ma.Nested(ParticipantSessionAPISchema))
     status = fields.Method('get_status')
-
+    dateformat = "iso"
 
     def get_status(self, obj):
         participant = g.user
@@ -631,6 +632,8 @@ class EmailMessageAPISchema(ma.Schema):
     class Meta:
         fields = ('id', 'subject', 'content', 'sent_date', "author_id", 'logs')
         ordered = True
+        dateformat = "iso"
+
     logs = ma.List(ma.Nested(EmailLogAPISchema))
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_messages', id='session_id'),
