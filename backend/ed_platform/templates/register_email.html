@@ -12,8 +12,8 @@
 
     <p style="font-family: sans-serif; font-size: 14px; font-weight: bold; margin-left: 30px; margin-bottom: 15px;">
     SESSION DETAILS<br>
-    {{ session.date_time.strftime('%B %d, %Y') }} <br>
-    {{ session.date_time.strftime('%I:%M %p') }} to {{ session.end_date_time().strftime('%I:%M %p') }}<br>
+    {{ session.start_date_time_local().strftime('%B %d, %Y') }} <br>
+    {{ session.start_date_time_local().strftime('%I:%M %p') }} to {{ session.end_date_time_local().strftime('%I:%M %p') }}<br>
     Location: {{ session.location }}
     </p>
     {% if session.instructor_notes %}

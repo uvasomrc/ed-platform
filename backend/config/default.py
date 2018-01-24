@@ -8,6 +8,8 @@ DEVELOPMENT = False
 SECRET_KEY = 'ed_platform_key_of_deep_secret_knackwursts!'
 SQLALCHEMY_DATABASE_URI = "postgresql://ed_user:ed_pass@localhost/ed_platform"
 
+TIMEZONE="America/New_York" ## All dates in the API are UTC, but email messages include dates, and should be localized.
+
 #: Default attribute map for single signon.
 SSO_DEVELOPMENT_UID = 'bk7k'
 SSO_ATTRIBUTE_MAP = {

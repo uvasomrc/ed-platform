@@ -3,6 +3,7 @@ import hashlib
 import random
 import uuid
 
+import dateutil
 import jwt
 import icalendar
 import pytz
@@ -287,6 +288,16 @@ class Session(db.Model):
 
     def end_date_time(self):
         return (self.date_time + datetime.timedelta(minutes=self.duration_minutes))
+
+    def start_date_time_local(self):
+        dt_aware = pytz.utc.localize(self.date_time)
+        dt_local = dt_aware.astimezone(pytz.timezone(app.config.get('TIMEZONE')))
+        return dt_local
+
+    def end_date_time_local(self):
+        dt_aware = pytz.utc.localize(self.end_date_time())
+        dt_local = dt_aware.astimezone(pytz.timezone(app.config.get('TIMEZONE')))
+        return dt_local
 
     def date_open(self):
         if(self.max_days_prior == None or self.max_days_prior <= 0): return None;
