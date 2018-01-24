@@ -37,6 +37,9 @@ class Notify():
     def send_email(self, subject, recipients, text_body, html_body, sender=None, ical=None):
         msgRoot = MIMEMultipart('related')
 
+        if (sender == None):
+            sender = self.app.config['MAIL_DEFAULT_SENDER']
+
         msgRoot['Subject'] = subject
         msgRoot['From'] = sender
         msgRoot['To'] = ', '.join(recipients)
@@ -55,9 +58,6 @@ class Notify():
             ical_atch.add_header('Filename','event.ics')
             ical_atch.add_header('Content-Disposition','attachment; filename=event.ics')
             msgRoot.attach(ical_atch)
-
-        if (sender == None):
-            sender = self.app.config['MAIL_DEFAULT_SENDER']
 
         if ('TESTING' in self.app.config and self.app.config['TESTING']):
             print("TEST:  Recording Emails, not sending")
