@@ -5,6 +5,7 @@ import uuid
 
 import jwt
 import icalendar
+import pytz
 
 from ed_platform import app, db, ma, RestException, discourse
 from marshmallow import fields, post_load
@@ -274,9 +275,9 @@ class Session(db.Model):
         event.add('summary', self.workshop.title)
         event.add('description', self.workshop.description)
         event.add('location', self.location)
-        event.add('dtstart', self.date_time)
-        event.add('dtend', self.end_date_time())
-        event.add('dtstamp', datetime.datetime.now())
+        event.add('dtstart', pytz.utc.localize(self.date_time))
+        event.add('dtend', pytz.utc.localize(self.end_date_time()))
+        event.add('dtstamp', pytz.utc.localize(datetime.datetime.now()))
         event.add('uid', str("CADRE-ACADEMY-SESSION-%i" % self.id))
         cal.add_component(event)
         return cal.to_ical()

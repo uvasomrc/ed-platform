@@ -1153,10 +1153,13 @@ class TestCase(unittest.TestCase):
     def test_session_creates_ical(self):
         ws = self.add_test_workshop()
         s = self.add_test_session(ws["id"])
+
         session = models.Session.query.filter_by(id=s['id']).first()
+        session.date_time = datetime.datetime(2018, 1, 1, 10, 00, 00, 0)
 
         ical = session.ical()
         self.assertIsNotNone(ical)
+
 
 
     def test_confirmation_email(self):
