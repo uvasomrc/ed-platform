@@ -67,6 +67,12 @@ def login(user_info):
         participant = models.Participant(uid=uid,
                                          display_name=user_info["givenName"],
                                          email_address=user_info["email"])
+        if("Surname" in user_info):
+            participant.display_name = participant.display_name + " " + user_info["Surname"]
+
+        if("displayName" in user_info and len(user_info["displayName"]) > 1):
+            participant.display_name = user_info["displayName"]
+
         db.session.add(participant)
         db.session.commit()
     # redirect users back to the front end, include the new auth token.
@@ -694,6 +700,9 @@ def update_participant(id):
     #FIX-ME: Allow editing of email address.
     request_data['email_address'] = old_participant.email_address
     new_participant = participant_db_schema.load(request_data).data
+
+    if(participant_db_schema.load(request_data).errors):
+        print("Failed to update participant:" + str(participant_db_schema.load(request_data).errors))
 
     if(g.user.id != new_participant.id):
         raise RestException(RestException.NOT_YOUR_ACCOUNT, 403)
