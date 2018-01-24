@@ -56,7 +56,8 @@ class TestCase(unittest.TestCase):
         pass
 
     def tearDownDiscourse(self):
-        discourse.deleteUsersAndPostsByGroup()
+        pass
+#        discourse.deleteUsersAndPostsByGroup()
 
 
     def test_base(self):
@@ -564,6 +565,22 @@ class TestCase(unittest.TestCase):
         participant = models.Participant.query.filter_by(id=pData['id']).first()
         self.assertIsNotNone(participant.email_address)
 
+    def test_update_participant_does_not_change_created_date(self):
+        participant = self.get_current_participant()
+        rv = self.app.get(participant["_links"]["self"], follow_redirects=True)
+        self.assert_success(rv)
+        pData = json.loads(rv.get_data(as_text=True))
+        origp = models.Participant.query.filter_by(id=pData['id']).first()
+
+        rv = self.app.put(pData["_links"]["self"], data=json.dumps(pData), follow_redirects=True,
+                          content_type="application/json", headers=self.logged_in_headers())
+
+        pData2 = json.loads(rv.get_data(as_text=True));
+
+        self.assertEqual(pData["created"], pData2["created"])
+
+        newp = models.Participant.query.filter_by(id=pData['id']).first()
+        self.assertEqual(origp.created, newp.created)
 
     def test_edit_someone_elses_account(self):
         participant = self.add_test_participant()
