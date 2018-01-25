@@ -48,19 +48,3 @@
 
 <app-workshop-list [workshops]="workshops"></app-workshop-list>
 
-<div class="sponsors">
-  <button (click)="left()" class="arrows" aria-hidden="true" role="presentation">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
-  <div class="carousel-wrapper">
-    <ul class="carousel-inner" [@slide]="sponsor_state">
-      <li *ngFor="let sponsor of sponsors;" class="carousel">
-        <img class="item" src="{{sponsor.image}}" alt="{{sponsor.name}}">
-      </li>
-    </ul>
-  </div>
-  <button (click)="right()" class="arrows" aria-hidden="true" role="presentation">
-    <mat-icon>arrow_forward</mat-icon>
-  </button>
-</div>
-

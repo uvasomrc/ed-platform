@@ -14,32 +14,12 @@ import {Search} from "../search";
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  animations: [
-  /*
-    trigger('slide', [
-      state('left', style({ transform: 'translateX(0)' })),
-      state('right', style({ transform: 'translateX(-50%)' })),
-      transition('* => *', animate(300))
-    ])
-*/
-    trigger('slide', [
-      state('1', style({ transform: 'translateX(-50px)' })),
-      state('2', style({ transform: 'translateX(-300px)' })),
-      state('3', style({ transform: 'translateX(-580px)' })),
-      state('4', style({ transform: 'translateX(-800px)' })),
-      state('5', style({ transform: 'translateX(-920px)' })),
-      transition('* => *', animate(300))
-    ])
-  ]
 })
 export class HomeComponent implements OnInit {
 
   workshops: Workshop[] = [];
   tracks: Track[] = [];
-  sponsors: Sponsor[] = [];
   showControls = false;
-  sponsor_index = 1;
-  sponsor_state = '1';
   account: Participant;
 
   constructor(private workshopService: WorkshopService,
@@ -63,32 +43,11 @@ export class HomeComponent implements OnInit {
     this.accountService.getAccount().subscribe(acct => {
       this.account = acct;
     });
-    this.setSponsors();
     this.showControls = true;
   }
 
   goSearch(query) {
     this.router.navigate(['search', query]);
-  }
-
-  setSponsors() {
-    this.sponsors.push(new Sponsor('../../assets/sponsors/uva-info-tech.png', 'hidden', 'UVA Info Tech'));
-    this.sponsors.push(new Sponsor('../../assets/sponsors/uva-adcs.png', 'hidden', 'UVA ADCS'));
-    this.sponsors.push(new Sponsor('../../assets/sponsors/uva_somrc_logo.png', 'visible', 'UVA SOMRC'));
-    this.sponsors.push(new Sponsor('../../assets/sponsors/uva-library.png', 'hidden', 'UVA Library'));
-    this.sponsors.push(new Sponsor('../../assets/sponsors/bio-connector.png', 'hidden', 'Bio Connector'));
-  }
-
-  left() {
-    if (this.sponsor_index <= 1) { return; }
-    this.sponsor_index = this.sponsor_index - 1;
-    this.sponsor_state = this.sponsor_index.toString();
-  }
-
-  right() {
-    if (this.sponsor_index >= 5) { return; }
-    this.sponsor_index = this.sponsor_index + 1;
-    this.sponsor_state = this.sponsor_index.toString();
   }
 
   goNewTrack() {
@@ -99,8 +58,4 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['workshop-form', 0]);
   }
 
-}
-
-class Sponsor {
-  constructor(public image: String, public style: String, public name: String) {}
 }
