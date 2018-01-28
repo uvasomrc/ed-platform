@@ -4,8 +4,8 @@ You are currently registered for the class {{ session.workshop.title }} with {{ 
 
 SESSION DETAILS
 ---------------
-{{ session.date_time.strftime('%B %d, %Y') }}
-{{ session.date_time.strftime('%I:%M %p') }} to {{ session.end_date_time().strftime('%I:%M %p') }}
+{{ session.start_date_time_local().strftime('%B %d, %Y') }}
+{{ session.start_date_time_local().strftime('%I:%M %p') }} to {{ session.end_date_time_local().strftime('%I:%M %p') }}
 Location: {{ session.location }}
 
 Please let us know if you are planning to attend.
