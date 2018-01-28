@@ -210,6 +210,7 @@ class Participant(db.Model):
             workshops.append(ps.session.workshop)
         for ws in self.instructing_workshops:
             workshops.append(ws)
+        workshops = list(filter(None, workshops))
         return workshops
 
     def getParticipantSession(self, session):
