@@ -111,6 +111,8 @@ def logout():
 @auth.login_required
 @requires_roles('USER','ADMIN')
 def user_workshops():
+    for w in g.user.getWorkshops():
+        print("Workshop: " + str(w))
     return models.WorkshopAPISchema().jsonify(g.user.getWorkshops(),many=True)
 
 @app.route('/api/user/following', methods=['GET'])
@@ -696,20 +698,19 @@ def create_participant():
 @auth.login_required
 def update_participant(id):
     request_data = request.get_json()
-    old_participant = models.Participant.query.filter_by(id=id).first()
-    #FIX-ME: Allow editing of email address.
-    request_data['email_address'] = old_participant.email_address
-    new_participant = participant_db_schema.load(request_data).data
+    participant = models.Participant.query.filter_by(id=id).first()
 
-    if(participant_db_schema.load(request_data).errors):
-        print("Failed to update participant:" + str(participant_db_schema.load(request_data).errors))
-
-    if(g.user.id != new_participant.id):
+    if(g.user.id != id):
         raise RestException(RestException.NOT_YOUR_ACCOUNT, 403)
 
-    db.session.add(new_participant)
+    participant.display_name = request_data['display_name']
+    participant.new_account = False;
+    participant.bio = request_data['bio']
+    participant.use_gravatar = request_data['use_gravatar']
+
+    db.session.add(participant)
     db.session.commit()
-    return participant_schema.jsonify(new_participant)
+    return participant_schema.jsonify(participant)
 
 
 @app.route('/api/participant/<int:id>', methods=['GET'])
