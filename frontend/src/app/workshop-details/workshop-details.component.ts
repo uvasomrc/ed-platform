@@ -165,7 +165,11 @@ export class WorkshopDetailsComponent implements OnInit {
   }
 
   displaySessions(): Session[] {
-    return this.workshop.sessions.filter(s => !s.isPast());
+    if(this.workshop.status === 'INSTRUCTOR') {
+      return this.workshop.sessions;
+    } else {
+      return this.workshop.sessions.filter(s => !s.isPast());
+    }
   }
 
   availableSessions(): Session[] {
