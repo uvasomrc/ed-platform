@@ -26,14 +26,17 @@ mat-spinner {
 
 ul.list {
 
-  .avatar-wrapper {
-    width: 100px;
+  li {
+    .avatar-wrapper {
+      width: 100px;
+      vertical-align: top;
 
-    .avatar {
-      /* Always left-align! Don't center icons */
-      width: 80px; /* 72-16 but we already use box-sizing */
-      border-radius: 40px;
-      padding-left: 0px;
+      .avatar {
+        /* Always left-align! Don't center icons */
+        width: 80px; /* 72-16 but we already use box-sizing */
+        border-radius: 40px;
+        padding-left: 0px;
+      }
     }
   }
 
@@ -44,6 +47,13 @@ ul.list {
         color: green;
       }
     }
+  }
+
+  .email-content {
+    max-height: 300px;
+    overflow:scroll;
+    background: white;
+    padding: 20px;
   }
 
 }

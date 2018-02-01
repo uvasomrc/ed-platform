@@ -2,7 +2,7 @@ import datetime
 import random
 import string
 import unittest
-import urllib
+import pytz
 
 import dateutil
 import requests
@@ -858,6 +858,25 @@ class TestCase(unittest.TestCase):
         self.assertEqual(logs[-1].email_message.subject, data["subject"])
         return workshop
 
+    def test_email_workshop_followers_supports_markdown(self):
+        workshop = self.add_test_workshop()
+        rv = self.app.post("/api/workshop/%i/follow" % (workshop["id"]), headers=self.logged_in_headers())
+        data = {'subject': 'Test Subject', 'content': '*Test Content*'}
+        orig_log_count = len(models.EmailLog.query.all())
+        rv = self.app.post("/api/workshop/%i/email" % workshop['id'], headers=self.logged_in_headers_admin(),
+                           data=json.dumps(data), content_type="application/json")
+        self.assert_success(rv)
+        self.assertGreaterEqual(len(TEST_MESSAGES), 1)
+        self.assertEqual("CADRE Academy: Test Subject", TEST_MESSAGES[-1]['subject'])
+        logs = models.EmailLog.query.all()
+        self.assertEqual(len(logs), orig_log_count + 1)
+        self.assertIsNotNone(logs[-1].tracking_code)
+        self.assertEqual(logs[-1].email_message.subject, data["subject"])
+        self.assertIn("<p><em>Test Content</em></p>", TEST_MESSAGES[-1].as_string())
+        return workshop
+
+
+
     def test_email_sends_to_recipient(self):
         workshop = self.add_test_workshop()
         session = self.add_test_session(workshop["id"])
@@ -1160,7 +1179,13 @@ class TestCase(unittest.TestCase):
         ical = session.ical()
         self.assertIsNotNone(ical)
 
+    def test_session_local_date_time(self):
+        session = models.Session()
+        session.date_time = datetime.datetime(2018, 1, 1, 15, 00, 00, 0)
+        session.duration_minutes = 60
 
+        expected = datetime.datetime(2018, 1, 1, 10, 00, 00, 0, pytz.timezone("America/New_York"))
+        self.assertEqual(expected, session.start_date_time_local())
 
     def test_confirmation_email(self):
 

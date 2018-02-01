@@ -27,7 +27,7 @@ echo "Running from ${HOME_DIR}"
 # Continue to update conda in case I can get that working ...
 eval 'cd ${HOME_DIR}/backend && conda env update'
 # But also install via pip3, which is what the production server is using now.
-eval 'pip3 install flask sqlalchemy psycopg2 flask-migrate flask-script flask-cors flask-marshmallow marshmallow-sqlalchemy flask-sso pyjwt flask-httpauth flask_mail elasticsearch_dsl flask-uploads python-magic requests-toolbelt icalendar'
+eval 'pip3 install flask sqlalchemy psycopg2 flask-migrate flask-script flask-cors flask-marshmallow marshmallow-sqlalchemy flask-sso pyjwt flask-httpauth flask_mail elasticsearch_dsl flask-uploads python-magic requests-toolbelt icalendar markdown2'
 if [ "$ENV" == "staging" ]; then 
    eval 'python ${HOME_DIR}/backend/manage.py clear_data'
 fi

@@ -55,7 +55,9 @@
             <b>Date:</b> {{m.sent_date | date: 'fullDate'}}<br/>
             <b>Status:</b> Sent to {{m.total_delivered()}} participants, of which {{m.total_opened()}} definitely viewed the message.<br/>
             <br/>
-            {{m.content}}
+            <div class="email-content">
+              <markdown-to-html [data]="m.content"></markdown-to-html>
+            </div>
           </div>
         </li>
       </ul>

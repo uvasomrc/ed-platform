@@ -4,6 +4,7 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from flask import render_template
+import markdown2
 
 TEST_MESSAGES = []
 
@@ -97,6 +98,7 @@ class Notify():
 
         subject = "CADRE Academy: " + subject
         tracking_code = self.tracking_code()
+        html_content = markdown2.markdown(content)
 
         text_body = render_template("instructor_message.txt",
                                     session=session, participant=participant,
@@ -105,7 +107,7 @@ class Notify():
         html_body = render_template("instructor_message.html",
                                     session=session, participant=participant,
                                     api_url=self.api_url, site_url=self.site_url,
-                                    instructor=instructor, content=content,
+                                    instructor=instructor, content=html_content,
                                     tracking_code=tracking_code)
 
         self.send_email(subject,
@@ -118,6 +120,7 @@ class Notify():
 
         subject = "CADRE Academy: " + subject
         tracking_code = self.tracking_code()
+        html_content = markdown2.markdown(content)
 
         text_body = render_template("instructor_to_followers.txt",
                                     workshop=workshop, participant=participant,
@@ -126,7 +129,7 @@ class Notify():
         html_body = render_template("instructor_to_followers.html",
                                     workshop=workshop, participant=participant,
                                     api_url=self.api_url, site_url=self.site_url,
-                                    instructor=instructor, content=content,
+                                    instructor=instructor, content=html_content,
                                     tracking_code=tracking_code)
 
         self.send_email(subject,

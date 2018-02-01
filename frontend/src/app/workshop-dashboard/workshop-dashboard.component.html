@@ -47,7 +47,9 @@
             <b>Subject:</b> {{m.subject}}<br/>
             <b>Date:</b> {{m.sent_date | date: 'fullDate'}}<br/>
             <br/>
-            {{m.content}}
+            <div class="email-content">
+              <markdown-to-html [data]="m.content"></markdown-to-html>
+            </div>
           </div>
         </li>
       </ul>

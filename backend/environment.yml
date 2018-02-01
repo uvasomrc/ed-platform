@@ -22,3 +22,4 @@ dependencies:
   - requests-toolbelt==0.8.0
   - flask-mail==0.9.1
   - icalendar==4.0.0
+  - markdown2==2.3.4
