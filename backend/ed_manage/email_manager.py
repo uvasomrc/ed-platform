@@ -123,6 +123,12 @@ def send_confirmation(session):
 
 def send_followers_session_open(session, new_session=False):
     notifier = Notify(current_app)
+
+    # We had bad data on the server at a certain point, where there were sessions
+    # that became unlinked to workshops.  This gets around that issue.
+    if (session.workshop is None):
+        return
+
     if(new_session):
         type = models.EmailMessage.TYPE_NOTIFY_FOLLOWERS_SESSION
         content = "An automatic email message, sent to all followers if a new session is open for registration"
@@ -137,6 +143,7 @@ def send_followers_session_open(session, new_session=False):
                                 content = content)
     tracking_code = "unknown"
     error = ""
+
     for participant in session.workshop.followers:
         try:
             tracking_code = notifier.message_followers_seats_open(session, participant, new_session)
