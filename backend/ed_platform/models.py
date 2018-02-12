@@ -325,17 +325,17 @@ class Session(db.Model):
 
     def confirmation_sent(self):
         for email in self.email_messages:
-            if(email.is_confirmation): return True
+            if(email.is_confirmation()): return True
         return False
 
     def followers_notified_seats(self):
         for email in self.email_messages:
-            if(email.is_notify_followers_seats): return True
+            if(email.is_notify_followers_seats()): return True
         return False
 
     def followers_notified_session(self):
         for email in self.email_messages:
-            if(email.is_notify_followers_session): return True
+            if(email.is_notify_followers_session()): return True
         return False
 
 
