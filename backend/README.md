@@ -171,7 +171,7 @@ $ python manage.py index_data
 
 You run tests by executing
 ```BASH
-$ python test.py
+$ python tests.py
 ```
 
 # Production
