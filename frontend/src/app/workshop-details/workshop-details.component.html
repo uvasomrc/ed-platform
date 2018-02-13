@@ -14,7 +14,10 @@
         <button mat-mini-fab (click)="goEdit()" aria-label="Edit Workshop" *ngIf="account && account.isAdmin()">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-fab (click)="confirmDelete()" aria-label="Delete Workshop" *ngIf="account && account.isAdmin()">
+        <button mat-mini-fab (click)="goWorkshopDashboard()" aria-label="Manage Waitlist" *ngIf="account && account.isAdmin()">
+          <mat-icon>settings</mat-icon>
+        </button>
+        <button mat-mini-fab (click)="confirmDelete()" aria-label="Delete Workshop" *ngIf="account && account.isAdmin()">
           <mat-icon>delete_forever</mat-icon>
         </button>
       </h2>

@@ -23,6 +23,9 @@
       </button>
       <button *ngSwitchCase="'NOT_YET_OPEN'" mat-raised-button disabled>Register</button>
     </div>
+    <button mat-mini-fab (click)="goSessionDashboard()" aria-label="Session Dashboard" *ngIf="showButtons && account && account.isAdmin()">
+      <mat-icon>settings</mat-icon>
+    </button>
   </div>
   <div class="details">
     <mat-card-subtitle>{{session.location}}</mat-card-subtitle>
