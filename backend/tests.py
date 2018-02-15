@@ -8,7 +8,7 @@ import dateutil
 import requests
 from io import StringIO, BytesIO
 from flask import json, request
-from flask_mail import Mail
+# from flask_mail import Mail
 import os
 import time
 
@@ -235,6 +235,15 @@ class TestCase(unittest.TestCase):
                           follow_redirects=True,
                           content_type="application/json")
         return json.loads(rv.get_data(as_text=True))
+
+    def get_latest_workshops(self):
+        rv = self.app.get('/api/latest',
+                          follow_redirects=True,
+                          content_type="application/json")
+        self.assert_success(rv)
+        data = json.loads(rv.get_data(as_text=True))
+        self.assertEquals(self.test_code_1, data["id"])
+        self.assertEqual(1, len(data["workshops"]))
 
     def test_add_track(self):
 

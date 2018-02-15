@@ -16,8 +16,9 @@ class Discourse:
         self.key = app.config['DISCOURSE']['key']
         self.user = app.config['DISCOURSE']['user']
         self.workshop_link = app.config['DISCOURSE']['workshop_link']
-        self.category = self.createCategory(app.config['DISCOURSE_CATEGORY'])
-        self.group = self.createGroup(app.config['DISCOURSE_USER_GROUP'])
+
+        #self.category = self.createCategory(app.config['DISCOURSE_CATEGORY'])
+        #self.group = self.createGroup(app.config['DISCOURSE_USER_GROUP'])
 
     def headers(self):
         return {
