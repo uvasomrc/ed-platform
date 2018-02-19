@@ -28,6 +28,7 @@
           <div class="list-text">
             <p>
               <b>{{ a.display_name }}</b><br/>
+              <a href="mailto:{{a.email_address}}">{{a.email_address}}</a><br/>
               Signed up on {{ a.created | date: 'fullDate'}}<br/>
               <span class="confirmed" *ngIf="a.confirmed"><i class="material-icons">check</i>Paticipant confirmed they will attend.</span>
               <br/>

@@ -481,7 +481,7 @@ class ParticipantAPISchema(ma.Schema):
     class Meta:
         # Note that we don't surface the phone number or email address of any participants.
         fields = ('id', 'uid','display_name', 'title',  'bio', 'created', 'new_account',
-                 'gravatar', 'use_gravatar', 'role', '_links')
+                 'gravatar', 'use_gravatar', 'role', '_links', 'email_address')
         ordered = True
         dateformat = "iso"
 
