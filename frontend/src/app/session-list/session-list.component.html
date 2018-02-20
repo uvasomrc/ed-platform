@@ -7,7 +7,7 @@
   fxLayoutGap="10px"
   fxLayoutGap.xs="0">
   <section *ngIf="availableSessions().length === 0" class="details">
-    <p>No session of this workshop are currently available.  Use the follow button to be notified when a seat opens up, or a new
+    <p>No sessions of this workshop are currently available.  Use the follow button to be notified when a seat opens up, or a new
       session is posted.  Also, check under "Similar Workshops" for classes that cover the same content. </p>
   </section>
   <app-session *ngFor="let session of sessions" [session]="session" (registerEvent)="onRegistrationChange($event)"></app-session>
