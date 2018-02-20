@@ -6,7 +6,8 @@ import os
 from flask import jsonify, request, send_file, session, redirect, g, render_template, json
 from ed_platform import app, db, models, sso, RestException, elastic_index, profile_photos, discourse, notify
 from flask_httpauth import HTTPTokenAuth
-
+from dateutil import parser
+from operator import itemgetter
 from ed_platform.wrappers import requires_roles
 
 user_schema = models.UserSchema()
@@ -341,6 +342,41 @@ def create_workshop():
 
 
     return workshop_schema.jsonify(new_workshop)
+
+@app.route('/api/upcoming-workshops')
+def get_upcoming_workshops():
+    trimmed_workshop_list = []
+    date_today = datetime.datetime.now()
+    date_today = date_today.replace(tzinfo=None)
+    workshop_data = list(map(lambda t: workshop_schema.dump(t).data,
+                         models.Workshop.query.all()))
+    for workshop in workshop_data['workshops']:
+        if (len(workshop['sessions']) > 0):
+            id = workshop['id']
+            title_str = workshop['title']
+            display_name_str = workshop['instructor']['display_name']
+            session_date = parser.parse(workshop['sessions'][0]['date_time'])
+            session_date = session_date.replace(tzinfo=None)
+            workshop_dict = {
+                'id': id,
+                'title_str': title_str,
+                'display_name_str': display_name_str,
+                'session_date': session_date
+            }
+            trimmed_workshop_list.append(workshop_dict)
+
+    sorted_workshop_list = sorted(trimmed_workshop_list, key=itemgetter('session_date'))
+
+    present_and_future_workshops_list = [workshop for workshop in sorted_workshop_list if
+                                         workshop['session_date'] >= date_today]
+
+    present_and_future_workshops_list_top_five = present_and_future_workshops_list[:5]
+
+    for workshop in present_and_future_workshops_list_top_five:
+        workshop['session_date'] = workshop['session_date'].strftime('%m/%d/%Y')
+
+    return jsonify({"workshops": present_and_future_workshops_list_top_five})
+
 
 @app.route('/api/workshop/<int:id>/discourse', methods=['POST'])
 @auth.login_required

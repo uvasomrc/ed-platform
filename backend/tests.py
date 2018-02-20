@@ -236,6 +236,15 @@ class TestCase(unittest.TestCase):
                           content_type="application/json")
         return json.loads(rv.get_data(as_text=True))
 
+    def get_latest_workshops(self):
+        rv = self.app.get('/api/upcoming-workshops',
+                          follow_redirects=True,
+                          content_type="application/json")
+        self.assert_success(rv)
+        data = json.loads(rv.get_data(as_text=True))
+        self.assertEquals(self.test_code_1, data["id"])
+        self.assertEqual(1, len(data["workshops"]))
+
     def test_add_track(self):
 
         rv = self.app.post('/api/track')
