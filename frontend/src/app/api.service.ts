@@ -19,6 +19,7 @@ export class ApiService {
 
   apiRoot = environment.api;
   workshop_url = `${this.apiRoot}/api/workshop`;
+  featured_workshop_url = `${this.workshop_url}/featured`;
   search_url = `${this.apiRoot}/api/workshop/search`;
   participant_search_url = `${this.apiRoot}/api/participant/search`;
   track_url = `${this.apiRoot}/api/track`;
@@ -263,6 +264,15 @@ export class ApiService {
     return this.http.get(this.workshop_url, this.getOptions())
       .map(res => {
         return res.json().workshops.map(item => {
+          return(new Workshop(item));
+        });
+      });
+  }
+
+  getFeaturedWorkshops(): Observable<Workshop[]> {
+    return this.http.get(this.featured_workshop_url, this.getOptions())
+      .map(res => {
+        return res.json().map(item => {
           return(new Workshop(item));
         });
       });

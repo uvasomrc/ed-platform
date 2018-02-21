@@ -13,10 +13,14 @@ export class WorkshopService {
 
   constructor(private api: ApiService) {}
 
-  // Simulate GET /workshop
   getAllWorkshops(): Observable<Workshop[]> {
     return this.api.getAllWorkshops();
   }
+
+  getFeaturedWorkshops(): Observable<Workshop[]> {
+    return this.api.getFeaturedWorkshops();
+  }
+
 
   getWorkshop(id: number): Observable<Workshop> {
     return this.api.getWorkshop(id);

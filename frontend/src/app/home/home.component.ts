@@ -17,7 +17,7 @@ import {Search} from "../search";
 })
 export class HomeComponent implements OnInit {
 
-  workshops: Workshop[] = [];
+  featuredWorkshops: Workshop[] = [];
   tracks: Track[] = [];
   showControls = false;
   account: Participant;
@@ -28,11 +28,9 @@ export class HomeComponent implements OnInit {
               private accountService: AccountService) {}
 
   public ngOnInit() {
-    const search = new Search();
-    search.date_restriction = "30days";
-    this.workshopService.searchWorkshops(search).subscribe(
+    this.workshopService.getFeaturedWorkshops().subscribe(
       (results) => {
-        this.workshops = results.workshops;
+        this.featuredWorkshops = results;
       }
     );
     this.trackService.getTracks().subscribe(

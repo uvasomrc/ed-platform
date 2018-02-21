@@ -127,6 +127,12 @@ class Workshop(db.Model):
             if(s.is_open() and not s.is_full() and not s.is_past()): return True;
         return False
 
+    def next_session(self):
+        for s in self.sessions:
+            if(not s.is_past()): return s;
+
+
+
 class Code(db.Model):
     __tablename__ = 'code'
     id = db.Column(db.String(), primary_key=True)

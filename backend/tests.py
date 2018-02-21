@@ -236,14 +236,38 @@ class TestCase(unittest.TestCase):
                           content_type="application/json")
         return json.loads(rv.get_data(as_text=True))
 
-    def get_latest_workshops(self):
-        rv = self.app.get('/api/upcoming-workshops',
+    def test_get_latest_workshops_does_not_include_workshops_without_session(self):
+        self.add_test_workshop()
+        rv = self.app.get('/api/workshop/featured',
                           follow_redirects=True,
                           content_type="application/json")
         self.assert_success(rv)
         data = json.loads(rv.get_data(as_text=True))
-        self.assertEquals(self.test_code_1, data["id"])
-        self.assertEqual(1, len(data["workshops"]))
+        self.assertEquals(0, len(data))
+
+    def test_get_latest_workshops_finds_upcoming_workshop_with_session(self):
+        workshop = self.add_test_workshop()
+        session = self.add_test_session(workshop['id'])
+        rv = self.app.get('/api/workshop/featured',
+                          follow_redirects=True,
+                          content_type="application/json")
+        self.assert_success(rv)
+        data = json.loads(rv.get_data(as_text=True))
+        self.assertEquals(1, len(data))
+
+    def test_get_latest_workshops_only_returns_six_entries(self):
+
+        for _ in range(10):
+            workshop = self.add_test_workshop()
+            session = self.add_test_session(workshop['id'])
+
+        rv = self.app.get('/api/workshop/featured',
+                          follow_redirects=True,
+                          content_type="application/json")
+        self.assert_success(rv)
+        data = json.loads(rv.get_data(as_text=True))
+        self.assertEquals(6, len(data))
+
 
     def test_add_track(self):
 

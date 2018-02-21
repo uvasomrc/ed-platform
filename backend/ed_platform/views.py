@@ -4,10 +4,12 @@ import elasticsearch
 import magic
 import os
 from flask import jsonify, request, send_file, session, redirect, g, render_template, json
+from sqlalchemy import desc
+
 from ed_platform import app, db, models, sso, RestException, elastic_index, profile_photos, discourse, notify
 from flask_httpauth import HTTPTokenAuth
 from dateutil import parser
-from operator import itemgetter
+from operator import itemgetter,and_
 from ed_platform.wrappers import requires_roles
 
 user_schema = models.UserSchema()
@@ -343,40 +345,16 @@ def create_workshop():
 
     return workshop_schema.jsonify(new_workshop)
 
-@app.route('/api/upcoming-workshops')
-def get_upcoming_workshops():
-    trimmed_workshop_list = []
-    date_today = datetime.datetime.now()
-    date_today = date_today.replace(tzinfo=None)
-    workshop_data = list(map(lambda t: workshop_schema.dump(t).data,
-                         models.Workshop.query.all()))
-    for workshop in workshop_data['workshops']:
-        if (len(workshop['sessions']) > 0):
-            id = workshop['id']
-            title_str = workshop['title']
-            display_name_str = workshop['instructor']['display_name']
-            session_date = parser.parse(workshop['sessions'][0]['date_time'])
-            session_date = session_date.replace(tzinfo=None)
-            workshop_dict = {
-                'id': id,
-                'title_str': title_str,
-                'display_name_str': display_name_str,
-                'session_date': session_date
-            }
-            trimmed_workshop_list.append(workshop_dict)
+@app.route('/api/workshop/featured')
+def get_featured_workshops():
 
-    sorted_workshop_list = sorted(trimmed_workshop_list, key=itemgetter('session_date'))
-
-    present_and_future_workshops_list = [workshop for workshop in sorted_workshop_list if
-                                         workshop['session_date'] >= date_today]
-
-    present_and_future_workshops_list_top_five = present_and_future_workshops_list[:5]
-
-    for workshop in present_and_future_workshops_list_top_five:
-        workshop['session_date'] = workshop['session_date'].strftime('%m/%d/%Y')
-
-    return jsonify({"workshops": present_and_future_workshops_list_top_five})
-
+    workshops = (models.Workshop.query.
+                outerjoin(models.Session, and_(models.Workshop.id == models.Session.workshop_id,
+                    models.Session.date_time >= datetime.datetime.now())).
+                order_by(models.Session.date_time).
+                limit(6)
+                )
+    return models.WorkshopAPISchema().jsonify(workshops, many=True)
 
 @app.route('/api/workshop/<int:id>/discourse', methods=['POST'])
 @auth.login_required
@@ -450,7 +428,7 @@ def remove_workshop(id):
     workshop = models.Workshop.query.filter_by(id=id).first()
     if(workshop is None): return ""
     if(len(workshop.sessions) > 0):
-        return jsonify(error=409, text=str("This workshop has existing sessions. Please remove the sessions first.")), 409
+        return jsonify(error=409, text=str("This workshop has existing sessions. Please remove the sessionfeas first.")), 409
     db.session.delete(workshop)
     db.session.commit()
     elastic_index.remove_workshop(id)
