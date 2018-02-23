@@ -351,8 +351,7 @@ def get_featured_workshops():
     workshops = (models.Workshop.query.
                 outerjoin(models.Session, and_(models.Workshop.id == models.Session.workshop_id,
                     models.Session.date_time >= datetime.datetime.now())).
-                order_by(models.Session.date_time).
-                limit(6)
+                order_by(models.Session.date_time)
                 )
     return models.WorkshopAPISchema().jsonify(workshops, many=True)
 
