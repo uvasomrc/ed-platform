@@ -1,5 +1,6 @@
 import smtplib
 import uuid
+from email.header import Header
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -37,11 +38,12 @@ class Notify():
 
     def send_email(self, subject, recipients, text_body, html_body, sender=None, ical=None):
         msgRoot = MIMEMultipart('related')
+        msgRoot.set_charset('utf8')
 
         if (sender == None):
             sender = self.app.config['MAIL_DEFAULT_SENDER']
 
-        msgRoot['Subject'] = subject
+        msgRoot['Subject'] = Header(subject.encode('utf-8'), 'utf-8').encode()
         msgRoot['From'] = sender
         msgRoot['To'] = ', '.join(recipients)
         msgRoot.preamble = 'This is a multi-part message in MIME format.'
@@ -49,8 +51,9 @@ class Notify():
         msgAlternative = MIMEMultipart('alternative')
         msgRoot.attach(msgAlternative)
 
-        part1 = MIMEText(text_body, 'plain')
-        part2 = MIMEText(html_body, 'html')
+        part1 = MIMEText(text_body, 'plain', _charset='UTF-8')
+        part2 = MIMEText(html_body, 'html', _charset='UTF-8')
+
         msgAlternative.attach(part1)
         msgAlternative.attach(part2)
 
@@ -70,7 +73,7 @@ class Notify():
             recipients = [self.app.config['MAIL_DEFAULT_RECIPIENT']]
 
         server = self.email_server()
-        server.sendmail(sender, recipients, msgRoot.as_string())
+        server.sendmail(sender, recipients, msgRoot.as_bytes())
         server.quit()
 
 

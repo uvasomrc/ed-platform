@@ -686,6 +686,22 @@ class TestCase(unittest.TestCase):
         logs = models.EmailLog.query.all()
         self.assertIsNotNone(logs[-1].tracking_code)
 
+    def test_utf_8_email(self):
+        participant = self.get_current_participant()
+        workshop = self.add_test_workshop()
+        session = self.add_test_session(workshop)
+
+        workshopModel = models.Workshop.query.filter_by(id=workshop['id']).first()
+        workshopModel.description = 'ação'
+        db.session.merge(workshopModel)
+        message_count = len(TEST_MESSAGES)
+        rv = self.app.post("/api/session/%i/register" % (session["id"]), headers=self.logged_in_headers())
+        self.assert_success(rv)
+        self.assertGreater(len(TEST_MESSAGES), message_count)
+        self.assertEqual("CADRE Academy: Registration Successful", TEST_MESSAGES[-1]['subject'])
+
+        logs = models.EmailLog.query.all()
+        self.assertIsNotNone(logs[-1].tracking_code)
 
     def test_max_participants(self):
         p1 = self.add_test_participant()
