@@ -347,9 +347,21 @@ def create_workshop():
 
 @app.route('/api/workshop/featured')
 def get_featured_workshops():
-
+    # returns a list of 6 workshops, prefering upcoming workshops, but always returning something.
     workshops = (models.Workshop.query.
                 outerjoin(models.Session, and_(models.Workshop.id == models.Session.workshop_id,
+                    models.Session.date_time >= datetime.datetime.now())).
+                order_by(models.Session.date_time).
+                limit(6)
+                )
+    return models.WorkshopAPISchema().jsonify(workshops, many=True)
+
+
+@app.route('/api/workshop/upcoming')
+def get_upcoming_workshops():
+    # returns a list of all upcoming workshops, ordered by date
+    workshops = (models.Workshop.query.
+                join(models.Session, and_(models.Workshop.id == models.Session.workshop_id,
                     models.Session.date_time >= datetime.datetime.now())).
                 order_by(models.Session.date_time)
                 )
