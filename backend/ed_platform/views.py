@@ -139,7 +139,7 @@ def list_participants():
 def list_participant_emails():
     email_results = db.session.query(models.Participant.email_address).order_by('email_address').all()
     all_emails = [r for (r, ) in email_results]
-    return Response(",".join(all_emails), mimetype='text/csv')
+    return Response(",".join(filter(None,all_emails)), mimetype='text/csv')
 
 # Codes
 # *****************************
