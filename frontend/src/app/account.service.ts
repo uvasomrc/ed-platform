@@ -121,4 +121,8 @@ export class AccountService implements OnDestroy {
     return this.api.unRegister(session);
   }
 
+  getEmailAddresses(): Observable<String> {
+    return this.api.getAllEmails();
+  }
+
 }

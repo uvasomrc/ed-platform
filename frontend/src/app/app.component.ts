@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {NavigationEnd, Router, RoutesRecognized} from '@angular/router';
 import {Participant} from './participant';
 import {AccountService} from './account.service';
 import {environment} from "../environments/environment";
+import {MAT_DIALOG_DATA, MatDialog} from "@angular/material";
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,8 @@ export class AppComponent implements OnInit {
   ga_id = environment.ga_id;
 
   constructor(private router: Router,
-              private accountService: AccountService) {
+              private accountService: AccountService,
+              private dialog: MatDialog) {
     router.events.subscribe(event => {
       if (event instanceof RoutesRecognized) {
         const route = event.state.root.firstChild;
@@ -85,4 +87,23 @@ export class AppComponent implements OnInit {
     this.router.navigate(['home']);
   }
 
+  showEmailAddresses() {
+    this.accountService.getEmailAddresses().subscribe(addresses => {
+      var modal = this.dialog.open(EmailListDialogComponent, {
+        width: '500px',
+        data: {email_addresses: addresses}
+      });
+    });
+  }
+
+
+}
+
+
+@Component({
+  selector: 'app-email-list-dialog',
+  templateUrl: 'email-list-dialog.html',
+})
+export class EmailListDialogComponent {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
 }

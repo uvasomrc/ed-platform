@@ -3,7 +3,7 @@ import datetime
 import elasticsearch
 import magic
 import os
-from flask import jsonify, request, send_file, session, redirect, g, render_template, json
+from flask import jsonify, request, send_file, session, redirect, g, render_template, json, Response
 from sqlalchemy import desc
 
 from ed_platform import app, db, models, sso, RestException, elastic_index, profile_photos, discourse, notify
@@ -123,6 +123,23 @@ def user_workshops():
 @requires_roles('USER','ADMIN')
 def following():
     return models.WorkshopAPISchema().jsonify(g.user.following,many=True)
+
+# Participants Admin
+# *****************************
+@app.route('/api/participant', methods=['GET'])
+@auth.login_required
+@requires_roles('ADMIN')
+def list_participants():
+    all_participants = models.Participant.query.order_by('email_address').all()
+    return models.ParticipantAPISchema().jsonify(all_participants, many=True)
+
+@app.route('/api/participant/emails.csv', methods=['GET'])
+@auth.login_required
+@requires_roles('ADMIN')
+def list_participant_emails():
+    email_results = db.session.query(models.Participant.email_address).order_by('email_address').all()
+    all_emails = [r for (r, ) in email_results]
+    return Response(",".join(all_emails), mimetype='text/csv')
 
 # Codes
 # *****************************
@@ -835,4 +852,3 @@ def search_participant():
         participants.append(participant)
     search.participants = participant_schema.dump(participants, many=True).data
     return models.SearchSchema().jsonify(search)
-

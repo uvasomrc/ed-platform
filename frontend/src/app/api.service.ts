@@ -26,6 +26,7 @@ export class ApiService {
   session_url = `${this.apiRoot}/api/session`;
   account_url = `${this.apiRoot}/api/user`;
   code_url = `${this.apiRoot}/api/code`;
+  email_download_url = `${this.apiRoot}/api/participant/emails.csv`;
 
   token: string;
 
@@ -111,7 +112,6 @@ export class ApiService {
       .map(res => { return new Session(res.json()); })
       .catch(this.handleError);
   }
-
 
   unFollow(workshop: Workshop): Observable<Workshop> {
     return this.http.delete(workshop.links.follow, this.getOptions())
@@ -354,6 +354,13 @@ export class ApiService {
   private handleError (error: Response | any) {
     console.error('ApiService::handleError', error.json().text);
     return Observable.throw(error.json().text);
+  }
+
+  getAllEmails(): Observable<String> {
+    return this.http.get(this.email_download_url, this.getOptions())
+      .map(res => {
+        return res.text();
+      });
   }
 
   /*

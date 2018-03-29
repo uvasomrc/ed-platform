@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
+import {EmailListDialogComponent} from './app.component';
 import { TrackComponent } from './track/track.component';
 import {TrackService} from './track.service';
 import { TrackListComponent } from './track-list/track-list.component';
@@ -42,9 +43,9 @@ import { ParticipantSearchComponent } from './participant-search/participant-sea
 import { SessionFormComponent } from './session-form/session-form.component';
 import {OverlayModule} from '@angular/cdk/overlay';
 import { ParticipantFormComponent } from './participant-form/participant-form.component';
-import {DatePipe} from "@angular/common";
+import {DatePipe} from '@angular/common';
 import { PostComponent } from './post/post.component';
-import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import { SessionListComponent } from './session-list/session-list.component';
 import { WorkshopDashboardComponent } from './workshop-dashboard/workshop-dashboard.component';
 import { EmailFormComponent } from './email-form/email-form.component';
@@ -52,10 +53,10 @@ import { MarkdownToHtmlModule } from 'ng2-markdown-to-html';
 import {
   ConfirmRegistrationDialogComponent,
   DeclineRegistrationDialogComponent, UnFollowDialogComponent, WorkshopDetailsComponent
-} from "./workshop-details/workshop-details.component";
+} from './workshop-details/workshop-details.component';
 import { AboutComponent } from './about/about.component';
 import { HelpComponent } from './help/help.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClientModule} from '@angular/common/http';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -112,6 +113,7 @@ const routes: Routes = [
     DeclineRegistrationDialogComponent,
     NewUserDialogComponent,
     UnFollowDialogComponent,
+    EmailListDialogComponent,
     AboutComponent,
     HelpComponent
   ],
@@ -152,7 +154,8 @@ const routes: Routes = [
     ConfirmRegistrationDialogComponent,
     DeclineRegistrationDialogComponent,
     NewUserDialogComponent,
-    UnFollowDialogComponent],
+    UnFollowDialogComponent,
+    EmailListDialogComponent],
   providers: [TrackService, WorkshopService, ApiService, AccountService, AuthGuard, DatePipe],
   bootstrap: [AppComponent]
 })

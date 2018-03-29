@@ -1359,6 +1359,24 @@ class TestCase(unittest.TestCase):
         # Assure that the participant is no longer following the workshop
         self.assertFalse(participant.is_following(workshop))
 
+    def test_list_all_participants(self):
+        # Return a list of all user names and email addresses in json, if requester is an admin
+
+        rv = self.app.get("/api/participant",headers=self.logged_in_headers())
+        self.assert_failure(rv)
+
+        rv = self.app.get("/api/participant", headers=self.logged_in_headers_admin())
+        self.assert_success(rv)
+        users = json.loads(rv.get_data(as_text=True))
+        self.assertEqual(2, len(users))
+
+    def test_list_all_participant_emails(self):
+        rv = self.app.get("/api/participant/emails.csv", headers=self.logged_in_headers_admin())
+        self.assertEqual("text/csv; charset=utf-8", rv.content_type)
+        self.assert_success(rv)
+        csv = rv.get_data(as_text=True)
+        self.assertTrue("dhf8rx2@virginia.edu" in csv)
+
 
 if __name__ == '__main__':
     unittest.main()
