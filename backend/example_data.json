@@ -955,7 +955,7 @@
       "name": "python_apis_s1",
       "data": {
         "workshop": "python_apis",
-        "date_time":"2018-02-01T22:00:00",
+        "date_time":"2018-06-01T22:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -965,7 +965,7 @@
       "name": "automated_analysis_ws_s1",
       "data": {
         "workshop": "automated_analysis_ws",
-        "date_time":"2018-01-19T19:00:00",
+        "date_time":"2018-05-19T19:00:00",
         "duration_minutes":"180",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -973,17 +973,6 @@
     },
     {
       "name": "command_line_s_past",
-      "data": {
-        "workshop": "command_line_ws",
-        "date_time":"2017-04-07T19:00:00",
-        "duration_minutes":"180",
-        "max_days_prior":30,
-        "max_attendees":30,
-        "location":"Health Sciences Library Carter Classroom"
-      }
-    },
-    {
-      "name": "command_line_s1",
       "data": {
         "workshop": "command_line_ws",
         "date_time":"2018-04-07T19:00:00",
@@ -994,10 +983,21 @@
       }
     },
     {
+      "name": "command_line_s1",
+      "data": {
+        "workshop": "command_line_ws",
+        "date_time":"2018-08-07T19:00:00",
+        "duration_minutes":"180",
+        "max_days_prior":30,
+        "max_attendees":30,
+        "location":"Health Sciences Library Carter Classroom"
+      }
+    },
+    {
       "name": "command_line_s2",
       "data": {
         "workshop": "command_line_ws",
-        "date_time":"2018-01-07T19:00:00",
+        "date_time":"2018-05-07T19:00:00",
         "duration_minutes":"180",
         "max_days_prior":30,
         "max_attendees":30,
@@ -1008,7 +1008,7 @@
       "name": "command_line_s3",
       "data": {
         "workshop": "command_line_ws",
-        "date_time":"2018-03-07T19:00:00",
+        "date_time":"2018-07-07T19:00:00",
         "duration_minutes":"180",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -1018,7 +1018,7 @@
       "name": "optimizing_r_s1",
       "data": {
         "workshop": "optimizing_r",
-        "date_time":"2018-03-17T21:00:00",
+        "date_time":"2018-07-17T21:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Brown 133"
@@ -1028,7 +1028,7 @@
       "name": "bash_scripting_s1",
       "data": {
         "workshop": "bash_scripting",
-        "date_time":"2018-02-13T19:00:00",
+        "date_time":"2018-06-13T19:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Alderman Library"
@@ -1038,7 +1038,7 @@
       "name": "database_s1",
       "data": {
         "workshop": "database_ws",
-        "date_time":"2018-01-04T15:00:00",
+        "date_time":"2018-05-04T15:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -1048,7 +1048,7 @@
       "name": "cloud_advanced_s1",
       "data": {
         "workshop": "cloud_adv_ws",
-        "date_time":"2018-04-02T19:00:00",
+        "date_time":"2018-08-02T19:00:00",
         "duration_minutes":"180",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -1058,7 +1058,7 @@
       "name": "scientific_image_processing_ws_s1",
       "data": {
         "workshop": "scientific_image_processing_ws",
-        "date_time":"2018-02-09T18:00:00",
+        "date_time":"2018-06-09T18:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -1068,7 +1068,7 @@
       "name": "hpc_ws_s1",
       "data": {
         "workshop": "hpc_ws",
-        "date_time":"2018-01-15T22:00:00",
+        "date_time":"2018-05-15T22:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -1078,7 +1078,7 @@
       "name": "data_management_s1",
       "data": {
         "workshop": "data_management_ws",
-        "date_time":"2018-03-01T22:00:00",
+        "date_time":"2018-07-01T22:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -1088,7 +1088,7 @@
       "name": "fsl_s1",
       "data": {
         "workshop": "fsl_ws",
-        "date_time":"2018-02-27T22:00:00",
+        "date_time":"2018-06-27T22:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -1098,7 +1098,7 @@
       "name": "parallel_matlab_s1",
       "data": {
         "workshop": "parallel_matlab",
-        "date_time":"2018-04-01T22:00:00",
+        "date_time":"2018-08-01T22:00:00",
         "duration_minutes":"240",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -1108,7 +1108,7 @@
       "name": "introduction_to_matlab_s1",
       "data": {
         "workshop": "introduction_to_matlab",
-        "date_time":"2018-03-03T19:00:00",
+        "date_time":"2018-07-03T19:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -1118,7 +1118,7 @@
       "name": "data_manipulation_in_r_s1",
       "data": {
         "workshop": "data_manipulation_in_r",
-        "date_time":"2018-01-07T19:00:00",
+        "date_time":"2018-05-07T19:00:00",
         "duration_minutes":"120",
         "max_attendees":2,
         "location":"Health Sciences Library Carter Classroom"
@@ -1128,7 +1128,7 @@
       "name": "r_package_s1",
       "data": {
         "workshop": "r_package_dev",
-        "date_time":"2018-03-22T19:00:00",
+        "date_time":"2018-07-22T19:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -1138,7 +1138,7 @@
       "name": "r_functional_s1",
       "data": {
         "workshop": "r_functional",
-        "date_time":"2018-02-12T15:00:00",
+        "date_time":"2018-06-12T15:00:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Health Sciences Library Baker Classroom"
@@ -1148,7 +1148,7 @@
       "name": "r_web_s1",
       "data": {
         "workshop": "r_web",
-        "date_time":"2018-02-11T23:30:00",
+        "date_time":"2018-06-11T23:30:00",
         "duration_minutes":"120",
         "max_attendees":30,
         "location":"Health Sciences Library Carter Classroom"
@@ -1158,7 +1158,7 @@
       "name": "python_intro_workshop_s1",
       "data": {
         "workshop": "python_intro_workshop",
-        "date_time":"2017-11-11T23:30:00",
+        "date_time":"2018-11-11T23:30:00",
         "duration_minutes":"60",
         "max_attendees":20,
         "instructor_notes": "Class details are available at http://sartography.com.",
@@ -1169,7 +1169,7 @@
       "name": "python_intro_workshop_s2",
       "data": {
         "workshop": "python_intro_workshop_t3",
-        "date_time":"2018-03-14T23:30:00",
+        "date_time":"2018-07-14T23:30:00",
         "duration_minutes":"60",
         "max_attendees":7,
         "instructor_notes": "",
@@ -1180,7 +1180,7 @@
       "name": "python_intro_workshop_s3",
       "data": {
         "workshop": "python_intro_workshop_t2",
-        "date_time":"2018-01-12T19:00:00",
+        "date_time":"2018-05-12T19:00:00",
         "duration_minutes":"120",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1191,7 +1191,7 @@
       "name": "python_intro_workshop_s4",
       "data": {
         "workshop": "python_intro_workshop",
-        "date_time":"2017-11-24T19:00:00",
+        "date_time":"2018-11-24T19:00:00",
         "duration_minutes":"120",
         "max_attendees":2,
         "instructor_notes": "",
@@ -1202,7 +1202,7 @@
       "name": "python_data_cleaning_s1",
       "data": {
         "workshop": "python_data_cleaning",
-        "date_time":"2017-12-09T18:00:00",
+        "date_time":"2018-12-09T18:00:00",
         "duration_minutes":"90",
         "max_attendees":12,
         "instructor_notes": "",
@@ -1213,7 +1213,7 @@
       "name": "python_data_vis_s1",
       "data": {
         "workshop": "python_data_cleaning",
-        "date_time":"2017-12-11T19:00:00",
+        "date_time":"2018-12-11T19:00:00",
         "duration_minutes":"90",
         "max_attendees":12,
         "instructor_notes": "",
@@ -1224,7 +1224,7 @@
       "name": "python_flask_s1",
       "data": {
         "workshop": "python_flask",
-        "date_time":"2018-02-01T19:00:00",
+        "date_time":"2018-06-01T19:00:00",
         "duration_minutes":"90",
         "max_attendees":12,
         "instructor_notes": "",
@@ -1235,7 +1235,7 @@
       "name": "r_intro_workshop_1",
       "data": {
         "workshop": "r_intro_workshop",
-        "date_time":"2018-02-12T15:30:00",
+        "date_time":"2018-06-12T15:30:00",
         "duration_minutes":"90",
         "max_attendees":10,
         "instructor_notes": "Materials will be provided during class.  Please bring a Flash drive with at least 6gb of free space.",
@@ -1246,7 +1246,7 @@
       "name": "ml_intro_workshop_1",
       "data": {
         "workshop": "ml_intro_workshop",
-        "date_time":"2017-12-12T15:30:00",
+        "date_time":"2018-12-12T15:30:00",
         "duration_minutes":"120",
         "max_attendees":20,
         "instructor_notes": "Please see uploaded resources.",
@@ -1257,7 +1257,7 @@
       "name": "unix_into_workshop_1",
       "data": {
         "workshop": "unix_into_workshop",
-        "date_time":"2017-08-30T19:00:00",
+        "date_time":"2018-08-30T19:00:00",
         "duration_minutes":"120",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1268,7 +1268,7 @@
       "name": "unix_into_workshop_2",
       "data": {
         "workshop": "unix_into_workshop",
-        "date_time":"2017-11-06T19:00:00",
+        "date_time":"2018-11-06T19:00:00",
         "duration_minutes":"120",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1279,7 +1279,7 @@
       "name": "unix_into_workshop_3",
       "data": {
         "workshop": "unix_into_workshop",
-        "date_time":"2017-11-20T19:00:00",
+        "date_time":"2018-11-20T19:00:00",
         "duration_minutes":"120",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1290,7 +1290,7 @@
       "name": "github_intro_workshop_1",
       "data": {
         "workshop": "github_intro_workshop",
-        "date_time":"2017-11-07T19:00:00",
+        "date_time":"2018-11-07T19:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1301,7 +1301,7 @@
       "name": "data_in_excel_1",
       "data": {
         "workshop": "data_in_excel",
-        "date_time":"2017-11-12T19:00:00",
+        "date_time":"2018-11-12T19:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1312,7 +1312,7 @@
       "name": "intro_cloud_aws_1",
       "data": {
         "workshop": "intro_cloud_aws",
-        "date_time":"2017-11-14T15:00:00",
+        "date_time":"2018-11-14T15:00:00",
         "duration_minutes":"120",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1323,7 +1323,7 @@
       "name": "latex_1",
       "data": {
         "workshop": "latex",
-        "date_time":"2017-07-12T15:00:00",
+        "date_time":"2018-07-12T15:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1334,7 +1334,7 @@
       "name": "intro_dedoose_1",
       "data": {
         "workshop": "intro_dedoose",
-        "date_time":"2018-03-26T19:00:00",
+        "date_time":"2018-07-26T19:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1345,7 +1345,7 @@
       "name": "intro_dedoose_last_semester",
       "data": {
         "workshop": "intro_dedoose",
-        "date_time":"2017-10-26T19:00:00",
+        "date_time":"2018-10-26T19:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1356,7 +1356,7 @@
       "name": "interactive_visualization_1",
       "data": {
         "workshop": "inter_vis_py",
-        "date_time":"2017-11-27T19:00:00",
+        "date_time":"2018-11-27T19:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1367,7 +1367,7 @@
       "name": "vis_ggplot2_1",
       "data": {
         "workshop": "vis_ggplot2",
-        "date_time":"2017-11-28T15:00:00",
+        "date_time":"2018-11-28T15:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1378,7 +1378,7 @@
       "name": "jekyll_1",
       "data": {
         "workshop": "jekyll",
-        "date_time":"2018-02-05T15:00:00",
+        "date_time":"2018-06-05T15:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1389,7 +1389,7 @@
       "name": "scikit_1",
       "data": {
         "workshop": "scikit",
-        "date_time":"2018-02-11T19:00:00",
+        "date_time":"2018-06-11T19:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1400,7 +1400,7 @@
       "name": "orchid_1",
       "data": {
         "workshop": "orchid",
-        "date_time":"2017-07-12T15:00:00",
+        "date_time":"2018-07-12T15:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1411,7 +1411,7 @@
       "name": "funders_1",
       "data": {
         "workshop": "funders",
-        "date_time":"2018-02-12T15:30:00",
+        "date_time":"2018-06-12T15:30:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1422,7 +1422,7 @@
       "name": "visual_javascript_1",
       "data": {
         "workshop": "visual_javascript",
-        "date_time":"2018-02-17T15:00:00",
+        "date_time":"2018-06-17T15:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
@@ -1433,7 +1433,7 @@
       "name": "visual_tableau_1",
       "data": {
         "workshop": "visual_tableau",
-        "date_time":"2018-02-19T19:00:00",
+        "date_time":"2018-06-19T19:00:00",
         "duration_minutes":"90",
         "max_attendees":20,
         "instructor_notes": "",
