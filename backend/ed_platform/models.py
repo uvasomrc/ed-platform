@@ -127,10 +127,17 @@ class Workshop(db.Model):
             if(s.is_open() and not s.is_full() and not s.is_past()): return True;
         return False
 
+    @property
     def next_session(self):
         for s in self.sessions:
             if(not s.is_past()): return s;
 
+    # Useful for sorting workshops, returns the maximum
+    # possible date if there is no upcoming session.
+    def next_session_date(self):
+        for s in self.sessions:
+            if(not s.is_past()): return s.date_time;
+        return datetime.datetime(datetime.MAXYEAR,1,1)
 
 
 class Code(db.Model):
@@ -553,11 +560,14 @@ class SessionAPISchema(ma.Schema):
 class WorkshopAPISchema(ma.Schema):
     class Meta:
         fields = ('id', 'title', 'description', '_links', 'sessions','code_id', 'instructor',
-                  'discourse_enabled', 'discourse_url', 'discourse_topic_id', 'status', 'followers')
+                  'discourse_enabled', 'discourse_url', 'discourse_topic_id', 'status', 'followers',
+                  'next_session')
         ordered = True
     instructor = ma.Nested(ParticipantAPISchema)
     sessions = ma.List(ma.Nested(SessionAPISchema))
     followers = ma.List(ma.Nested(ParticipantAPISchema))
+    next_session = ma.Nested(SessionAPISchema)
+
     status = fields.Method('get_status')
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_workshop', id='<id>'),
@@ -604,10 +614,17 @@ class TrackAPISchema(ma.Schema):
             fields = ('prereq','id', 'status', '_links', 'workshops')
         id = fields.Function(lambda obj: obj.code_id)
         status = fields.Method('get_status')
-        workshops = ma.List(ma.Nested(WorkshopAPISchema()))
+        workshops = fields.Method('sort_workshops')
         _links = ma.Hyperlinks({
             'self': ma.URLFor('get_code', code='<code_id>'),
         })
+
+        def sort_workshops(self, obj):
+            sorted_workshops = sorted(obj.code.workshops,
+                                     key=lambda w: w.next_session_date())
+            return WorkshopAPISchema().dump(sorted_workshops, many=True)[0]
+
+
         def get_status(self, obj):
             participant = g.user
             if participant == None:

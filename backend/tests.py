@@ -130,10 +130,10 @@ class TestCase(unittest.TestCase):
         self.assert_success(rv)
         return json.loads(rv.get_data(as_text=True))
 
-    def add_test_session(self, workshop_id):
+    def add_test_session(self, workshop_id, days_from_now=10):
         # Make sure the workshop occurs 10 days from now.
 
-        session_date = datetime.datetime.now() + datetime.timedelta(days=10)
+        session_date = datetime.datetime.now() + datetime.timedelta(days=days_from_now)
         data = {
             "workshop": workshop_id,
             "date_time": session_date.isoformat(),
@@ -353,6 +353,30 @@ class TestCase(unittest.TestCase):
         self.assertEqual(3, len(codes))
         self.assertTrue("_links" in codes[0].keys())
         self.assert_success(self.app.get(codes[0]["_links"]["self"]))
+
+    def test_workshops_in_tracks_returned_in_order_of_date(self):
+        track = self.add_test_track()
+        ws1 = self.add_test_workshop()
+        ws2 = self.add_test_workshop()
+        ws3 = self.add_test_workshop()
+        ws4 = self.add_test_workshop()
+        s1 = self.add_test_session(ws1["id"], 3)
+        s2 = self.add_test_session(ws2["id"], 1)
+        s3 = self.add_test_session(ws3["id"], 2)
+        s4 = self.add_test_session(ws4["id"], -2)
+
+        response = self.app.get('/api/track/%s' % track['id'])
+        t = json.loads(response.get_data(as_text=True))
+        self.assertTrue(t)
+        self.assertIsNotNone(t['codes'][0]['workshops'][0]['next_session'])
+        self.assertIsNotNone(t['codes'][0]['workshops'][1]['next_session'])
+        self.assertIsNotNone(t['codes'][0]['workshops'][2]['next_session'])
+        self.assertIsNone(t['codes'][0]['workshops'][3]['next_session'])
+        date1 = dateutil.parser.parse(t['codes'][0]['workshops'][0]['sessions'][0]['date_time'])
+        date2 = dateutil.parser.parse(t['codes'][0]['workshops'][1]['sessions'][0]['date_time'])
+        date3 = dateutil.parser.parse(t['codes'][0]['workshops'][2]['sessions'][0]['date_time'])
+        self.assertTrue(date1 < date2)
+        self.assertTrue(date2 < date3)
 
     def test_tracks_with_active_participant_know_completed_codes(self):
         participant = self.get_current_participant()
