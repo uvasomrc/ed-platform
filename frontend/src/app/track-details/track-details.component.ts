@@ -17,11 +17,13 @@ export class TrackDetailsComponent implements OnInit {
 
   track_id = 0;
   track: Track;
-  workshops: Workshop[] = [];
   isDataLoaded = false;
   codeIndex = 0;
   code: Code;
   account: Participant;
+  weeks = [];
+  workshop_groups = [];
+  view_type = 'code';
 
   private swipeCoord?: [number, number];
   private swipeTime?: number;
@@ -42,8 +44,26 @@ export class TrackDetailsComponent implements OnInit {
         this.track = track;
         this.code = track.codes[this.codeIndex];
         this.isDataLoaded = true;
+        this.workshop_groups = track.codes;
+
+        this.trackService.getTrackWorkshopsByDate(this.track).subscribe(
+          (weeks) => {
+            this.weeks = weeks;
+        });
       }
     );
+  }
+
+  toggle_list() {
+    if(this.view_type === 'code') {
+      this.workshop_groups = this.weeks;
+      this.view_type = 'week';
+    } else {
+      this.view_type = 'code';
+      this.workshop_groups = this.track.codes;
+    }
+    this.codeIndex = 0;
+    this.code = this.workshop_groups[this.codeIndex];
   }
 
   swipe(e: TouchEvent, when: string): void {
@@ -77,21 +97,22 @@ export class TrackDetailsComponent implements OnInit {
       return;
     } else {
       this.codeIndex--;
-      this.code = this.track.codes[this.codeIndex]
+      this.code = this.workshop_groups[this.codeIndex];
     }
   }
 
   nextCode() {
-    if (this.codeIndex === this.track.codes.length - 1) {
+    if (this.codeIndex === this.workshop_groups.length - 1) {
       return;
     } else {
       this.codeIndex++;
-      this.code = this.track.codes[this.codeIndex]
+      this.code = this.workshop_groups[this.codeIndex];
     }
   }
 
   gotoCode(index) {
     this.code = this.track.codes[index];
+    this.view_type = 'code';
     this.codeIndex = index;
   }
 

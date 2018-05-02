@@ -37,8 +37,6 @@
   .course-nav-list {
     display: block;
   }
-
-
 }
 
 div.header-title {
@@ -55,4 +53,6 @@ h2.mat-title, div.mat-card-pre-title, div.sub-title {
   color: #fff;
 }
 
-
+mat-button-toggle-group {
+  margin-bottom: 20px;
+}

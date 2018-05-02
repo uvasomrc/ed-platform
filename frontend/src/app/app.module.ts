@@ -9,7 +9,7 @@ import { TrackComponent } from './track/track.component';
 import {TrackService} from './track.service';
 import { TrackListComponent } from './track-list/track-list.component';
 import {
-  MatButtonModule, MatIconModule, MatMenuModule, MatToolbarModule, MatCardModule,
+  MatButtonModule, MatButtonToggleModule, MatIconModule, MatTooltipModule, MatMenuModule, MatToolbarModule, MatCardModule,
   MatInputModule, MatCheckboxModule, MatFormFieldModule, MatTabsModule, MatProgressSpinnerModule,
   MatExpansionModule, MatSelectModule, MatListModule, MatRadioModule, MatStepperModule, MatSidenavModule,
   MatDialogModule, MatDatepickerModule, MatNativeDateModule, MatSnackBar, MatSnackBarModule
@@ -124,6 +124,8 @@ const routes: Routes = [
     HttpClientModule,
     BrowserAnimationsModule,
     MatButtonModule,
+    MatButtonToggleModule,
+    MatTooltipModule,
     MatMenuModule,
     MatToolbarModule,
     MatIconModule,

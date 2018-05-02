@@ -1,4 +1,5 @@
 import datetime
+from collections import OrderedDict
 
 import elasticsearch
 import magic
@@ -216,6 +217,35 @@ def get_track(track_id):
     if(track is None):
         return jsonify(error=404, text=str("no such track.")), 404
     return track_schema.jsonify(track)
+
+@app.route('/api/track/<int:track_id>/workshops')
+@auth.login_required
+def track_workshops(track_id):
+    ''' Returns a list of workshops for a given track, grouped by week'''
+    order = request.args.get('order')
+
+    track = models.Track.query.filter_by(id=track_id).first()
+
+    workshops = []
+    for code in track.codes:
+        workshops = workshops + code.workshops()
+    workshops = sorted(workshops, key=lambda w: w.next_session_date())
+
+    by_date = OrderedDict()
+    for w in workshops:
+        if (w.next_session is not None):
+            index = w.next_session.date_time - datetime.timedelta(days=w.next_session.date_time.weekday())
+            index = index.strftime('%Y-%m-%d')
+        else:
+            index = ""
+        if (index not in by_date): by_date[index] = []
+        by_date[index].append(models.WorkshopAPISchema().dump(w).data)
+
+    date_array = []
+    for (date, workshops) in by_date.items():
+        date_array.append( { "id": date, "workshops": workshops })
+
+    return jsonify(date_array)
 
 @app.route('/api/track/<int:track_id>', methods=['DELETE'])
 @auth.login_required

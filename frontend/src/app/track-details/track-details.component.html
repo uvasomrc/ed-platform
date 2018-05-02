@@ -3,11 +3,11 @@
   <div>
     <div class="header " [ngStyle]="{'background': '#fff url(' +track.links.image + ') no-repeat center center'}">
       <div class="header-title"
-        fxLayout="row"
-        fxLayoutAlign="center center"
-        fxLayoutStart=""
-        fxLayoutGap="10px"
-        fxLayoutGap.xs="0">
+           fxLayout="row"
+           fxLayoutAlign="center center"
+           fxLayoutStart=""
+           fxLayoutGap="10px"
+           fxLayoutGap.xs="0">
         <div>
           <div class="mat-card-pre-title">Track</div>
           <h2 class="mat-title">{{track.title}}</h2>
@@ -39,26 +39,42 @@
     </section>
   </div>
 
+  <mat-button-toggle-group #group="matButtonToggleGroup" [value]="view_type" (change)="toggle_list()">
+    <mat-button-toggle value="code" matTooltip="Order items by topic">
+      <mat-icon>toc</mat-icon>
+    </mat-button-toggle>
+    <mat-button-toggle value="date" matTooltip="Order items by week">
+      <mat-icon>date_range</mat-icon>
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+
   <div class="course-nav-scroll" (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')">
 
-  <div class="course-nav">
-    <button mat-button (click)="prevCode()">
-      <i class="material-icons">keyboard_arrow_left</i>PREV
-    </button>
-    <div class="spacer"></div>
-    <h2 *ngIf="code">{{code.id}}</h2>
-    <div class="spacer"></div>
-    <button mat-button (click)="nextCode()">
-      NEXT<i class="material-icons">keyboard_arrow_right</i>
-    </button>
+    <div class="course-nav">
+      <button mat-button (click)="prevCode()">
+        <i class="material-icons">keyboard_arrow_left</i>PREV
+      </button>
+      <div class="spacer"></div>
+      <h2 *ngIf="code.date">Week of {{code.date | date:'MMMM dd'}}</h2>
+      <h2 *ngIf="!code.date">{{code.id}}</h2>
+      <div class="spacer"></div>
+      <button mat-button (click)="nextCode()">
+        NEXT<i class="material-icons">keyboard_arrow_right</i>
+      </button>
+    </div>
+
+    <app-workshop-list *ngIf="code" [workshops]="code.workshops"></app-workshop-list>
   </div>
 
-  <app-workshop-list *ngIf="code" [workshops]="code.workshops"></app-workshop-list>
-  </div>
+
+  <!--
+  <div class="example-selected-value">Selected value: {{group.value}}</div>
+  -->
 
   <div class="course-nav-list">
-    <ng-container *ngFor="let code of track.codes">
-      <h2>{{code.id}}</h2>
+    <ng-container *ngFor="let code of workshop_groups">
+      <h2 *ngIf="code.date">Week of {{code.date | date:'MMMM dd'}}</h2>
+      <h2 *ngIf="!code.date">{{code.id}}</h2>
       <app-workshop-list [workshops]="code.workshops"></app-workshop-list>
     </ng-container>
   </div>

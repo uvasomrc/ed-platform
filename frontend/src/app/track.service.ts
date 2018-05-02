@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import {ApiService} from './api.service';
 import {Workshop} from './workshop';
 import {Code} from './code';
+import {Week} from "./week";
 
 @Injectable()
 export class TrackService {
@@ -48,4 +49,7 @@ export class TrackService {
     this.api.updateTrackImage(track, file).subscribe();
   }
 
+  getTrackWorkshopsByDate(track: Track): Observable<Week[]> {
+    return this.api.getTrackWorkshopsByDate(track);
+  }
 }

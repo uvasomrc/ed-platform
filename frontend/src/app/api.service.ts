@@ -13,6 +13,7 @@ import {EmailMessage} from './EmailMessage';
 import {Search} from './search';
 import {Code} from './code';
 import {Post} from './post';
+import {Week} from "./week";
 
 @Injectable()
 export class ApiService {
@@ -317,6 +318,16 @@ export class ApiService {
         });
       });
   }
+
+  getTrackWorkshopsByDate(track: Track): Observable<Week[]> {
+    return this.http.get(track.links.self + '/workshops', this.getOptions())
+      .map(res => {
+        return res.json().map(item => {
+          return(new Week(item));
+        });
+      });
+  }
+
 
   getWorkshopForSession(session: Session): Observable<Workshop> {
     return this.http.get(session.links.workshop, this.getOptions())

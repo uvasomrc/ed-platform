@@ -378,6 +378,29 @@ class TestCase(unittest.TestCase):
         self.assertTrue(date1 < date2)
         self.assertTrue(date2 < date3)
 
+    def test_track_with_workshops_by_week(self):
+        '''It should be possible to get all the workshops grouped by week rather than by
+        code.'''
+        track = self.add_test_track()
+        ws1 = self.add_test_workshop()
+        ws2 = self.add_test_workshop()
+        ws3 = self.add_test_workshop()
+        ws4 = self.add_test_workshop()
+        ws5 = self.add_test_workshop()
+        s1 = self.add_test_session(ws1["id"], 1)
+        s2 = self.add_test_session(ws2["id"], 8)
+        s3 = self.add_test_session(ws3["id"], 16)
+        s4 = self.add_test_session(ws4["id"], 3)
+        s5 = self.add_test_session(ws5["id"], -2)
+        response = self.app.get('/api/track/%s/workshops' % track['id'])
+        t = json.loads(response.get_data(as_text=True))
+        self.assertTrue(t)
+        self.assertTrue(len(t) > 1)
+        this_week = (datetime.datetime.now() - datetime.timedelta(days=datetime.datetime.now().weekday())).\
+            strftime('%Y-%m-%d')
+        self.assertEquals(2, len(t[0]['workshops']))
+
+
     def test_tracks_with_active_participant_know_completed_codes(self):
         participant = self.get_current_participant()
         rd = self.add_test_track()

@@ -95,6 +95,13 @@ class Track(db.Model):
     def __repr__(self):
         return '<id {}>'.format(self.id)
 
+    def workshops(self):
+        workshops = []
+        for code in self.codes:
+            workshops = workshops + code.workshops()
+        workshops = sorted(workshops, key=lambda w: w.next_session_date())
+        return(workshops)
+
 
 followers_table = db.Table('workshop_followers', db.metadata,
     db.Column('workshop_id', db.Integer, db.ForeignKey('workshop.id')),
@@ -612,17 +619,21 @@ class TrackAPISchema(ma.Schema):
     class TrackCodeSchema(ma.Schema):
         class Meta:
             fields = ('prereq','id', 'status', '_links', 'workshops')
+            dateformat = "iso"
         id = fields.Function(lambda obj: obj.code_id)
         status = fields.Method('get_status')
-        workshops = fields.Method('sort_workshops')
+        workshops = fields.Method('sort_workshops_dumped')
         _links = ma.Hyperlinks({
             'self': ma.URLFor('get_code', code='<code_id>'),
         })
 
-        def sort_workshops(self, obj):
-            sorted_workshops = sorted(obj.code.workshops,
+        def sorted_workshops(self, obj):
+            return sorted(obj.code.workshops,
                                      key=lambda w: w.next_session_date())
-            return WorkshopAPISchema().dump(sorted_workshops, many=True)[0]
+
+
+        def sort_workshops_dumped(self, obj):
+            return WorkshopAPISchema().dump(self.sorted_workshops(obj), many=True)[0]
 
 
         def get_status(self, obj):
@@ -651,12 +662,21 @@ class TrackAPISchema(ma.Schema):
         'collection': ma.URLFor('get_tracks'),
         'image': ma.URLFor('get_track_image', track_id='<id>'),
     })
-#    workshops = ma.Method('links_to_workshops')
-#    def links_to_workshops(self, obj):
-#        return list(map(lambda t: flask.url_for('get_workshop', id=t.workshop_id),
-#                                                obj.track_workshops))
 
+class TrackWithWorkshopsByWeekSchema(ma.Schema):
+    class Meta:
+        fields = ('id','title', 'sub_title', 'description', '_links', 'workshops')
+        ordered = True
+    workshops = fields.Method('group_workshops_by_date')
+    _links = ma.Hyperlinks({
+        'self': ma.URLFor('get_track', track_id='<id>'),
+        'collection': ma.URLFor('get_tracks'),
+        'image': ma.URLFor('get_track_image', track_id='<id>'),
+    })
 
+    def group_workshops_by_date(self, obj):
+        workshops = WorkshopAPISchema().dump(obj.workshops(), many=True)[0]
+        return workshops
 
 class EmailMessageAPISchema(ma.Schema):
 
