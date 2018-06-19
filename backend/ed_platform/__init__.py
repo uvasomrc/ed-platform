@@ -2,11 +2,11 @@ import os
 
 from flask import Flask, jsonify
 from flask_cors import CORS
-from flask_mail import Mail
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 from flask_sso import SSO
 from flask_uploads import UploadSet, configure_uploads
+from flask_compress import Compress
 
 from ed_platform.elastic_index import ElasticIndex
 from ed_platform.notify import Notify
@@ -14,7 +14,12 @@ from ed_platform.rest_exception import RestException
 from ed_platform.discourse import Discourse
 
 
+compress = Compress()
+
 app = Flask(__name__, instance_relative_config=True)
+
+# add compression.
+compress.init_app(app)
 
 # Load the default configuration
 app.config.from_object('config.default')
