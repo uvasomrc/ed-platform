@@ -17,3 +17,4 @@ flask-mail==0.9.1
 icalendar==4.0.0
 markdown2==2.3.4
 flask-compress==1.4.0
+boto3==1.7.40

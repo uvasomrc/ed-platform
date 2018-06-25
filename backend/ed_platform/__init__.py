@@ -12,7 +12,7 @@ from ed_platform.elastic_index import ElasticIndex
 from ed_platform.notify import Notify
 from ed_platform.rest_exception import RestException
 from ed_platform.discourse import Discourse
-
+from ed_platform.file_server import FileServer
 
 compress = Compress()
 
@@ -58,6 +58,9 @@ elastic_index = ElasticIndex(app)
 
 # Discourse Connection
 discourse = Discourse(app)
+
+# File Storage
+file_server = FileServer(app)
 
 # Uploaded Files
 profile_photos = UploadSet('photos')

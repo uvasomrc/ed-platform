@@ -7,7 +7,8 @@ import os
 from flask import jsonify, request, send_file, session, redirect, g, render_template, json, Response
 from sqlalchemy import desc
 
-from ed_platform import app, db, models, sso, RestException, elastic_index, profile_photos, discourse, notify
+from ed_platform import app, db, models, sso, RestException, elastic_index, profile_photos, discourse, notify, \
+    file_server
 from flask_httpauth import HTTPTokenAuth
 from dateutil import parser
 from operator import itemgetter,and_
@@ -272,40 +273,18 @@ def update_track_codes(id):
     db.session.commit()
     return jsonify(track_schema.dump(track))
 
-
-@app.route('/api/track/<int:track_id>/image')
-def get_track_image(track_id):
-    track = models.Track.query.filter_by(id=track_id).first()
-    mime = magic.Magic(mime=True)
-
-    if( not track.image_file):
-        raise RestException(RestException.NOT_FOUND)
-    try:
-        image = ""
-        mime_type = ""
-        if (os.path.isfile('ed_platform/static/' + track.image_file)):
-            image = 'static/' + track.image_file
-            mime_type = mime.from_file('ed_platform/static/' + track.image_file)
-        elif (os.path.isfile(profile_photos.path(track.image_file))):
-            image = profile_photos.path(track.image_file)
-            mime_type = mime.from_file(image)
-        else:
-            raise RestException(RestException.NOT_FOUND)
-        return send_file(image, mimetype=mime_type)
-    except FileNotFoundError:
-        raise RestException(RestException.NOT_FOUND)
-
 @app.route('/api/track/<int:id>/image', methods=['POST'])
 @auth.login_required
 @requires_roles('ADMIN')
 def set_track_image(id):
+    file = request.files.get('image')
+    extension = file.filename.rsplit('.', 1)[1].lower()
     track = models.Track.query.filter_by(id=id).first()
-    filename = profile_photos.save(request.files['image'], None, "track%i." % track.id)
+    filename = file_server.save_track_image(file, track, extension, file.content_type)
     track.image_file = filename
     db.session.add(track)
     db.session.commit()
-    return get_track_image(id)
-
+    return filename
 
 # Workshop
 # *****************************
@@ -793,42 +772,20 @@ def get_participant(id):
         return jsonify(error=404, text=str("no such participant.")), 404
     return  participant_schema.jsonify(participant)
 
-@app.route('/api/participant/<int:id>/image/<int:cache_bust>')
-def get_participant_image_cache_bust(id, cache_bust):
-    return get_participant_image(id)
-
-@app.route('/api/participant/<int:id>/image')
-def get_participant_image(id):
-    participant = models.Participant.query.filter_by(id=id).first()
-    mime = magic.Magic(mime=True)
-    image = ""
-    mime_type = ""
-    if(participant is None or participant.image_file is None):
-        raise RestException(RestException.NOT_FOUND, 404)
-    elif(os.path.isfile('ed_platform/static/' + participant.image_file)):
-        mime_type = mime.from_file('ed_platform/static/' + participant.image_file)
-        image = 'static/' + participant.image_file
-    elif(os.path.isfile(profile_photos.path(participant.image_file))):
-        mime_type = mime.from_file(profile_photos.path(participant.image_file))
-        image = profile_photos.path(participant.image_file)
-    else:
-        raise RestException(RestException.NOT_FOUND, 404)
-    mime = magic.Magic(mime=True)
-    return send_file(image, mimetype=mime_type)
-
-@app.route('/api/participant/<int:id>/image/<int:cache_bust>', methods=['POST'])
+@app.route('/api/participant/<int:id>/image', methods=['POST'])
 @auth.login_required
 @requires_roles('USER','ADMIN')
-def set_participant_image(id, cache_bust):
+def set_participant_image(id):
     if(g.user.id != id):
         raise RestException(RestException.NOT_YOUR_ACCOUNT, 403)
-
+    file = request.files.get('image')
+    extension = file.filename.rsplit('.', 1)[1].lower()
     participant = models.Participant.query.filter_by(id=id).first()
-    filename = profile_photos.save(request.files['image'], None, "p%i." % participant.id)
+    filename = file_server.save_participant_image(file, participant, extension, file.content_type)
     participant.image_file = filename
     db.session.add(participant)
     db.session.commit()
-    return get_participant_image(id)
+    return filename
 
 @app.route('/api/logo/<string:id>/<string:tracking_id>/logo.jpg')
 def get_logo_tracking(id, tracking_id):

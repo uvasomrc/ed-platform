@@ -9,7 +9,7 @@ import icalendar
 import pytz
 
 from ed_platform import app, db, ma, RestException, discourse
-from marshmallow import fields, post_load
+from marshmallow import fields, post_load, post_dump
 from flask import g
 
 class User():
@@ -183,11 +183,6 @@ class Participant(db.Model):
     role = db.Column(db.String(), default='USER')
     instructing_workshops = db.relationship('Workshop', backref=db.backref('instructor', lazy=True))
     following = db.relationship("Workshop", secondary=followers_table, back_populates="followers")
-
-
-    def cache_bust(self):
-        '''Used the bust the cache of user images.'''
-        return random.randint(1,100000)
 
     def email_hash(self):
         h = hashlib.md5()
@@ -501,16 +496,23 @@ class ParticipantAPISchema(ma.Schema):
     class Meta:
         # Note that we don't surface the phone number or email address of any participants.
         fields = ('id', 'uid','display_name', 'title',  'bio', 'created', 'new_account',
-                 'gravatar', 'use_gravatar', 'role', '_links', 'email_address')
+                 'gravatar', 'use_gravatar', 'role', '_links', 'email_address', 'image_file')
         ordered = True
         dateformat = "iso"
 
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_participant', id='<id>'),
         'collection': ma.URLFor('get_participants'),
-        'image': ma.URLFor('get_participant_image_cache_bust', id='<id>', cache_bust='<cache_bust>'),
         'workshops': ma.URLFor('user_workshops')
     })
+
+    @post_dump
+    def postprocess(self, data):
+        """Move the image url into the link."""
+        data['_links']['image'] = data['image_file']
+        del data['image_file']
+
+
 
 
 class ParticipantSessionAPISchema(ma.Schema):
@@ -653,15 +655,20 @@ class TrackAPISchema(ma.Schema):
 
     class Meta:
         # Fields to expose
-        fields = ('id','title', 'sub_title', 'description', '_links', 'codes')
+        fields = ('id','title', 'sub_title', 'description', '_links', 'codes', 'image_file')
         ordered = True
 
     codes = ma.List(ma.Nested(TrackCodeSchema))
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_track', track_id='<id>'),
         'collection': ma.URLFor('get_tracks'),
-        'image': ma.URLFor('get_track_image', track_id='<id>'),
     })
+
+    @post_dump
+    def postprocess(self, data):
+        """Move the image url into the link."""
+        data['_links']['image'] = data['image_file']
+        del data['image_file']
 
 class TrackWithWorkshopsByWeekSchema(ma.Schema):
     class Meta:

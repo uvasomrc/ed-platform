@@ -1,5 +1,8 @@
+import base64
 import datetime
+import quopri
 import random
+import re
 import string
 import unittest
 import pytz
@@ -296,10 +299,12 @@ class TestCase(unittest.TestCase):
         self.assert_failure(rv)
         rv = self.app.post('/api/track/%s/image' % rd['id'],
             data = dict(
-                image=(BytesIO(b"hi everyone"), 'test.txt'),
+                image=(BytesIO(b"hi everyone"), 'test.png'),
             ), headers = self.logged_in_headers_admin())
         self.assert_success(rv)
-
+        data = rv.get_data(as_text=True)
+        self.assertEquals("https://s3.amazonaws.com/edplatform-ithriv-test-bucket/edplatform/tracks/%i.png" % rd['id'],
+                          data)
 
     def test_add_code(self):
         rv = self.add_codes()
@@ -645,6 +650,25 @@ class TestCase(unittest.TestCase):
         participant = models.Participant.query.filter_by(id=pData['id']).first()
         self.assertIsNotNone(participant.email_address)
 
+    def test_upload_participant_image(self):
+        rd = self.add_test_participant()
+        participant = models.Participant.query.filter_by(id=rd['id']).first()
+        rv = self.app.post('/api/participant/%s/image' % rd['id'],
+            data = dict(
+                image=(BytesIO(b"hi everyone"), 'test.png'),
+            ))
+        self.assert_failure(rv)
+        rv = self.app.post('/api/participant/%s/image' % rd['id'],
+            data = dict(
+                image=(BytesIO(b"hi everyone"), 'test.png'),
+            ), headers = self.logged_in_headers(participant))
+        self.assert_success(rv)
+        data = rv.get_data(as_text=True)
+        self.assertEqual("https://s3.amazonaws.com/edplatform-ithriv-test-bucket/edplatform/participants/%i.png" % rd['id'],
+                          data)
+
+
+
     def test_update_participant_does_not_change_created_date(self):
         participant = self.get_current_participant()
         rv = self.app.get(participant["_links"]["self"], follow_redirects=True)
@@ -690,10 +714,10 @@ class TestCase(unittest.TestCase):
 
     def test_get_all_participants(self):
         participant = self.add_test_participant()
-        rv = self.app.get('/api/participant', follow_redirects=True)
+        rv = self.app.get('/api/participant', follow_redirects=True, headers=self.logged_in_headers_admin())
         self.assert_success(rv)
         ps = json.loads(rv.get_data(as_text=True))
-        self.assertTrue(len(ps["participants"]) > 0)
+        self.assertTrue(len(ps) > 0)
 
     def test_register(self):
         participant = self.get_current_participant()
@@ -728,7 +752,7 @@ class TestCase(unittest.TestCase):
         rv = self.app.post("/api/session/%i/register" % (session["id"]), headers=self.logged_in_headers())
         self.assert_success(rv)
         self.assertGreater(len(TEST_MESSAGES), message_count)
-        self.assertEqual("CADRE Academy: Registration Successful", TEST_MESSAGES[-1]['subject'])
+        self.assertEqual("CADRE Academy: Registration Successful", self.decode(TEST_MESSAGES[-1]['subject']))
 
         logs = models.EmailLog.query.all()
         self.assertIsNotNone(logs[-1].tracking_code)
@@ -745,7 +769,7 @@ class TestCase(unittest.TestCase):
         rv = self.app.post("/api/session/%i/register" % (session["id"]), headers=self.logged_in_headers())
         self.assert_success(rv)
         self.assertGreater(len(TEST_MESSAGES), message_count)
-        self.assertEqual("CADRE Academy: Registration Successful", TEST_MESSAGES[-1]['subject'])
+        self.assertEqual("CADRE Academy: Registration Successful", self.decode(TEST_MESSAGES[-1]['subject']))
 
         logs = models.EmailLog.query.all()
         self.assertIsNotNone(logs[-1].tracking_code)
@@ -947,7 +971,7 @@ class TestCase(unittest.TestCase):
                            data=json.dumps(data), content_type="application/json")
         self.assert_success(rv)
         self.assertGreaterEqual(len(TEST_MESSAGES), 1)
-        self.assertEqual("CADRE Academy: Test Subject", TEST_MESSAGES[-1]['subject'])
+        self.assertEqual("CADRE Academy: Test Subject", self.decode(TEST_MESSAGES[-1]['subject']))
         logs = models.EmailLog.query.all()
         self.assertEqual(len(logs), orig_log_count + 1)
         self.assertIsNotNone(logs[-1].tracking_code)
@@ -963,7 +987,7 @@ class TestCase(unittest.TestCase):
                            data=json.dumps(data), content_type="application/json")
         self.assert_success(rv)
         self.assertGreaterEqual(len(TEST_MESSAGES), 1)
-        self.assertEqual("CADRE Academy: Test Subject", TEST_MESSAGES[-1]['subject'])
+        self.assertEqual("CADRE Academy: Test Subject", self.decode(TEST_MESSAGES[-1]['subject']))
         logs = models.EmailLog.query.all()
         self.assertEqual(len(logs), orig_log_count + 1)
         self.assertIsNotNone(logs[-1].tracking_code)
@@ -971,6 +995,16 @@ class TestCase(unittest.TestCase):
         self.assertIn("<p><em>Test Content</em></p>", TEST_MESSAGES[-1].as_string())
         return workshop
 
+    def decode(self, encoded_words):
+        encoded_word_regex = r'=\?{1}(.+)\?{1}([b|q])\?{1}(.+)\?{1}='
+        charset, encoding, encoded_text = re.match(encoded_word_regex, encoded_words).groups()
+        if encoding is 'b':
+            byte_string = base64.b64decode(encoded_text)
+        elif encoding is 'q':
+            byte_string = quopri.decodestring(encoded_text)
+        text = byte_string.decode(charset)
+        text = text.replace("_", " ")
+        return text
 
 
     def test_email_sends_to_recipient(self):
@@ -978,7 +1012,6 @@ class TestCase(unittest.TestCase):
         session = self.add_test_session(workshop["id"])
         # Sign up for session
         rv = self.app.post("/api/session/%i/register" % (session["id"]), headers=self.logged_in_headers())
-
         data = {'subject': 'Test Subject', 'content': 'Test Content'}
         orig_log_count = len(models.EmailLog.query.all())
         rv = self.app.post("/api/session/%i/email" % session['id'], headers=self.logged_in_headers_admin(),
@@ -986,7 +1019,8 @@ class TestCase(unittest.TestCase):
         self.assert_success(rv)
 
         self.assertGreaterEqual(len(TEST_MESSAGES), 1)
-        self.assertEqual("CADRE Academy: Test Subject", TEST_MESSAGES[-1]['subject'])
+        base64.decode
+        self.assertEqual("CADRE Academy: Test Subject", self.decode(TEST_MESSAGES[-1]['subject']))
         logs = models.EmailLog.query.all()
         self.assertEqual(len(logs), orig_log_count + 1)
         self.assertIsNotNone(logs[-1].tracking_code)
@@ -1147,8 +1181,8 @@ class TestCase(unittest.TestCase):
         data = {'query': 'Pete'}
         search_results = self.search_participant(data)
         self.assertEqual(2, len(search_results["participants"]))
-        alonzi = search_results["participants"][0]
-        vp = search_results["participants"][1]
+        vp = search_results["participants"][0]
+        alonzi = search_results["participants"][1]
 
         self.assertEqual("alonzi", alonzi["uid"])
         self.assertEqual("vpn7n", vp["uid"])
@@ -1161,7 +1195,7 @@ class TestCase(unittest.TestCase):
 
     # Discourse
     # ----------------------------------------
-
+    @unittest.skip("Don't test discourse connections, makes a messs")
     def test_create_discourse_account(self):
         p_json = self.get_current_participant()
         participant = models.Participant.query.filter_by(id = p_json["id"]).first()
@@ -1177,6 +1211,7 @@ class TestCase(unittest.TestCase):
         self.assertFalse(discourse_account.moderator)
         discourse.deleteAccount(discourse_account)
 
+    @unittest.skip("Don't test discourse connections, makes a messs")
     def test_workshop_discourse_link(self):
         ws_json = self.add_test_workshop()
         self.assertIsNone(ws_json["discourse_url"])
@@ -1200,6 +1235,7 @@ class TestCase(unittest.TestCase):
         topic = discourse.getTopic(workshop)
         self.assertEqual(topic.user_id, account.id)
 
+    @unittest.skip("Don't test discourse connections, makes a messs")
     def test_post_to_workshop_discourse(self):
         # Create a workshop with Discourse enabled.
         ws_json = self.add_test_workshop()

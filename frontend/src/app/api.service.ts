@@ -72,7 +72,7 @@ export class ApiService {
     const formData = new FormData();
     formData.append('image', file, file.name);
     return this.http
-      .post(participant.links.image, formData, this.getOptions())
+      .post(participant.links.self + '/image', formData, this.getOptions())
       .catch(this.handleError);
   }
 

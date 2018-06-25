@@ -15,7 +15,8 @@ export class Links {
 
   constructor(values: Object = {}) {
     for (const key in values) {
-      if(!(values[key].substring(0, environment.api.length) === environment.api)) {
+      if (values[key] === null) { continue; }
+      if (!(values[key].substring(0, 4) === 'http')) {
         values[key] = environment.api + values[key];
       }
     }
