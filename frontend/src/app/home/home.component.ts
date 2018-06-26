@@ -56,4 +56,13 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['workshop-form', 0]);
   }
 
+  featuredTracks() {
+    return this.tracks.filter(t => t.featured);
+  }
+
+  additionalTracks() {
+    return this.tracks.filter(t => !t.featured);
+  }
+
+
 }

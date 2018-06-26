@@ -91,6 +91,7 @@ class Track(db.Model):
     description = db.Column(db.TEXT())
     codes = db.relationship(lambda : TrackCode, order_by=TrackCode.order,  cascade="all, delete-orphan",
         backref=db.backref('track', lazy=True, single_parent=True))
+    featured = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
@@ -649,7 +650,7 @@ class TrackAPISchema(ma.Schema):
 
     class Meta:
         # Fields to expose
-        fields = ('id','title', 'sub_title', 'description', '_links', 'codes', 'image_file')
+        fields = ('id','title', 'sub_title', 'description', '_links', 'codes', 'image_file', 'featured')
         ordered = True
 
     codes = ma.List(ma.Nested(TrackCodeSchema))

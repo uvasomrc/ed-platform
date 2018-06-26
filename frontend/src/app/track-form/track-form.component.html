@@ -9,9 +9,9 @@
 <mat-sidenav-container *ngIf="isDataLoaded">
   <mat-sidenav mode="side" opened="true" dnd-droppable dnd-sortable-container [sortableData]="codeOptions">
     <h2>Available Codes</h2>
-    <em>You can drag these codes into the list of codes for the track.  To remove a code, drag it from
-    the track, back into here.</em>
-    <ul class="list-group" >
+    <em>You can drag these codes into the list of codes for the track. To remove a code, drag it from
+      the track, back into here.</em>
+    <ul class="list-group">
       <li *ngFor="let code of codeOptions; let i = index" class="list-group-item"
           dnd-draggable dnd-sortable [dragData]="code" [sortableIndex]="i">
         <mat-icon>reorder</mat-icon>
@@ -48,20 +48,25 @@
           </div>
           <div>
             <mat-form-field>
-              <input matInput formControlName="sub_title" placeholder="Sub Title" value="{{track.sub_title}}" class="form-control">
+              <input matInput formControlName="sub_title" placeholder="Sub Title" value="{{track.sub_title}}"
+                     class="form-control">
             </mat-form-field>
           </div>
           <div>
             <mat-form-field>
-    <textarea matInput formControlName="description" placeholder="Description" value="{{track.description}}" class="form-control">
+    <textarea matInput formControlName="description" placeholder="Description" value="{{track.description}}"
+              class="form-control">
     </textarea>
               <mat-error>
                 This description is too short.
               </mat-error>
             </mat-form-field>
           </div>
+          <div>
+            <mat-checkbox matInput formControlName="featured">Feature this track on the main page?</mat-checkbox>
+          </div>
           <h2>Choose an image</h2>
-          <i>Important:  Images should be 1280x505!</i>
+          <i>Important: Images should be 1280x505!</i>
           <div class="image-selector">
             <input type="file" (change)="newImage($event)" #fileInput>
           </div>

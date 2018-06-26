@@ -19,6 +19,7 @@ export class TrackFormComponent implements OnInit {
   title: FormControl;
   sub_title: FormControl;
   description: FormControl;
+  featured: FormControl;
   code: FormControl;
   codeOptions: Code[];
   newTrack: Boolean;
@@ -56,12 +57,17 @@ export class TrackFormComponent implements OnInit {
     this.description = new FormControl(this.track.description, [Validators.required, Validators.minLength(20)]);
     this.code = new FormControl('');
     this.sub_title = new FormControl(this.track.sub_title);
+    this.featured = new FormControl(this.track.featured);
     this.track_form = new FormGroup({
       title: this.title,
       sub_title: this.sub_title,
       description: this.description,
-      code: this.code
+      code: this.code,
+      featured: this.featured
     });
+
+    this.featured.patchValue(this.track.featured);
+
     this.trackService.getAllCodes().subscribe(codes => {
       this.codeOptions = codes;
       this.codeOptions = this.codeOptions.filter(c => !this.track.codes.find(tc => tc.id === c.id));
@@ -70,7 +76,7 @@ export class TrackFormComponent implements OnInit {
     this.title.valueChanges.subscribe(t => this.track.title = t);
     this.description.valueChanges.subscribe(d => this.track.description = d);
     this.sub_title.valueChanges.subscribe(st => this.track.sub_title = st);
-
+    this.featured.valueChanges.subscribe(f => this.track.featured = f);
     this.isDataLoaded = true;
   }
 
@@ -103,9 +109,9 @@ export class TrackFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log("Submitting the form.")
+    console.log('Submitting the form.');
     if (this.track_form.valid) {
-      if(this.newTrack) {
+      if (this.newTrack) {
         this.trackService.addTrack(this.track).subscribe(newTrack => {
           if (this.imageAdded) { this.uploadImage(); }
           this.add.emit(newTrack);

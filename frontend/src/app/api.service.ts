@@ -198,7 +198,7 @@ export class ApiService {
 
   updateTrack(track: Track): Observable<Track> {
     return this.http
-      .post(this.track_url, track, this.getOptions())
+      .put(track.links.self, track, this.getOptions())
       .map(response => {
         return new Track(response.json());
       })

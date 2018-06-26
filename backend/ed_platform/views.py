@@ -199,6 +199,20 @@ def create_track():
     db.session.commit()
     return track_schema.jsonify(new_track)
 
+@app.route('/api/track/<int:id>', methods=['PUT'])
+@auth.login_required
+@requires_roles('ADMIN')
+def update_track(id):
+    request_data = request.get_json()
+    codes_as_json = request_data["codes"]
+    request_data['id'] = id
+    request_data["codes"] = []
+    new_track = track_db_schema.load(request_data).data
+    set_track_codes(new_track, codes_as_json)
+    db.session.add(new_track)
+    db.session.commit()
+    return track_schema.jsonify(new_track)
+
 
 def update_tracks_for_participant(track, participant):
     for code in track:
@@ -210,6 +224,11 @@ def get_tracks():
     tracks = list(map(lambda t: track_schema.dump(t).data, models.Track.query.all()))
     return jsonify({"tracks": tracks})
 
+@app.route('/api/track/featured', methods=['GET'])
+@auth.login_required
+def get_featured_tracks():
+    tracks = list(map(lambda t: track_schema.dump(t).data, models.Track.query.filter_by(featured=True).all()))
+    return jsonify({"tracks": tracks})
 
 @app.route('/api/track/<int:track_id>')
 @auth.login_required

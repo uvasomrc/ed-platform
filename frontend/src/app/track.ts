@@ -9,6 +9,7 @@ export class Track {
   id: number;
   links = new Links();
   codes = Array<Code>();
+  featured: boolean;
 
   constructor(values: Object = {}) {
     Object.assign(this, values);

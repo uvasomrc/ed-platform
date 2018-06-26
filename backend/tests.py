@@ -359,6 +359,25 @@ class TestCase(unittest.TestCase):
         self.assertTrue("_links" in codes[0].keys())
         self.assert_success(self.app.get(codes[0]["_links"]["self"]))
 
+    def test_set_featured_tracks(self):
+        test_track = self.add_test_track()
+
+        rv = self.app.get('/api/track/featured', content_type="application/json")
+        self.assert_success(rv)
+        rd = json.loads(rv.get_data(as_text=True))
+        self.assertEquals(0, len(rd["tracks"]))
+
+        test_track['featured'] = True;
+        rv = self.app.put('/api/track/%i' % test_track['id'], data=json.dumps(test_track), follow_redirects=True,
+                           content_type="application/json", headers=self.logged_in_headers_admin())
+        self.assert_success(rv)
+
+        rv = self.app.get('/api/track/featured', content_type="application/json")
+        self.assert_success(rv)
+        rd = json.loads(rv.get_data(as_text=True))
+        self.assertEquals(1, len(rd["tracks"]))
+
+
     def test_workshops_in_tracks_returned_in_order_of_date(self):
         track = self.add_test_track()
         ws1 = self.add_test_workshop()
