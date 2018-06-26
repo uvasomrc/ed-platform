@@ -46,6 +46,13 @@ export class TrackDetailsComponent implements OnInit {
         this.isDataLoaded = true;
         this.workshop_groups = track.codes;
 
+        for (let i = 0; i < track.codes.length; i++) {
+          this.trackService.getCode(track.codes[i]).subscribe(
+            (c) => {
+                track.codes[i].workshops = c.workshops;
+            });
+        }
+
         this.trackService.getTrackWorkshopsByDate(this.track).subscribe(
           (weeks) => {
             this.weeks = weeks;

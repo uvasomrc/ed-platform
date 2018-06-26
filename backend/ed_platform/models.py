@@ -609,9 +609,14 @@ class WorkshopAPISchema(ma.Schema):
 class CodeApiSchema(ma.Schema):
 
     class Meta:
-        fields = ('id','description','workshops', 'track_count', "_links")
+        fields = ('id', 'description', 'workshops', 'track_count', "_links")
         ordered = True
-    workshops = ma.List(ma.Nested(WorkshopAPISchema()))
+    workshops = fields.Method('sort_workshops_dumped')
+
+    def sort_workshops_dumped(self, obj):
+        workshops = sorted(obj.workshops, key=lambda w: w.next_session_date())
+        return WorkshopAPISchema().dump(workshops, many=True)[0]
+
     _links = ma.Hyperlinks({
         'self': ma.URLFor('get_code', code='<id>'),
     })
@@ -620,23 +625,13 @@ class TrackAPISchema(ma.Schema):
 
     class TrackCodeSchema(ma.Schema):
         class Meta:
-            fields = ('prereq','id', 'status', '_links', 'workshops')
+            fields = ('prereq','id', 'status', '_links')
             dateformat = "iso"
         id = fields.Function(lambda obj: obj.code_id)
         status = fields.Method('get_status')
-        workshops = fields.Method('sort_workshops_dumped')
         _links = ma.Hyperlinks({
             'self': ma.URLFor('get_code', code='<code_id>'),
         })
-
-        def sorted_workshops(self, obj):
-            return sorted(obj.code.workshops,
-                                     key=lambda w: w.next_session_date())
-
-
-        def sort_workshops_dumped(self, obj):
-            return WorkshopAPISchema().dump(self.sorted_workshops(obj), many=True)[0]
-
 
         def get_status(self, obj):
             participant = g.user
@@ -651,7 +646,6 @@ class TrackAPISchema(ma.Schema):
                     else:
                         return "REGISTERED"
             return "UNREGISTERED"
-
 
     class Meta:
         # Fields to expose
