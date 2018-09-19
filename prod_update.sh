@@ -39,8 +39,11 @@ fi
 eval 'cd ${HOME_DIR}/backend && python ${HOME_DIR}/backend/manage.py initindex'
 # Rebuild the front end.
 eval 'cd ${HOME_DIR}/frontend && npm install'
-eval 'cd ${HOME_DIR}/frontend && ng build -c ${ENV}'
-
+if [ "$ENV" == "prod" ]; then
+    eval 'cd ${HOME_DIR}/frontend && ng build --prod'
+else
+    eval 'cd ${HOME_DIR}/frontend && ng build -c ${ENV}'
+fi
 
 # Reload apache
 echo "Reloading Apache"

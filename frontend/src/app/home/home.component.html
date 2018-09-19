@@ -26,15 +26,18 @@
 
 
 <h2 class="header">
-  Featured Tracks
+  Tracks
   <div class="spacer"></div>
   <span class="explanation">Each track offers a list of recommended workshops for pursuing an area of interest.</span>
   <button (click)="goNewTrack()" mat-icon-button *ngIf="account && account.isAdmin()">
     <mat-icon color="primary">add_circle</mat-icon>
   </button>
 </h2>
-<app-track-list [tracks]="featuredTracks()"></app-track-list>
+<app-track-list [tracks]="tracks"></app-track-list>
 
+<!--
+<app-track-list [tracks]="featuredTracks()"></app-track-list>
+-->
 <h2 class="header">
   Featured Workshops
   <div class="spacer"></div>
@@ -48,6 +51,7 @@
 </h2>
 <app-workshop-list [workshops]="featuredWorkshops"></app-workshop-list>
 
+<!--
 <h2 class="header">
   More Tracks
   <div class="spacer"></div>
@@ -57,5 +61,4 @@
   </button>
 </h2>
 <app-track-list [tracks]="additionalTracks()"></app-track-list>
-
-
+-->
